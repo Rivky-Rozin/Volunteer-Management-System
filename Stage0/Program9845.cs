@@ -1,10 +1,12 @@
 ﻿using System;
-
-partial class Program
+namespace Stage0
 {
-    static partial void Welcome9845()
+    partial class Program
     {
-        Console.WriteLine("hello");
+        static partial void Welcome9845()
+        {
+            Console.WriteLine("hello");
 
+        }
     }
 }
