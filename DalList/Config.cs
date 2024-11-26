@@ -12,8 +12,8 @@ internal static class Config
     public static int NextCallId { get => nextCallId++; }
     
     internal const int StartAssignmentId = 0;
-    private static int NextAssignmentId = StartAssignmentId;
-    public static int NEXTASSIGNMENTID { get { int temp = NextAssignmentId; NextAssignmentId++; return temp; } }
+    private static int nextAssignmentId = StartAssignmentId;
+    public static int NextAssignmentId { get => nextAssignmentId++;  }
 
     static DateTime Clock;
     static TimeSpan RiskRange;
