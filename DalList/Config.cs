@@ -14,7 +14,7 @@ internal static class Config
     //מספור רץ למחלקת השמה
     internal const int StartAssignmentId = 0;
     private static int nextAssignmentId = StartAssignmentId;
-    public static int NextAssignmentId { get => nextAssignmentId++;  }
+    public static int  NextAssignmentId { get => nextAssignmentId++; }
 
     //שעון המערכת
     internal static DateTime Clock { get; set; } = DateTime.Now;
@@ -25,7 +25,7 @@ internal static class Config
     internal static void Reset()
     {
         nextCallId = startCallId;
-        Clock = DateTime.UtcNow;    
+        NextAssignmentId = StartAssignmentId;    
         Clock = DateTime.Now;
         //כאן צריך להיות אתחול השדה timespan
     }
