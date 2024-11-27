@@ -1,7 +1,7 @@
 ﻿
 namespace Dal;
 
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using DalApi;
 using DO;
 
@@ -9,31 +9,40 @@ public class AssignmentImplementation : IAssignment
 {
     public void Create(Assignment item)
     {
-        throw new NotImplementedException();
+        int id=Config.NextAssignmentId;
+        Assignment copy = item with { Id = id };
+        DataSource.Assignments.Add(copy);
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        if (Read(id) == null)
+        {
+            throw new Exception($"An assignment with this ID={id} does not exist");
+        }
+        DataSource.Assignments.Remove(Read(id));
     }
 
     public void DeleteAll()
     {
-        throw new NotImplementedException();
+        DataSource.Assignments.Clear();
     }
 
     public Assignment? Read(int id)
     {
-        throw new NotImplementedException();
+        Assignment? found;
+        found = DataSource.Assignments.Find(assignment => assignment.Id == id);
+        return found;
     }
 
     public List<Assignment> ReadAll()
     {
-        throw new NotImplementedException();
+        return new List<Assignment>(DataSource.Assignments);
     }
 
     public void Update(Assignment item)
     {
-        throw new NotImplementedException();
+        Delete(item.Id);
+        Create(item);
     }
 }
