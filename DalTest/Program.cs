@@ -1,10 +1,13 @@
-﻿namespace DalTest
+﻿namespace DalTest;
+
+using DalTest;
+using DalApi;
+using DO;
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
+        
+        Console.WriteLine(createVolunteers());
     }
 }
