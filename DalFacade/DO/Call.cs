@@ -33,8 +33,6 @@ public record Call(
     DateTime? MaxCallTime = null
     )
 
-
-
 {
     public Call() : this(0, default, string.Empty, 0.0, 0.0, DateTime.Now, string.Empty, DateTime.Now) { }
 }
