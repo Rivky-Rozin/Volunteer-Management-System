@@ -25,7 +25,7 @@ internal static class Config
     internal static void Reset()
     {
         nextCallId = startCallId;
-        NextAssignmentId = StartAssignmentId;    
+        nextAssignmentId = StartAssignmentId;    
         Clock = DateTime.Now;
         //כאן צריך להיות אתחול השדה timespan
     }
