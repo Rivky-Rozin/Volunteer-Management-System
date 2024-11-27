@@ -17,7 +17,7 @@ public class CallImplementation : ICall
     {
         if (Read(id) == null)
         {
-            throw new Exception("A Call with this ID does not exist");
+            throw new Exception($"A Call with this ID={id} does not exist");
         }
         DataSource.Calls.Remove(Read(id));
     }

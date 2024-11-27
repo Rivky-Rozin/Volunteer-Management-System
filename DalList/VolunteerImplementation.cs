@@ -13,7 +13,7 @@ public class VolunteerImplementation : IVolunteer
     {
         if (!(Read(item.Id) == null))
         {
-            throw new Exception("A volunteer with this ID already exists");
+            throw new Exception($"A volunteer with this ID={item.Id} already exists");
         }
         DataSource.Volunteers.Add(item);
     }
@@ -23,7 +23,7 @@ public class VolunteerImplementation : IVolunteer
     {
         if (Read(id)==null)
         {
-            throw new Exception("A volunteer with this ID does not exist");
+            throw new Exception($"A volunteer with this ID={id} does not exist");
         }
         DataSource.Volunteers.Remove(Read(id));
     }
