@@ -35,3 +35,5 @@ public enum VolunteerRole
     Manager,
     Regular
 }
+
+public enum TreatmentType { Simple, Complex, Emergency }
