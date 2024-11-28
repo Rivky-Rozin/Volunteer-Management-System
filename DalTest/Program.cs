@@ -18,7 +18,7 @@ internal class Program
     {
         try
         {
-            Initialization.Do(s_dalCall,s_dalVolunteer,s_dalAssignment,s_dalConfig);
+            Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig);
             ShowMainMenu();
 
         }
@@ -33,17 +33,17 @@ internal class Program
 
         while (!exit)
         {
-            Console.Clear();
-            Console.WriteLine("=== תפריט ראשי ===");
-            Console.WriteLine("1. הצגת תת-תפריט עבור ישות 1");
-            Console.WriteLine("2. הצגת תת-תפריט עבור ישות 2");
-            Console.WriteLine("3. הצגת תת-תפריט עבור ישות 3");
-            Console.WriteLine("4. אתחול הנתונים (Initialization.Do)");
-            Console.WriteLine("5. הצגת כל הנתונים בבסיס הנתונים");
-            Console.WriteLine("6. הצגת תת-תפריט עבור ישות תצורה");
-            Console.WriteLine("7. איפוס בסיס נתונים ואיפוס נתוני התצורה");
-            Console.WriteLine("0. יציאה");
-            Console.Write("בחר אופציה: ");
+            //Console.Clear();
+            Console.WriteLine("=== Main Menu ===");
+            Console.WriteLine("1. Display submenu for Entity call");
+            Console.WriteLine("2. Display submenu for Entity Assignment");
+            Console.WriteLine("3. Display submenu for Entity volunteer");
+            Console.WriteLine("4. Initialize data (Initialization.Do)");
+            Console.WriteLine("5. Display all data in the database");
+            Console.WriteLine("6. Display submenu for Configuration Entity");
+            Console.WriteLine("7. Reset database and configuration data");
+            Console.WriteLine("0. Exit");
+            Console.Write("Select an option: ");
 
             string choice = Console.ReadLine();
 
@@ -52,7 +52,7 @@ internal class Program
                 switch (choice)
                 {
                     case "1":
-                        ShowEntityCall(); // מתודה להצגת תת-תפריט עבור ישות Call
+                        //ShowEntityCall(); // מתודה להצגת תת-תפריט עבור ישות Call
                         break;
 
                     case "2":
@@ -81,119 +81,127 @@ internal class Program
 
                     case "0":
                         exit = true;
-                        Console.WriteLine("יציאה מתפריט ראשי...");
+                        Console.WriteLine("Exiting main menu");
                         break;
 
                     default:
-                        Console.WriteLine("אופציה לא חוקית, נסה שנית.");
+                        Console.WriteLine("Invalid option, please try again");
                         break;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"שגיאה: {ex.Message}");
+                Console.WriteLine(ex.Message);
             }
 
             if (!exit)
             {
-                Console.WriteLine("\nלחץ על מקש כלשהו כדי להמשיך...");
+                Console.WriteLine("press any key to continue");
                 Console.ReadKey();
             }
         }
     }
-    public static void ShowEntityCall()
-    {
-        bool exit = false;
+    //public static void ShowEntityCall()
+    //{
+    //    bool exit = false;
 
-        while (!exit)
-        {
-            Console.Clear();
-            Console.WriteLine("=== תפריט עבור ישות Call ===");
-            Console.WriteLine("1. הוספת אובייקט חדש (Create)");
-            Console.WriteLine("2. תצוגת אובייקט לפי מזהה (Read)");
-            Console.WriteLine("3. תצוגת רשימת כל האובייקטים (ReadAll)");
-            Console.WriteLine("4. עדכון אובייקט קיים (Update)");
-            Console.WriteLine("5. מחיקת אובייקט מהרשימה (Delete)");
-            Console.WriteLine("6. מחיקת כל האובייקטים מהרשימה (DeleteAll)");
-            Console.WriteLine("0. יציאה");
-            Console.Write("בחר אופציה: ");
+    //    while (!exit)
+    //    {
+    //        Console.Clear();
+    //        Console.WriteLine("=== תפריט עבור ישות Call ===");
+    //        Console.WriteLine("1. הוספת אובייקט חדש (Create)");
+    //        Console.WriteLine("2. תצוגת אובייקט לפי מזהה (Read)");
+    //        Console.WriteLine("3. תצוגת רשימת כל האובייקטים (ReadAll)");
+    //        Console.WriteLine("4. עדכון אובייקט קיים (Update)");
+    //        Console.WriteLine("5. מחיקת אובייקט מהרשימה (Delete)");
+    //        Console.WriteLine("6. מחיקת כל האובייקטים מהרשימה (DeleteAll)");
+    //        Console.WriteLine("0. יציאה");
+    //        Console.Write("בחר אופציה: ");
 
-            string choice = Console.ReadLine();
+    //        string choice = Console.ReadLine();
 
-            try
-            {
-                switch (choice)
-                {
-                    case "1":
-                        createNewCall(); // מתודה להוספת אובייקט חדש
-                        break;
+    //        try
+    //        {
+    //            switch (choice)
+    //            {
+    //                case "1":
+    //                    createNewCall(); // מתודה להוספת אובייקט חדש
+    //                    break;
 
-                    case "2":
-                        ReadCallById(); // מתודה להצגת אובייקט לפי מזהה
-                        break;
+    //                case "2":
+    //                    ReadCallById(); // מתודה להצגת אובייקט לפי מזהה
+    //                    break;
 
-                    case "3":
-                        ReadAllCalls(); // מתודה להצגת כל האובייקטים
-                        break;
+    //                case "3":
+    //                    ReadAllCalls(); // מתודה להצגת כל האובייקטים
+    //                    break;
 
-                    case "4":
-                        UpdateCall(); // מתודה לעדכון אובייקט קיים
-                        break;
+    //                case "4":
+    //                    UpdateCall(); // מתודה לעדכון אובייקט קיים
+    //                    break;
 
-                    case "5":
-                        DeleteCallById(); // מתודה למחיקת אובייקט לפי מזהה
-                        break;
+    //                case "5":
+    //                    DeleteCallById(); // מתודה למחיקת אובייקט לפי מזהה
+    //                    break;
 
-                    case "6":
-                        DeleteAllCalls(); // מתודה למחיקת כל האובייקטים
-                        break;
+    //                case "6":
+    //                    DeleteAllCalls(); // מתודה למחיקת כל האובייקטים
+    //                    break;
 
-                    case "0":
-                        exit = true;
-                        Console.WriteLine("יציאה מתת-תפריט...");
-                        break;
+    //                case "0":
+    //                    exit = true;
+    //                    Console.WriteLine("יציאה מתת-תפריט...");
+    //                    break;
 
-                    default:
-                        Console.WriteLine("אופציה לא חוקית, נסה שנית.");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"שגיאה: {ex.Message}");
-            }
+    //                default:
+    //                    Console.WriteLine("אופציה לא חוקית, נסה שנית.");
+    //                    break;
+    //            }
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Console.WriteLine($"שגיאה: {ex.Message}");
+    //        }
 
-            if (!exit)
-            {
-                Console.WriteLine("\nלחץ על מקש כלשהו כדי להמשיך...");
-                Console.ReadKey();
-            }
-        }
-    }
+    //        if (!exit)
+    //        {
+    //            Console.WriteLine("\nלחץ על מקש כלשהו כדי להמשיך...");
+    //            Console.ReadKey();
+    //        }
+    //    }
+    //}
 
     public static void InitializeAll()
     {
         Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig); // קריאה לאתחול הנתונים
         Console.WriteLine("data initialized succesfully");
     }
+
+    //להוציא מהסלשה בסוף!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public static void DisplayAllData()
     {
-        Console.WriteLine(s_dalCall.ReadAll());
-        Console.WriteLine(s_dalAssignment.ReadAll());
-        Console.WriteLine(s_dalVolunteer.ReadAll());
+        ReadAllVolunteers();
+        //עדיין אין מימוש
+        //ReadAllCalls();
+        //ReadAllAssignments();
     }
+
+    //configure התפריט של
     private static void ShowConfigurationSubMenu()
     {
     }
+
+    //להוציא מהסלשה בסוף!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     private static void ResetDatabase()
     {
-        s_dalCall.DeleteAll();
-        s_dalAssignment.DeleteAll();
-        s_dalVolunteer.DeleteAll();
+        DeleteAllVolunteers();
+        //DeleteAllCalls();
+        //DeleteAllAssignments();
         Console.WriteLine("Database resetted succesfully");
     }
+
+    //Assignment התפריט של
     public static void ShowEntityAssignment() { }
-    public static void ShowEntityVolunteer() { }
 
     //מתודה לקבלת פרטים מהמשתמש ליצור קריאה חדשה
     public static void createNewCall()
@@ -238,4 +246,233 @@ internal class Program
         }
     }
 
+
+    //התפריט של volunteer
+    public static void ShowEntityVolunteer()
+    {
+        bool exit = false;
+
+        while (!exit)
+        {
+            //Console.Clear();
+            Console.WriteLine("=== Menu for volunteer Entity ===");
+            Console.WriteLine("1. Add a new volunteer (Create)");
+            Console.WriteLine("2. Display volunteer by ID (Read)");
+            Console.WriteLine("3. Display all volunteers (ReadAll)");
+            Console.WriteLine("4. Update an existing volunteer (Update)");
+            Console.WriteLine("5. Delete a volunteer from the list (Delete)");
+            Console.WriteLine("6. Delete all volunteers from the list (DeleteAll)");
+            Console.WriteLine("0. Exit");
+            Console.Write("Choose an option: ");
+
+
+            string choice = Console.ReadLine();
+
+            try
+            {
+                switch (choice)
+                {
+                    case "1":
+                        createNewVolunteer(); // מתודה להוספת אובייקט חדש
+                        break;
+
+                    case "2":
+                        ReadVolunteerlById(); // מתודה להצגת אובייקט לפי מזהה
+                        break;
+
+                    case "3":
+                        ReadAllVolunteers(); // מתודה להצגת כל האובייקטים
+                        break;
+
+                    case "4":
+                        UpdateVolunteer(); // מתודה לעדכון אובייקט קיים
+                        break;
+
+                    case "5":
+                        DeleteVolunteerById(); // מתודה למחיקת אובייקט לפי מזהה
+                        break;
+
+                    case "6":
+                        DeleteAllVolunteers(); // מתודה למחיקת כל האובייקטים
+                        break;
+
+                    case "0":
+                        exit = true;
+                        Console.WriteLine("Exiting menu");
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option, try again");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            if (!exit)
+            {
+                Console.WriteLine("press any key to continue");
+                Console.ReadKey();
+            }
+        }
+    }
+
+    //volunteer המתודות של-------------------------------------------------------------------------------------------------------------------------
+    //מחיקת כל המתנדבים
+    private static void DeleteAllVolunteers()
+    {
+        s_dalVolunteer.DeleteAll();
+        Console.WriteLine("All the volunteers were deleted");
+    }
+
+    //ID מחיקת מתנדב לפי
+    private static void DeleteVolunteerById()
+    {
+        try
+        {
+            Console.WriteLine("Enter the volunteer ID to delete: ");
+            int id = int.Parse(Console.ReadLine());
+            s_dalVolunteer.Delete(id);
+            Console.WriteLine("Volunteer deleted successfully!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    //עדכון פרטי מתנדב
+    private static void UpdateVolunteer()
+    {
+        try
+        {
+            Console.WriteLine("enter the ID to update");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("inValid ID");
+                return;
+            }
+            Volunteer? doesExist = s_dalVolunteer.Read(id);
+            if (doesExist == null)
+            {
+                Console.WriteLine("A volunteer with this ID does not exist");
+            }
+            else
+            {
+
+                //יוצר וולנטיר חדש ומכניס אותו למערך. הבעיה שמדובר בעדכון וולנטיר, ואז הוא מתריע שהוולנטיר קיים כבר .
+                Volunteer updatedVolunteer = createNewVolunteer(id); // מתודה לעדכון אובייקט קיים
+                s_dalVolunteer.Update(updatedVolunteer);
+                Console.WriteLine("Volunteer updated successfully!");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    //הצגת כל המתנדבים
+    private static void ReadAllVolunteers()
+    {
+        List<Volunteer> volunteers = s_dalVolunteer.ReadAll();
+
+        if (volunteers.Count == 0) // בדיקה אם הרשימה ריקה
+        {
+            Console.WriteLine("No volunteers found.");
+            return;
+        }
+
+        Console.WriteLine("List of all volunteers:");
+        foreach (var volunteer in volunteers)
+        {
+            Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
+        }
+    }
+
+
+    //האם צריך להציג את כל פרטי המתנדב?????????????????
+    private static void ReadVolunteerlById()
+    {
+        try
+        {
+            Console.Write("Enter volunteer ID: ");
+            int id = int.Parse(Console.ReadLine());
+            Volunteer? volunteer = s_dalVolunteer.Read(id);
+            if (volunteer == null)
+            {
+                Console.WriteLine("A volunteer with this ID does not exist");
+                return;
+            }
+            Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private static Volunteer? createNewVolunteer(int id = 0)
+    {
+        bool isUpdate = true;
+        if (id == 0)
+        {
+            isUpdate = false;
+            Console.Write("Enter volunteer ID: ");
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.WriteLine("Invalid ID. Please enter a valid number:");
+            }
+        }
+
+        Console.Write("Enter volunteer name: ");
+        string name = Console.ReadLine();
+
+        Console.Write("Enter phone number: ");
+        string phone = Console.ReadLine();
+
+        Console.Write("Enter email address: ");
+        string email = Console.ReadLine();
+
+        //למה כשמכניסים 0 הוא שם מנהל?
+        Console.WriteLine("Choose volunteer role (0 for Regular, 1 for Manager): ");
+        if (!Enum.TryParse<VolunteerRole>(Console.ReadLine(), out VolunteerRole role))
+        {
+            Console.WriteLine("Invalid role. Defaulting to 'Regular'.");
+            role = VolunteerRole.Regular;
+        }
+
+        Console.WriteLine("Is the volunteer active? (yes/no): ");
+        bool isActive = Console.ReadLine()?.ToLower() == "yes";
+
+        Console.WriteLine("Choose distance kind (0 for Aerial, 1 for Ground): ");
+        if (!Enum.TryParse<DistanceKind>(Console.ReadLine(), out DistanceKind distanceKind))
+        {
+            Console.WriteLine("Invalid distance kind. Defaulting to 'Ground'.");
+            distanceKind = DistanceKind.Ground;
+        }
+
+        Console.Write("Enter address (optional, press Enter to skip): ");
+        string? address = Console.ReadLine();
+        address = string.IsNullOrWhiteSpace(address) ? null : address;
+        Volunteer newVolunteer = new Volunteer()
+        {
+            Id = id,
+            Name = name,
+            Phone = phone,
+            Email = email,
+            Role = role,
+            IsActive = isActive,
+            DistanceKind = distanceKind,
+            Address = address
+        };
+        if (isUpdate == true)
+        {
+            return newVolunteer;
+        }
+        s_dalVolunteer.Create(newVolunteer);
+        return null;
+    }
 }
