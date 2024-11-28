@@ -23,3 +23,15 @@ public enum EntityMenu
     Delete,
     DeleteAll
 }
+
+public enum DistanceKind
+{
+    Aerial,
+    Ground
+}
+
+public enum VolunteerRole
+{
+    Manager,
+    Regular
+}
