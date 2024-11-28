@@ -1,6 +1,8 @@
 ﻿using Dal;
 using DalApi;
 using DO;
+using Microsoft.VisualBasic;
+using System.Net;
 
 
 
@@ -14,15 +16,11 @@ internal class Program
     private static IAssignment? s_dalAssignment = new AssignmentImplementation(); //stage 1
     private static IConfig? s_dalConfig = new ConfigImplementation(); //stage 1
 
-    //methods
-    //private void DisplayMainMenu()
-    //{
-    //}
     static void Main(string[] args)
     {
         try
         {
-            Initialization.Do(s_dalCall,s_dalVolunteer,s_dalAssignment,s_dalConfig);
+            Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig);
 
 
         }
@@ -107,7 +105,120 @@ internal class Program
             }
         }
     }
-    public static void ShowEntityCall() { }
+    public static void ShowEntityCall()
+    {
+        bool exit = false;
+
+        while (!exit)
+        {
+            Console.Clear();
+            Console.WriteLine("=== תפריט עבור ישות Call ===");
+            Console.WriteLine("1. הוספת אובייקט חדש (Create)");
+            Console.WriteLine("2. תצוגת אובייקט לפי מזהה (Read)");
+            Console.WriteLine("3. תצוגת רשימת כל האובייקטים (ReadAll)");
+            Console.WriteLine("4. עדכון אובייקט קיים (Update)");
+            Console.WriteLine("5. מחיקת אובייקט מהרשימה (Delete)");
+            Console.WriteLine("6. מחיקת כל האובייקטים מהרשימה (DeleteAll)");
+            Console.WriteLine("0. יציאה");
+            Console.Write("בחר אופציה: ");
+
+            string choice = Console.ReadLine();
+
+            try
+            {
+                switch (choice)
+                {
+                    case "1":
+                        createNewCall(); // מתודה להוספת אובייקט חדש
+                        break;
+
+                    case "2":
+                        ReadCallById(); // מתודה להצגת אובייקט לפי מזהה
+                        break;
+
+                    case "3":
+                        ReadAllCalls(); // מתודה להצגת כל האובייקטים
+                        break;
+
+                    case "4":
+                        UpdateCall(); // מתודה לעדכון אובייקט קיים
+                        break;
+
+                    case "5":
+                        DeleteCallById(); // מתודה למחיקת אובייקט לפי מזהה
+                        break;
+
+                    case "6":
+                        DeleteAllCalls(); // מתודה למחיקת כל האובייקטים
+                        break;
+
+                    case "0":
+                        exit = true;
+                        Console.WriteLine("יציאה מתת-תפריט...");
+                        break;
+
+                    default:
+                        Console.WriteLine("אופציה לא חוקית, נסה שנית.");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"שגיאה: {ex.Message}");
+            }
+
+            if (!exit)
+            {
+                Console.WriteLine("\nלחץ על מקש כלשהו כדי להמשיך...");
+                Console.ReadKey();
+            }
+        }
+    }
+
     public static void ShowEntityAssignment() { }
     public static void ShowEntityVolunteer() { }
+
+    //מתודה לקבלת פרטים מהמשתמש ליצור קריאה חדשה
+    public static void createNewCall()
+    {
+        try
+        {
+            int id = 0;
+            Console.Write("הזן את סוג הקריאה (Technical, Food וכו'): ");
+            Enum callType = (Enum)Enum.Parse(typeof(Enum), Console.ReadLine(), true); // צריך להמיר את הטקסט שנכנס לסוג המתאים ב-Enum
+
+            Console.Write("הזן את הכתובת: ");
+            string address = Console.ReadLine();
+
+            Console.Write("הזן את קואורדינטת הרוחב (Latitude): ");
+            double latitude = double.Parse(Console.ReadLine());
+
+            Console.Write("הזן את קואורדינטת האורך (Longitude): ");
+            double longitude = double.Parse(Console.ReadLine());
+
+            Console.Write("הזן את זמן פתיחת הקריאה (בפורמט yyyy-MM-dd HH:mm:ss): ");
+            DateTime openTime = DateTime.Parse(Console.ReadLine());
+
+            Console.Write("הזן תיאור (אופציונלי): ");
+            string? description = Console.ReadLine();
+
+            Console.Write("הזן את זמן הסיום המקסימלי (בפורמט yyyy-MM-dd HH:mm:ss) או השאר ריק אם אין: ");
+            string maxCallTimeInput = Console.ReadLine();
+            DateTime? maxCallTime = string.IsNullOrEmpty(maxCallTimeInput) ? (DateTime?)null : DateTime.Parse(maxCallTimeInput);
+
+            // יצירת אובייקט חדש מסוג Call והוספה לרשימה
+            s_dalCall!.Create(new Call(id, callType, address, latitude, longitude, openTime, description, maxCallTime));
+
+            Console.WriteLine("הקריאה נוצרה בהצלחה!");
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine($"שגיאה בהזנת נתונים: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"שגיאה כללית: {ex.Message}");
+        }
+    }
+
 }
