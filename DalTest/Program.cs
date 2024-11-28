@@ -136,30 +136,15 @@ internal class Program
                         break;
 
                     case "3":
-                        var allCalls = s_dalCall.ReadAll();  // קורא לרשימת כל הקריאות
-                        string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call => call.ToString()));
-                        Console.WriteLine(allCallsString);
+                        ReadAllCalls();
                         break;
 
                     case "4":
-                        Console.WriteLine("enter the ID to update");
-                        if (!int.TryParse(Console.ReadLine(), out int id))
-                        {
-                            Console.WriteLine("מזהה לא חוקי");
-                            return;
-                        }
-                        Call Item = CreateNewCall(id); // מתודה לעדכון אובייקט קיים
-                        s_dalCall.Update(Item);
+                        UpdateCall();
                         break;
 
                     case "5":
-                        Console.WriteLine("enter the ID to delete");
-                        if (!int.TryParse(Console.ReadLine(), out int idd))
-                        {
-                            Console.WriteLine("מזהה לא חוקי");
-                            return;
-                        }
-                        s_dalCall.Delete(idd); // מתודה למחיקת אובייקט לפי מזהה
+                        DeleteCall(); // מתודה למחיקת אובייקט לפי מזהה
                         break;
 
                     case "6":
@@ -187,34 +172,63 @@ internal class Program
                 Console.ReadKey();
             }
         }
-    }
 
-    public static void InitializeAll()
+        static void UpdateCall()
+        {
+            Console.WriteLine("enter the ID to update");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("מזהה לא חוקי");
+                return;
+            }
+            Call Item = CreateNewCall(id); // מתודה לעדכון אובייקט קיים
+            s_dalCall.Update(Item);
+        }
+
+        static void ReadAllCalls()
+        {
+            var allCalls = s_dalCall.ReadAll();  // קורא לרשימת כל הקריאות
+            string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call => call.ToString()));
+            Console.WriteLine(allCallsString);
+        }
+
+        static void DeleteCall()
+        {
+            Console.WriteLine("enter the ID to delete");
+            if (!int.TryParse(Console.ReadLine(), out int idd))
+            {
+                Console.WriteLine("מזהה לא חוקי");
+                return;
+            }
+            s_dalCall.Delete(idd);
+        }
+    }
+    static void InitializeAll()
     {
         Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig); // קריאה לאתחול הנתונים
         Console.WriteLine("data initialized succesfully");
     }
-    public static void DisplayAllData()
+    static void DisplayAllData()
     {
         Console.WriteLine(s_dalCall.ReadAll());
         Console.WriteLine(s_dalAssignment.ReadAll());
         Console.WriteLine(s_dalVolunteer.ReadAll());
     }
-    private static void ShowConfigurationSubMenu()
+    static void ShowConfigurationSubMenu()
     {
     }
-    private static void ResetDatabase()
+    static void ResetDatabase()
     {
         s_dalCall.DeleteAll();
         s_dalAssignment.DeleteAll();
         s_dalVolunteer.DeleteAll();
         Console.WriteLine("Database resetted succesfully");
     }
-    public static void ShowEntityAssignment() { }
-    public static void ShowEntityVolunteer() { }
+    static void ShowEntityAssignment() { }
+    static void ShowEntityVolunteer() { }
 
-    //מתודה לקבלת פרטים מהמשתמש ליצור קריאה חדשה
-    public static Call CreateNewCall(int id = 0)
+    //מתודה לקבלת פרטים מהמשתמש ליצור או עדכון קריאה 
+    static Call CreateNewCall(int id = 0)
     {
         try
         {
@@ -257,7 +271,7 @@ internal class Program
         }
     }
 
-    private static void ReadByCallId()
+    static void ReadByCallId()
     {
         try
         {
