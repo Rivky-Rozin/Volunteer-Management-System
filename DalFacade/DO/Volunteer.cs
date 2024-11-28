@@ -32,7 +32,7 @@ public record Volunteer
     double? MaxDistance = null
     )
 {
-    public Volunteer() : this(0,"","","",default,false,default)
+    public Volunteer() : this(0,"","","",default,false,default,"",0.0,0.0,"",0.0)
     {
     }
 }
