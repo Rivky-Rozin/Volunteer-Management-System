@@ -69,7 +69,7 @@ public static class Initialization
             string selectedCallType = callTypes[randomIndex];
 
             // המרת המחרוזת לערך באנסום CallType
-            Enum callType = (Enum)Enum.Parse(typeof(callType), selectedCallType);
+            Enum callType = (Enum)Enum.Parse(typeof(DO.CallType), selectedCallType);
 
             // יצירת תיאור רנדומלי
             string description = $"Call regarding {callType.ToString().ToLower()} support at {address}.";

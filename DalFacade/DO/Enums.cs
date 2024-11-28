@@ -37,7 +37,7 @@ public enum VolunteerRole
 }
 
 public enum TreatmentType { Simple, Complex, Emergency }
-public enum callType
+public enum CallType
 {
     Technical,
     Food,
