@@ -1,6 +1,7 @@
 ﻿using Dal;
 using DalApi;
 using DO;
+using System.Data;
 
 
 
@@ -18,7 +19,7 @@ internal class Program
     {
         try
         {
-            Initialization.Do(s_dalCall,s_dalVolunteer,s_dalAssignment,s_dalConfig);
+            Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig);
             ShowMainMenu();
 
         }
@@ -125,27 +126,44 @@ internal class Program
                 switch (choice)
                 {
                     case "1":
-                        createNewCall(); // מתודה להוספת אובייקט חדש
+                        Call item = CreateNewCall(); // מתודה להוספת אובייקט חדש
+                        s_dalCall.Create(item);
                         break;
 
                     case "2":
-                        ReadCallById(); // מתודה להצגת אובייקט לפי מזהה
+
+                        ReadByCallId(); // מתודה להצגת אובייקט לפי מזהה
                         break;
 
                     case "3":
-                        ReadAllCalls(); // מתודה להצגת כל האובייקטים
+                        var allCalls = s_dalCall.ReadAll();  // קורא לרשימת כל הקריאות
+                        string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call => call.ToString()));
+                        Console.WriteLine(allCallsString);
                         break;
 
                     case "4":
-                        UpdateCall(); // מתודה לעדכון אובייקט קיים
+                        Console.WriteLine("enter the ID to update");
+                        if (!int.TryParse(Console.ReadLine(), out int id))
+                        {
+                            Console.WriteLine("מזהה לא חוקי");
+                            return;
+                        }
+                        Call Item = CreateNewCall(id); // מתודה לעדכון אובייקט קיים
+                        s_dalCall.Update(Item);
                         break;
 
                     case "5":
-                        DeleteCallById(); // מתודה למחיקת אובייקט לפי מזהה
+                        Console.WriteLine("enter the ID to delete");
+                        if (!int.TryParse(Console.ReadLine(), out int idd))
+                        {
+                            Console.WriteLine("מזהה לא חוקי");
+                            return;
+                        }
+                        s_dalCall.Delete(idd); // מתודה למחיקת אובייקט לפי מזהה
                         break;
 
                     case "6":
-                        DeleteAllCalls(); // מתודה למחיקת כל האובייקטים
+                        s_dalCall.DeleteAll(); // מתודה למחיקת כל האובייקטים
                         break;
 
                     case "0":
@@ -196,13 +214,13 @@ internal class Program
     public static void ShowEntityVolunteer() { }
 
     //מתודה לקבלת פרטים מהמשתמש ליצור קריאה חדשה
-    public static void createNewCall()
+    public static Call CreateNewCall(int id = 0)
     {
         try
         {
-            int id = 0;
             Console.Write("הזן את סוג הקריאה (Technical, Food וכו'): ");
-            Enum callType = (Enum)Enum.Parse(typeof(Enum), Console.ReadLine(), true); // צריך להמיר את הטקסט שנכנס לסוג המתאים ב-Enum
+            Enum callType = (Enum)Enum.Parse(typeof(CallType), Console.ReadLine(), true); // צריך להמיר את הטקסט שנכנס לסוג המתאים ב-Enum
+
 
             Console.Write("הזן את הכתובת: ");
             string address = Console.ReadLine();
@@ -224,9 +242,53 @@ internal class Program
             DateTime? maxCallTime = string.IsNullOrEmpty(maxCallTimeInput) ? (DateTime?)null : DateTime.Parse(maxCallTimeInput);
 
             // יצירת אובייקט חדש מסוג Call והוספה לרשימה
-            s_dalCall!.Create(new Call(id, callType, address, latitude, longitude, openTime, description, maxCallTime));
+            return new Call(id, callType, address, latitude, longitude, openTime, description, maxCallTime);
 
-            Console.WriteLine("הקריאה נוצרה בהצלחה!");
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine($"שגיאה בהזנת נתונים: {ex.Message}");
+            return null; // מחזירים null במקרה של שגיאה
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"שגיאה כללית: {ex.Message}");
+            return null; // מחזירים null במקרה של שגיאה
+        }
+    }
+
+    private static void ReadByCallId()
+    {
+        try
+        {
+            // בקשת מידע מהמשתמש עבור ה-ID
+            Console.Write("הזן את מזהה הקריאה (ID): ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("מזהה לא חוקי");
+                return;
+            }
+
+
+            // קריאה למתודת ה-Read עם ה-ID שהוזן
+            var call = s_dalCall.Read(id);
+
+            if (call != null)
+            {
+                // הצגת נתוני הקריאה
+                Console.WriteLine("הקריאה שנמצאה:");
+                Console.WriteLine($"ID: {call.Id}");
+                Console.WriteLine($"סוג הקריאה: {call.CallType}");
+                Console.WriteLine($"כתובת: {call.FullAddress}");
+                Console.WriteLine($"קואורדינטות: ({call.Latitude}, {call.Longitude})");
+                Console.WriteLine($"זמן פתיחה: {call.OpenTime}");
+                Console.WriteLine($"תיאור: {call.Description}");
+                Console.WriteLine($"זמן סיום מקסימלי: {(call.MaxCallTime.HasValue ? call.MaxCallTime.Value.ToString() : "לא קבוע")}");
+            }
+            else
+            {
+                Console.WriteLine("לא נמצאה קריאה עם מזהה זה.");
+            }
         }
         catch (FormatException ex)
         {
@@ -237,5 +299,6 @@ internal class Program
             Console.WriteLine($"שגיאה כללית: {ex.Message}");
         }
     }
+
 
 }
