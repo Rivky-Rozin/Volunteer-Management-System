@@ -23,7 +23,7 @@ internal class Program
         try
         {
             Initialization.Do(s_dalCall,s_dalVolunteer,s_dalAssignment,s_dalConfig);
-
+            ShowMainMenu();
 
         }
         catch (Exception ex)
@@ -68,8 +68,7 @@ internal class Program
                         break;
 
                     case "4":
-                        Initialization.Do(); // קריאה לאתחול הנתונים
-                        Console.WriteLine("נתונים אותחלו בהצלחה!");
+                        InitializeAll();
                         break;
 
                     case "5":
@@ -82,7 +81,6 @@ internal class Program
 
                     case "7":
                         ResetDatabase(); // מתודה שמאפסת את בסיס הנתונים ואת נתוני התצורה
-                        Console.WriteLine("בסיס הנתונים ונתוני התצורה אופסו בהצלחה!");
                         break;
 
                     case "0":
@@ -107,7 +105,28 @@ internal class Program
             }
         }
     }
+
     public static void ShowEntityCall() { }
     public static void ShowEntityAssignment() { }
     public static void ShowEntityVolunteer() { }
+    public static void InitializeAll()
+    {
+        Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig); // קריאה לאתחול הנתונים
+        Console.WriteLine("data initialized succesfully");
+    }
+    public static void DisplayAllData() {
+        Console.WriteLine(s_dalCall.ReadAll());
+        Console.WriteLine(s_dalAssignment.ReadAll());
+        Console.WriteLine(s_dalVolunteer.ReadAll());
+    }
+    private static void ShowConfigurationSubMenu()
+    {
+    }
+    private static void ResetDatabase()
+    {
+        s_dalCall.DeleteAll();
+        s_dalAssignment.DeleteAll();
+        s_dalVolunteer.DeleteAll();
+        Console.WriteLine("Database resetted succesfully");
+    }
 }
