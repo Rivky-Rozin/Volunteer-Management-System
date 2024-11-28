@@ -20,8 +20,8 @@ internal class Program
     {
         try
         {
-            Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig);
-
+            Initialization.Do(s_dalCall,s_dalVolunteer,s_dalAssignment,s_dalConfig);
+            ShowMainMenu();
 
         }
         catch (Exception ex)
@@ -66,8 +66,7 @@ internal class Program
                         break;
 
                     case "4":
-                        Initialization.Do(); // קריאה לאתחול הנתונים
-                        Console.WriteLine("נתונים אותחלו בהצלחה!");
+                        InitializeAll();
                         break;
 
                     case "5":
@@ -80,7 +79,6 @@ internal class Program
 
                     case "7":
                         ResetDatabase(); // מתודה שמאפסת את בסיס הנתונים ואת נתוני התצורה
-                        Console.WriteLine("בסיס הנתונים ונתוני התצורה אופסו בהצלחה!");
                         break;
 
                     case "0":
@@ -105,76 +103,7 @@ internal class Program
             }
         }
     }
-    public static void ShowEntityCall()
-    {
-        bool exit = false;
-
-        while (!exit)
-        {
-            Console.Clear();
-            Console.WriteLine("=== תפריט עבור ישות Call ===");
-            Console.WriteLine("1. הוספת אובייקט חדש (Create)");
-            Console.WriteLine("2. תצוגת אובייקט לפי מזהה (Read)");
-            Console.WriteLine("3. תצוגת רשימת כל האובייקטים (ReadAll)");
-            Console.WriteLine("4. עדכון אובייקט קיים (Update)");
-            Console.WriteLine("5. מחיקת אובייקט מהרשימה (Delete)");
-            Console.WriteLine("6. מחיקת כל האובייקטים מהרשימה (DeleteAll)");
-            Console.WriteLine("0. יציאה");
-            Console.Write("בחר אופציה: ");
-
-            string choice = Console.ReadLine();
-
-            try
-            {
-                switch (choice)
-                {
-                    case "1":
-                        createNewCall(); // מתודה להוספת אובייקט חדש
-                        break;
-
-                    case "2":
-                        ReadCallById(); // מתודה להצגת אובייקט לפי מזהה
-                        break;
-
-                    case "3":
-                        ReadAllCalls(); // מתודה להצגת כל האובייקטים
-                        break;
-
-                    case "4":
-                        UpdateCall(); // מתודה לעדכון אובייקט קיים
-                        break;
-
-                    case "5":
-                        DeleteCallById(); // מתודה למחיקת אובייקט לפי מזהה
-                        break;
-
-                    case "6":
-                        DeleteAllCalls(); // מתודה למחיקת כל האובייקטים
-                        break;
-
-                    case "0":
-                        exit = true;
-                        Console.WriteLine("יציאה מתת-תפריט...");
-                        break;
-
-                    default:
-                        Console.WriteLine("אופציה לא חוקית, נסה שנית.");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"שגיאה: {ex.Message}");
-            }
-
-            if (!exit)
-            {
-                Console.WriteLine("\nלחץ על מקש כלשהו כדי להמשיך...");
-                Console.ReadKey();
-            }
-        }
-    }
-
+    public static void ShowEntityCall() { }
     public static void ShowEntityAssignment() { }
     public static void ShowEntityVolunteer() { }
 
