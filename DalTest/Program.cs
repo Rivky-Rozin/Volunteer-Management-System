@@ -1,11 +1,10 @@
-﻿namespace DalTest;
-using Dal;
+﻿using Dal;
 using DalApi;
 using DO;
 
 
 
-
+namespace DalTest;
 internal class Program
 {
 

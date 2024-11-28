@@ -5,6 +5,7 @@ using DalApi;
 using DO;
 using Microsoft.VisualBasic;
 using System;
+using System.Reflection;
 
 public static class Initialization
 {
@@ -44,6 +45,7 @@ public static class Initialization
             double? maxDistance = index % 2 == 0 ? s_rand.Next(1, 50) : null; // טווח בין 1 ל-50 ק"מ
             Console.WriteLine(name);
             s_dalVolunteer!.Create(new(id, name, phone, email, role, isActive, distanceKind, address, latitude, longitude, null, maxDistance));
+
         }
     }
 
@@ -55,14 +57,19 @@ public static class Initialization
 
         // מערך סוגי קריאות
         string[] callTypes = { "Technical", "Food", "Medical", "Emergency", "Other" };
-
-        // לולאה ליצירת קריאות
-        foreach (var address in addresses)
+            // לולאה ליצירת קריאות
+            foreach (var address in addresses)
         {
             int id = 0;
 
-            // בחירת סוג קריאה רנדומלי
-            Enum callType = (Enum)Enum.Parse(typeof(CallType), callTypes[s_rand.Next(callTypes.Length)]);
+            // בחירת מספר רנדומלי בין 0 ל-4
+            int randomIndex = s_rand.Next(0, 5);
+
+            // קבלת הערך ממערך סוגי הקריאות
+            string selectedCallType = callTypes[randomIndex];
+
+            // המרת המחרוזת לערך באנסום CallType
+            Enum callType = (Enum)Enum.Parse(typeof(callType), selectedCallType);
 
             // יצירת תיאור רנדומלי
             string description = $"Call regarding {callType.ToString().ToLower()} support at {address}.";
@@ -80,16 +87,13 @@ public static class Initialization
 
             // יצירת קריאה חדשה
             s_dalCall!.Create(new(id, callType, address, latitude, longitude, openTime, description, maxCallTime));
+
         }
     }
 
 
     private static void createAssignments()
     {
-        // טווח ליצירת מזהים ייחודיים
-        const int MIN_ID = 1000;
-        const int MAX_ID = 10000;
-
         // רשימות לדוגמה של מזהי מתנדבים ושיחות
         var volunteerIds = s_dalVolunteer!.ReadAll().Select(v => v.Id).ToList();
         var callIds = s_dalCall!.ReadAll().Select(c => c.Id).ToList();
@@ -132,6 +136,7 @@ public static class Initialization
             // הוספת המשימה לרשימת המשימות דרך ה-CRUD
             s_dalAssignment!.Create(new Assignment(assignmentId, volunteerId, callId, startTreatment, endTreatment, treatmentType));
         }
+
     }
 
     public static void Do(ICall? dalCall, IVolunteer? dalVolunteer, IAssignment? dalAssignment, IConfig? dalConfig)
@@ -153,6 +158,7 @@ public static class Initialization
         createVolunteers();
         createCalls();
         createAssignments();
+
 
 
     }
