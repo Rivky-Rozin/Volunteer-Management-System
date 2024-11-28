@@ -170,6 +170,28 @@ internal class Program
             }
         }
     }
+
+    public static void InitializeAll()
+    {
+        Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig); // קריאה לאתחול הנתונים
+        Console.WriteLine("data initialized succesfully");
+    }
+    public static void DisplayAllData()
+    {
+        Console.WriteLine(s_dalCall.ReadAll());
+        Console.WriteLine(s_dalAssignment.ReadAll());
+        Console.WriteLine(s_dalVolunteer.ReadAll());
+    }
+    private static void ShowConfigurationSubMenu()
+    {
+    }
+    private static void ResetDatabase()
+    {
+        s_dalCall.DeleteAll();
+        s_dalAssignment.DeleteAll();
+        s_dalVolunteer.DeleteAll();
+        Console.WriteLine("Database resetted succesfully");
+    }
     public static void ShowEntityAssignment() { }
     public static void ShowEntityVolunteer() { }
 
