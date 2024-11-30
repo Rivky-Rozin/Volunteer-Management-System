@@ -471,7 +471,8 @@ internal class Program
                 Console.WriteLine("A volunteer with this ID does not exist");
                 return;
             }
-            Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
+            //Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
+            Console.WriteLine(volunteer);
         }
         catch (Exception ex)
         {
@@ -540,7 +541,6 @@ internal class Program
         s_dalVolunteer.Create(newVolunteer);
         return null;
     }
-
 
     //------------------------------------------Assignment-----------------------------------------------------------------------------------
     //Assignment התפריט של
@@ -614,15 +614,12 @@ internal class Program
             }
         }
     }
-
-
     //Assignment המתודות של
     private static void DeleteAllAssignments()
     {
         s_dalAssignment.DeleteAll();
         Console.WriteLine("All the assignment were deleted");
     }
-
     private static void DeleteAssignmentById()
     {
         try
@@ -637,7 +634,6 @@ internal class Program
             Console.WriteLine(ex.Message);
         }
     }
-
     private static void UpdateAssignment()
     {
         try
@@ -694,42 +690,55 @@ internal class Program
                 Console.WriteLine("An assignment with this ID does not exist");
                 return;
             }
-            Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
+            //Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
+            Console.WriteLine(assignment);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
     }
-
     private static Assignment? CreateNewAssignment(int id = 0)
     {
-        Console.Write("Enter volunteer ID: ");
-        int volunteerId;
-        int.TryParse(Console.ReadLine(), out volunteerId);
+        try
+        {
+            Console.Write("Enter volunteer ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int volunteerId))
+            {
+                throw new Exception("Invalid input. Volunteer ID must be a number.");
+            }
+            Volunteer? isValidVolunteerId = s_dalVolunteer.Read(volunteerId);
+            if (isValidVolunteerId == null)
+            {
+                throw new Exception("A volunteer with this ID does not exist.");
+            }
 
-        Console.Write("Enter call ID: ");
-        int callID;
-        int.TryParse(Console.ReadLine(), out callID);
+            Console.Write("Enter call ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int callID))
+            {
+                throw new Exception("Invalid input. Call ID must be a number.");
+            }
+            Call? isValidCallId = s_dalCall.Read(callID);
+            if (isValidCallId == null)
+            {
+                throw new Exception("A call with this ID does not exist.");
+            }
 
-        Assignment newAssignment;
-        newAssignment = new()
-        {
-            Id = id,
-            VolunteerId = volunteerId,
-            CallId = callID
-        };
-        if (id != 0)
-        {
-            return newAssignment;
-        }
-        else
-        {
+            Assignment newAssignment = new()
+            {
+                Id = id,
+                VolunteerId = volunteerId,
+                CallId = callID
+            };
+
             s_dalAssignment.Create(newAssignment);
+
+            return id != 0 ? newAssignment : null;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
             return null;
         }
     }
-
-
-
 }
