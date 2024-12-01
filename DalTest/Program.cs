@@ -68,8 +68,10 @@ internal class Program
                         break;
                     case "6":
                         ShowConfigurationSubMenu(); // מתודה להצגת תפריט ישות תצורה
+                        break;
                     case "7":
                         ResetDatabase(); // מתודה שמאפסת את בסיס הנתונים ואת נתוני התצורה
+
                         break;
                     case "0":
                         exit = true;
@@ -188,7 +190,7 @@ internal class Program
     }
     static void UpdateCall()
     {
-        int id = getInt("enter the ID to update")
+        int id = getInt("enter the ID to update");
         Call Item = CreateNewCall(id); // מתודה לעדכון אובייקט קיים
         s_dalCall.Update(Item);
     }
@@ -201,7 +203,7 @@ internal class Program
     {
         try
         {
-            int id = getInt("enter the ID to delete")
+            int id = getInt("enter the ID to delete");
             s_dalCall.Delete(id);
             Console.WriteLine("Call deleted successfully!");
         }
@@ -360,7 +362,7 @@ internal class Program
     {
         try
         {
-            int id = getInt("enter the ID to delete")
+            int id = getInt("enter the ID to delete");
             s_dalVolunteer.Delete(id);
             Console.WriteLine("Volunteer deleted successfully!");
         }
@@ -415,7 +417,7 @@ internal class Program
     {
         try
         {
-            int id = getInt("Enter volunteer ID: ")
+            int id = getInt("Enter volunteer ID: ");
             Volunteer? volunteer = s_dalVolunteer.Read(id);
             if (volunteer == null)
             {
@@ -437,7 +439,7 @@ internal class Program
         if (id == 0)
         {
             isUpdate = false;
-            id = getInt("Enter volunteer ID: ")
+            id = getInt("Enter volunteer ID: ");
         }
 
         Console.Write("Enter volunteer name: ");
@@ -511,7 +513,7 @@ internal class Program
                         CreateNewAssignment(); // מתודה להוספת אובייקט חדש
                         break;
                     case "2":
-                        ReadAssignmentlById(); // מתודה להצגת אובייקט לפי מזהה
+                        ReadAssignmentById(); // מתודה להצגת אובייקט לפי מזהה
                         break;
                     case "3":
                         ReadAllAssignments(); // מתודה להצגת כל האובייקטים
@@ -556,8 +558,8 @@ internal class Program
     {
         try
         {
-            int id = getInt("Enter the assignment ID to delete: ")
-           s_dalAssignment.Delete(id);
+            int id = getInt("Enter the assignment ID to delete: ");
+            s_dalAssignment.Delete(id);
             Console.WriteLine("Assignment deleted successfully!");
         }
         catch (Exception ex)
@@ -569,7 +571,7 @@ internal class Program
     {
         try
         {
-            int id = getInt("enter the ID to update")
+            int id = getInt("enter the ID to update");
             Assignment? doesExist = s_dalAssignment.Read(id);
             if (doesExist == null)
             {
@@ -608,7 +610,7 @@ internal class Program
     {
         try
         {
-            int id = getInt("Enter Assignment ID: ")
+            int id = getInt("Enter Assignment ID: ");
             Assignment? assignment = s_dalAssignment.Read(id);
             if (assignment == null)
             {
@@ -618,10 +620,11 @@ internal class Program
             //Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
             Console.WriteLine(assignment);
         }
-            else
-        {
-            Console.WriteLine("Invalid ID. Please enter a valid integer.");
-        }
+
+        //else
+        //{
+        //    Console.WriteLine("Invalid ID. Please enter a valid integer.");
+        //}
         catch (Exception ex)
         {
             Console.WriteLine($"An error occurred: {ex.Message}");
@@ -631,13 +634,13 @@ internal class Program
     {
         try
         {
-            int id = getInt("Enter volunteer ID: ")
+            int volunteerId = getInt("Enter volunteer ID: ");
             Volunteer? isValidVolunteerId = s_dalVolunteer.Read(volunteerId);
             if (isValidVolunteerId == null)
             {
                 throw new Exception("A volunteer with this ID does not exist.");
             }
-            int id = getInt("Enter call ID: ")
+            int callID = getInt("Enter call ID: ");
             Call? isValidCallId = s_dalCall.Read(callID);
             if (isValidCallId == null)
             {
@@ -665,7 +668,82 @@ internal class Program
 
     //------------------------------------------configure-----------------------------------------
     //configure התפריט של
-    private static void ShowConfigurationSubMenu() { }
+    public static void ShowConfigurationSubMenu()
+    {
+        bool exit = false;
+
+        while (!exit)
+        {
+            Console.WriteLine("===== Configuration Menu =====");
+            Console.WriteLine("1. Exit the submenu");
+            Console.WriteLine("2. Advance system clock by 1 minute");
+            Console.WriteLine("3. Advance system clock by 1 hour");
+            Console.WriteLine("4. Show current system clock value");
+            Console.WriteLine("5. Set a new value for a configuration variable");
+            Console.WriteLine("6. Show the current value of a configuration variable");
+            Console.WriteLine("7. Reset all configuration values");
+            Console.WriteLine("===============================");
+
+            Console.Write("Choose an option: ");
+            string? input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    exit = true;
+                    break;
+                case "2":
+                    s_dalConfig.Clock = s_dalConfig.Clock.AddMinutes(1);
+                    Console.WriteLine("System clock advanced by 1 minute.");
+                    break;
+                case "3":
+                    s_dalConfig.Clock = s_dalConfig.Clock.AddHours(1);
+                    Console.WriteLine("System clock advanced by 1 hour.");
+                    break;
+                case "4":
+                    Console.WriteLine(s_dalConfig.Clock);
+                    break;
+                case "5":
+                    SetConfigValue();
+                    break;
+                case "6":
+                    ShowConfigValue();
+                    break;
+                case "7":
+                    s_dalConfig.Reset();
+                    Console.WriteLine("All configuration values have been reset.");
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
+            }
+
+            //Console.WriteLine("לחץ על מקש כלשהו להמשיך...");
+            //Console.ReadKey();
+        }
+    }
+
+    private static void SetConfigValue()
+    {
+        Console.Write("Enter the name of the configuration variable: ");
+        string? variable = Console.ReadLine();
+
+        Console.Write("Enter a new value: ");
+        string? newValue = Console.ReadLine();
+
+        // Logic to set the new value for the requested variable
+        Console.WriteLine($"The value of '{variable}' has been updated to '{newValue}'.");
+    }
+
+    private static void ShowConfigValue()
+    {
+        Console.Write("Enter the name of the configuration variable to display: ");
+        string? variable = Console.ReadLine();
+
+        // Logic to display the current value of the requested variable
+        Console.WriteLine($"The current value of '{variable}': <Not implemented>.");
+    }
+    
 
     //מתודת עזר לתוספת של TryParse
     static int getInt(string message)
@@ -686,3 +764,4 @@ internal class Program
 
         return myInt;
     }
+}
