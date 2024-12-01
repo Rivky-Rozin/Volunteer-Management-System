@@ -9,8 +9,16 @@ public class AssignmentImplementation : IAssignment
 {
     public void Create(Assignment item)
     {
-        int id=Config.NextAssignmentId;
-        Assignment copy = item with { Id = id };
+        Assignment copy;
+        if (item.Id > 0)
+        {
+            copy = item with { Id = item.Id };
+        }
+        else
+        {
+            int id = Config.NextAssignmentId;
+            copy = item with { Id = id };
+        }
         DataSource.Assignments.Add(copy);
     }
 

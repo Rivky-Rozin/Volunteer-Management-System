@@ -10,8 +10,17 @@ public class CallImplementation : ICall
 {
     public void Create(Call item)
     {
-        int id = Config.NextCallId;
-        Call copy = new(id,item.CallType,item.FullAddress,item.Latitude,item.Longitude,item.OpenTime,item.Description,item.MaxCallTime);   
+        Call copy;
+        if (!(item.Id > 0))
+        {
+            int id = Config.NextCallId;
+            copy = new(id, item.CallType, item.FullAddress, item.Latitude, item.Longitude, item.OpenTime, item.Description, item.MaxCallTime);
+        }
+        else
+        {
+            copy = new(item.Id, item.CallType, item.FullAddress, item.Latitude, item.Longitude, item.OpenTime, item.Description, item.MaxCallTime);
+        }
+
         DataSource.Calls.Add(copy);
     }
 

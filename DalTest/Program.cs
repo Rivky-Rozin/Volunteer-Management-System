@@ -305,16 +305,15 @@ internal class Program
 
         while (!exit)
         {
-            Console.Clear();
-            Console.WriteLine("=== תפריט עבור ישות Call ===");
-            Console.WriteLine("1. הוספת אובייקט חדש (Create)");
-            Console.WriteLine("2. תצוגת אובייקט לפי מזהה (Read)");
-            Console.WriteLine("3. תצוגת רשימת כל האובייקטים (ReadAll)");
-            Console.WriteLine("4. עדכון אובייקט קיים (Update)");
-            Console.WriteLine("5. מחיקת אובייקט מהרשימה (Delete)");
-            Console.WriteLine("6. מחיקת כל האובייקטים מהרשימה (DeleteAll)");
-            Console.WriteLine("0. יציאה");
-            Console.Write("בחר אופציה: ");
+            Console.WriteLine("=== Menu for Call Entity ===");
+            Console.WriteLine("1. Add a new object (Create)");
+            Console.WriteLine("2. Display object by ID (Read)");
+            Console.WriteLine("3. Display all objects (ReadAll)");
+            Console.WriteLine("4. Update an existing object (Update)");
+            Console.WriteLine("5. Delete an object from the list (Delete)");
+            Console.WriteLine("6. Delete all objects from the list (DeleteAll)");
+            Console.WriteLine("0. Exit");
+            Console.Write("Choose an option: ");
 
             string choice = Console.ReadLine();
 
@@ -642,7 +641,8 @@ internal class Program
                 Console.WriteLine("A volunteer with this ID does not exist");
                 return;
             }
-            Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
+            //Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
+            Console.WriteLine(volunteer);
         }
         catch (Exception ex)
         {
@@ -701,4 +701,204 @@ internal class Program
         s_dalVolunteer.Create(newVolunteer);
         return null;
     }
-}
+
+//    //------------------------------------------Assignment-----------------------------------------------------------------------------------
+//    //Assignment התפריט של
+//    public static void ShowEntityAssignment()
+//    {
+//        bool exit = false;
+
+//        while (!exit)
+//        {
+//            //Console.Clear();
+//            Console.WriteLine("=== Menu for Assignment Entity ===");
+//            Console.WriteLine("1. Add a new assignment (Create)");
+//            Console.WriteLine("2. Display assignment by ID (Read)");
+//            Console.WriteLine("3. Display all assignments (ReadAll)");
+//            Console.WriteLine("4. Update an existing assignment (Update)");
+//            Console.WriteLine("5. Delete a assignment from the list (Delete)");
+//            Console.WriteLine("6. Delete all assignments from the list (DeleteAll)");
+//            Console.WriteLine("0. Exit");
+//            Console.Write("Choose an option: ");
+
+
+//            string choice = Console.ReadLine();
+
+//            try
+//            {
+//                switch (choice)
+//                {
+//                    case "1":
+//                        CreateNewAssignment(); // מתודה להוספת אובייקט חדש
+//                        break;
+
+//                    case "2":
+//                        ReadAssignmentlById(); // מתודה להצגת אובייקט לפי מזהה
+//                        break;
+
+//                    case "3":
+//                        ReadAllAssignments(); // מתודה להצגת כל האובייקטים
+//                        break;
+
+//                    case "4":
+//                        UpdateAssignment(); // מתודה לעדכון אובייקט קיים
+//                        break;
+
+//                    case "5":
+//                        DeleteAssignmentById(); // מתודה למחיקת אובייקט לפי מזהה
+//                        break;
+
+//                    case "6":
+//                        DeleteAllAssignments(); // מתודה למחיקת כל האובייקטים
+//                        break;
+
+//                    case "0":
+//                        exit = true;
+//                        Console.WriteLine("Exiting menu");
+//                        break;
+
+//                    default:
+//                        Console.WriteLine("Invalid option, try again");
+//                        break;
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                Console.WriteLine(ex.Message);
+//            }
+
+//            if (!exit)
+//            {
+//                Console.WriteLine("press any key to continue");
+//                Console.ReadKey();
+//            }
+//        }
+//    }
+//    //Assignment המתודות של
+//    private static void DeleteAllAssignments()
+//    {
+//        s_dalAssignment.DeleteAll();
+//        Console.WriteLine("All the assignment were deleted");
+//    }
+//    private static void DeleteAssignmentById()
+//    {
+//        try
+//        {
+//            Console.WriteLine("Enter the assignment ID to delete: ");
+//            int id = int.Parse(Console.ReadLine());
+//            s_dalAssignment.Delete(id);
+//            Console.WriteLine("Assignment deleted successfully!");
+//        }
+//        catch (Exception ex)
+//        {
+//            Console.WriteLine(ex.Message);
+//        }
+//    }
+//    private static void UpdateAssignment()
+//    {
+//        try
+//        {
+//            Console.WriteLine("enter the ID to update");
+//            if (!int.TryParse(Console.ReadLine(), out int id))
+//            {
+//                Console.WriteLine("inValid ID");
+//                return;
+//            }
+//            Assignment? doesExist = s_dalAssignment.Read(id);
+//            if (doesExist == null)
+//            {
+//                Console.WriteLine("An assignment with this ID does not exist");
+//            }
+//            else
+//            {
+//                Assignment? updatedAssignment = CreateNewAssignment(id); // מתודה לעדכון אובייקט קיים
+//                s_dalAssignment.Update(updatedAssignment);
+//                Console.WriteLine("Assignment updated successfully!");
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            Console.WriteLine(ex.Message);
+//        }
+//    }
+//    private static void ReadAllAssignments()
+//    {
+//        List<Assignment> assignments = s_dalAssignment.ReadAll();
+
+//        if (assignments.Count == 0) // בדיקה אם הרשימה ריקה
+//        {
+//            Console.WriteLine("No assignments found.");
+//            return;
+//        }
+
+//        Console.WriteLine("List of all assignments:");
+//        foreach (var assignment in assignments)
+//        {
+//            Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
+//        }
+
+//    }
+//    private static void ReadAssignmentlById()
+//    {
+//        try
+//        {
+//            Console.Write("Enter Assignment ID: ");
+//            int id = int.Parse(Console.ReadLine());
+//            Assignment? assignment = s_dalAssignment.Read(id);
+//            if (assignment == null)
+//            {
+//                Console.WriteLine("An assignment with this ID does not exist");
+//                return;
+//            }
+//            //Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
+//            Console.WriteLine(assignment);
+//        }
+//        catch (Exception ex)
+//        {
+//            Console.WriteLine(ex.Message);
+//        }
+//    }
+//    private static Assignment? CreateNewAssignment(int id = 0)
+//    {
+//        try
+//        {
+//            Console.Write("Enter volunteer ID: ");
+//            if (!int.TryParse(Console.ReadLine(), out int volunteerId))
+//            {
+//                throw new Exception("Invalid input. Volunteer ID must be a number.");
+//            }
+//            Volunteer? isValidVolunteerId = s_dalVolunteer.Read(volunteerId);
+//            if (isValidVolunteerId == null)
+//            {
+//                throw new Exception("A volunteer with this ID does not exist.");
+//            }
+
+//            Console.Write("Enter call ID: ");
+//            if (!int.TryParse(Console.ReadLine(), out int callID))
+//            {
+//                throw new Exception("Invalid input. Call ID must be a number.");
+//            }
+//            Call? isValidCallId = s_dalCall.Read(callID);
+//            if (isValidCallId == null)
+//            {
+//                throw new Exception("A call with this ID does not exist.");
+//            }
+
+//            Assignment newAssignment = new()
+//            {
+//                Id = id,
+//                VolunteerId = volunteerId,
+//                CallId = callID
+//            };
+
+//            s_dalAssignment.Create(newAssignment);
+
+//            return id != 0 ? newAssignment : null;
+//        }
+//        catch (Exception ex)
+//        {
+//            Console.WriteLine(ex.Message);
+//            return null;
+//        }
+//    }
+//}
