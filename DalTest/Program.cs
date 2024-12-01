@@ -31,7 +31,7 @@ internal class Program
 
     //--------------------------------------------general methods---------------------------------------------------------------------
     //הצגת התפריט הראשי
-    public static void ShowMainMenu()
+    private static void ShowMainMenu()
     {
         bool exit = false;
 
@@ -103,16 +103,16 @@ internal class Program
             //    Console.WriteLine("press any key to continue");
             //    Console.ReadKey();
             //}
-            }
         }
+    }
     //אתחול הכל
-    public static void InitializeAll()
+    private static void InitializeAll()
     {
         Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig); // קריאה לאתחול הנתונים
         Console.WriteLine("data initialized succesfully");
     }
     //להוציא מהסלשה בסוף
-    public static void DisplayAllData()
+    private static void DisplayAllData()
     {
         ReadAllVolunteers();
         ReadAllCalls();
@@ -127,9 +127,173 @@ internal class Program
         DeleteAllAssignments();
         Console.WriteLine("Database resetted succesfully");
     }
+    
     //------------------------------------------Assignment-----------------------------------------------------------------------------------
     //Assignment התפריט של
-    public static void ShowEntityAssignment() { }
+    public static void ShowEntityAssignment()
+    {
+        bool exit = false;
+        while (!exit)
+        {
+            //Console.Clear();
+            Console.WriteLine("=== Menu for Assignment Entity ===");
+            Console.WriteLine("1. Add a new assignment (Create)");
+            Console.WriteLine("2. Display assignment by ID (Read)");
+            Console.WriteLine("3. Display all assignments (ReadAll)");
+            Console.WriteLine("4. Update an existing assignment (Update)");
+            Console.WriteLine("5. Delete a assignment from the list (Delete)");
+            Console.WriteLine("6. Delete all assignments from the list (DeleteAll)");
+            Console.WriteLine("0. Exit");
+            Console.Write("Choose an option: ");
+            string choice = Console.ReadLine();
+            try
+            {
+                switch (choice)
+                {
+                    case "1":
+                        CreateNewAssignment(); // מתודה להוספת אובייקט חדש
+                        break;
+                    case "2":
+                        ReadAssignmentlById(); // מתודה להצגת אובייקט לפי מזהה
+                        break;
+                    case "3":
+                        ReadAllAssignments(); // מתודה להצגת כל האובייקטים
+                        break;
+                    case "4":
+                        UpdateAssignment(); // מתודה לעדכון אובייקט קיים
+                        break;
+                    case "5":
+                        DeleteAssignmentById(); // מתודה למחיקת אובייקט לפי מזהה
+                        break;
+                    case "6":
+                        DeleteAllAssignments(); // מתודה למחיקת כל האובייקטים
+                        break;
+                    case "0":
+                        exit = true;
+                        Console.WriteLine("Exiting menu");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option, try again");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (!exit)
+            {
+                Console.WriteLine("press any key to continue");
+                Console.ReadKey();
+            }
+        }
+    }
+    //Assignment המתודות של
+    static void DeleteAllAssignments()
+    {
+        s_dalAssignment.DeleteAll();
+        Console.WriteLine("All the assignment were deleted");
+    }
+    static void DeleteAssignmentById()
+    {
+        try
+        {
+            Console.WriteLine("Enter the assignment ID to delete: ");
+            int id = int.Parse(Console.ReadLine());
+            s_dalAssignment.Delete(id);
+            Console.WriteLine("Assignment deleted successfully!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+    static void UpdateAssignment()
+    {
+        try
+        {
+            Console.WriteLine("enter the ID to update");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("inValid ID");
+                return;
+            }
+            Assignment? doesExist = s_dalAssignment.Read(id);
+            if (doesExist == null)
+            {
+                Console.WriteLine("An assignment with this ID does not exist");
+            }
+            else
+            {
+                Assignment? updatedAssignment = CreateNewAssignment(id); // מתודה לעדכון אובייקט קיים
+                s_dalAssignment.Update(updatedAssignment);
+                Console.WriteLine("Assignment updated successfully!");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+    static void ReadAllAssignments()
+    {
+        List<Assignment> assignments = s_dalAssignment.ReadAll();
+        if (assignments.Count == 0) // בדיקה אם הרשימה ריקה
+        {
+            Console.WriteLine("No assignments found.");
+            return;
+        }
+        Console.WriteLine("List of all assignments:");
+        foreach (var assignment in assignments)
+        {
+            Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
+        }
+    }
+    static void ReadAssignmentlById()
+    {
+        try
+        {
+            Console.Write("Enter Assignment ID: ");
+            int id = int.Parse(Console.ReadLine());
+            Assignment? assignment = s_dalAssignment.Read(id);
+            if (assignment == null)
+            {
+                Console.WriteLine("An assignment with this ID does not exist");
+                return;
+            }
+            Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+    static Assignment? CreateNewAssignment(int id = 0)
+    {
+        Console.Write("Enter volunteer ID: ");
+        int volunteerId;
+        int.TryParse(Console.ReadLine(), out volunteerId);
+        Console.Write("Enter call ID: ");
+        int callID;
+        int.TryParse(Console.ReadLine(), out callID);
+        Assignment newAssignment;
+        newAssignment = new()
+        {
+            Id = id,
+            VolunteerId = volunteerId,
+            CallId = callID
+        };
+        if (id != 0)
+        {
+            return newAssignment;
+        }
+        else
+        {
+            s_dalAssignment.Create(newAssignment);
+            return null;
+        }
+    }
+
     //------------------------------------------configure-------------------------------------------------------------------------------
     //configure התפריט של
     private static void ShowConfigurationSubMenu() { }
@@ -225,6 +389,11 @@ internal class Program
         Call Item = CreateNewCall(id); // מתודה לעדכון אובייקט קיים
         s_dalCall.Update(Item);
     }
+    static void DeleteAllCalls()
+    {
+        s_dalCall.DeleteAll();
+        Console.WriteLine("All the calls were deleted");
+    }
     static void DeleteCall()
     {
         Console.WriteLine("enter the ID to delete");
@@ -235,7 +404,7 @@ internal class Program
         }
         s_dalCall.Delete(idd);
     }
-    static Call CreateNewCall(int id = 0)
+    static Call? CreateNewCall(int id = 0)
     {
         try
         {
@@ -524,17 +693,7 @@ internal class Program
         Console.Write("Enter address (optional, press Enter to skip): ");
         string? address = Console.ReadLine();
         address = string.IsNullOrWhiteSpace(address) ? null : address;
-        Volunteer newVolunteer = new Volunteer()
-        {
-            Id = id,
-            Name = name,
-            Phone = phone,
-            Email = email,
-            Role = role,
-            IsActive = isActive,
-            DistanceKind = distanceKind,
-            Address = address
-        };
+        Volunteer newVolunteer = new (id,name,  phone,  email, role, isActive, distanceKind, address);
         if (isUpdate == true)
         {
             return newVolunteer;
