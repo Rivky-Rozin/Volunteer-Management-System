@@ -98,13 +98,13 @@ internal class Program
                 Console.WriteLine(ex.Message);
             }
 
-            if (!exit)
-            {
-                Console.WriteLine("press any key to continue");
-                Console.ReadKey();
+            //if (!exit)
+            //{
+            //    Console.WriteLine("press any key to continue");
+            //    Console.ReadKey();
+            //}
             }
         }
-    }
     //אתחול הכל
     public static void InitializeAll()
     {
@@ -112,21 +112,19 @@ internal class Program
         Console.WriteLine("data initialized succesfully");
     }
     //להוציא מהסלשה בסוף
-    //הצגת כל המידע
     public static void DisplayAllData()
     {
         ReadAllVolunteers();
         ReadAllCalls();
         //עדיין אין מימוש
-        //ReadAllAssignments();
+        ReadAllAssignments();
     }
     //מחיקת כל המידע
-    //להוציא מהסלשה בסוף
     private static void ResetDatabase()
     {
         DeleteAllVolunteers();
-        //DeleteAllCalls();
-        //DeleteAllAssignments();
+        DeleteAllCalls();
+        DeleteAllAssignments();
         Console.WriteLine("Database resetted succesfully");
     }
     //------------------------------------------Assignment-----------------------------------------------------------------------------------
