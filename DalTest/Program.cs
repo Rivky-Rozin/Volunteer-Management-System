@@ -14,7 +14,6 @@ internal class Program
 
     static void Main(string[] args)
     {
-
         try
         {
             Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig);
@@ -409,7 +408,8 @@ internal class Program
         Console.WriteLine("List of all volunteers:");
         foreach (var volunteer in volunteers)
         {
-            Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
+            Console.WriteLine(volunteer);
+            //Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
         }
     }
     //הצגת מתנדב לפי מספר מזהה
@@ -484,7 +484,7 @@ internal class Program
     #endregion
 
     #region Call Assignment
-    //    //Assignment התפריט של
+    //Assignment התפריט של
     public static void ShowEntityAssignment()
     {
         bool exit = false;
@@ -602,7 +602,8 @@ internal class Program
         Console.WriteLine("List of all assignments:");
         foreach (var assignment in assignments)
         {
-            Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
+            Console.WriteLine(assignment);
+         //Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
         }
 
     }
@@ -635,17 +636,17 @@ internal class Program
         try
         {
             int volunteerId = getInt("Enter volunteer ID: ");
-            Volunteer? isValidVolunteerId = s_dalVolunteer.Read(volunteerId);
-            if (isValidVolunteerId == null)
-            {
-                throw new Exception("A volunteer with this ID does not exist.");
-            }
+            //Volunteer? isValidVolunteerId = s_dalVolunteer.Read(volunteerId);
+            //if (isValidVolunteerId == null)
+            //{
+            //    throw new Exception("A volunteer with this ID does not exist.");
+            //}
             int callID = getInt("Enter call ID: ");
-            Call? isValidCallId = s_dalCall.Read(callID);
-            if (isValidCallId == null)
-            {
-                throw new Exception("A call with this ID does not exist.");
-            }
+            //Call? isValidCallId = s_dalCall.Read(callID);
+            //if (isValidCallId == null)
+            //{
+            //    throw new Exception("A call with this ID does not exist.");
+            //}
 
             Assignment newAssignment = new()
             {
@@ -722,7 +723,7 @@ internal class Program
             //Console.ReadKey();
         }
     }
-
+    //לא ממומש
     private static void SetConfigValue()
     {
         Console.Write("Enter the name of the configuration variable: ");
@@ -734,7 +735,7 @@ internal class Program
         // Logic to set the new value for the requested variable
         Console.WriteLine($"The value of '{variable}' has been updated to '{newValue}'.");
     }
-
+    //לא ממומש
     private static void ShowConfigValue()
     {
         Console.Write("Enter the name of the configuration variable to display: ");
