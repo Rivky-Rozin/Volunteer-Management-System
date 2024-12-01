@@ -43,7 +43,7 @@ public static class Initialization
 
             Enum distanceKind = index % 2 == 0 ? DistanceKind.Aerial : DistanceKind.Ground;
             double? maxDistance = index % 2 == 0 ? s_rand.Next(1, 50) : null; // טווח בין 1 ל-50 ק"מ
-            Console.WriteLine(name);
+            //Console.WriteLine(name);
             s_dalVolunteer!.Create(new(id, name, phone, email, role, isActive, distanceKind, address, latitude, longitude, null, maxDistance));
 
         }
@@ -128,7 +128,7 @@ public static class Initialization
                 ? (TreatmentType)s_rand.Next(Enum.GetValues(typeof(TreatmentType)).Length)
                 : null;
 
-            Console.WriteLine(assignmentId + ' ' + volunteerId + ' ' + callId);
+            //Console.WriteLine(assignmentId + ' ' + volunteerId + ' ' + callId);
             // יצירת אובייקט משימה חדש
 
 
