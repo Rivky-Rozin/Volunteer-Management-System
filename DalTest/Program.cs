@@ -184,7 +184,7 @@ internal class Program
     static void ReadAllCalls()
     {
         var allCalls = s_dalCall.ReadAll();  // קורא לרשימת כל הקריאות
-        string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call => call.ToString()));
+        string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call =>  call.ToString()));
         Console.WriteLine(allCallsString);
     }
     static void UpdateCall()
@@ -683,8 +683,6 @@ internal class Program
             Console.WriteLine("5. Set a new value for a configuration variable");
             Console.WriteLine("6. Show the current value of a configuration variable");
             Console.WriteLine("7. Reset all configuration values");
-            Console.WriteLine("===============================");
-
             Console.Write("Choose an option: ");
             string? input = Console.ReadLine();
 
