@@ -685,4 +685,4 @@ internal class Program
         } while (!tryInt);
 
         return myInt;
-    }
+    } }
