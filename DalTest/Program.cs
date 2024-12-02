@@ -92,8 +92,6 @@ internal class Program
             {
                 Console.WriteLine(ex.Message);
             }
-
-
         }
     }
 
@@ -147,8 +145,7 @@ internal class Program
                     switch (selectedOption)
                     {
                         case CallMenuOption.Create:
-                            Call item = CreateNewCall(); // מתודה להוספת אובייקט חדש
-                            s_dalCall.Create(item);
+                            CreateNewCall(); // מתודה להוספת אובייקט חדש
                             Console.WriteLine("Call object created successfully.");
                             break;
                         case CallMenuOption.ReadById:
@@ -192,8 +189,10 @@ internal class Program
     static void ReadAllCalls()
     {
         var allCalls = s_dalCall.ReadAll();  // קורא לרשימת כל הקריאות
-        string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call => call.ToString()));
-        Console.WriteLine(allCallsString);
+        foreach (var call in allCalls)
+        {
+            Console.WriteLine(call);
+        }
     }
     static void DeleteAllCalls()
     {
@@ -213,7 +212,7 @@ internal class Program
             Console.WriteLine(ex.Message);
         }
     }
-    static Call? CreateNewCall()
+    static void CreateNewCall()
     {
         try
         {
@@ -222,7 +221,6 @@ internal class Program
             if (!Enum.TryParse(typeof(CallType), callTypeInput, true, out var callType) || callType == null)
             {
                 throw new Exception("Invalid call type.");
-
             }
 
             Console.Write("Enter the address: ");
@@ -268,13 +266,11 @@ internal class Program
                 throw new Exception("Invalid maximum end time format.");
             }
 
-            // Create a new Call object and return it
-            return new Call(0, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime);
+            s_dalCall.Create(new Call(0, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime));
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
-            return null;
+            Console.WriteLine(ex.Message);
         }
     }
     static void UpdateCall()
@@ -332,7 +328,7 @@ internal class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            Console.WriteLine(ex.Message);
         }
     }
     static void ReadByCallId()
@@ -344,22 +340,13 @@ internal class Program
 
             if (call != null)
             {
-                // Display call data
-                Console.WriteLine("The call found:");
-                Console.WriteLine($"ID: {call.Id}");
-                Console.WriteLine($"Call type: {call.CallType}");
-                Console.WriteLine($"Address: {call.FullAddress}");
-                Console.WriteLine($"Coordinates: ({call.Latitude}, {call.Longitude})");
-                Console.WriteLine($"Open time: {call.OpenTime}");
-                Console.WriteLine($"Description: {call.Description}");
-                Console.WriteLine($"Max end time: {(call.MaxCallTime.HasValue ? call.MaxCallTime.Value.ToString() : "Not set")}");
+                Console.WriteLine(call);
             }
             else
             {
                 Console.WriteLine("No call found with this ID.");
             }
         }
-
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
@@ -429,7 +416,7 @@ internal class Program
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine(ex.Message);
             }
 
         }
@@ -525,7 +512,7 @@ internal class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            Console.WriteLine(ex.Message);
         }
     }
     //הצגת כל המתנדבים
@@ -543,7 +530,6 @@ internal class Program
         foreach (var volunteer in volunteers)
         {
             Console.WriteLine(volunteer);
-            //Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
         }
     }
     //הצגת מתנדב לפי מספר מזהה
@@ -558,7 +544,6 @@ internal class Program
                 Console.WriteLine("A volunteer with this ID does not exist");
                 return;
             }
-            //Console.WriteLine($"ID: {volunteer.Id}, Name: {volunteer.Name}, Phone: {volunteer.Phone}, Email: {volunteer.Email}, Role: {volunteer.Role}, Active: {volunteer.IsActive}, Distance Kind: {volunteer.DistanceKind}, Address: {volunteer.Address ?? "N/A"}");
             Console.WriteLine(volunteer);
         }
         catch (Exception ex)
@@ -678,9 +663,9 @@ internal class Program
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine(ex.Message);
             }
-        } 
+        }
     }
 
     //Assignment המתודות של
@@ -699,7 +684,7 @@ internal class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            Console.WriteLine(ex.Message);
         }
     }
 
@@ -796,7 +781,6 @@ internal class Program
         foreach (var assignment in assignments)
         {
             Console.WriteLine(assignment);
-            //Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
         }
 
     }
@@ -811,17 +795,11 @@ internal class Program
                 Console.WriteLine("An assignment with this ID does not exist.");
                 return;
             }
-            //Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
             Console.WriteLine(assignment);
         }
-
-        //else
-        //{
-        //    Console.WriteLine("Invalid ID. Please enter a valid integer.");
-        //}
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            Console.WriteLine(ex.Message);
         }
     }
     private static void CreateNewAssignment()
@@ -876,8 +854,7 @@ internal class Program
     }
     #endregion
 
-    //------------------------------------------configure-----------------------------------------
-    //configure התפריט של
+    #region Configure methods 
     public static void ShowConfigurationSubMenu()
     {
         bool exit = false;
@@ -891,8 +868,7 @@ internal class Program
             Console.WriteLine("4. Advance system clock by 1 day");
             Console.WriteLine("5. Advance system clock by 1 year");
             Console.WriteLine("6. Show current system clock value");
-            Console.WriteLine("7. Set a new value for a configuration variable");
-            Console.WriteLine("8. Show the current value of a configuration variable");
+            Console.WriteLine("7. Set a new value for the system clock");
             Console.WriteLine("9. Reset all configuration values");
             Console.Write("Choose an option: ");
             string? input = Console.ReadLine();
@@ -924,10 +900,7 @@ internal class Program
                         Console.WriteLine(s_dalConfig.Clock);
                         break;
                     case ConfigurationOption.SetConfigurationVariable:
-                        SetNextCallId();
-                        break;
-                    case ConfigurationOption.ShowConfigurationValue:
-                        SetNextAssignmentId();
+                        SetSystemClock();
                         break;
                     case ConfigurationOption.ResetAllConfigurations:
                         s_dalConfig.Reset();
@@ -940,25 +913,29 @@ internal class Program
             }
         }
     }
-    private static void SetNextCallId()
-    {
-        int value = getInt("Enter the value for the id of the next call")!;
-        s_dalConfig.SetNextCallId(value);
-    }
-    private static void SetNextAssignmentId()
-    {
-        int value = getInt("Enter the value for the id of the next assignment")!;
-        s_dalConfig.SetNextAssignmentId(value);
-    }
 
+    private static void SetSystemClock()
+    {
+        Console.Write("Enter the new system clock time (format: yyyy-MM-dd HH:mm:ss): ");
+        string? input = Console.ReadLine();
 
+        if (DateTime.TryParse(input, out DateTime newValue))
+        {
+            s_dalConfig.Clock = newValue;
+            Console.WriteLine($"System clock updated to: {s_dalConfig.Clock}");
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. The system clock was not updated.");
+        }
+    }
+    #endregion
 
     //מתודת עזר לתוספת של TryParse
     static int getInt(string message)
     {
         int myInt;
         bool tryInt;
-
         do
         {
             Console.WriteLine(message);
@@ -969,7 +946,6 @@ internal class Program
                 Console.WriteLine("Please enter only numbers.");
             }
         } while (!tryInt);
-
         return myInt;
     }
 }

@@ -18,31 +18,10 @@ internal static class Config
 
     //שעון המערכת
     internal static DateTime Clock { get; set; } = DateTime.Now;
-
     internal static void Reset()
     {
         nextCallId = startCallId;
-        nextAssignmentId = StartAssignmentId;    
+        nextAssignmentId = StartAssignmentId;
         Clock = DateTime.Now;
-        //כאן צריך להיות אתחול השדה timespan
     }
-    //פונקציות שנותנות ערכים חדשים למספרים הרצים
-    internal static void SetNextCallId(int newValue)
-    {
-        nextCallId=newValue;    
-    }
-    internal static void SetNextAssignmentId(int newValue)
-    {
-        nextAssignmentId = newValue;
-    }
-    //פונקציות שמציגות את המשתנים הרצים
-    internal static void showNextCallId()
-    {
-        Console.WriteLine(nextCallId);
-    }
-    internal static void ShowNextAssignmentId()
-    {
-        Console.WriteLine(nextAssignmentId);
-    }
-
 }
