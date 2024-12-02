@@ -690,28 +690,7 @@ internal class Program
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
-    //private static void UpdateAssignment()
-    //{
-    //    try
-    //    {
-    //        int id = getInt("enter the ID to update");
-    //        Assignment? doesExist = s_dalAssignment.Read(id);
-    //        if (doesExist == null)
-    //        {
-    //            Console.WriteLine("An assignment with this ID does not exist");
-    //        }
-    //        else
-    //        {
-    //            Assignment? updatedAssignment = CreateNewAssignment(id); // מתודה לעדכון אובייקט קיים
-    //            s_dalAssignment.Update(updatedAssignment);
-    //            Console.WriteLine("Assignment updated successfully!");
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Console.WriteLine(ex.Message);
-    //    }
-    //}
+   
     private static void UpdateAssignment()
     {
         try
@@ -897,6 +876,8 @@ internal class Program
             Console.WriteLine("1. Exit the submenu");
             Console.WriteLine("2. Advance system clock by 1 minute");
             Console.WriteLine("3. Advance system clock by 1 hour");
+            Console.WriteLine("2. Advance system clock by 1 day");
+            Console.WriteLine("3. Advance system clock by 1 year");
             Console.WriteLine("4. Show current system clock value");
             Console.WriteLine("5. Set a new value for a configuration variable");
             Console.WriteLine("6. Show the current value of a configuration variable");
@@ -918,15 +899,23 @@ internal class Program
                     Console.WriteLine("System clock advanced by 1 hour.");
                     break;
                 case "4":
-                    Console.WriteLine(s_dalConfig.Clock);
+                    s_dalConfig.Clock = s_dalConfig.Clock.AddDays(1);
+                    Console.WriteLine("System clock advanced by 1 day.");
                     break;
                 case "5":
-                    SetNextCallId();
+                    s_dalConfig.Clock = s_dalConfig.Clock.AddYears(1);
+                    Console.WriteLine("System clock advanced by 1 year.");
                     break;
                 case "6":
-                    //ShowConfigValue();
+                    Console.WriteLine(s_dalConfig.Clock);
                     break;
                 case "7":
+                    SetNextCallId();
+                    break;
+                case "8":
+                    //ShowConfigValue();
+                    break;
+                case "9":
                     s_dalConfig.Reset();
                     Console.WriteLine("All configuration values have been reset.");
                     break;
