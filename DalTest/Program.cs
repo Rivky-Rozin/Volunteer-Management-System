@@ -161,115 +161,32 @@ internal class Program
                         break;
                     case "0":
                         exit = true;
-                        Console.WriteLine("יציאה מתת-תפריט...");
+                        Console.WriteLine("Exitting submenu...");
                         break;
                     default:
-                        Console.WriteLine("אופציה לא חוקית, נסה שנית.");
+                        Console.WriteLine("Invalid option. try again.");
                         break;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"שגיאה: {ex.Message}");
+                Console.WriteLine(ex.Message);
             }
 
-            if (!exit)
-            {
-                Console.WriteLine("\nלחץ על מקש כלשהו כדי להמשיך...");
-                Console.ReadKey();
-            }
+            //if (!exit)
+            //{
+            //    Console.WriteLine("\nלחץ על מקש כלשהו כדי להמשיך...");
+            //    Console.ReadKey();
+            //}
         }
     }
     //המתודות של call
     static void ReadAllCalls()
     {
         var allCalls = s_dalCall.ReadAll();  // קורא לרשימת כל הקריאות
-        string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call =>  call.ToString()));
+        string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call => call.ToString()));
         Console.WriteLine(allCallsString);
     }
-    //static void UpdateCall()
-    //{ 
-    //    int id = getInt("Enter ID");
-    //    // Find the object by ID
-    //    Call? callToUpdate = s_dalCall.Read(id);
-    //    if (callToUpdate == null)
-    //    {
-    //        Console.WriteLine("No call found with the given ID.");
-    //        return;
-    //    }
-
-    //    Console.WriteLine("Current call details:");
-    //    Console.WriteLine(callToUpdate);
-
-    //    // Update call type
-    //    Console.Write("Enter new call type (or leave blank to keep current): ");
-    //    string callTypeInput = Console.ReadLine();
-    //    if (!string.IsNullOrWhiteSpace(callTypeInput))
-    //    {
-    //        Enum.TryParse(typeof(CallType), callTypeInput, true, out object? callType) ;
-    //    }
-
-    //    // Update address
-    //    Console.Write("Enter new address (or leave blank to keep current): ");
-    //    string addressInput = Console.ReadLine();
-    //    if (!string.IsNullOrWhiteSpace(addressInput)) {
-    //        addressInput=callToUpdate.FullAddress;
-    //    }
-
-
-    //    // Update latitude
-    //    Console.Write("Enter new latitude (or leave blank to keep current): ");
-    //    string latitudeInput = Console.ReadLine();
-    //    if (string.IsNullOrWhiteSpace(latitudeInput) && double.TryParse(latitudeInput, out double latitude))
-    //    {
-    //        latitude = callToUpdate.Latitude;
-    //    }
-
-
-    //    // Update longitude
-    //    Console.Write("Enter new longitude (or leave blank to keep current): ");
-    //    string longitudeInput = Console.ReadLine();
-    //    if (!string.IsNullOrWhiteSpace(longitudeInput) && double.TryParse(longitudeInput, out double longitude))
-    //    {
-    //        callToUpdate.Longitude = longitude;
-    //    }
-    //    else if (!string.IsNullOrWhiteSpace(longitudeInput))
-    //    {
-    //        Console.WriteLine("Invalid longitude. No changes made.");
-    //    }
-
-    //    // Update open time
-    //    Console.Write("Enter new open time (yyyy-MM-dd HH:mm:ss or leave blank to keep current): ");
-    //    string openTimeInput = Console.ReadLine();
-    //    if (!string.IsNullOrWhiteSpace(openTimeInput) && DateTime.TryParse(openTimeInput, out DateTime openTime))
-    //    {
-    //        callToUpdate.OpenTime = openTime;
-    //    }
-    //    else if (!string.IsNullOrWhiteSpace(openTimeInput))
-    //    {
-    //        Console.WriteLine("Invalid open time. No changes made.");
-    //    }
-
-    //    // Update description
-    //    Console.Write("Enter new description (or leave blank to keep current): ");
-    //    string descriptionInput = Console.ReadLine();
-    //    if (!string.IsNullOrWhiteSpace(descriptionInput))
-    //    {
-    //        callToUpdate.Description = descriptionInput;
-    //    }
-
-    //    // Update max call time
-    //    Console.Write("Enter new maximum call time (yyyy-MM-dd HH:mm:ss or leave blank to keep current): ");
-    //    string maxCallTimeInput = Console.ReadLine();
-    //    if (!string.IsNullOrWhiteSpace(maxCallTimeInput) && DateTime.TryParse(maxCallTimeInput, out DateTime maxCallTime))
-    //    {
-    //        callToUpdate.MaxCallTime = maxCallTime;
-    //    }
-    //    else if (!string.IsNullOrWhiteSpace(maxCallTimeInput))
-    //    {
-    //        Console.WriteLine("Invalid maximum call time. No changes made.");
-    //    }
-    //}
     static void DeleteAllCalls()
     {
         s_dalCall.DeleteAll();
@@ -297,7 +214,7 @@ internal class Program
             if (!Enum.TryParse(typeof(CallType), callTypeInput, true, out var callType) || callType == null)
             {
                 throw new Exception("Invalid call type.");
-                
+
             }
 
             Console.Write("Enter the address: ");
@@ -305,14 +222,14 @@ internal class Program
             if (string.IsNullOrEmpty(address))
             {
                 throw new Exception("Address cannot be empty.");
-              
+
             }
 
             Console.Write("Enter the latitude: ");
             if (!double.TryParse(Console.ReadLine(), out double latitude))
             {
                 throw new Exception("Invalid latitude.");
-                
+
             }
 
             Console.Write("Enter the longitude: ");
@@ -324,7 +241,7 @@ internal class Program
             Console.Write("Enter the open time (format: yyyy-MM-dd HH:mm:ss): ");
             if (!DateTime.TryParse(Console.ReadLine(), out DateTime openTime))
             {
-                throw new Exception ("Invalid open time format.");
+                throw new Exception("Invalid open time format.");
             }
 
             Console.Write("Enter a description (optional): ");
@@ -344,7 +261,7 @@ internal class Program
             }
 
             // Create a new Call object and return it
-            return new Call(id, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime);
+            return new Call(0, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime);
         }
         catch (Exception ex)
         {
@@ -352,62 +269,64 @@ internal class Program
             return null;
         }
     }
-    static Call? UpdateCall()
+    static void UpdateCall()
     {
         try
         {
             int id = getInt("Enter the ID of the Call");
-
-
+            Call? callToUpdate = s_dalCall.Read(id);
+            if (callToUpdate == null)
+            {
+                throw new Exception("A call with this ID does not exist");
+            }
+            Console.WriteLine("Current values for this call: " + callToUpdate);
 
             Console.Write("Enter the call type (Technical, Food, etc.): ");
             string? callTypeInput = Console.ReadLine();
             if (string.IsNullOrEmpty(callTypeInput) || !Enum.TryParse(typeof(CallType), callTypeInput, true, out var callType) || callType == null)
             {
-                throw new Exception("Invalid call type.");
+                callType = callToUpdate.GetType();
             }
 
             Console.Write("Enter the address: ");
             string? address = Console.ReadLine();
-            address = string.IsNullOrEmpty(address) ? "0" : address;
+            address = string.IsNullOrEmpty(address) ? callToUpdate.FullAddress : address;
 
             Console.Write("Enter the latitude: ");
             string? latitudeInput = Console.ReadLine();
-            double latitude = string.IsNullOrEmpty(latitudeInput) ? 0 : double.TryParse(latitudeInput, out var lat) ? lat : 0;
+            double latitude = string.IsNullOrEmpty(latitudeInput) ? callToUpdate.Latitude : double.TryParse(latitudeInput, out var lat) ? lat : callToUpdate.Latitude;
 
             Console.Write("Enter the longitude: ");
             string? longitudeInput = Console.ReadLine();
-            double longitude = string.IsNullOrEmpty(longitudeInput) ? 0 : double.TryParse(longitudeInput, out var lon) ? lon : 0;
+            double longitude = string.IsNullOrEmpty(longitudeInput) ? callToUpdate.Longitude : double.TryParse(longitudeInput, out var lon) ? lon : callToUpdate.Longitude;
 
             Console.Write("Enter the open time (format: yyyy-MM-dd HH:mm:ss): ");
             string? openTimeInput = Console.ReadLine();
             DateTime openTime = string.IsNullOrEmpty(openTimeInput) || !DateTime.TryParse(openTimeInput, out var parsedOpenTime)
-                ? DateTime.MinValue
+                ? callToUpdate.OpenTime
                 : parsedOpenTime;
 
             Console.Write("Enter a description (optional): ");
             string? description = Console.ReadLine();
-            description = string.IsNullOrEmpty(description) ? "0" : description;
+            description = string.IsNullOrEmpty(description) ? callToUpdate.Description : description;
 
             Console.Write("Enter the maximum end time (format: yyyy-MM-dd HH:mm:ss) or leave blank if none: ");
             string? maxCallTimeInput = Console.ReadLine();
             DateTime? maxCallTime = string.IsNullOrEmpty(maxCallTimeInput)
-                ? null
+                ? callToUpdate.MaxCallTime
                 : DateTime.TryParse(maxCallTimeInput, out var parsedMaxCallTime)
                     ? parsedMaxCallTime
-                    : null;
+                    : callToUpdate.MaxCallTime;
 
             // Create a new Call object and return it
-            return new Call(id, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime);
+            Call updatedCall = new Call(id, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime);
+            s_dalCall.Update(updatedCall);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"An error occurred: {ex.Message}");
-            return null;
         }
     }
-
-
     static void ReadByCallId()
     {
         try
@@ -531,29 +450,71 @@ internal class Program
     {
         try
         {
-            int id = getInt("enter the ID to update");
-            Volunteer? doesExist = s_dalVolunteer.Read(id);
-            if (doesExist == null)
+            int id = getInt("Enter the ID of the volunteer to update: ");
+            Volunteer? volunteerToUpdate = s_dalVolunteer.Read(id);
+            if (volunteerToUpdate == null)
             {
-                throw new Exception("A volunteer with this ID does not exist");           
+                throw new Exception("A volunteer with this ID does not exist.");
             }
-            else
+            Console.WriteLine(volunteerToUpdate);
+
+            Console.Write("Enter volunteer name: ");
+            string? name = Console.ReadLine();
+            name = string.IsNullOrWhiteSpace(name) ? volunteerToUpdate.Name : name;
+
+            Console.Write("Enter phone number: ");
+            string? phone = Console.ReadLine();
+            phone = string.IsNullOrWhiteSpace(phone) ? volunteerToUpdate.Phone : phone;
+
+            Console.Write("Enter email address: ");
+            string? email = Console.ReadLine();
+            email = string.IsNullOrWhiteSpace(email) ? volunteerToUpdate.Email : email;
+
+            Console.WriteLine("Choose volunteer role [0 for Regular, 1 for Manager]: ");
+            VolunteerRole role = volunteerToUpdate.Role;
+            if (Enum.TryParse<VolunteerRole>(Console.ReadLine(), out var parsedRole))
             {
-                //יוצר וולנטיר חדש ומכניס אותו למערך. הבעיה שמדובר בעדכון וולנטיר, ואז הוא מתריע שהוולנטיר קיים כבר .
-                Volunteer updatedVolunteer = createNewVolunteer(id); // מתודה לעדכון אובייקט קיים
-                s_dalVolunteer.Update(updatedVolunteer);
-                Console.WriteLine("Volunteer updated successfully!");
+                role = parsedRole;
             }
 
-            Console.WriteLine("Enter new ID");
-            string idInput = Console.ReadLine();
-            int Id;
-            string.IsNullOrWhiteSpace(idInput) ? Id = doesExist.Id : Id = int.Parse(idInput);
-        
+            Console.WriteLine("Is the volunteer active? [yes/no]: ");
+            string? isActiveInput = Console.ReadLine();
+            bool isActive = isActiveInput == null
+                ? volunteerToUpdate.IsActive // אם לא הוזן כלום, שמור את הערך הנוכחי
+                : isActiveInput.ToLower() == "yes"
+                    ? true // עדכן ל-"פעיל" אם הוזן "yes"
+                    : isActiveInput.ToLower() == "no"
+                        ? false // עדכן ל-"לא פעיל" אם הוזן "no"
+                        : volunteerToUpdate.IsActive; // שמור את הערך הנוכחי אם הקלט לא חוקי
+
+            Console.WriteLine("Choose distance kind [0 for Aerial, 1 for Ground]: ");
+            DistanceKind distanceKind = (DistanceKind)volunteerToUpdate.DistanceKind;
+            if (Enum.TryParse<DistanceKind>(Console.ReadLine(), out var parsedDistanceKind))
+            {
+                distanceKind = parsedDistanceKind;
+            }
+
+            Console.Write("Enter address: ");
+            string? address = Console.ReadLine();
+            address = string.IsNullOrWhiteSpace(address) ? volunteerToUpdate.Address : address;
+
+            Volunteer updatedVolunteer = new Volunteer(
+                id,
+                name,
+                phone,
+                email,
+                role,
+                isActive,
+                distanceKind,
+                address
+            );
+
+            s_dalVolunteer.Update(updatedVolunteer);
+            Console.WriteLine("Volunteer updated successfully!");
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
     //הצגת כל המתנדבים
@@ -729,28 +690,107 @@ internal class Program
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
+    //private static void UpdateAssignment()
+    //{
+    //    try
+    //    {
+    //        int id = getInt("enter the ID to update");
+    //        Assignment? doesExist = s_dalAssignment.Read(id);
+    //        if (doesExist == null)
+    //        {
+    //            Console.WriteLine("An assignment with this ID does not exist");
+    //        }
+    //        else
+    //        {
+    //            Assignment? updatedAssignment = CreateNewAssignment(id); // מתודה לעדכון אובייקט קיים
+    //            s_dalAssignment.Update(updatedAssignment);
+    //            Console.WriteLine("Assignment updated successfully!");
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Console.WriteLine(ex.Message);
+    //    }
+    //}
     private static void UpdateAssignment()
     {
         try
         {
-            int id = getInt("enter the ID to update");
-            Assignment? doesExist = s_dalAssignment.Read(id);
-            if (doesExist == null)
+            // בקש מזהה של המשימה לעדכון
+            int id = getInt("Enter the ID of the Assignment to update: ");
+            Assignment? assignmentToUpdate = s_dalAssignment.Read(id);
+
+            // בדיקה אם המשימה קיימת
+            if (assignmentToUpdate == null)
             {
-                Console.WriteLine("An assignment with this ID does not exist");
+                throw new Exception("An assignment with this ID does not exist.");
             }
-            else
-            {
-                Assignment? updatedAssignment = CreateNewAssignment(id); // מתודה לעדכון אובייקט קיים
-                s_dalAssignment.Update(updatedAssignment);
-                Console.WriteLine("Assignment updated successfully!");
-            }
+
+            Console.WriteLine(assignmentToUpdate);
+
+            //  Id של מתנדב
+            Console.WriteLine("Enter volunteer ID: ");
+            string? volunteerIdInput = Console.ReadLine();
+            int volunteerId = string.IsNullOrEmpty(volunteerIdInput)
+                ? assignmentToUpdate.Id
+                : int.TryParse(volunteerIdInput, out var parsedVolunteerId)
+                    ? parsedVolunteerId
+                    : assignmentToUpdate.Id;
+
+            //  ID של קריאה
+            Console.WriteLine("Enter call ID: ");
+            string? callIdInput = Console.ReadLine();
+            int callId = string.IsNullOrEmpty(callIdInput)
+                ? assignmentToUpdate.CallId
+                : int.TryParse(callIdInput, out var parsedCallId)
+                    ? parsedCallId
+                    : assignmentToUpdate.CallId;
+
+            // בקש זמן תחילת טיפול
+            Console.WriteLine("Enter start treatment time: ");
+            string? startTreatmentInput = Console.ReadLine();
+            DateTime startTreatment = string.IsNullOrEmpty(startTreatmentInput) || !DateTime.TryParse(startTreatmentInput, out var parsedStartTreatment)
+                ? assignmentToUpdate.StartTreatment
+                : parsedStartTreatment;
+
+            // בקש זמן סיום טיפול
+            Console.WriteLine("Enter end treatment time: ");
+            string? endTreatmentInput = Console.ReadLine();
+            DateTime? endTreatment = string.IsNullOrEmpty(endTreatmentInput)
+                ? assignmentToUpdate.EndTreatment
+                : DateTime.TryParse(endTreatmentInput, out var parsedEndTreatment)
+                    ? parsedEndTreatment
+                    : assignmentToUpdate.EndTreatment;
+
+            // בקש סוג טיפול
+            Console.WriteLine("Enter treatment type: ");
+            string? treatmentTypeInput = Console.ReadLine();
+            TreatmentType? treatmentType = string.IsNullOrEmpty(treatmentTypeInput) || !Enum.TryParse<TreatmentType>(treatmentTypeInput, true, out var parsedTreatmentType)
+                ? assignmentToUpdate.TreatmentType
+                : parsedTreatmentType;
+
+
+            // יצירת מופע מעודכן
+            Assignment updatedAssignment = new(
+                id,
+                volunteerId,
+                callId,
+                startTreatment,
+                endTreatment,
+                treatmentType
+            );
+
+            // עדכון בבסיס הנתונים
+            s_dalAssignment.Update(updatedAssignment);
+
+            Console.WriteLine("Assignment updated successfully.");
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
     }
+
     private static void ReadAllAssignments()
     {
         List<Assignment> assignments = s_dalAssignment.ReadAll();
@@ -765,7 +805,7 @@ internal class Program
         foreach (var assignment in assignments)
         {
             Console.WriteLine(assignment);
-         //Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
+            //Console.WriteLine($"ID: {assignment.Id}, Volunteer ID: {assignment.VolunteerId}, Call ID: {assignment.CallId}");
         }
 
     }
@@ -793,38 +833,54 @@ internal class Program
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
-    private static Assignment? CreateNewAssignment(int id = 0)
+    private static void CreateNewAssignment()
     {
         try
         {
+            // בקש מזהה מתנדב
             int volunteerId = getInt("Enter volunteer ID: ");
-            //Volunteer? isValidVolunteerId = s_dalVolunteer.Read(volunteerId);
-            //if (isValidVolunteerId == null)
-            //{
-            //    throw new Exception("A volunteer with this ID does not exist.");
-            //}
-            int callID = getInt("Enter call ID: ");
-            //Call? isValidCallId = s_dalCall.Read(callID);
-            //if (isValidCallId == null)
-            //{
-            //    throw new Exception("A call with this ID does not exist.");
-            //}
 
-            Assignment newAssignment = new()
+            // בקש מזהה קריאה
+            int callId = getInt("Enter call ID: ");
+
+            // בקש זמן תחילת טיפול
+            Console.WriteLine("Enter start treatment time (format: yyyy-MM-dd HH:mm:ss): ");
+            string? startTreatmentInput = Console.ReadLine();
+            if (string.IsNullOrEmpty(startTreatmentInput) || !DateTime.TryParse(startTreatmentInput, out var startTreatment))
             {
-                Id = id,
-                VolunteerId = volunteerId,
-                CallId = callID
-            };
+                throw new Exception("Start treatment time is mandatory and must be in a valid format.");
+            }
 
+            // בקש זמן סיום טיפול
+            Console.WriteLine("Enter end treatment time (format: yyyy-MM-dd HH:mm:ss) or leave blank for none: ");
+            string? endTreatmentInput = Console.ReadLine();
+            DateTime? endTreatment = string.IsNullOrEmpty(endTreatmentInput)
+                ? null
+                : DateTime.TryParse(endTreatmentInput, out var parsedEndTreatment)
+                    ? parsedEndTreatment
+                    : throw new Exception("Invalid end treatment time format.");
+
+            // בקש סוג טיפול
+            Console.WriteLine("Enter treatment type (Technical, Food, etc.) or leave blank for none: ");
+            string? treatmentTypeInput = Console.ReadLine();
+            TreatmentType? treatmentType = string.IsNullOrEmpty(treatmentTypeInput) || !Enum.TryParse<TreatmentType>(treatmentTypeInput, true, out var parsedTreatmentType)
+                ? null
+                : parsedTreatmentType;
+
+            // יצירת המופע
+            Assignment newAssignment = new(
+                0,
+                volunteerId,
+                callId,
+                startTreatment,
+                endTreatment,
+                treatmentType
+            );
             s_dalAssignment.Create(newAssignment);
-
-            return id != 0 ? newAssignment : null;
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            return null;
         }
     }
     #endregion
@@ -868,7 +924,7 @@ internal class Program
                     SetNextCallId();
                     break;
                 case "6":
-                    ShowConfigValue();
+                    //ShowConfigValue();
                     break;
                 case "7":
                     s_dalConfig.Reset();
@@ -883,28 +939,19 @@ internal class Program
             //Console.ReadKey();
         }
     }
-    //לא ממומש
+
     private static void SetNextCallId()
     {
-        Console.Write("Enter the value of the next ID: ");
-        int? variable = Console.ReadLine();
-
-        Console.Write("Enter a new value: ");
-        int? newValue = int.Parse(Console.ReadLine());
-        
-        // Logic to set the new value for the requested variable
-        Console.WriteLine($"The value of has been updated to '{newValue}'.");
+        int value = getInt("Enter the value for the id of the next call")!;
+        s_dalConfig.SetNextCallId(value);
     }
-    //לא ממומש
-    private static void ShowConfigValue()
+    private static void SetNextAssignmentId()
     {
-        Console.Write("Enter the name of the configuration variable to display: ");
-        string? variable = Console.ReadLine();
-
-        // Logic to display the current value of the requested variable
-        Console.WriteLine($"The current value of '{variable}': <Not implemented>.");
+        int value = getInt("Enter the value for the id of the next assignment")!;
+        s_dalConfig.SetNextAssignmentId(value);
     }
-    
+
+
 
     //מתודת עזר לתוספת של TryParse
     static int getInt(string message)
@@ -924,4 +971,5 @@ internal class Program
         } while (!tryInt);
 
         return myInt;
-    } }
+    }
+}

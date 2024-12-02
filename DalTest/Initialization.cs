@@ -15,8 +15,6 @@ public static class Initialization
     private static IConfig? s_dalConfig = new ConfigImplementation(); //stage 1
     private static readonly Random s_rand = new();
 
-
-
     private static void createVolunteers()
     {
 
@@ -38,17 +36,16 @@ public static class Initialization
             double? latitude = index % 2 == 0 ? s_rand.NextDouble() * 2 + 31 : null; // בין 31 ל-33
             double? longitude = index % 2 == 0 ? s_rand.NextDouble() * 2 + 34 : null; // בין 34 ל-36
 
-            Enum role = index % 5 == 0 ? VolunteerRole.Manager : VolunteerRole.Regular;
+            VolunteerRole role = index % 5 == 0 ? VolunteerRole.Manager : VolunteerRole.Regular;
             bool isActive = index % 2 == 0;
 
-            Enum distanceKind = index % 2 == 0 ? DistanceKind.Aerial : DistanceKind.Ground;
+            DistanceKind distanceKind = index % 2 == 0 ? DistanceKind.Aerial : DistanceKind.Ground;
             double? maxDistance = index % 2 == 0 ? s_rand.Next(1, 50) : null; // טווח בין 1 ל-50 ק"מ
             //Console.WriteLine(name);
             s_dalVolunteer!.Create(new(id, name, phone, email, role, isActive, distanceKind, address, latitude, longitude, null, maxDistance));
 
         }
     }
-
     private static void createCalls()
     {
         // מערך כתובות אפשריות
@@ -90,8 +87,6 @@ public static class Initialization
 
         }
     }
-
-
     private static void createAssignments()
     {
         // רשימות לדוגמה של מזהי מתנדבים ושיחות
@@ -124,7 +119,7 @@ public static class Initialization
                 : null;
 
             // בחירת סוג טיפול (רנדומלי או null)
-            Enum? treatmentType = (s_rand.Next(0, 2) == 0)
+            TreatmentType? treatmentType = (s_rand.Next(0, 2) == 0)
                 ? (TreatmentType)s_rand.Next(Enum.GetValues(typeof(TreatmentType)).Length)
                 : null;
 

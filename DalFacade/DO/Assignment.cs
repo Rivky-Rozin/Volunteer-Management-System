@@ -16,7 +16,7 @@ public record Assignment
    int CallId,
    DateTime StartTreatment ,
    DateTime? EndTreatment=null ,
-   Enum? TreatmentType=null
+   TreatmentType? TreatmentType=null
 
 )
 {
