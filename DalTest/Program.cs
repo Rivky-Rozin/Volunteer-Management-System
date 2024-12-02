@@ -45,40 +45,47 @@ internal class Program
             Console.WriteLine("0. Exit");
             Console.Write("Select an option: ");
 
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
+
             try
             {
-                switch (choice)
+                if (Enum.TryParse(choice, out MainMenuOption selectedOption))
                 {
-                    case "1":
-                        ShowEntityCall(); // מתודה להצגת תת-תפריט עבור ישות Call
-                        break;
-                    case "2":
-                        ShowEntityAssignment(); // מתודה להצגת תת-תפריט עבור ישות Assignment
-                        break;
-                    case "3":
-                        ShowEntityVolunteer(); // מתודה להצגת תת-תפריט עבור ישות Volunteer
-                        break;
-                    case "4":
-                        InitializeAll();
-                        break;
-                    case "5":
-                        DisplayAllData(); // מתודה שמציגה את כל הנתונים בבסיס הנתונים
-                        break;
-                    case "6":
-                        ShowConfigurationSubMenu(); // מתודה להצגת תפריט ישות תצורה
-                        break;
-                    case "7":
-                        ResetDatabase(); // מתודה שמאפסת את בסיס הנתונים ואת נתוני התצורה
-
-                        break;
-                    case "0":
-                        exit = true;
-                        Console.WriteLine("Exiting main menu");
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option, please try again");
-                        break;
+                    switch (selectedOption)
+                    {
+                        case MainMenuOption.DisplaySubmenuForEntityCall:
+                            ShowEntityCall(); // מתודה להצגת תת-תפריט עבור ישות Call
+                            break;
+                        case MainMenuOption.DisplaySubmenuForEntityAssignment:
+                            ShowEntityAssignment(); // מתודה להצגת תת-תפריט עבור ישות Assignment
+                            break;
+                        case MainMenuOption.DisplaySubmenuForEntityVolunteer:
+                            ShowEntityVolunteer(); // מתודה להצגת תת-תפריט עבור ישות Volunteer
+                            break;
+                        case MainMenuOption.InitializeData:
+                            InitializeAll();
+                            break;
+                        case MainMenuOption.DisplayAllData:
+                            DisplayAllData(); // מתודה שמציגה את כל הנתונים בבסיס הנתונים
+                            break;
+                        case MainMenuOption.DisplayConfigurationSubMenu:
+                            ShowConfigurationSubMenu(); // מתודה להצגת תפריט ישות תצורה
+                            break;
+                        case MainMenuOption.ResetDatabase:
+                            ResetDatabase(); // מתודה שמאפסת את בסיס הנתונים ואת נתוני התצורה
+                            break;
+                        case MainMenuOption.Exit:
+                            exit = true;
+                            Console.WriteLine("Exiting main menu");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid option, please try again");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input, please enter a valid option.");
                 }
             }
             catch (Exception ex)
@@ -86,13 +93,10 @@ internal class Program
                 Console.WriteLine(ex.Message);
             }
 
-            //if (!exit)
-            //{
-            //    Console.WriteLine("press any key to continue");
-            //    Console.ReadKey();
-            //}
+
         }
     }
+
     //אתחול הכל
     private static void InitializeAll()
     {
@@ -134,52 +138,56 @@ internal class Program
             Console.WriteLine("0. Exit");
             Console.Write("Choose an option: ");
 
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
 
             try
             {
-                switch (choice)
+                if (Enum.TryParse(choice, out CallMenuOption selectedOption))
                 {
-                    case "1":
-                        Call item = CreateNewCall(); // מתודה להוספת אובייקט חדש
-                        s_dalCall.Create(item);
-                        break;
-                    case "2":
-                        ReadByCallId(); // מתודה להצגת אובייקט לפי מזהה
-                        break;
-                    case "3":
-                        ReadAllCalls();
-                        break;
-                    case "4":
-                        UpdateCall();
-                        break;
-                    case "5":
-                        DeleteCall(); // מתודה למחיקת אובייקט לפי מזהה
-                        break;
-                    case "6":
-                        s_dalCall.DeleteAll(); // מתודה למחיקת כל האובייקטים
-                        break;
-                    case "0":
-                        exit = true;
-                        Console.WriteLine("Exitting submenu...");
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option. try again.");
-                        break;
+                    switch (selectedOption)
+                    {
+                        case CallMenuOption.Create:
+                            Call item = CreateNewCall(); // מתודה להוספת אובייקט חדש
+                            s_dalCall.Create(item);
+                            Console.WriteLine("Call object created successfully.");
+                            break;
+                        case CallMenuOption.ReadById:
+                            ReadByCallId(); // מתודה להצגת אובייקט לפי מזהה
+                            break;
+                        case CallMenuOption.ReadAll:
+                            ReadAllCalls();
+                            break;
+                        case CallMenuOption.Update:
+                            UpdateCall();
+                            break;
+                        case CallMenuOption.Delete:
+                            DeleteCall(); // מתודה למחיקת אובייקט לפי מזהה
+                            break;
+                        case CallMenuOption.DeleteAll:
+                            s_dalCall.DeleteAll(); // מתודה למחיקת כל האובייקטים
+                            Console.WriteLine("All call objects deleted successfully.");
+                            break;
+                        case CallMenuOption.Exit:
+                            exit = true;
+                            Console.WriteLine("Exiting submenu...");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid option. Try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid option.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
-            //if (!exit)
-            //{
-            //    Console.WriteLine("\nלחץ על מקש כלשהו כדי להמשיך...");
-            //    Console.ReadKey();
-            //}
         }
     }
+
     //המתודות של call
     static void ReadAllCalls()
     {
@@ -369,7 +377,7 @@ internal class Program
         while (!exit)
         {
             //Console.Clear();
-            Console.WriteLine("=== Menu for volunteer Entity ===");
+            Console.WriteLine("=== Menu for Volunteer Entity ===");
             Console.WriteLine("1. Add a new volunteer (Create)");
             Console.WriteLine("2. Display volunteer by ID (Read)");
             Console.WriteLine("3. Display all volunteers (ReadAll)");
@@ -379,51 +387,54 @@ internal class Program
             Console.WriteLine("0. Exit");
             Console.Write("Choose an option: ");
 
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
 
             try
             {
-                switch (choice)
+                if (Enum.TryParse(choice, out VolunteerMenuOption selectedOption))
                 {
-                    case "1":
-                        createNewVolunteer(); // מתודה להוספת אובייקט חדש
-                        break;
-                    case "2":
-                        ReadVolunteerlById(); // מתודה להצגת אובייקט לפי מזהה
-                        break;
-                    case "3":
-                        ReadAllVolunteers(); // מתודה להצגת כל האובייקטים
-                        break;
-                    case "4":
-                        UpdateVolunteer(); // מתודה לעדכון אובייקט קיים
-                        break;
-                    case "5":
-                        DeleteVolunteerById(); // מתודה למחיקת אובייקט לפי מזהה
-                        break;
-                    case "6":
-                        DeleteAllVolunteers(); // מתודה למחיקת כל האובייקטים
-                        break;
-                    case "0":
-                        exit = true;
-                        Console.WriteLine("Exiting menu");
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option, try again");
-                        break;
+                    switch (selectedOption)
+                    {
+                        case VolunteerMenuOption.Create:
+                            createNewVolunteer(); // מתודה להוספת אובייקט חדש
+                            break;
+                        case VolunteerMenuOption.ReadById:
+                            ReadVolunteerlById(); // מתודה להצגת אובייקט לפי מזהה
+                            break;
+                        case VolunteerMenuOption.ReadAll:
+                            ReadAllVolunteers(); // מתודה להצגת כל האובייקטים
+                            break;
+                        case VolunteerMenuOption.Update:
+                            UpdateVolunteer(); // מתודה לעדכון אובייקט קיים
+                            break;
+                        case VolunteerMenuOption.Delete:
+                            DeleteVolunteerById(); // מתודה למחיקת אובייקט לפי מזהה
+                            break;
+                        case VolunteerMenuOption.DeleteAll:
+                            DeleteAllVolunteers(); // מתודה למחיקת כל האובייקטים
+                            break;
+                        case VolunteerMenuOption.Exit:
+                            exit = true;
+                            Console.WriteLine("Exiting menu...");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid option, try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid option.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error: {ex.Message}");
             }
 
-            //if (!exit)
-            //{
-            //    Console.WriteLine("press any key to continue");
-            //    Console.ReadKey();
-            //}
         }
     }
+
     //volunteer המתודות של
     //מחיקת כל המתנדבים
     private static void DeleteAllVolunteers()
@@ -620,57 +631,58 @@ internal class Program
             Console.WriteLine("2. Display assignment by ID (Read)");
             Console.WriteLine("3. Display all assignments (ReadAll)");
             Console.WriteLine("4. Update an existing assignment (Update)");
-            Console.WriteLine("5. Delete a assignment from the list (Delete)");
+            Console.WriteLine("5. Delete an assignment from the list (Delete)");
             Console.WriteLine("6. Delete all assignments from the list (DeleteAll)");
             Console.WriteLine("0. Exit");
             Console.Write("Choose an option: ");
 
-
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
 
             try
             {
-                switch (choice)
+                if (Enum.TryParse(choice, out AssignmentMenuOption selectedOption))
                 {
-                    case "1":
-                        CreateNewAssignment(); // מתודה להוספת אובייקט חדש
-                        break;
-                    case "2":
-                        ReadAssignmentById(); // מתודה להצגת אובייקט לפי מזהה
-                        break;
-                    case "3":
-                        ReadAllAssignments(); // מתודה להצגת כל האובייקטים
-                        break;
-                    case "4":
-                        UpdateAssignment(); // מתודה לעדכון אובייקט קיים
-                        break;
-                    case "5":
-                        DeleteAssignmentById(); // מתודה למחיקת אובייקט לפי מזהה
-                        break;
-                    case "6":
-                        DeleteAllAssignments(); // מתודה למחיקת כל האובייקטים
-                        break;
-                    case "0":
-                        exit = true;
-                        Console.WriteLine("Exiting menu");
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option, try again");
-                        break;
+                    switch (selectedOption)
+                    {
+                        case AssignmentMenuOption.Create:
+                            CreateNewAssignment(); // מתודה להוספת אובייקט חדש
+                            break;
+                        case AssignmentMenuOption.ReadById:
+                            ReadAssignmentById(); // מתודה להצגת אובייקט לפי מזהה
+                            break;
+                        case AssignmentMenuOption.ReadAll:
+                            ReadAllAssignments(); // מתודה להצגת כל האובייקטים
+                            break;
+                        case AssignmentMenuOption.Update:
+                            UpdateAssignment(); // מתודה לעדכון אובייקט קיים
+                            break;
+                        case AssignmentMenuOption.Delete:
+                            DeleteAssignmentById(); // מתודה למחיקת אובייקט לפי מזהה
+                            break;
+                        case AssignmentMenuOption.DeleteAll:
+                            DeleteAllAssignments(); // מתודה למחיקת כל האובייקטים
+                            break;
+                        case AssignmentMenuOption.Exit:
+                            exit = true;
+                            Console.WriteLine("Exiting menu...");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid option, try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid option.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
-            //if (!exit)
-            //{
-            //    Console.WriteLine("press any key to continue");
-            //    Console.ReadKey();
-            //}
-        }
+        } 
     }
+
     //Assignment המתודות של
     private static void DeleteAllAssignments()
     {
@@ -690,7 +702,7 @@ internal class Program
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
-   
+
     private static void UpdateAssignment()
     {
         try
@@ -876,59 +888,58 @@ internal class Program
             Console.WriteLine("1. Exit the submenu");
             Console.WriteLine("2. Advance system clock by 1 minute");
             Console.WriteLine("3. Advance system clock by 1 hour");
-            Console.WriteLine("2. Advance system clock by 1 day");
-            Console.WriteLine("3. Advance system clock by 1 year");
-            Console.WriteLine("4. Show current system clock value");
-            Console.WriteLine("5. Set a new value for a configuration variable");
-            Console.WriteLine("6. Show the current value of a configuration variable");
-            Console.WriteLine("7. Reset all configuration values");
+            Console.WriteLine("4. Advance system clock by 1 day");
+            Console.WriteLine("5. Advance system clock by 1 year");
+            Console.WriteLine("6. Show current system clock value");
+            Console.WriteLine("7. Set a new value for a configuration variable");
+            Console.WriteLine("8. Show the current value of a configuration variable");
+            Console.WriteLine("9. Reset all configuration values");
             Console.Write("Choose an option: ");
             string? input = Console.ReadLine();
 
-            switch (input)
+            if (Enum.TryParse(input, out ConfigurationOption option))
             {
-                case "1":
-                    exit = true;
-                    break;
-                case "2":
-                    s_dalConfig.Clock = s_dalConfig.Clock.AddMinutes(1);
-                    Console.WriteLine("System clock advanced by 1 minute.");
-                    break;
-                case "3":
-                    s_dalConfig.Clock = s_dalConfig.Clock.AddHours(1);
-                    Console.WriteLine("System clock advanced by 1 hour.");
-                    break;
-                case "4":
-                    s_dalConfig.Clock = s_dalConfig.Clock.AddDays(1);
-                    Console.WriteLine("System clock advanced by 1 day.");
-                    break;
-                case "5":
-                    s_dalConfig.Clock = s_dalConfig.Clock.AddYears(1);
-                    Console.WriteLine("System clock advanced by 1 year.");
-                    break;
-                case "6":
-                    Console.WriteLine(s_dalConfig.Clock);
-                    break;
-                case "7":
-                    SetNextCallId();
-                    break;
-                case "8":
-                    //ShowConfigValue();
-                    break;
-                case "9":
-                    s_dalConfig.Reset();
-                    Console.WriteLine("All configuration values have been reset.");
-                    break;
-                default:
-                    Console.WriteLine("Invalid option. Please try again.");
-                    break;
+                switch (option)
+                {
+                    case ConfigurationOption.ExitSubmenu:
+                        exit = true;
+                        break;
+                    case ConfigurationOption.AdvanceClockByMinute:
+                        s_dalConfig.Clock = s_dalConfig.Clock.AddMinutes(1);
+                        Console.WriteLine("System clock advanced by 1 minute.");
+                        break;
+                    case ConfigurationOption.AdvanceClockByHour:
+                        s_dalConfig.Clock = s_dalConfig.Clock.AddHours(1);
+                        Console.WriteLine("System clock advanced by 1 hour.");
+                        break;
+                    case ConfigurationOption.AdvanceClockByDay:
+                        s_dalConfig.Clock = s_dalConfig.Clock.AddDays(1);
+                        Console.WriteLine("System clock advanced by 1 day.");
+                        break;
+                    case ConfigurationOption.AdvanceClockByYear:
+                        s_dalConfig.Clock = s_dalConfig.Clock.AddYears(1);
+                        Console.WriteLine("System clock advanced by 1 year.");
+                        break;
+                    case ConfigurationOption.ShowCurrentClock:
+                        Console.WriteLine(s_dalConfig.Clock);
+                        break;
+                    case ConfigurationOption.SetConfigurationVariable:
+                        SetNextCallId();
+                        break;
+                    case ConfigurationOption.ShowConfigurationValue:
+                        SetNextAssignmentId();
+                        break;
+                    case ConfigurationOption.ResetAllConfigurations:
+                        s_dalConfig.Reset();
+                        Console.WriteLine("All configuration values have been reset.");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
             }
-
-            //Console.WriteLine("לחץ על מקש כלשהו להמשיך...");
-            //Console.ReadKey();
         }
     }
-
     private static void SetNextCallId()
     {
         int value = getInt("Enter the value for the id of the next call")!;
