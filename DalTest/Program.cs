@@ -187,89 +187,89 @@ internal class Program
         string allCallsString = string.Join(Environment.NewLine, allCalls.Select(call =>  call.ToString()));
         Console.WriteLine(allCallsString);
     }
-    static void UpdateCall()
-    { 
-        int id = getInt("Enter ID");
-        // Find the object by ID
-        Call? callToUpdate = s_dalCall.Read(id);
-        if (callToUpdate == null)
-        {
-            Console.WriteLine("No call found with the given ID.");
-            return;
-        }
+    //static void UpdateCall()
+    //{ 
+    //    int id = getInt("Enter ID");
+    //    // Find the object by ID
+    //    Call? callToUpdate = s_dalCall.Read(id);
+    //    if (callToUpdate == null)
+    //    {
+    //        Console.WriteLine("No call found with the given ID.");
+    //        return;
+    //    }
 
-        Console.WriteLine("Current call details:");
-        Console.WriteLine(callToUpdate);
+    //    Console.WriteLine("Current call details:");
+    //    Console.WriteLine(callToUpdate);
 
-        // Update call type
-        Console.Write("Enter new call type (or leave blank to keep current): ");
-        string callTypeInput = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(callTypeInput))
-        {
-            Enum.TryParse(typeof(CallType), callTypeInput, true, out object? callType) ;
-        }
+    //    // Update call type
+    //    Console.Write("Enter new call type (or leave blank to keep current): ");
+    //    string callTypeInput = Console.ReadLine();
+    //    if (!string.IsNullOrWhiteSpace(callTypeInput))
+    //    {
+    //        Enum.TryParse(typeof(CallType), callTypeInput, true, out object? callType) ;
+    //    }
 
-        // Update address
-        Console.Write("Enter new address (or leave blank to keep current): ");
-        string addressInput = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(addressInput)) {
-            addressInput=callToUpdate.FullAddress;
-        }
-
-
-        // Update latitude
-        Console.Write("Enter new latitude (or leave blank to keep current): ");
-        string latitudeInput = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(latitudeInput) && double.TryParse(latitudeInput, out double latitude))
-        {
-            latitude = callToUpdate.Latitude;
-        }
+    //    // Update address
+    //    Console.Write("Enter new address (or leave blank to keep current): ");
+    //    string addressInput = Console.ReadLine();
+    //    if (!string.IsNullOrWhiteSpace(addressInput)) {
+    //        addressInput=callToUpdate.FullAddress;
+    //    }
 
 
-        // Update longitude
-        Console.Write("Enter new longitude (or leave blank to keep current): ");
-        string longitudeInput = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(longitudeInput) && double.TryParse(longitudeInput, out double longitude))
-        {
-            callToUpdate.Longitude = longitude;
-        }
-        else if (!string.IsNullOrWhiteSpace(longitudeInput))
-        {
-            Console.WriteLine("Invalid longitude. No changes made.");
-        }
+    //    // Update latitude
+    //    Console.Write("Enter new latitude (or leave blank to keep current): ");
+    //    string latitudeInput = Console.ReadLine();
+    //    if (string.IsNullOrWhiteSpace(latitudeInput) && double.TryParse(latitudeInput, out double latitude))
+    //    {
+    //        latitude = callToUpdate.Latitude;
+    //    }
 
-        // Update open time
-        Console.Write("Enter new open time (yyyy-MM-dd HH:mm:ss or leave blank to keep current): ");
-        string openTimeInput = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(openTimeInput) && DateTime.TryParse(openTimeInput, out DateTime openTime))
-        {
-            callToUpdate.OpenTime = openTime;
-        }
-        else if (!string.IsNullOrWhiteSpace(openTimeInput))
-        {
-            Console.WriteLine("Invalid open time. No changes made.");
-        }
 
-        // Update description
-        Console.Write("Enter new description (or leave blank to keep current): ");
-        string descriptionInput = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(descriptionInput))
-        {
-            callToUpdate.Description = descriptionInput;
-        }
+    //    // Update longitude
+    //    Console.Write("Enter new longitude (or leave blank to keep current): ");
+    //    string longitudeInput = Console.ReadLine();
+    //    if (!string.IsNullOrWhiteSpace(longitudeInput) && double.TryParse(longitudeInput, out double longitude))
+    //    {
+    //        callToUpdate.Longitude = longitude;
+    //    }
+    //    else if (!string.IsNullOrWhiteSpace(longitudeInput))
+    //    {
+    //        Console.WriteLine("Invalid longitude. No changes made.");
+    //    }
 
-        // Update max call time
-        Console.Write("Enter new maximum call time (yyyy-MM-dd HH:mm:ss or leave blank to keep current): ");
-        string maxCallTimeInput = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(maxCallTimeInput) && DateTime.TryParse(maxCallTimeInput, out DateTime maxCallTime))
-        {
-            callToUpdate.MaxCallTime = maxCallTime;
-        }
-        else if (!string.IsNullOrWhiteSpace(maxCallTimeInput))
-        {
-            Console.WriteLine("Invalid maximum call time. No changes made.");
-        }
-    }
+    //    // Update open time
+    //    Console.Write("Enter new open time (yyyy-MM-dd HH:mm:ss or leave blank to keep current): ");
+    //    string openTimeInput = Console.ReadLine();
+    //    if (!string.IsNullOrWhiteSpace(openTimeInput) && DateTime.TryParse(openTimeInput, out DateTime openTime))
+    //    {
+    //        callToUpdate.OpenTime = openTime;
+    //    }
+    //    else if (!string.IsNullOrWhiteSpace(openTimeInput))
+    //    {
+    //        Console.WriteLine("Invalid open time. No changes made.");
+    //    }
+
+    //    // Update description
+    //    Console.Write("Enter new description (or leave blank to keep current): ");
+    //    string descriptionInput = Console.ReadLine();
+    //    if (!string.IsNullOrWhiteSpace(descriptionInput))
+    //    {
+    //        callToUpdate.Description = descriptionInput;
+    //    }
+
+    //    // Update max call time
+    //    Console.Write("Enter new maximum call time (yyyy-MM-dd HH:mm:ss or leave blank to keep current): ");
+    //    string maxCallTimeInput = Console.ReadLine();
+    //    if (!string.IsNullOrWhiteSpace(maxCallTimeInput) && DateTime.TryParse(maxCallTimeInput, out DateTime maxCallTime))
+    //    {
+    //        callToUpdate.MaxCallTime = maxCallTime;
+    //    }
+    //    else if (!string.IsNullOrWhiteSpace(maxCallTimeInput))
+    //    {
+    //        Console.WriteLine("Invalid maximum call time. No changes made.");
+    //    }
+    //}
     static void DeleteAllCalls()
     {
         s_dalCall.DeleteAll();
@@ -288,7 +288,7 @@ internal class Program
             Console.WriteLine(ex.Message);
         }
     }
-    static Call? CreateNewCall(int id = 0)
+    static Call? CreateNewCall()
     {
         try
         {
@@ -352,6 +352,61 @@ internal class Program
             return null;
         }
     }
+    static Call? UpdateCall()
+    {
+        try
+        {
+            int id = getInt("Enter the ID of the Call");
+
+
+
+            Console.Write("Enter the call type (Technical, Food, etc.): ");
+            string? callTypeInput = Console.ReadLine();
+            if (string.IsNullOrEmpty(callTypeInput) || !Enum.TryParse(typeof(CallType), callTypeInput, true, out var callType) || callType == null)
+            {
+                throw new Exception("Invalid call type.");
+            }
+
+            Console.Write("Enter the address: ");
+            string? address = Console.ReadLine();
+            address = string.IsNullOrEmpty(address) ? "0" : address;
+
+            Console.Write("Enter the latitude: ");
+            string? latitudeInput = Console.ReadLine();
+            double latitude = string.IsNullOrEmpty(latitudeInput) ? 0 : double.TryParse(latitudeInput, out var lat) ? lat : 0;
+
+            Console.Write("Enter the longitude: ");
+            string? longitudeInput = Console.ReadLine();
+            double longitude = string.IsNullOrEmpty(longitudeInput) ? 0 : double.TryParse(longitudeInput, out var lon) ? lon : 0;
+
+            Console.Write("Enter the open time (format: yyyy-MM-dd HH:mm:ss): ");
+            string? openTimeInput = Console.ReadLine();
+            DateTime openTime = string.IsNullOrEmpty(openTimeInput) || !DateTime.TryParse(openTimeInput, out var parsedOpenTime)
+                ? DateTime.MinValue
+                : parsedOpenTime;
+
+            Console.Write("Enter a description (optional): ");
+            string? description = Console.ReadLine();
+            description = string.IsNullOrEmpty(description) ? "0" : description;
+
+            Console.Write("Enter the maximum end time (format: yyyy-MM-dd HH:mm:ss) or leave blank if none: ");
+            string? maxCallTimeInput = Console.ReadLine();
+            DateTime? maxCallTime = string.IsNullOrEmpty(maxCallTimeInput)
+                ? null
+                : DateTime.TryParse(maxCallTimeInput, out var parsedMaxCallTime)
+                    ? parsedMaxCallTime
+                    : null;
+
+            // Create a new Call object and return it
+            return new Call(id, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            return null;
+        }
+    }
+
 
     static void ReadByCallId()
     {
@@ -590,7 +645,7 @@ internal class Program
 
     #endregion
 
-    #region Call Assignment
+    #region  Assignment methods
     //Assignment התפריט של
     public static void ShowEntityAssignment()
     {
@@ -810,7 +865,7 @@ internal class Program
                     Console.WriteLine(s_dalConfig.Clock);
                     break;
                 case "5":
-                    SetConfigValue();
+                    SetNextCallId();
                     break;
                 case "6":
                     ShowConfigValue();
