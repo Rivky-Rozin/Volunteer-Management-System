@@ -128,12 +128,6 @@ public static class Initialization
                 ? (TreatmentType)s_rand.Next(Enum.GetValues(typeof(TreatmentType)).Length)
                 : null;
 
-            //Console.WriteLine(assignmentId + ' ' + volunteerId + ' ' + callId);
-            // יצירת אובייקט משימה חדש
-
-
-
-            // הוספת המשימה לרשימת המשימות דרך ה-CRUD
             s_dalAssignment!.Create(new Assignment(assignmentId, volunteerId, callId, startTreatment, endTreatment, treatmentType));
         }
 

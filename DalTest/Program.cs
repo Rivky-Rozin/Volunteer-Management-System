@@ -292,38 +292,67 @@ internal class Program
     {
         try
         {
-            Console.Write("הזן את סוג הקריאה (Technical, Food וכו'): ");
-            Enum callType = (Enum)Enum.Parse(typeof(CallType), Console.ReadLine(), true); // צריך להמיר את הטקסט שנכנס לסוג המתאים ב-Enum
+            Console.Write("Enter the call type (Technical, Food, etc.): ");
+            string? callTypeInput = Console.ReadLine();
+            if (!Enum.TryParse(typeof(CallType), callTypeInput, true, out var callType) || callType == null)
+            {
+                throw new Exception("Invalid call type.");
+                
+            }
 
-            Console.Write("הזן את הכתובת: ");
-            string address = Console.ReadLine();
+            Console.Write("Enter the address: ");
+            string? address = Console.ReadLine();
+            if (string.IsNullOrEmpty(address))
+            {
+                throw new Exception("Address cannot be empty.");
+              
+            }
 
-            Console.Write("הזן את קואורדינטת הרוחב (Latitude): ");
-            double latitude = double.Parse(Console.ReadLine());
+            Console.Write("Enter the latitude: ");
+            if (!double.TryParse(Console.ReadLine(), out double latitude))
+            {
+                throw new Exception("Invalid latitude.");
+                
+            }
 
-            Console.Write("הזן את קואורדינטת האורך (Longitude): ");
-            double longitude = double.Parse(Console.ReadLine());
+            Console.Write("Enter the longitude: ");
+            if (!double.TryParse(Console.ReadLine(), out double longitude))
+            {
+                throw new Exception("Invalid longitude.");
+            }
 
-            Console.Write("הזן את זמן פתיחת הקריאה (בפורמט yyyy-MM-dd HH:mm:ss): ");
-            DateTime openTime = DateTime.Parse(Console.ReadLine());
+            Console.Write("Enter the open time (format: yyyy-MM-dd HH:mm:ss): ");
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime openTime))
+            {
+                throw new Exception ("Invalid open time format.");
+            }
 
-            Console.Write("הזן תיאור (אופציונלי): ");
+            Console.Write("Enter a description (optional): ");
             string? description = Console.ReadLine();
 
-            Console.Write("הזן את זמן הסיום המקסימלי (בפורמט yyyy-MM-dd HH:mm:ss) או השאר ריק אם אין: ");
-            string maxCallTimeInput = Console.ReadLine();
-            DateTime? maxCallTime = string.IsNullOrEmpty(maxCallTimeInput) ? (DateTime?)null : DateTime.Parse(maxCallTimeInput);
+            Console.Write("Enter the maximum end time (format: yyyy-MM-dd HH:mm:ss) or leave blank if none: ");
+            string? maxCallTimeInput = Console.ReadLine();
+            DateTime? maxCallTime = string.IsNullOrEmpty(maxCallTimeInput)
+                ? (DateTime?)null
+                : DateTime.TryParse(maxCallTimeInput, out DateTime parsedMaxCallTime)
+                    ? parsedMaxCallTime
+                    : null;
 
-            // יצירת אובייקט חדש מסוג Call והוספה לרשימה
-            return new Call(id, callType, address, latitude, longitude, openTime, description, maxCallTime);
+            if (!string.IsNullOrEmpty(maxCallTimeInput) && maxCallTime == null)
+            {
+                throw new Exception("Invalid maximum end time format.");
+            }
 
+            // Create a new Call object and return it
+            return new Call(id, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"שגיאה כללית: {ex.Message}");
-            return null; // מחזירים null במקרה של שגיאה
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            return null;
         }
     }
+
     static void ReadByCallId()
     {
         try
