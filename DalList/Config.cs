@@ -21,7 +21,7 @@ internal static class Config
 
     //??? עדיין לא למדנו מה זה
     //כאן צריך להיות אתחול השדה timespan
-    static TimeSpan RiskRange;
+   // static TimeSpan RiskRange;
     internal static void Reset()
     {
         nextCallId = startCallId;

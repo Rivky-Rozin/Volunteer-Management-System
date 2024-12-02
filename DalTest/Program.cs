@@ -188,10 +188,87 @@ internal class Program
         Console.WriteLine(allCallsString);
     }
     static void UpdateCall()
-    {
-        int id = getInt("enter the ID to update");
-        Call Item = CreateNewCall(id); // מתודה לעדכון אובייקט קיים
-        s_dalCall.Update(Item);
+    { 
+        int id = getInt("Enter ID");
+        // Find the object by ID
+        Call? callToUpdate = s_dalCall.Read(id);
+        if (callToUpdate == null)
+        {
+            Console.WriteLine("No call found with the given ID.");
+            return;
+        }
+
+        Console.WriteLine("Current call details:");
+        Console.WriteLine(callToUpdate);
+
+        // Update call type
+        Console.Write("Enter new call type (or leave blank to keep current): ");
+        string callTypeInput = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(callTypeInput))
+        {
+            Enum.TryParse(typeof(CallType), callTypeInput, true, out object? callType) ;
+        }
+
+        // Update address
+        Console.Write("Enter new address (or leave blank to keep current): ");
+        string addressInput = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(addressInput)) {
+            addressInput=callToUpdate.FullAddress;
+        }
+
+
+        // Update latitude
+        Console.Write("Enter new latitude (or leave blank to keep current): ");
+        string latitudeInput = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(latitudeInput) && double.TryParse(latitudeInput, out double latitude))
+        {
+            latitude = callToUpdate.Latitude;
+        }
+
+
+        // Update longitude
+        Console.Write("Enter new longitude (or leave blank to keep current): ");
+        string longitudeInput = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(longitudeInput) && double.TryParse(longitudeInput, out double longitude))
+        {
+            callToUpdate.Longitude = longitude;
+        }
+        else if (!string.IsNullOrWhiteSpace(longitudeInput))
+        {
+            Console.WriteLine("Invalid longitude. No changes made.");
+        }
+
+        // Update open time
+        Console.Write("Enter new open time (yyyy-MM-dd HH:mm:ss or leave blank to keep current): ");
+        string openTimeInput = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(openTimeInput) && DateTime.TryParse(openTimeInput, out DateTime openTime))
+        {
+            callToUpdate.OpenTime = openTime;
+        }
+        else if (!string.IsNullOrWhiteSpace(openTimeInput))
+        {
+            Console.WriteLine("Invalid open time. No changes made.");
+        }
+
+        // Update description
+        Console.Write("Enter new description (or leave blank to keep current): ");
+        string descriptionInput = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(descriptionInput))
+        {
+            callToUpdate.Description = descriptionInput;
+        }
+
+        // Update max call time
+        Console.Write("Enter new maximum call time (yyyy-MM-dd HH:mm:ss or leave blank to keep current): ");
+        string maxCallTimeInput = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(maxCallTimeInput) && DateTime.TryParse(maxCallTimeInput, out DateTime maxCallTime))
+        {
+            callToUpdate.MaxCallTime = maxCallTime;
+        }
+        else if (!string.IsNullOrWhiteSpace(maxCallTimeInput))
+        {
+            Console.WriteLine("Invalid maximum call time. No changes made.");
+        }
     }
     static void DeleteAllCalls()
     {
@@ -240,11 +317,6 @@ internal class Program
             // יצירת אובייקט חדש מסוג Call והוספה לרשימה
             return new Call(id, callType, address, latitude, longitude, openTime, description, maxCallTime);
 
-        }
-        catch (FormatException ex)
-        {
-            Console.WriteLine($"שגיאה בהזנת נתונים: {ex.Message}");
-            return null; // מחזירים null במקרה של שגיאה
         }
         catch (Exception ex)
         {
@@ -379,7 +451,7 @@ internal class Program
             Volunteer? doesExist = s_dalVolunteer.Read(id);
             if (doesExist == null)
             {
-                Console.WriteLine("A volunteer with this ID does not exist");
+                throw new Exception("A volunteer with this ID does not exist");           
             }
             else
             {
@@ -388,6 +460,12 @@ internal class Program
                 s_dalVolunteer.Update(updatedVolunteer);
                 Console.WriteLine("Volunteer updated successfully!");
             }
+
+            Console.WriteLine("Enter new ID");
+            string idInput = Console.ReadLine();
+            int Id;
+            string.IsNullOrWhiteSpace(idInput) ? Id = doesExist.Id : Id = int.Parse(idInput);
+        
         }
         catch (Exception ex)
         {
@@ -722,16 +800,16 @@ internal class Program
         }
     }
     //לא ממומש
-    private static void SetConfigValue()
+    private static void SetNextCallId()
     {
-        Console.Write("Enter the name of the configuration variable: ");
-        string? variable = Console.ReadLine();
+        Console.Write("Enter the value of the next ID: ");
+        int? variable = Console.ReadLine();
 
         Console.Write("Enter a new value: ");
-        string? newValue = Console.ReadLine();
-
+        int? newValue = int.Parse(Console.ReadLine());
+        
         // Logic to set the new value for the requested variable
-        Console.WriteLine($"The value of '{variable}' has been updated to '{newValue}'.");
+        Console.WriteLine($"The value of has been updated to '{newValue}'.");
     }
     //לא ממומש
     private static void ShowConfigValue()
