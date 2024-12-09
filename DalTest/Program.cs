@@ -1,10 +1,11 @@
 ﻿//using Dal;
 using DalApi;
-//using DalList;
+
 using DO;
 using Dal;
-using DalList;
+
 using System.Data;
+using System.Linq;
 namespace DalTest;
 internal class Program
 {
@@ -223,34 +224,28 @@ internal class Program
             string? callTypeInput = Console.ReadLine();
             if (!Enum.TryParse(typeof(CallType), callTypeInput, true, out var callType) || callType == null)
             {
-                throw new Exception("Invalid call type.");
+                throw new DalInputDoesNotMatchEnum("Invalid call type.");
             }
 
             Console.Write("Enter the address: ");
             string? address = Console.ReadLine();
-            if (string.IsNullOrEmpty(address))
-            {
-                throw new Exception("Address cannot be empty.");
-
-            }
 
             Console.Write("Enter the latitude: ");
             if (!double.TryParse(Console.ReadLine(), out double latitude))
             {
-                throw new Exception("Invalid latitude.");
-
+                throw new DalInvalidInput("Invalid latitude.");
             }
 
             Console.Write("Enter the longitude: ");
             if (!double.TryParse(Console.ReadLine(), out double longitude))
             {
-                throw new Exception("Invalid longitude.");
+                throw new DalInvalidInput("Invalid longitude.");
             }
 
             Console.Write("Enter the open time (format: yyyy-MM-dd HH:mm:ss): ");
             if (!DateTime.TryParse(Console.ReadLine(), out DateTime openTime))
             {
-                throw new Exception("Invalid open time format.");
+                throw new DalInvalidInput("Invalid open time format.");
             }
 
             Console.Write("Enter a description (optional): ");
@@ -266,7 +261,7 @@ internal class Program
 
             if (!string.IsNullOrEmpty(maxCallTimeInput) && maxCallTime == null)
             {
-                throw new Exception("Invalid maximum end time format.");
+                throw new DalInvalidInput("Invalid maximum end time format.");
             }
 
             s_dal.Call.Create(new Call(0, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime));
@@ -284,7 +279,7 @@ internal class Program
             Call? callToUpdate = s_dal.Call.Read(id);
             if (callToUpdate == null)
             {
-                throw new Exception("A call with this ID does not exist");
+                throw new DalDoesNotExistException("A call with this ID does not exist");
             }
             Console.WriteLine("Current values for this call: " + callToUpdate);
 
@@ -455,7 +450,7 @@ internal class Program
             Volunteer? volunteerToUpdate = s_dal!.Volunteer.Read(id);
             if (volunteerToUpdate == null)
             {
-                throw new Exception("A volunteer with this ID does not exist.");
+                throw new DalDoesNotExistException("A volunteer with this ID does not exist.");
             }
             Console.WriteLine(volunteerToUpdate);
 
@@ -521,7 +516,9 @@ internal class Program
     //הצגת כל המתנדבים
     private static void ReadAllVolunteers()
     {
-        List<Volunteer> volunteers = s_dal!.Volunteer.ReadAll();
+        //List<Volunteer> volunteers = s_dal!.Volunteer.ReadAll();
+        List<Volunteer> volunteers = s_dal!.Volunteer.ReadAll().ToList();
+
 
         if (volunteers.Count == 0) // בדיקה אם הרשימה ריקה
         {
@@ -702,7 +699,7 @@ internal class Program
             // בדיקה אם המשימה קיימת
             if (assignmentToUpdate == null)
             {
-                throw new Exception("An assignment with this ID does not exist.");
+                throw new DalDoesNotExistException("An assignment with this ID does not exist.");
             }
 
             Console.WriteLine(assignmentToUpdate);
@@ -772,8 +769,7 @@ internal class Program
 
     private static void ReadAllAssignments()
     {
-        List<Assignment> assignments = s_dal!.Assignment.ReadAll();
-
+        List<Assignment> assignments = s_dal!.Assignment.ReadAll().ToList();
         if (assignments.Count == 0) // בדיקה אם הרשימה ריקה
         {
             Console.WriteLine("No assignments found.");
@@ -820,7 +816,7 @@ internal class Program
             string? startTreatmentInput = Console.ReadLine();
             if (string.IsNullOrEmpty(startTreatmentInput) || !DateTime.TryParse(startTreatmentInput, out var startTreatment))
             {
-                throw new Exception("Start treatment time is mandatory and must be in a valid format.");
+                throw new DalInvalidInput("Start treatment time is mandatory and must be in a valid format.");
             }
 
             // בקש זמן סיום טיפול
@@ -830,7 +826,7 @@ internal class Program
                 ? null
                 : DateTime.TryParse(endTreatmentInput, out var parsedEndTreatment)
                     ? parsedEndTreatment
-                    : throw new Exception("Invalid end treatment time format.");
+                    : throw new DalInvalidInput("Invalid end treatment time format.");
 
             // בקש סוג טיפול
             Console.WriteLine("Enter treatment type (Technical, Food, etc.) or leave blank for none: ");

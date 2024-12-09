@@ -9,28 +9,17 @@ using System.Reflection;
 
 public static class Initialization
 {
-    //private static ICall? s_dalCall = new CallImplementation(); //stage 1
-    //private static IAssignment? s_dalAssignment = new AssignmentImplementation(); //stage 1
-    //private static IVolunteer? s_dalVolunteer = new VolunteerImplementation(); //stage 1
-    //private static IConfig? s_dalConfig = new ConfigImplementation(); //stage 1
     private static IDal? s_dal; //stage 2
     private static readonly Random s_rand = new();
     private const int MIN_ID = 200000000;
     private const int MAX_ID = 400000000;
     public static void Do(IDal dal)
     {
-        //s_dalCall = dalCall ?? throw new NullReferenceException("DAL object can not be null!"); //stage 1
-        //s_dalVolunteer = dalVolunteer ?? throw new NullReferenceException("DAL object can not be null!"); //stage 1                                                                                              
-        //s_dalAssignment = dalAssignment ?? throw new NullReferenceException("DAL object can not be null!"); //stage 1                                                                                              
-        //s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL object can not be null!"); //stage 1                                                                                              
-        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); // stage 2
+                                                                                         
+        s_dal = dal ?? throw new DalObjectCanNotBeNull("DAL object can not be null!"); // stage 2
 
         Console.WriteLine("Reset Configuration values and List values...");
 
-        //s_dalConfig.Reset(); //stage 1
-        //s_dalCall.DeleteAll(); //stage 1
-        //s_dalVolunteer.DeleteAll(); //stage 1
-        //s_dalVolunteer.DeleteAll(); //stage 1
         s_dal.ResetDB();//stage 
 
         Console.WriteLine("Initializing Students list ...");
@@ -120,11 +109,7 @@ public static class Initialization
         var volunteerIds = s_dal!.Volunteer.ReadAll().Select(v => v.Id).ToList();
         var callIds = s_dal!.Call.ReadAll().Select(c => c.Id).ToList();
 
-        // בדיקת קיום רשומות נתונים קיימות
-        if (!volunteerIds.Any() || !callIds.Any())
-        {
-            throw new InvalidOperationException("אין מספיק מתנדבים או שיחות במערכת ליצירת משימות.");
-        }
+
 
         // יצירת משימות
         foreach (var volunteerId in volunteerIds)

@@ -13,7 +13,7 @@ internal class VolunteerImplementation : IVolunteer
     {
         if (!(Read(item.Id) == null))
         {
-            throw new Exception($"A volunteer with this ID={item.Id} already exists");
+            throw new DalAlreadyExistsException($"A volunteer with this ID={item.Id} already exists");
         }
         DataSource.Volunteers.Add(item);
     }
@@ -23,7 +23,7 @@ internal class VolunteerImplementation : IVolunteer
     {
         if (Read(id)==null)
         {
-            throw new Exception($"A volunteer with this ID={id} does not exist");
+            throw new DalDoesNotExistException($"A volunteer with this ID={id} does not exist");
         }
         DataSource.Volunteers.Remove(Read(id));
     }
@@ -43,11 +43,23 @@ internal class VolunteerImplementation : IVolunteer
         return found;
     }
 
-    //קבלת עותק של הרשימה של כל המתנדבים
-    public List<Volunteer> ReadAll()
+    public Volunteer? Read(Func<Volunteer, bool> filter)
     {
-        return new List<Volunteer>(DataSource.Volunteers);
+        return DataSource.Volunteers.FirstOrDefault(filter);
     }
+
+    //קבלת עותק של הרשימה של כל המתנדבים
+    public IEnumerable<Volunteer> ReadAll(Func<Volunteer, bool>? filter = null) //stage 2
+    {
+        if (filter != null)
+            return from item in DataSource.Volunteers
+                   where filter(item)
+                   select item;
+
+        return from item in DataSource.Volunteers
+               select item;
+    }
+
 
     //עדכון מתנדב
     public void Update(Volunteer item)

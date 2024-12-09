@@ -8,6 +8,5 @@ public interface IAssignment :ICrud<Assignment>
     //void Update(Assignment item); //Updates entity object
     //void Delete(int id); //Deletes an object by its Id
     //void DeleteAll(); //Delete all entity objects
-
 }
 
