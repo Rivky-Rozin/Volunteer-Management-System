@@ -1,21 +1,25 @@
-﻿using Dal;
+﻿//using Dal;
 using DalApi;
+//using DalList;
 using DO;
+using Dal;
+using DalList;
 using System.Data;
 namespace DalTest;
 internal class Program
 {
     //מופעים של המחלקה לצורך הפעלת המתודות של המחלקות
-    private static IVolunteer? s_dalVolunteer = new VolunteerImplementation(); //stage 1
-    private static ICall? s_dalCall = new CallImplementation(); //stage 1
-    private static IAssignment? s_dalAssignment = new AssignmentImplementation(); //stage 1
-    private static IConfig? s_dalConfig = new ConfigImplementation(); //stage 1
+    //private static IVolunteer? s_dalVolunteer = new VolunteerImplementation(); //stage 1
+    //private static ICall? s_dalCall = new CallImplementation(); //stage 1
+    //private static IAssignment? s_dalAssignment = new AssignmentImplementation(); //stage 1
+    //private static IConfig? s_dalConfig = new ConfigImplementation(); //stage 1
+    static readonly IDal s_dal = new Dal.DalList(); //stage 2
 
     static void Main(string[] args)
     {
         try
         {
-            Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig);
+            Initialization.Do(s_dal);
             ShowMainMenu();
         }
         catch (Exception ex)
@@ -97,7 +101,7 @@ internal class Program
     //אתחול הכל
     private static void InitializeAll()
     {
-        Initialization.Do(s_dalCall, s_dalVolunteer, s_dalAssignment, s_dalConfig); // קריאה לאתחול הנתונים
+        Initialization.Do(s_dal); // קריאה לאתחול הנתונים
         Console.WriteLine("data initialized succesfully");
     }
     //הצגת כל המידע
@@ -160,7 +164,7 @@ internal class Program
                             DeleteCall(); // מתודה למחיקת אובייקט לפי מזהה
                             break;
                         case CallMenuOption.DeleteAll:
-                            s_dalCall.DeleteAll(); // מתודה למחיקת כל האובייקטים
+                            s_dal.Call.DeleteAll(); // מתודה למחיקת כל האובייקטים
                             Console.WriteLine("All call objects deleted successfully.");
                             break;
                         case CallMenuOption.Exit:
@@ -187,7 +191,7 @@ internal class Program
     //המתודות של call
     static void ReadAllCalls()
     {
-        var allCalls = s_dalCall.ReadAll();  // קורא לרשימת כל הקריאות
+        var allCalls = s_dal.Call.ReadAll();  // קורא לרשימת כל הקריאות
         foreach (var call in allCalls)
         {
             Console.WriteLine(call);
@@ -195,7 +199,7 @@ internal class Program
     }
     static void DeleteAllCalls()
     {
-        s_dalCall.DeleteAll();
+        s_dal.Call.DeleteAll();
         Console.WriteLine("All the calls were deleted");
     }
     static void DeleteCall()
@@ -203,7 +207,7 @@ internal class Program
         try
         {
             int id = getInt("enter the ID to delete");
-            s_dalCall.Delete(id);
+            s_dal.Call.Delete(id);
             Console.WriteLine("Call deleted successfully!");
         }
         catch (Exception ex)
@@ -265,7 +269,7 @@ internal class Program
                 throw new Exception("Invalid maximum end time format.");
             }
 
-            s_dalCall.Create(new Call(0, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime));
+            s_dal.Call.Create(new Call(0, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime));
         }
         catch (Exception ex)
         {
@@ -277,7 +281,7 @@ internal class Program
         try
         {
             int id = getInt("Enter the ID of the Call");
-            Call? callToUpdate = s_dalCall.Read(id);
+            Call? callToUpdate = s_dal.Call.Read(id);
             if (callToUpdate == null)
             {
                 throw new Exception("A call with this ID does not exist");
@@ -323,7 +327,7 @@ internal class Program
 
             // Create a new Call object and return it
             Call updatedCall = new Call(id, (CallType)callType, address, latitude, longitude, openTime, description, maxCallTime);
-            s_dalCall.Update(updatedCall);
+            s_dal.Call.Update(updatedCall);
         }
         catch (Exception ex)
         {
@@ -335,7 +339,7 @@ internal class Program
         try
         {
             int id = getInt("Enter the call ID: ");
-            var call = s_dalCall.Read(id);
+            var call = s_dal.Call.Read(id);
 
             if (call != null)
             {
@@ -425,7 +429,7 @@ internal class Program
     //מחיקת כל המתנדבים
     private static void DeleteAllVolunteers()
     {
-        s_dalVolunteer.DeleteAll();
+        s_dal!.Volunteer.DeleteAll();
         Console.WriteLine("All the volunteers were deleted");
     }
     //ID מחיקת מתנדב לפי
@@ -434,7 +438,7 @@ internal class Program
         try
         {
             int id = getInt("enter the ID to delete");
-            s_dalVolunteer.Delete(id);
+            s_dal!.Volunteer.Delete(id);
             Console.WriteLine("Volunteer deleted successfully!");
         }
         catch (Exception ex)
@@ -448,7 +452,7 @@ internal class Program
         try
         {
             int id = getInt("Enter the ID of the volunteer to update: ");
-            Volunteer? volunteerToUpdate = s_dalVolunteer.Read(id);
+            Volunteer? volunteerToUpdate = s_dal!.Volunteer.Read(id);
             if (volunteerToUpdate == null)
             {
                 throw new Exception("A volunteer with this ID does not exist.");
@@ -506,7 +510,7 @@ internal class Program
                 address
             );
 
-            s_dalVolunteer.Update(updatedVolunteer);
+            s_dal!.Volunteer.Update(updatedVolunteer);
             Console.WriteLine("Volunteer updated successfully!");
         }
         catch (Exception ex)
@@ -517,7 +521,7 @@ internal class Program
     //הצגת כל המתנדבים
     private static void ReadAllVolunteers()
     {
-        List<Volunteer> volunteers = s_dalVolunteer.ReadAll();
+        List<Volunteer> volunteers = s_dal!.Volunteer.ReadAll();
 
         if (volunteers.Count == 0) // בדיקה אם הרשימה ריקה
         {
@@ -537,7 +541,7 @@ internal class Program
         try
         {
             int id = getInt("Enter volunteer ID: ");
-            Volunteer? volunteer = s_dalVolunteer.Read(id);
+            Volunteer? volunteer = s_dal!.Volunteer.Read(id);
             if (volunteer == null)
             {
                 Console.WriteLine("A volunteer with this ID does not exist");
@@ -595,7 +599,7 @@ internal class Program
         {
             return newVolunteer;
         }
-        s_dalVolunteer.Create(newVolunteer);
+        s_dal!.Volunteer.Create(newVolunteer);
         return null;
     }
 
@@ -670,7 +674,7 @@ internal class Program
     //Assignment המתודות של
     private static void DeleteAllAssignments()
     {
-        s_dalAssignment.DeleteAll();
+        s_dal!.Assignment.DeleteAll();
         Console.WriteLine("All the assignment were deleted");
     }
     private static void DeleteAssignmentById()
@@ -678,7 +682,7 @@ internal class Program
         try
         {
             int id = getInt("Enter the assignment ID to delete: ");
-            s_dalAssignment.Delete(id);
+            s_dal!.Assignment.Delete(id);
             Console.WriteLine("Assignment deleted successfully!");
         }
         catch (Exception ex)
@@ -693,7 +697,7 @@ internal class Program
         {
             // בקש מזהה של המשימה לעדכון
             int id = getInt("Enter the ID of the Assignment to update: ");
-            Assignment? assignmentToUpdate = s_dalAssignment.Read(id);
+            Assignment? assignmentToUpdate = s_dal!.Assignment.Read(id);
 
             // בדיקה אם המשימה קיימת
             if (assignmentToUpdate == null)
@@ -756,7 +760,7 @@ internal class Program
             );
 
             // עדכון בבסיס הנתונים
-            s_dalAssignment.Update(updatedAssignment);
+            s_dal!.Assignment.Update(updatedAssignment);
 
             Console.WriteLine("Assignment updated successfully.");
         }
@@ -768,7 +772,7 @@ internal class Program
 
     private static void ReadAllAssignments()
     {
-        List<Assignment> assignments = s_dalAssignment.ReadAll();
+        List<Assignment> assignments = s_dal!.Assignment.ReadAll();
 
         if (assignments.Count == 0) // בדיקה אם הרשימה ריקה
         {
@@ -788,7 +792,7 @@ internal class Program
         try
         {
             int id = getInt("Enter Assignment ID: ");
-            Assignment? assignment = s_dalAssignment.Read(id);
+            Assignment? assignment = s_dal!.Assignment.Read(id);
             if (assignment == null)
             {
                 Console.WriteLine("An assignment with this ID does not exist.");
@@ -844,7 +848,7 @@ internal class Program
                 endTreatment,
                 treatmentType
             );
-            s_dalAssignment.Create(newAssignment);
+            s_dal!.Assignment.Create(newAssignment);
         }
         catch (Exception ex)
         {
@@ -880,29 +884,29 @@ internal class Program
                         exit = true;
                         break;
                     case ConfigurationOption.AdvanceClockByMinute:
-                        s_dalConfig.Clock = s_dalConfig.Clock.AddMinutes(1);
+                        s_dal!.Config.Clock = s_dal!.Config.Clock.AddMinutes(1);
                         Console.WriteLine("System clock advanced by 1 minute.");
                         break;
                     case ConfigurationOption.AdvanceClockByHour:
-                        s_dalConfig.Clock = s_dalConfig.Clock.AddHours(1);
+                        s_dal!.Config.Clock = s_dal!.Config.Clock.AddHours(1);
                         Console.WriteLine("System clock advanced by 1 hour.");
                         break;
                     case ConfigurationOption.AdvanceClockByDay:
-                        s_dalConfig.Clock = s_dalConfig.Clock.AddDays(1);
+                        s_dal!.Config.Clock = s_dal!.Config.Clock.AddDays(1);
                         Console.WriteLine("System clock advanced by 1 day.");
                         break;
                     case ConfigurationOption.AdvanceClockByYear:
-                        s_dalConfig.Clock = s_dalConfig.Clock.AddYears(1);
+                        s_dal!.Config.Clock = s_dal!.Config.Clock.AddYears(1);
                         Console.WriteLine("System clock advanced by 1 year.");
                         break;
                     case ConfigurationOption.ShowCurrentClock:
-                        Console.WriteLine(s_dalConfig.Clock);
+                        Console.WriteLine(s_dal!.Config.Clock);
                         break;
                     case ConfigurationOption.SetConfigurationVariable:
                         SetSystemClock();
                         break;
                     case ConfigurationOption.ResetAllConfigurations:
-                        s_dalConfig.Reset();
+                        s_dal!.Config.Reset();
                         Console.WriteLine("All configuration values have been reset.");
                         break;
                     default:
@@ -920,8 +924,8 @@ internal class Program
 
         if (DateTime.TryParse(input, out DateTime newValue))
         {
-            s_dalConfig.Clock = newValue;
-            Console.WriteLine($"System clock updated to: {s_dalConfig.Clock}");
+            s_dal!.Config.Clock = newValue;
+            Console.WriteLine($"System clock updated to: {s_dal!.Config.Clock}");
         }
         else
         {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DalApi;
 using DO;
 
-public class CallImplementation : ICall
+internal class CallImplementation : ICall
 
 
 {

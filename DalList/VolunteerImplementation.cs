@@ -6,7 +6,7 @@ namespace Dal;
 using DalApi;
 using DO;
 
-public class VolunteerImplementation : IVolunteer
+internal class VolunteerImplementation : IVolunteer
 {
     //הוספת מתנדב חדש
     public void Create(Volunteer item)
