@@ -41,7 +41,8 @@ public class CallImplementation : ICall
     public Call? Read(int id)
     {
         Call? found;
-        found = DataSource.Calls.Find(call => call.Id == id);
+        found = DataSource.Calls.FirstOrDefault(item => item.Id == id); //stage 2
+
         return found;
     }
 

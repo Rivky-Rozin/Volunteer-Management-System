@@ -39,7 +39,8 @@ public class AssignmentImplementation : IAssignment
     public Assignment? Read(int id)
     {
         Assignment? found;
-        found = DataSource.Assignments.Find(assignment => assignment.Id == id);
+        found = DataSource.Assignments.FirstOrDefault(item => item.Id == id); //stage 2
+
         return found;
     }
 

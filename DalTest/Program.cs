@@ -2,7 +2,6 @@
 using DalApi;
 using DO;
 using System.Data;
-
 namespace DalTest;
 internal class Program
 {

@@ -38,7 +38,8 @@ public class VolunteerImplementation : IVolunteer
     public Volunteer? Read(int id)
     {
         Volunteer? found;
-        found = DataSource.Volunteers.Find(vol => vol.Id == id);
+        found = DataSource.Volunteers.FirstOrDefault(item => item.Id == id); //stage 2
+
         return found;
     }
 
