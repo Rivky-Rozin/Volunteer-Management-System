@@ -31,12 +31,14 @@ public class DalInputDoesNotMatchEnum : Exception
     public DalInputDoesNotMatchEnum(string? message) : base(message) { }
 }
 
+[Serializable]
 //השתמשנו בשגיאה זו במקומות שהיה צריך לזרוק שגיאה בעקבות קלט לא חוקי. לדוגמה אחרי TRYPARSE
 public class DalInvalidInput : Exception
 {
     public DalInvalidInput(string? message) : base(message) { }
 }
 
+[Serializable]
 public class DalXMLFileLoadCreateException : Exception
 {
     public DalXMLFileLoadCreateException(string? message) : base(message) { }
