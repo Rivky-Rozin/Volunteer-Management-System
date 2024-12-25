@@ -37,4 +37,9 @@ public class DalInvalidInput : Exception
     public DalInvalidInput(string? message) : base(message) { }
 }
 
+public class DalXMLFileLoadCreateException : Exception
+{
+    public DalXMLFileLoadCreateException(string? message) : base(message) { }
+}
+
 
