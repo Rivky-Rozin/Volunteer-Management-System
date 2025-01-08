@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<NextAssignmentId>1008</NextAssignmentId>
+	<NextCallId>41</NextCallId>
+	<Clock>41</Clock>
+	
 </config>

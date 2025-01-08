@@ -11,18 +11,8 @@ internal class CallImplementation : ICall
 {
     public void Create(Call item)
     {
-        Call copy;
-        //ראינו את ההערה על עדכון הID, ולמרות זאת לא שינינו כי רצינו להתייעץ עם המורה על בעיה אחרת שזה יוצר לנו והשיעור רק מחר. נשמח להתחשבות! 😃
-        if (!(item.Id > 0))
-        {
-            int id = Config.NextCallId;
-            copy = new(id, item.CallType, item.FullAddress, item.Latitude, item.Longitude, item.OpenTime, item.Description, item.MaxCallTime);
-        }
-        else
-        {
-            copy = new(item.Id, item.CallType, item.FullAddress, item.Latitude, item.Longitude, item.OpenTime, item.Description, item.MaxCallTime);
-        }
-
+        int id = Config.NextCallId;
+        Call copy = item with { Id = id };
         DataSource.Calls.Add(copy);
     }
 
@@ -52,11 +42,6 @@ internal class CallImplementation : ICall
     {
         return DataSource.Calls.FirstOrDefault(filter);
     }
-
-    //public List<Call> ReadAll()
-    //{
-    //    return new List<Call>(DataSource.Calls);
-    //}
 
     public IEnumerable<Call> ReadAll(Func<Call, bool>? filter = null) //stage 2
     {
