@@ -58,7 +58,7 @@ internal class CallImplementation : ICall
 
     public void Update(Call item)
     {
-        Delete(item.Id);
+        //Delete(item.Id);
         Create(item);
     }
 }

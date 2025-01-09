@@ -4,7 +4,7 @@ using DO;
 using System;
 using System.Collections.Generic;
 
-internal class callImplementation : ICall
+internal class CallImplementation : ICall
 {
     public void Create(Call item)
     {
@@ -26,7 +26,6 @@ internal class callImplementation : ICall
     public void DeleteAll()
     {
         XMLTools.SaveListToXMLSerializer(new List<Call>(), Config.s_calls_xml);
-
     }
 
     public Call? Read(int id)
@@ -49,8 +48,6 @@ internal class callImplementation : ICall
         return filter == null
             ? Calls.Select(item => item)
             : Calls.Where(filter);
-
-
     }
 
     public void Update(Call item)
