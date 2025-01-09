@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-	<NextAssignmentId>1008</NextAssignmentId>
-	<NextCallId>41</NextCallId>
-	<Clock>41</Clock>	
+  <NextAssignmentId>1000</NextAssignmentId>
+  <NextCallId>1001</NextCallId>
+  <Clock>09/01/2025 19:36:18</Clock>
 </config>

@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfVolunteer>
+  <Volunteer>
+    <Id>258680871</Id>
+    <Name>David Rosen</Name>
+    <Phone>0501234567</Phone>
+    <Email>david@example.com</Email>
+    <Role>Manager</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>Jerusalem</Address>
+    <Latitude>32.08310384644476</Latitude>
+    <Longitude>34.26888604882266</Longitude>
+    <Password />
+    <MaxDistance>3</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>320873127</Id>
+    <Name>Yael Cohen</Name>
+    <Phone>0527654321</Phone>
+    <Email>yael@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>false</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>Tel Aviv</Address>
+    <Latitude />
+    <Longitude />
+    <Password />
+    <MaxDistance />
+  </Volunteer>
+  <Volunteer>
+    <Id>207329343</Id>
+    <Name>Moshe Levi</Name>
+    <Phone>0549876543</Phone>
+    <Email>moshe@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>Haifa</Address>
+    <Latitude>31.414965597574277</Latitude>
+    <Longitude>34.44871110345749</Longitude>
+    <Password />
+    <MaxDistance>45</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>307779644</Id>
+    <Name>Shiran Bar</Name>
+    <Phone>0531237894</Phone>
+    <Email>shiran@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>false</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>Beer Sheva</Address>
+    <Latitude />
+    <Longitude />
+    <Password />
+    <MaxDistance />
+  </Volunteer>
+  <Volunteer>
+    <Id>272117846</Id>
+    <Name>Noa Amar</Name>
+    <Phone>0505678910</Phone>
+    <Email>noa@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>Ashdod</Address>
+    <Latitude>31.288825320379487</Latitude>
+    <Longitude>34.256546907718494</Longitude>
+    <Password />
+    <MaxDistance>14</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>309778210</Id>
+    <Name>Lior Avraham</Name>
+    <Phone>0523456789</Phone>
+    <Email>lior@example.com</Email>
+    <Role>Manager</Role>
+    <IsActive>false</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>Netanya</Address>
+    <Latitude />
+    <Longitude />
+    <Password />
+    <MaxDistance />
+  </Volunteer>
 </ArrayOfVolunteer>
-
