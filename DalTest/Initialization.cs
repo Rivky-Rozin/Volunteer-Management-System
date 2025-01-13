@@ -15,7 +15,7 @@ public static class Initialization
     private const int MAX_ID = 400000000;
     public static void Do(IDal dal)
     {
-                                                                                         
+
         s_dal = dal ?? throw new DalObjectCanNotBeNull("DAL object can not be null!"); // stage 2
 
         Console.WriteLine("Reset Configuration values and List values...");
@@ -70,8 +70,8 @@ public static class Initialization
 
         // מערך סוגי קריאות
         string[] callTypes = { "Technical", "Food", "Medical", "Emergency", "Other" };
-            // לולאה ליצירת קריאות
-            foreach (var address in addresses)
+        // לולאה ליצירת קריאות
+        foreach (var address in addresses)
         {
             int id = 0;
 

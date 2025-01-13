@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 static class XMLTools
 {
-    const string s_xmlDir = @"..\xml\";
+    const string s_xmlDir = @"C:\Users\user1\source\repos\dotNet5785_1652_9845\xml"; 
     static XMLTools()
     {
         if (!Directory.Exists(s_xmlDir))
@@ -98,6 +98,7 @@ static class XMLTools
     public static DateTime GetConfigDateVal(string xmlFileName, string elemName)
     {
         XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
+        Console.WriteLine(root);
         DateTime dt = root.ToDateTimeNullable(elemName) ?? throw new FormatException($"can't convert:  {xmlFileName}, {elemName}");
         return dt;
     }
