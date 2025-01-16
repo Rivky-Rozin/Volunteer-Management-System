@@ -24,7 +24,7 @@ namespace DO;
 
 public record Call(
     int Id,
-    Enum CallType,
+    CallType  CallType,
     string FullAddress,
     double Latitude,
     double Longitude,
