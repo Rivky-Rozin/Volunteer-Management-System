@@ -1,2 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfAssignment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<ArrayOfAssignment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Assignment>
+    <Id>1000</Id>
+    <VolunteerId>330146560</VolunteerId>
+    <CallId>1002</CallId>
+    <StartTreatment>2023-10-09T00:00:00</StartTreatment>
+    <EndTreatment xsi:nil="true" />
+    <TreatmentType>Simple</TreatmentType>
+  </Assignment>
+  <Assignment>
+    <Id>1001</Id>
+    <VolunteerId>320410320</VolunteerId>
+    <CallId>1001</CallId>
+    <StartTreatment>2024-11-01T00:00:00</StartTreatment>
+    <EndTreatment>2024-11-01T01:30:00</EndTreatment>
+    <TreatmentType xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1002</Id>
+    <VolunteerId>353602397</VolunteerId>
+    <CallId>1006</CallId>
+    <StartTreatment>2024-07-16T00:00:00</StartTreatment>
+    <EndTreatment>2024-07-16T00:33:00</EndTreatment>
+    <TreatmentType xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1003</Id>
+    <VolunteerId>378134032</VolunteerId>
+    <CallId>1002</CallId>
+    <StartTreatment>2023-09-12T00:00:00</StartTreatment>
+    <EndTreatment xsi:nil="true" />
+    <TreatmentType xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1004</Id>
+    <VolunteerId>379082708</VolunteerId>
+    <CallId>1001</CallId>
+    <StartTreatment>2024-10-01T00:00:00</StartTreatment>
+    <EndTreatment xsi:nil="true" />
+    <TreatmentType xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1005</Id>
+    <VolunteerId>306423139</VolunteerId>
+    <CallId>1006</CallId>
+    <StartTreatment>2024-07-03T00:00:00</StartTreatment>
+    <EndTreatment xsi:nil="true" />
+    <TreatmentType>Emergency</TreatmentType>
+  </Assignment>
+</ArrayOfAssignment>

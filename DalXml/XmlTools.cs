@@ -7,7 +7,8 @@ using System.Xml.Serialization;
 
 static class XMLTools
 {
-    const string s_xmlDir = @"C:\Users\user1\source\repos\dotNet5785_1652_9845\xml"; 
+    //const string s_xmlDir = @"C:\Users\bashy\source\repos\dotNet5785_1652_9845\xml"; 
+    const string s_xmlDir=@"..\xml\"; 
     static XMLTools()
     {
         if (!Directory.Exists(s_xmlDir))
@@ -21,8 +22,11 @@ static class XMLTools
 
         try
         {
+            DO.CallType c = CallType.Food;
             using FileStream file = new(xmlFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            new XmlSerializer(typeof(List<T>)).Serialize(file, list);
+            var ser = new XmlSerializer(typeof(List<T>));
+            ser.Serialize(file,list );
+            //new XmlSerializer(typeof(List<T>)).Serialize(file, list);
         }
         catch (Exception ex)
         {
