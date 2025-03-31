@@ -80,10 +80,8 @@ public static class Initialization
 
             // קבלת הערך ממערך סוגי הקריאות
             string selectedCallType = callTypes[randomIndex];
-
-            // המרת המחרוזת לערך באנסום CallType
-            //todo: ask gpt how to rand from enum
-            DO.CallType callType = DO.CallType.Food;
+            DO.CallType callType = (DO.CallType)Enum.GetValues(typeof(DO.CallType))
+                                                .GetValue(s_rand.Next(0, Enum.GetValues(typeof(DO.CallType)).Length));
 
             // יצירת תיאור רנדומלי
             string description = $"Call regarding {callType.ToString().ToLower()} support at {address}.";

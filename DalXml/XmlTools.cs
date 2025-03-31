@@ -22,7 +22,7 @@ static class XMLTools
 
         try
         {
-            DO.CallType c = CallType.Food;
+            //DO.CallType c = CallType.Food;
             using FileStream file = new(xmlFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
             var ser = new XmlSerializer(typeof(List<T>));
             ser.Serialize(file,list );
@@ -102,7 +102,7 @@ static class XMLTools
     public static DateTime GetConfigDateVal(string xmlFileName, string elemName)
     {
         XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
-        //Console.WriteLine(root);
+        Console.WriteLine(root);
         DateTime dt = root.ToDateTimeNullable(elemName) ?? throw new FormatException($"can't convert:  {xmlFileName}, {elemName}");
         return dt;
     }

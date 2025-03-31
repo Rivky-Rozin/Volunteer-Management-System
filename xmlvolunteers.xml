@@ -57,7 +57,7 @@
     <MaxDistance />
   </Volunteer>
   <Volunteer>
-    <Id>377433640</Id>
+    <Id>310332958</Id>
     <Name>Noa Amar</Name>
     <Phone>0505678910</Phone>
     <Email>noa@example.com</Email>
@@ -68,7 +68,7 @@
     <Latitude>31.372079198681266</Latitude>
     <Longitude>35.86311664608534</Longitude>
     <Password />
-    <MaxDistance>22</MaxDistance>
+    <MaxDistance>11</MaxDistance>
   </Volunteer>
   <Volunteer>
     <Id>376165306</Id>
