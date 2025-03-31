@@ -75,15 +75,15 @@ internal class VolunteerImplementation : IVolunteer
         return new XElement("Volunteer",
             new XElement("Id", item.Id),
             new XElement("Name", item.Name),
-            new XElement("Phone", item.Phone),
+           new XElement("Phone", item.Phone),
             new XElement("Email", item.Email),
             new XElement("Role", item.Role),
             new XElement("IsActive", item.IsActive),
             new XElement("DistanceKind", item.DistanceKind),
             new XElement("Address", item.Address),
-            new XElement("Latitude", item.Latitude),
+            item.Latitude != null ? new XElement("Latitude", item.Latitude) : null,
             new XElement("Longitude", item.Longitude),
-            new XElement("Password", item.Password),
+          new XElement("Password", item.Password),
             new XElement("MaxDistance", item.MaxDistance)
         );
     }

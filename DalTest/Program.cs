@@ -29,6 +29,11 @@ internal class Program
     #region general methods 
     // שאלתי את GPT איך אני יכולה לסדר את הקוד והוא הביא את הרעיון הזה
     //הצגת התפריט הראשי
+    
+    /// <summary>
+    /// הפונקציה ששולטת על התפריט
+    /// </summary>
+    
     private static void ShowMainMenu()
     {
         bool exit = false;
@@ -499,7 +504,10 @@ internal class Program
                 role,
                 isActive,
                 distanceKind,
-                address
+                address,
+                volunteerToUpdate.Latitude
+
+                    
             );
 
             s_dal!.Volunteer.Update(updatedVolunteer);
@@ -928,6 +936,12 @@ internal class Program
     #endregion
 
     //מתודת עזר לתוספת של TryParse
+    /// <summary>
+    /// הפונקציה מקבל מחרוזת ומנסה להמיר אותה לאינט
+    /// כל עוד שהיא לא הצליחה היא מבקשת להכניס שוב קלט תקין
+    /// </summary>
+    /// <param name="message">פה מתקבלת ההודעה שתוצג בהתחלה וגם במקרה של שגיאה</param>
+    /// <returns>את המספר שהתקבל אחרי הפעלת הפונקציה</returns>
     static int getInt(string message)
     {
         int myInt;
