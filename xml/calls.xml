@@ -2,82 +2,72 @@
 <ArrayOfCall xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Call>
     <Id>1000</Id>
-    <CallType>Food</CallType>
+    <CallType>Other</CallType>
     <FullAddress>123 Main Street</FullAddress>
-    <Latitude>60.26057379682209</Latitude>
-    <Longitude>-56.47349417774127</Longitude>
-    <OpenTime>2024-10-08T02:40:16</OpenTime>
-    <Description>Call regarding food support at 123 Main Street.</Description>
-    <MaxCallTime>2024-10-08T15:40:16</MaxCallTime>
+    <Latitude>-58.704296828040896</Latitude>
+    <Longitude>-99.02914514984546</Longitude>
+    <OpenTime>2024-04-15T11:04:55</OpenTime>
+    <Description>Call regarding other support at 123 Main Street.</Description>
+    <MaxCallTime>2024-04-16T17:04:55</MaxCallTime>
   </Call>
   <Call>
     <Id>1001</Id>
-    <CallType>Other</CallType>
+    <CallType>Technical</CallType>
     <FullAddress>45 Elm Avenue</FullAddress>
-    <Latitude>61.95596874944604</Latitude>
-    <Longitude>-160.1818790203499</Longitude>
-    <OpenTime>2024-08-26T23:09:16</OpenTime>
-    <Description>Call regarding other support at 45 Elm Avenue.</Description>
-    <MaxCallTime>2024-08-28T10:09:16</MaxCallTime>
+    <Latitude>55.337736899751434</Latitude>
+    <Longitude>22.746096974581576</Longitude>
+    <OpenTime>2023-07-18T19:27:55</OpenTime>
+    <Description>Call regarding technical support at 45 Elm Avenue.</Description>
+    <MaxCallTime>2023-07-19T08:27:55</MaxCallTime>
   </Call>
   <Call>
     <Id>1002</Id>
-    <CallType>Other</CallType>
+    <CallType>Technical</CallType>
     <FullAddress>78 Oak Lane</FullAddress>
-    <Latitude>-64.37045284895437</Latitude>
-    <Longitude>56.177561887278586</Longitude>
-    <OpenTime>2024-06-01T16:47:16</OpenTime>
-    <Description>Call regarding other support at 78 Oak Lane.</Description>
-    <MaxCallTime>2024-06-02T03:47:16</MaxCallTime>
+    <Latitude>7.908183380476856</Latitude>
+    <Longitude>124.0464888665993</Longitude>
+    <OpenTime>2024-01-25T09:10:55</OpenTime>
+    <Description>Call regarding technical support at 78 Oak Lane.</Description>
+    <MaxCallTime>2024-01-25T17:10:55</MaxCallTime>
   </Call>
   <Call>
     <Id>1003</Id>
-    <CallType>Food</CallType>
+    <CallType>Emergency</CallType>
     <FullAddress>22 Maple Drive</FullAddress>
-    <Latitude>-46.71741098087381</Latitude>
-    <Longitude>-69.56392295094392</Longitude>
-    <OpenTime>2023-07-07T16:25:16</OpenTime>
-    <Description>Call regarding food support at 22 Maple Drive.</Description>
-    <MaxCallTime>2023-07-08T09:25:16</MaxCallTime>
+    <Latitude>67.8263909275212</Latitude>
+    <Longitude>-178.33870166788859</Longitude>
+    <OpenTime>2023-05-22T08:43:55</OpenTime>
+    <Description>Call regarding emergency support at 22 Maple Drive.</Description>
+    <MaxCallTime>2023-05-24T06:43:55</MaxCallTime>
   </Call>
   <Call>
     <Id>1004</Id>
-    <CallType>Technical</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>56 Pine Boulevard</FullAddress>
-    <Latitude>23.724513097857127</Latitude>
-    <Longitude>158.39779529165565</Longitude>
-    <OpenTime>2024-05-20T09:42:16</OpenTime>
-    <Description>Call regarding technical support at 56 Pine Boulevard.</Description>
-    <MaxCallTime>2024-05-20T12:42:16</MaxCallTime>
+    <Latitude>49.948391562637624</Latitude>
+    <Longitude>-7.984228463199429</Longitude>
+    <OpenTime>2024-04-02T18:24:55</OpenTime>
+    <Description>Call regarding medical support at 56 Pine Boulevard.</Description>
+    <MaxCallTime>2024-04-04T11:24:55</MaxCallTime>
   </Call>
   <Call>
     <Id>1005</Id>
-    <CallType>Technical</CallType>
+    <CallType>Food</CallType>
     <FullAddress>89 Cedar Road</FullAddress>
-    <Latitude>-2.9739177648152406</Latitude>
-    <Longitude>-144.8077922141693</Longitude>
-    <OpenTime>2024-03-18T10:20:16</OpenTime>
-    <Description>Call regarding technical support at 89 Cedar Road.</Description>
-    <MaxCallTime>2024-03-19T06:20:16</MaxCallTime>
+    <Latitude>-24.478603287008383</Latitude>
+    <Longitude>97.68550056551294</Longitude>
+    <OpenTime>2023-10-02T23:58:55</OpenTime>
+    <Description>Call regarding food support at 89 Cedar Road.</Description>
+    <MaxCallTime>2023-10-03T09:58:55</MaxCallTime>
   </Call>
   <Call>
     <Id>1006</Id>
-    <CallType>Other</CallType>
+    <CallType>Technical</CallType>
     <FullAddress>101 Ash Street</FullAddress>
-    <Latitude>54.11055511866999</Latitude>
-    <Longitude>104.11797875755354</Longitude>
-    <OpenTime>2024-09-07T20:37:16</OpenTime>
-    <Description>Call regarding other support at 101 Ash Street.</Description>
-    <MaxCallTime>2024-09-08T13:37:16</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1007</Id>
-    <CallType>Food</CallType>
-    <FullAddress>ddd</FullAddress>
-    <Latitude>44</Latitude>
-    <Longitude>55</Longitude>
-    <OpenTime>2005-12-12T20:20:20</OpenTime>
-    <Description />
-    <MaxCallTime xsi:nil="true" />
+    <Latitude>-80.27674217371082</Latitude>
+    <Longitude>-123.141811895541</Longitude>
+    <OpenTime>2023-07-20T02:41:55</OpenTime>
+    <Description>Call regarding technical support at 101 Ash Street.</Description>
+    <MaxCallTime>2023-07-20T07:41:55</MaxCallTime>
   </Call>
 </ArrayOfCall>

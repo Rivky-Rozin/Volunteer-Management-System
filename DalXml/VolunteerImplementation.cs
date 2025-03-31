@@ -80,11 +80,11 @@ internal class VolunteerImplementation : IVolunteer
             new XElement("Role", item.Role),
             new XElement("IsActive", item.IsActive),
             new XElement("DistanceKind", item.DistanceKind),
-            new XElement("Address", item.Address),
-            new XElement("Latitude", item.Latitude),
-            new XElement("Longitude", item.Longitude),
-            new XElement("Password", item.Password),
-            new XElement("MaxDistance", item.MaxDistance)
+           !string.IsNullOrEmpty(item.Address) ? new XElement("Address", item.Address) : null,
+           item.Latitude.HasValue ? new XElement("Latitude", item.Latitude) : null,
+           item.Longitude.HasValue ? new XElement("Longitude", item.Longitude) : null,
+            !string.IsNullOrEmpty(item.Password) ? new XElement("Password", item.Password) : null,
+           item.MaxDistance.HasValue ? new XElement("MaxDistance", item.MaxDistance) : null
         );
     }
 

@@ -31,8 +31,14 @@ public record Volunteer
     string? Password = null,
     double? MaxDistance = null
     )
-{
-    public Volunteer() : this(0,"","","",default,false,default,"",0.0,0.0,"",0.0)
+{ 
+    public Volunteer() : this(0, "", "", "", default, false, default, "", 0.0, 0.0, "", 0.0)
     {
     }
+
+    public bool ShouldSerializeLongitude()
+    { return Longitude.HasValue; } 
+
+    public bool ShouldSerializeAddress()
+    { return Address != null; }
 }
