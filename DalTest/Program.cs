@@ -1,16 +1,16 @@
-﻿//using Dal;
+﻿namespace DalTest;
+
 using DalApi;
 
-using DO;
 using Dal;
+using DO;
 
 using System.Data;
 using System.Linq;
-namespace DalTest;
 internal class Program
 {
-    //static readonly IDal s_dal = new Dal.DalList(); //stage 2
-    static readonly IDal s_dal = new DalXml(); //stage 3
+    static readonly IDal s_dal = new Dal.DalList(); //stage 2
+    //static readonly IDal s_dal = new DalXml(); //stage 3
 
 
     static void Main(string[] args)
