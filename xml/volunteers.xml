@@ -23,9 +23,6 @@
     <IsActive>false</IsActive>
     <DistanceKind>Ground</DistanceKind>
     <Address>Tel Aviv</Address>
-    <Longitude />
-    <Password />
-    <MaxDistance />
   </Volunteer>
   <Volunteer>
     <Id>395106087</Id>
@@ -50,9 +47,6 @@
     <IsActive>false</IsActive>
     <DistanceKind>Ground</DistanceKind>
     <Address>Beer Sheva</Address>
-    <Longitude />
-    <Password />
-    <MaxDistance />
   </Volunteer>
   <Volunteer>
     <Id>271800977</Id>
@@ -77,8 +71,5 @@
     <IsActive>false</IsActive>
     <DistanceKind>Ground</DistanceKind>
     <Address>Netanya</Address>
-    <Longitude />
-    <Password />
-    <MaxDistance />
   </Volunteer>
 </ArrayOfVolunteer>

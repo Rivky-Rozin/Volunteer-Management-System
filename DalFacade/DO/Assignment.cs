@@ -17,11 +17,13 @@ public record Assignment
    DateTime StartTreatment ,
    DateTime? EndTreatment=null ,
    TreatmentType? TreatmentType=null
-
 )
 {
     public Assignment()
     : this(0, 0, 0,DateTime.Now, DateTime.Now, default) { }
+
+    public bool ShouldSerializeTreatmentType() => TreatmentType.HasValue;
+    public bool ShouldSerializeEndTreatment() => EndTreatment.HasValue;
 }
 
 

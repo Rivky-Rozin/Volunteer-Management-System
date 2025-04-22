@@ -22,7 +22,7 @@
   </Call>
   <Call>
     <Id>1002</Id>
-    <CallType>Other</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>78 Oak Lane</FullAddress>
     <Latitude>55.87635765511544</Latitude>
     <Longitude>42.536976330869635</Longitude>
@@ -32,7 +32,7 @@
   </Call>
   <Call>
     <Id>1003</Id>
-    <CallType>Food</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>22 Maple Drive</FullAddress>
     <Latitude>67.04596911510521</Latitude>
     <Longitude>134.8049666951299</Longitude>

@@ -1,5 +1,5 @@
 ﻿namespace Dal;
-
+//xx
 using DO;
 using System.Xml;
 using System.Xml.Linq;
@@ -102,7 +102,7 @@ static class XMLTools
     public static DateTime GetConfigDateVal(string xmlFileName, string elemName)
     {
         XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
-        Console.WriteLine(root);
+        //Console.WriteLine(root);
         DateTime dt = root.ToDateTimeNullable(elemName) ?? throw new FormatException($"can't convert:  {xmlFileName}, {elemName}");
         return dt;
     }

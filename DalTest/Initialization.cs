@@ -22,7 +22,7 @@ public static class Initialization
 
         s_dal.ResetDB();//stage 
 
-        Console.WriteLine("Initializing All list ...");
+        Console.WriteLine("Initializing All lists ...");
 
         createVolunteers();
         createCalls();
