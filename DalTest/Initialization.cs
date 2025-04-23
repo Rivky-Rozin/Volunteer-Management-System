@@ -13,10 +13,10 @@ public static class Initialization
     private static readonly Random s_rand = new();
     private const int MIN_ID = 200000000;
     private const int MAX_ID = 400000000;
-    public static void Do(IDal dal)
+    public static void Do()//stage 4 
     {
-
-        s_dal = dal ?? throw new DalObjectCanNotBeNull("DAL object can not be null!"); // stage 2
+        //מאותחל לפי מחלקת הפקטורי ששולחת את המחלקה המתאימה לפי קובץ הקונפיגורציה
+        s_dal = DalApi.Factory.Get; // stage 4
 
         Console.WriteLine("Reset Configuration values and List values...");
 

@@ -9,15 +9,17 @@ using System.Data;
 using System.Linq;
 internal class Program
 {
-    static readonly IDal s_dal = new Dal.DalList(); //stage 2
+    //static readonly IDal s_dal = new Dal.DalList(); //stage 2
     //static readonly IDal s_dal = new DalXml(); //stage 3
+    static readonly IDal s_dal = Factory.Get; //stage 4
 
 
     static void Main(string[] args)
     {
         try
         {
-            Initialization.Do(s_dal);
+            //Initialization.Do(s_dal); //stage 3
+            Initialization.Do(); //stage 4
             ShowMainMenu();
         }
         catch (Exception ex)
@@ -104,7 +106,7 @@ internal class Program
     //אתחול הכל
     private static void InitializeAll()
     {
-        Initialization.Do(s_dal); // קריאה לאתחול הנתונים
+        Initialization.Do(); // קריאה לאתחול הנתונים
         Console.WriteLine("data initialized succesfully");
     }
     //הצגת כל המידע
