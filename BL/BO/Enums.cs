@@ -1,5 +1,23 @@
 ﻿namespace BO;
 
+public enum VolunteerRole
+{
+    Manager,
+    Regular
+}
+
+public enum DistanceKind
+{
+    Aerial,
+    Ground
+    
+}
+public enum Status
+{
+    AtRiskActiveCall,
+    ActiveCall
+}
+
 public enum CallType
 {
     Technical,
@@ -9,8 +27,10 @@ public enum CallType
     Other
 }
 
-public enum Status
+public enum TreatmentEndTypeEnum
 {
-    AtRiskActiveCall,
-    ActiveCall
+    Completed,
+    Canceled,
+    Timeout,
+    Escalated
 }
