@@ -18,5 +18,6 @@ public class Student
     public int CancelledCallsCount { get;  }
     public int ExpiredHandledCallsCount { get;  }
     public BO.CallInProgress? CallInProgress { get; set; }
+
 }
 
