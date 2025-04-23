@@ -28,3 +28,12 @@ public enum Status
     InProgress,
     Closed
 }
+
+
+public enum TreatmentEndTypeEnum
+{
+    Completed,
+    Canceled,
+    Timeout,
+    Escalated
+}
