@@ -11,7 +11,6 @@ public enum CallType
 
 public enum Status
 {
-    Open,
-    InProgress,
-    Closed
+    AtRiskActiveCall,
+    ActiveCall
 }
