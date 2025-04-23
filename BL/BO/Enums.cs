@@ -11,3 +11,20 @@ public enum DistanceKind
     Aerial,
     Ground
 }
+
+public enum CallType
+{
+    Technical,
+    Food,
+    Medical,
+    Emergency,
+    Other,
+    None
+}
+
+public enum Status
+{
+    Open,
+    InProgress,
+    Closed
+}
