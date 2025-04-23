@@ -1,4 +1,6 @@
-﻿namespace DalApi;
+﻿using System.Reflection;
+
+namespace DalApi;
 public static class Factory
 {
     public static IDal Get
@@ -13,9 +15,20 @@ public static class Factory
 
             Type type = Type.GetType($"{dal.Namespace}.{dal.Class}, {dal.Package}") ??
                 throw new DalConfigException($"Class {dal.Namespace}.{dal.Class} was not found in {dal.Package}.dll");
+            
+           // Type tPerson = type.GetType("MyClassLibrary.Person", "d:/MyClassLibrary.dll");
+           //System.Reflection.PropertyInfo prop=   tPerson.GetProperty("FullName");
 
-            return type.GetProperty("Instance", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)?.GetValue(null) as IDal ??
+            PropertyInfo? pi = type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static);
+            IDal? myDal = pi?.GetValue(null) as IDal;
+            
+            if (myDal == null)
                 throw new DalConfigException($"Class {dal.Class} is not a singleton or wrong property name for Instance");
+            return myDal;
+
+
+            //return type.GetProperty("Instance", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)?.GetValue(null) as IDal ??
+            //    throw new DalConfigException($"Class {dal.Class} is not a singleton or wrong property name for Instance");
         }
     }
 }
