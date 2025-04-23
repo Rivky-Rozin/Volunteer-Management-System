@@ -10,12 +10,6 @@ public enum DistanceKind
 {
     Aerial,
     Ground
-    
-}
-public enum Status
-{
-    AtRiskActiveCall,
-    ActiveCall
 }
 
 public enum CallType
@@ -24,8 +18,17 @@ public enum CallType
     Food,
     Medical,
     Emergency,
-    Other
+    Other,
+    None
 }
+
+public enum Status
+{
+    Open,
+    InProgress,
+    Closed
+}
+
 
 public enum TreatmentEndTypeEnum
 {

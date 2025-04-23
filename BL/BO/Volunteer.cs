@@ -1,6 +1,6 @@
 ﻿
 namespace BO;
-public class Student
+public class Volunteer
 {
     public int Id { get; init; }
     public string Name { get; set; }
