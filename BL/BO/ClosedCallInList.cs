@@ -19,11 +19,11 @@
 public class ClosedCallInList
 {
 
-    public int Id { get; }
-    public CallType CallType { get; }
-    public string FullAddress { get; }
-    public DateTime OpenTime { get; }
-    public DateTime EntryToTreatmentTime { get; }
-    public DateTime? ActualTreatmentEndTime { get; }
-    public TreatmentEndTypeEnum? TreatmentEndType { get; }
+    public int Id { get; init; }
+    public CallType CallType { get; init; }
+    public string FullAddress { get; init; }
+    public DateTime OpenTime { get; init; }
+    public DateTime EntryToTreatmentTime { get; init; }
+    public DateTime? ActualTreatmentEndTime { get; init; }
+    public TreatmentEndTypeEnum? TreatmentEndType { get; init; }
 }

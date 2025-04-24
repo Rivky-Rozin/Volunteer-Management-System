@@ -18,13 +18,13 @@
 
 internal class OpenCallInList
 {
-    public int Id { get; }
-    public CallType CallType { get; }
+    public int Id { get; init; }
+    public CallType CallType { get; init; }
 
-    public string Description { get; }
-    public string FullAddress { get; }
-    public DateTime OpenTime { get; }
-    public DateTime? MaxEndTime { get; }
-    public double DistanceFromVolunteer { get; }
+    public string Description { get; init; }
+    public string FullAddress { get; init; }
+    public DateTime OpenTime { get; init; }
+    public DateTime? MaxEndTime { get; init; }
+    public double DistanceFromVolunteer { get; init; }
 
 }

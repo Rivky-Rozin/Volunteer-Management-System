@@ -6,7 +6,7 @@ public class CallInProgress
 {
     public int Id { get; init; }
     public int CallId { get; set; }
-    public CallType CallType { get; set; }
+    CallType CallType { get; set; }
     public string? Description { get; set; }
     public string FullAddress { get; set; }
     //זמן פתיחה
@@ -19,8 +19,7 @@ public class CallInProgress
     //מרחק קריאה מהמתנדב המטפל
     public double DistanceFromVolunteer { get; set; }
 
-    public Status status { get; set; }
-
+    public CallInProgressStatus status { get; set; }
 
 
 }

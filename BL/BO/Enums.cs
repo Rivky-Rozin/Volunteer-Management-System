@@ -22,11 +22,18 @@ public enum CallType
     None
 }
 
+//איפה משתמשים?
 public enum Status
 {
     Open,
     InProgress,
     Closed
+}
+
+public enum CallInProgressStatus
+{
+    InProgress,
+    InProgressAtRisk
 }
 
 
@@ -36,4 +43,20 @@ public enum TreatmentEndTypeEnum
     Canceled,
     Timeout,
     Escalated
+}
+
+public enum CallStatus
+{
+    Open,
+    InProgress, 
+    Closed,
+    Expired,
+    OpenAtRisk,
+    InProgressAtRisk
+}
+
+public enum EndOfTreatmentType { 
+    Simple,
+    Complex, 
+    Emergency
 }

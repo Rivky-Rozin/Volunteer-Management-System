@@ -14,9 +14,9 @@ public class Volunteer
     public bool IsActive { get; set; }
     public double? MaxDistance { get; set; }
     public DistanceKind? DistanceKind { get; set; }
-    public int HandledCallsCount { get; }
-    public int CancelledCallsCount { get;  }
-    public int ExpiredHandledCallsCount { get;  }
+    public int HandledCallsCount { get; init; }
+    public int CancelledCallsCount { get; init; }
+    public int ExpiredHandledCallsCount { get; init; }
     public BO.CallInProgress? CallInProgress { get; set; }
 
 }
