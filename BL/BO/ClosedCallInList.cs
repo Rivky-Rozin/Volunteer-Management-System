@@ -21,6 +21,7 @@ public class ClosedCallInList
 {
 
     public int Id { get; init; }
+
     public CallType CallType { get; init; }
     public string FullAddress { get; init; }
     public DateTime OpenTime { get; init; }
