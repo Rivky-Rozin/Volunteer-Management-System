@@ -1,4 +1,6 @@
 ﻿
+using Helpers;
+
 namespace BO;
 public class Call
 {
@@ -12,5 +14,5 @@ public class Call
     public DateTime? MaxFinishTime { get; set; }
     public CallStatus Status { get; set; }
     public List<BO.CallAssignInList>? Assignments { get; set; }
-
+    public override string ToString() => this.ToStringProperty();
 }

@@ -1,4 +1,4 @@
-﻿
+﻿using Helpers;
 namespace BO;
 public class CallAssignInList
 {
@@ -7,4 +7,5 @@ public class CallAssignInList
     public DateTime StartTreatmentTime { get; init; }
     public DateTime? FinishTreatmentTime { get; init; }
     public EndOfTreatmentType? EndOfTreatmentType { get; init; }
+    public override string ToString() => this.ToStringProperty();
 }

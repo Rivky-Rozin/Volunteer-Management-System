@@ -1,4 +1,6 @@
-﻿namespace BO;
+﻿
+using Helpers;
+namespace BO;
 
 public class CallInList
 {
@@ -11,4 +13,5 @@ public class CallInList
     public TimeSpan? totalTreatmentTime { get; init; }
     public CallStatus Status { get; init; }
     public int NumberOfAssignments { get; init; }
+    public override string ToString() => this.ToStringProperty();
 }

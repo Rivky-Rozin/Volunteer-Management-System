@@ -1,4 +1,5 @@
-﻿namespace BO;
+﻿using Helpers;
+namespace BO;
 /// <summary>
 /// Creates a new instance of <see cref="OpenCallInList"/>, representing a read-only open call available for selection
 /// by a volunteer in the "Choose Call for Treatment" screen.
@@ -26,5 +27,5 @@ internal class OpenCallInList
     public DateTime OpenTime { get; init; }
     public DateTime? MaxEndTime { get; init; }
     public double DistanceFromVolunteer { get; init; }
-
+    public override string ToString() => this.ToStringProperty();
 }

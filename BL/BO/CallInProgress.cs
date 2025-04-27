@@ -1,4 +1,5 @@
 ﻿using DO;
+using Helpers;
 
 namespace BO;
 
@@ -21,5 +22,5 @@ public class CallInProgress
 
     public CallInProgressStatus status { get; set; }
 
-
+    public override string ToString() => this.ToStringProperty();
 }

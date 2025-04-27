@@ -1,4 +1,5 @@
-﻿namespace BO;
+﻿using Helpers;
+namespace BO;
 
 /// <summary>
 /// Creates a new instance of <see cref="ClosedCallInList"/> representing a read-only view of a closed call,
@@ -26,4 +27,5 @@ public class ClosedCallInList
     public DateTime EntryToTreatmentTime { get; init; }
     public DateTime? ActualTreatmentEndTime { get; init; }
     public TreatmentEndTypeEnum? TreatmentEndType { get; init; }
+    public override string ToString() => this.ToStringProperty();
 }
