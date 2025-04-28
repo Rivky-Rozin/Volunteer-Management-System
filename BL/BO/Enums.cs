@@ -48,15 +48,25 @@ public enum TreatmentEndTypeEnum
 public enum CallStatus
 {
     Open,
-    InProgress, 
+    InProgress,
     Closed,
     Expired,
     OpenAtRisk,
     InProgressAtRisk
 }
 
-public enum EndOfTreatmentType { 
+public enum EndOfTreatmentType
+{
     Simple,
-    Complex, 
+    Complex,
     Emergency
+}
+
+public enum TimeUnit
+{
+    Minute,
+    Hour,
+    Day,
+    Month,
+    Year
 }

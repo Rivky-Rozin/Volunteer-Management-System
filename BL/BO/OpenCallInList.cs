@@ -17,7 +17,7 @@ namespace BO;
 /// Calculated in the logic layer based on the volunteer's current position when viewing the list.
 /// </param>
 
-internal class OpenCallInList
+public class OpenCallInList
 {
     public int Id { get; init; }
     public CallType CallType { get; init; }

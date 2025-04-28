@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DalApi;
 
 namespace Helpers
 {
-    internal class CallManager
+    internal static class CallManager
     {
+        private static IDal s_dal = Factory.Get; //stage 4
+
     }
 }
