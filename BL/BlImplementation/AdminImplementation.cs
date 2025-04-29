@@ -4,8 +4,6 @@ namespace BlImplementation;
 
 using System;
 using BlApi;
-//using BO;
-
 using Helpers;
 
 internal class AdminImplementation : IAdmin

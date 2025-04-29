@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BO;
-
+﻿
 namespace BlApi
 {
     public interface IVolunteer
     {
-       public VolunteerRole Login(string username, string password);
+        public VolunteerRole Login(string username, string password);
 
         public IEnumerable<VolunteerInList> GetVolunteersList(bool? isActive = null, VolunteerInList? sortBy = null);
 
