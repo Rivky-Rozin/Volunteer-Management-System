@@ -4,31 +4,32 @@ namespace BlImplementation;
 
 using System;
 using BlApi;
-using BO;
+//using BO;
+
 using Helpers;
 
 internal class AdminImplementation : IAdmin
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
-    public void AdvanceTime(TimeUnit timeUnit)
+    public void AdvanceTime(BO.TimeUnit timeUnit)
     {
         DateTime newTime = ClockManager.Now;
 
         switch (timeUnit)
         {
-            case TimeUnit.Minute:
+            case BO.TimeUnit.Minute:
                 newTime = newTime.AddMinutes(1);
                 break;
-            case TimeUnit.Hour:
+            case BO.TimeUnit.Hour:
                 newTime = newTime.AddHours(1);
                 break;
-            case TimeUnit.Day:
+            case BO.TimeUnit.Day:
                 newTime = newTime.AddDays(1);
                 break;
-            case TimeUnit.Month:
+            case BO.TimeUnit.Month:
                 newTime = newTime.AddMonths(1);
                 break;
-            case TimeUnit.Year:
+            case BO.TimeUnit.Year:
                 newTime = newTime.AddYears(1);
                 break;
         }

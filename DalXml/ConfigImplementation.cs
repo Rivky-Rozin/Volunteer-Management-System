@@ -1,6 +1,6 @@
-﻿using DalApi;
+﻿namespace Dal;
+using DalApi;
 
-namespace Dal;
 
 internal class ConfigImplementation : IConfig
 {
