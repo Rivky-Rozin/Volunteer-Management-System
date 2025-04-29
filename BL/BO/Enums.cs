@@ -70,3 +70,6 @@ public enum TimeUnit
     Month,
     Year
 }
+
+enum CallField { RequesterName, Status, StartTime }
+
