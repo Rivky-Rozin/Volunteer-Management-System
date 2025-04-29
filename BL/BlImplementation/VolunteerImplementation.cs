@@ -4,11 +4,12 @@ namespace BlImplementation;
 
 using System.Collections.Generic;
 using BlApi;
-using BO;
+
 
 internal class VolunteerImplementation : IVolunteer
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
+
     public void AddVolunteer(Volunteer volunteer)
     {
         throw new NotImplementedException();
