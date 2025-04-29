@@ -4,13 +4,12 @@ namespace BlImplementation;
 
 using System;
 using BlApi;
-using BO;
 using Helpers;
 
 internal class AdminImplementation : IAdmin
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
-    public void AdvanceTime(TimeUnit timeUnit)
+    public void AdvanceTime(BO.TimeUnit timeUnit)
     {
         DateTime newTime = ClockManager.Now;
 
