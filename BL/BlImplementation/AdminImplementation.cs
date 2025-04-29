@@ -15,19 +15,19 @@ internal class AdminImplementation : IAdmin
 
         switch (timeUnit)
         {
-            case TimeUnit.Minute:
+            case BO.TimeUnit.Minute:
                 newTime = newTime.AddMinutes(1);
                 break;
-            case TimeUnit.Hour:
+            case BO.TimeUnit.Hour:
                 newTime = newTime.AddHours(1);
                 break;
-            case TimeUnit.Day:
+            case BO.TimeUnit.Day:
                 newTime = newTime.AddDays(1);
                 break;
-            case TimeUnit.Month:
+            case BO.TimeUnit.Month:
                 newTime = newTime.AddMonths(1);
                 break;
-            case TimeUnit.Year:
+            case BO.TimeUnit.Year:
                 newTime = newTime.AddYears(1);
                 break;
         }
