@@ -71,5 +71,5 @@ public enum TimeUnit
     Year
 }
 
-enum CallField { RequesterName, Status, StartTime }
+public enum CallField { RequesterName, Status, StartTime }
 

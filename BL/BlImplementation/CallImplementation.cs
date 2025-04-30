@@ -58,6 +58,7 @@ internal class CallImplementation : ICall
     {
         try
         {
+            //todo
             DO.Call? doCall = _dal.Call.Read(callId) ?? throw new DO.EntityNotFoundException($"Call with ID {callId} not found.");
 
             BO.Call boCall = CallManager.ConvertToBO(doCall);
@@ -137,9 +138,16 @@ internal class CallImplementation : ICall
     {
         try
         {
-            var closedCalls = from call in GetCallList(null, null, null)
+            var calls = _dal.Call.ReadAll();
+
+            // Conversion from DO to BO using LINQ  
+            var query = from call in calls
+                        let boCall = CallManager.ConvertToCall(call)
+                        select boCall;
+            var closedCalls = from call in query
                               where call.Status == BO.CallStatus.Closed // Updated namespace from DO to BO  
-                              && call.CallId == volunteerId //todo : check if this is correct ואם הID של הקראיה באמת כמו המתנדב  
+                              //????????
+                              && call.AssAssignments == volunteerId //todo : check if this is correct ואם הID של הקראיה באמת כמו המתנדב  
                               let boCall = CallManager.ConvertToClosedCallInList(call) // Fix: Convert BO.CallInList to DO.Call before passing to ConvertToClosedCallInList  
                               where callTypeFilter == null || boCall.CallType == callTypeFilter
                               select boCall;
