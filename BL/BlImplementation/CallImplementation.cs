@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using BlApi;
+using BO;
 using Helpers;
 
 internal class CallImplementation : ICall
@@ -68,12 +69,12 @@ internal class CallImplementation : ICall
         catch (DO.EntityNotFoundException ex)
         {
             //todo להוסיף את זה לקובץ של השגיאות
-            throw new DO.EntityNotFoundException("קריאה לא נמצאה", ex);
+            throw new BO.EntityNotFoundException("קריאה לא נמצאה", ex);
         }
     }
 
 
-    public IEnumerable<BO.CallInList> GetCallList(BO.CallField? filterField, object? filterValue, BO.CallField? sortField)
+    public IEnumerable<BO.CallInList> GetCallList(CallInListField? filterField, object? filterValue, CallInListField? sortField)
     {
         try
         {
@@ -90,13 +91,18 @@ internal class CallImplementation : ICall
             {
                 query = sortField switch
                 {
-                    BO.CallField.RequesterName => query.OrderBy(c => c.LastVolunteerName),
-                    BO.CallField.Status => query.OrderBy(c => c.Status),
-                    BO.CallField.StartTime => query.OrderBy(c => c.OpenTime),
+                    CallInListField.Id => query.OrderBy(c => c.Id),
+                    CallInListField.CallId => query.OrderBy(c => c.CallId),
+                    CallInListField.CallType => query.OrderBy(c => c.CallType),
+                    CallInListField.OpenTime => query.OrderBy(c => c.OpenTime),
+                    CallInListField.TimeUntilAssigning => query.OrderBy(c => c.TimeUntilAssigning),
+                    CallInListField.LastVolunteerName => query.OrderBy(c => c.LastVolunteerName),
+                    CallInListField.totalTreatmentTime => query.OrderBy(c => c.totalTreatmentTime),
+                    CallInListField.Status => query.OrderBy(c => c.Status),
+                    CallInListField.NumberOfAssignments => query.OrderBy(c => c.NumberOfAssignments),
                     _ => query
                 };
             }
-
             return query;
         }
         catch (DO.EntityNotFoundException ex)
@@ -128,38 +134,38 @@ internal class CallImplementation : ICall
         }
     }
 
-
-
-    // Fix for CS0234: Ensure the correct namespace is used for CallStatus.  
-    // Based on the context, it seems CallStatus is part of BO, not DO.  
-    // Update the namespace reference accordingly.  
-
-    public IEnumerable<BO.ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.CallField? sortField)
+    public IEnumerable<ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, CallType? callTypeFilter, CallField? sortField)
     {
         try
         {
             var calls = _dal.Call.ReadAll();
 
-            // Conversion from DO to BO using LINQ  
-            var query = from call in calls
-                        let boCall = CallManager.ConvertToCall(call)
-                        select boCall;
-            var closedCalls = from call in query
-                              where call.Status == BO.CallStatus.Closed // Updated namespace from DO to BO  
-                              //????????
-                              && call.AssAssignments == volunteerId //todo : check if this is correct ואם הID של הקראיה באמת כמו המתנדב  
-                              let boCall = CallManager.ConvertToClosedCallInList(call) // Fix: Convert BO.CallInList to DO.Call before passing to ConvertToClosedCallInList  
-                              where callTypeFilter == null || boCall.CallType == callTypeFilter
-                              select boCall;
+            var closedCalls = from call in calls
+                              let boCall = CallManager.ConvertToBO(call)
+                              where boCall.Status == BO.CallStatus.Closed
+                                    && boCall.Assignments != null
+                                    && boCall.Assignments.Any(a => a.VolunteerId == volunteerId)
+                              let closedCall = CallManager.ConvertToClosedCallInList(boCall)
+                              where callTypeFilter == null || closedCall.CallType == callTypeFilter
+                              select closedCall;
 
-            if (sortField != null)
+            // מיון – אם לא נבחר שדה, ממוינים לפי מספר קריאה  
+            if (sortField == null)
+            {
+                closedCalls = closedCalls.OrderBy(c => c.Id);
+            }
+            else
             {
                 closedCalls = sortField switch
                 {
-                    BO.CallField.RequesterName => closedCalls.OrderBy(c => c.RequesterName),
-                    BO.CallField.Status => closedCalls.OrderBy(c => c.Status),
-                    BO.CallField.StartTime => closedCalls.OrderBy(c => c.StartTime),
-                    _ => closedCalls
+                    BO.CallField.FullAddress => closedCalls.OrderBy(c => c.FullAddress), // ממיינים לפי כתובת  
+                    BO.CallField.TreatmentEndType => closedCalls.OrderBy(c => c.TreatmentEndType), // ממיינים לפי סוג סיום הטיפול  
+                    BO.CallField.OpenTime => closedCalls.OrderBy(c => c.OpenTime), // ממיינים לפי זמן פתיחה  
+                    BO.CallField.EntryToTreatmentTime => closedCalls.OrderBy(c => c.EntryToTreatmentTime), // ממיינים לפי זמן כניסה לטיפול  
+                    BO.CallField.ActualTreatmentEndTime => closedCalls.OrderBy(c => c.ActualTreatmentEndTime), // ממיינים לפי זמן סיום טיפול בפועל  
+                    BO.CallField.CallType => closedCalls.OrderBy(c => c.CallType), // ממיינים לפי סוג הקריאה  
+                    BO.CallField.Id => closedCalls.OrderBy(c => c.Id), //לפי מספר קריאה 
+                    _ => closedCalls // ברירת מחדל: לא ממיינים  
                 };
             }
 
@@ -167,82 +173,8 @@ internal class CallImplementation : ICall
         }
         catch (Exception ex)
         {
-            //todo: להוסיף את זה לקובץ של השגיאות
+            //todo
             throw new BO.GeneralException("שגיאה בקבלת קריאות סגורות למתנדב", ex);
-        }
-    }
-
-    public IEnumerable<BO.OpenCallInList> GetOpenCallsForVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.CallField? sortField)
-    {
-        try
-        {
-            var openCalls = from call in GetCallList(null, null, null) where call.Status == BO.CallStatus.Open let boCall = CallManager.ConvertToOpenCallInList(call) where callTypeFilter == null || boCall.CallType == callTypeFilter select boCall;
-
-            if (sortField != null)
-            {
-                openCalls = sortField switch
-                {
-                    BO.CallField.RequesterName => openCalls.OrderBy(c => c.RequesterName),
-                    BO.CallField.Status => openCalls.OrderBy(c => c.Status),
-                    BO.CallField.StartTime => openCalls.OrderBy(c => c.OpenTime),
-                    _ => openCalls
-                };
-            }
-
-            return openCalls;
-        }
-        catch (Exception ex)
-        {
-            //todo: להוסיף את זה לקובץ של השגיאות
-            throw new BO.GeneralException("שגיאה בקבלת קריאות פתוחות למתנדב", ex);
-        }
-    }
-
-    public void SelectCallForTreatment(int volunteerId, int callId)
-    {
-        try
-        {
-            var call = _dal.Call.Read(callId) ?? throw new BO.EntityNotFoundException("הקריאה לא נמצאה");
-            if (call.Status != DO.CallStatus.Open)
-                throw new BO.InvalidActionException("לא ניתן לבחור קריאה שכבר אינה פתוחה.");
-
-            call.Status = DO.CallStatus.InProgress;
-            call.VolunteerId = volunteerId;
-            call.SelectTime = ClockManager.Now;
-
-            _dal.Call.Update(call);
-        }
-        catch (DO.EntityNotFoundException ex)
-        {
-            throw new BO.EntityNotFoundException("הקריאה לא נמצאה", ex);
-        }
-        catch (Exception ex)
-        {
-            throw new BO.GeneralException("שגיאה בבחירת קריאה לטיפול", ex);
-        }
-    }
-
-
-
-
-
-public void UpdateCall(BO.Call call)
-    {
-        try
-        {
-            var existing = _dal.Call.Read(call.Id) ?? throw new BO.EntityNotFoundException("הקריאה לא נמצאה");
-
-
-            var updatedCall = CallManager.ConvertToDO(call);
-            _dal.Call.Update(updatedCall);
-        }
-        catch (DO.EntityNotFoundException ex)
-        {//todo: להוסיף את זה לקובץ של השגיאות
-            throw new BO.EntityNotFoundException("לא ניתן לעדכן קריאה שלא קיימת", ex);
-        }
-        catch (Exception ex)
-        {//todo: להוסיף את זה לקובץ של השגיאות
-            throw new BO.GeneralException("שגיאה בעדכון הקריאה", ex);
         }
     }
 }

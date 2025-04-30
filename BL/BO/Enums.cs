@@ -71,5 +71,29 @@ public enum TimeUnit
     Year
 }
 
-public enum CallField { RequesterName, Status, StartTime }
+public enum CallField
+{
+    Id,
+    CallType,
+    FullAddress,
+    OpenTime,
+    EntryToTreatmentTime,
+    ActualTreatmentEndTime,
+    TreatmentEndType
+}
+
+
+public enum CallInListField
+{
+    Id,
+    CallId,
+    CallType,
+    OpenTime,
+    TimeUntilAssigning,
+    LastVolunteerName,
+    totalTreatmentTime,
+    Status,
+    NumberOfAssignments
+}
+
 
