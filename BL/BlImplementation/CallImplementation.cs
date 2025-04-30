@@ -52,7 +52,7 @@ internal class CallImplementation : ICall
     }
 
 
-    public IEnumerable<BO.CallInList> GetCallList(BO.CallInList? filterField, object? filterValue, BO.CallInList? sortField)
+    public IEnumerable<BO.CallInList> GetCallList(Enum? filterField, object? filterValue, Enum? sortField)
     {
         throw new NotImplementedException();
     }
