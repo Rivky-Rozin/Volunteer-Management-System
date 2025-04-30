@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using BlApi;
-using BO;
+using DalApi;
 using Helpers;
 
 internal class CallImplementation : ICall
@@ -39,20 +39,108 @@ internal class CallImplementation : ICall
         }
     }
 
+    public void CompleteCallTreatment(int volunteerId, int assignmentId)
+    {
+        DO.Assignment assignment;
+        try
+        {
+            assignment = _dal.Assignment.Read(assignmentId);
+        }
+        catch (KeyNotFoundException)
+        {
+            //todo
+            throw new BO.Exceptions.EntityNotFoundException("ההקצאה לא נמצאה");
+        }
+
+        // בדיקת הרשאה
+        if (assignment.VolunteerId != volunteerId)
+            //todo
+            throw new BO.Exceptions.AuthorizationException("אין הרשאה לסיים טיפול - המתנדב אינו רשום על ההקצאה");
+
+        // בדיקה שההקצאה פתוחה (כלומר לא טופלה, לא בוטלה ולא פג תוקף)
+        if (assignment.EndTreatment != null)
+            //todo
+            throw new BO.Exceptions.InvalidOperationException("לא ניתן לסיים טיפול - ההקצאה כבר טופלה או בוטלה");
+
+        // עדכון פרטי סיום
+        DO.Call call = _dal.Call.Read(assignment.VolunteerId);
+        call.
+        _dal.Call.Update(call);
+        call.TreatmentType = DO.Enums.TreatmentType.Treated;
+        assignment.EndTreatmentTime = DateTime.Now;
+
+        try
+        {
+            dal.Assignment.Update(assignment);
+        }
+        catch (KeyNotFoundException)
+        {
+            throw new BO.Exceptions.EntityNotFoundException("ההקצאה לא נמצאה בעדכון");
+        }
+    }
 
     public void CancelCallTreatment(int requesterId, int assignmentId)
     {
-        throw new NotImplementedException();
-    }
+        DO.Assignment assignment;
+        try
+        {
+            assignment = _dal.Assignment.GetById(assignmentId);
+        }
+        catch (KeyNotFoundException)
+        {
+            //todo
+            throw new BO.EntityNotFoundException("ההקצאה לא נמצאה");
+        }
 
-    public void CompleteCallTreatment(int volunteerId, int assignmentId)
-    {
-        throw new NotImplementedException();
+        // בדיקת הרשאה: מנהל או המתנדב הרשום
+        bool isAdmin = _dal.User.IsAdmin(requesterId); // נניח שיש שיטה כזו
+        if (!isAdmin && assignment.VolunteerId != requesterId)
+            throw new BO.Exceptions.AuthorizationException("אין הרשאה לבטל טיפול");
+
+        // בדיקה שהטיפול עדיין לא הסתיים
+        if (assignment.EndTreatmentTime != null)
+            throw new BO.Exceptions.InvalidOperationException("לא ניתן לבטל טיפול שכבר הסתיים");
+
+        // עדכון סטטוס וזמן
+        assignment.EndTreatmentTime = DateTime.Now;
+        assignment.TreatmentStatus = assignment.VolunteerId == requesterId
+            ? DO.Enums.TreatmentStatus.SelfCancelled
+            : DO.Enums.TreatmentStatus.ManagerCancelled;
+
+        try
+        {
+            dal.Assignment.Update(assignment);
+        }
+        catch (KeyNotFoundException)
+        {
+            throw new BO.Exceptions.EntityNotFoundException("ההקצאה לא נמצאה בעדכון");
+        }
     }
 
     public void DeleteCall(int callId)
     {
-        throw new NotImplementedException();
+        DO.Call call;
+        try
+        {
+            call = dal.Call.GetById(callId);
+        }
+        catch (KeyNotFoundException)
+        {
+            throw new BO.Exceptions.EntityNotFoundException("הקריאה לא נמצאה");
+        }
+
+        // בדיקה אם מותר למחוק: הקריאה בסטטוס פתוח ולא הוקצתה
+        if (call.Status != DO.Enums.CallStatus.Open || dal.Assignment.ExistsForCall(callId))
+            throw new BO.Exceptions.InvalidOperationException("לא ניתן למחוק קריאה שטופלה או הוקצתה בעבר");
+
+        try
+        {
+            dal.Call.Delete(callId);
+        }
+        catch (KeyNotFoundException)
+        {
+            throw new BO.Exceptions.EntityNotFoundException("הקריאה לא נמצאה בעת ניסיון המחיקה");
+        }
     }
 
     public BO.Call GetCallDetails(int callId)
