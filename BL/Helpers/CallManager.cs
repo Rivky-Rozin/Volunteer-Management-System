@@ -46,7 +46,7 @@ internal static class CallManager
         };
     }
     // מתודת עזר לבדיקת התאמה לסינון
-    internal static bool MatchesFilter(BO.CallInList call, CallField field, object value) { 
+    internal static bool MatchesFilter(BO.CallInList call, BO.CallField field, object value) { 
         return field switch {
             CallFilterField.RequesterName => call.RequesterName == value.ToString(),
             CallFilterField.Status => Enum.TryParse(typeof(BO.CallStatus),
@@ -68,7 +68,7 @@ internal static class CallManager
         };
     }
 
-    public static BO.OpenCallInList ConvertToOpenCallInList(Call call)
+    public static BO.OpenCallInList ConvertToOpenCallInList(DO.Call call)
     {
         // Fix for CS0117: Add the missing method definition  
         return new OpenCallInList
