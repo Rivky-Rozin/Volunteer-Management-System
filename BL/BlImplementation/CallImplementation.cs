@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using BlApi;
-using BO;
 using DalApi;
 using Helpers;
 //ללללל
-internal class CallImplementation : ICall
+internal class CallImplementation : BlApi.ICall
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
+
+    //עובד
     public void AddCall(BO.Call call)
     {
         try
@@ -28,11 +29,6 @@ internal class CallImplementation : ICall
             // הוספה ל-DAL      
             _dal.Call.Create(doCall); // FIX: Changed 'Add' to 'Create' to match the ICrud<T> interface  
         }
-        catch (DO.EntityAlreadyExistsException ex)
-        {
-            //  todo: להוסיף שגיאה מתאימה
-            throw new BO.EntityAlreadyExistsException("קריאה עם מזהה זה כבר קיימת", ex);
-        }
         catch (Exception ex)
         {
             // todo: להוסיף שגיאה מתאימה
@@ -40,6 +36,7 @@ internal class CallImplementation : ICall
         }
     }
 
+    //שאלה למורה
     public void CompleteCallTreatment(int volunteerId, int assignmentId)
     {
         DO.Assignment assignment;
@@ -65,27 +62,28 @@ internal class CallImplementation : ICall
 
         // עדכון פרטי סיום
         DO.Call call = _dal.Call.Read(assignment.VolunteerId);
-        call.
-        _dal.Call.Update(call);
         call.TreatmentType = DO.Enums.TreatmentType.Treated;
-        assignment.EndTreatmentTime = DateTime.Now;
+        _dal.Call.Update(call);
+        //todo איך מסדרים את זה??
+        assignment.EndTreatment = DateTime.Now;
 
         try
         {
-            dal.Assignment.Update(assignment);
+            _dal.Assignment.Update(assignment);
         }
-        catch (KeyNotFoundException)
+        catch (Exception ex)
         {
             throw new BO.Exceptions.EntityNotFoundException("ההקצאה לא נמצאה בעדכון");
         }
     }
 
+    //todo
     public void CancelCallTreatment(int requesterId, int assignmentId)
     {
         DO.Assignment assignment;
         try
         {
-            assignment = _dal.Assignment.GetById(assignmentId);
+            assignment = _dal.Assignment.Read(assignmentId);
         }
         catch (KeyNotFoundException)
         {
@@ -110,7 +108,7 @@ internal class CallImplementation : ICall
 
         try
         {
-            dal.Assignment.Update(assignment);
+            _dal.Assignment.Update(assignment);
         }
         catch (KeyNotFoundException)
         {
@@ -118,6 +116,7 @@ internal class CallImplementation : ICall
         }
     }
 
+    //todo
     public void DeleteCall(int callId)
     {
         DO.Call call;
@@ -144,12 +143,14 @@ internal class CallImplementation : ICall
         }
     }
 
+    //עובד
     public BO.Call GetCallDetails(int callId)
     {
         try
         {
             //todo
-            DO.Call? doCall = _dal.Call.Read(callId) ?? throw new DO.EntityNotFoundException($"Call with ID {callId} not found.");
+            //להוסיף שגיאה מתאימה
+            DO.Call? doCall = _dal.Call.Read(callId) ?? throw new BO.EntityNotFoundException($"Call with ID {callId} not found.");
 
             BO.Call boCall = CallManager.ConvertToBO(doCall);
 
@@ -162,7 +163,7 @@ internal class CallImplementation : ICall
         }
     }
 
-
+    //עובד
     public IEnumerable<BO.CallInList> GetCallList(BO.CallInListField? filterField, object? filterValue, BO.CallInListField? sortField)
     {
         try
@@ -201,6 +202,7 @@ internal class CallImplementation : ICall
         }
     }
 
+    //עובד
     public int[] GetCallStatusCounts()
     {
         try
@@ -217,13 +219,13 @@ internal class CallImplementation : ICall
         }
         catch (Exception ex)
         {
-
             //todo להוסיף את זה לקובץ של השגיאות
             throw new BO.GeneralException("שגיאה בקבלת סטטיסטיקת קריאות", ex);
         }
     }
 
-    public IEnumerable<ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, CallType? callTypeFilter, CallField? sortField)
+    //עובד
+    public IEnumerable<BO.ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.CallField? sortField)
     {
         try
         {
@@ -264,6 +266,156 @@ internal class CallImplementation : ICall
         {
             //todo
             throw new BO.GeneralException("שגיאה בקבלת קריאות סגורות למתנדב", ex);
+        }
+    }
+
+    //todo
+    public void UpdateCall(BO.Call call)
+    {
+        // בדיקות פורמט
+        if (call == null)
+            throw new ArgumentNullException(nameof(call), "האובייקט שקיבלת לעדכון הוא null.");
+
+        if (string.IsNullOrWhiteSpace(call.Address))
+            throw new ArgumentException("כתובת הקריאה אינה יכולה להיות ריקה.");
+
+        // בדיקות לוגיקה
+        if (call.OpeningTime >= call.MaxEndTime)
+            throw new InvalidOperationException("זמן הסיום חייב להיות אחרי זמן הפתיחה.");
+
+        // קבלת קואורדינטות מהכתובת
+        try
+        {
+            var (lat, lon) = CallManager.GetCoordinatesFromAddress(call.Address);
+            call.Latitude = lat;
+            call.Longitude = lon;
+        }
+        catch (Exception ex)
+        {
+            throw new FormatException("הכתובת שסופקה אינה תקינה או שלא ניתן לאתר אותה.", ex);
+        }
+
+        // יצירת אובייקט מסוג DO.Call
+        DO.Call callEntity = new DO.Call
+        {
+            Id = call.Id,
+            Address = call.Address,
+            Latitude = call.Latitude,
+            Longitude = call.Longitude,
+            OpeningTime = call.OpeningTime,
+            MaxEndTime = call.MaxEndTime,
+            // הוסף כאן כל שדה נוסף שקיים במחלקת הנתונים
+        };
+
+        // ניסיון לעדכן את הקריאה במאגר
+        try
+        {
+            dal.Call.Update(callEntity);
+        }
+        catch (DO.EntityNotFoundException ex)
+        {
+            throw new BO.CallNotFoundException($"לא נמצאה קריאה עם מזהה {call.Id}.", ex);
+        }
+    }
+
+    //הבעיה שאין סטטוס בCall של DO
+    public IEnumerable<BO.OpenCallInList> GetOpenCallsForVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.OpenCallInListEnum? sortField)
+    {
+        //todo
+        // שליפת נתוני המתנדב
+        var volunteer = _dal.Volunteer.Read(volunteerId)
+            ?? throw new BO.ArgumentException("Volunteer not found");
+
+        // שליפת הקריאות בסטטוס פתוחה או פתוחה בסיכון
+        var openStatuses = new[] { DO.CallStatus.Open, DO.CallStatus.OpenAtRisk };
+        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(c.Status)).ToList();
+
+        // סינון לפי סוג הקריאה אם צריך
+        if (callTypeFilter != null)
+            openCalls = openCalls.Where(c => (BO.CallType)c.CallType == callTypeFilter).ToList();
+
+        // המרה לרשימת BO.OpenCallInList עם חישוב מרחק
+        var result = openCalls.Select(call =>
+        {
+            double distance = Tools.GetDistance(volunteer, call);
+
+            //?
+            //var assignments = _dal.Assignment.ReadAll(a => a.CallId == call.Id).ToList();
+
+            return new BO.OpenCallInList
+            {
+                Id = call.Id,
+                CallType = (BO.CallType)call.CallType,
+                Description = call.Description,
+                FullAddress = call.FullAddress,
+                OpenTime = call.OpenTime,
+                MaxEndTime = call.MaxCallTime,
+                DistanceFromVolunteer = distance
+            };
+        });
+
+        // מיון לפי השדה שנבחר או לפי CallId כברירת מחדל
+        result = sortField switch
+        {
+            BO.OpenCallInListEnum.Id => result.OrderBy(r => r.Id),
+            BO.OpenCallInListEnum.CallType => result.OrderBy(r => r.CallType),
+            BO.OpenCallInListEnum.Description => result.OrderBy(r => r.Description),
+            BO.OpenCallInListEnum.FullAddress => result.OrderBy(r => r.FullAddress),
+            BO.OpenCallInListEnum.OpenTime => result.OrderBy(r => r.OpenTime),
+            BO.OpenCallInListEnum.MaxEndTime => result.OrderBy(r => r.MaxEndTime),
+            BO.OpenCallInListEnum.DistanceFromVolunteer => result.OrderBy(r => r.DistanceFromVolunteer),
+            _ => result.OrderBy(r => r.Id) // ברירת מחדל
+        };
+
+        return result;
+    }
+
+    //הבעיה שאין סטטוס בקריאה של DO
+    public void SelectCallForTreatment(int volunteerId, int callId)
+    {
+        DO.Call call;
+        try
+        {
+            call = _dal.Call.Read(callId);
+        }
+        catch (Exception ex)
+        {
+            throw new BO.CallDoesNotExist("The call does not exist", ex);
+        }
+        //todo כאן שוב צריך לבדוק את הסטטוס של הקריאה
+        // בדיקה אם הקריאה כבר טופלה
+        if (call.Status == DO.CallStatus.Closed)
+            //todo
+            throw new BO.InvalidOperationException("הקריאה כבר טופלה.");
+
+        // בדיקה אם הקריאה פגה תוקף
+        if (call.MaxCallTime <= Helpers.ClockManager.Now)
+            //todo
+            throw new BO.ExpiredCall("Call expired");
+
+        // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
+        var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && a.Status == DO.CallStatus == Open);
+        if (existingAssignments.Any())
+            //todo
+            throw new BO.CallAlreadyInTreatment("The call is already under treatment");
+
+        // יצירת הקצאה חדשה
+        var assignment = new DO.Assignment
+        {
+            CallId = callId,
+            VolunteerId = volunteerId,
+            StartTreatment = DateTime.Now,
+            EndTreatment = null,
+            TreatmentType = null
+        };
+        try
+        {
+            _dal.Assignment.Create(assignment);
+        }
+        catch (Exception ex)
+        {
+            //todo
+            throw new BO.FailedToCreate("Failed to create assignment", ex);
         }
     }
 }
