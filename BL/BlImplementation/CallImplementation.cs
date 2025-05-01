@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using BlApi;
+using BO;
 using DalApi;
 using Helpers;
-
+//ללללל
 internal class CallImplementation : ICall
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
@@ -162,7 +163,7 @@ internal class CallImplementation : ICall
     }
 
 
-    public IEnumerable<BO.CallInList> GetCallList(CallInListField? filterField, object? filterValue, CallInListField? sortField)
+    public IEnumerable<BO.CallInList> GetCallList(BO.CallInListField? filterField, object? filterValue, BO.CallInListField? sortField)
     {
         try
         {
@@ -179,15 +180,15 @@ internal class CallImplementation : ICall
             {
                 query = sortField switch
                 {
-                    CallInListField.Id => query.OrderBy(c => c.Id),
-                    CallInListField.CallId => query.OrderBy(c => c.CallId),
-                    CallInListField.CallType => query.OrderBy(c => c.CallType),
-                    CallInListField.OpenTime => query.OrderBy(c => c.OpenTime),
-                    CallInListField.TimeUntilAssigning => query.OrderBy(c => c.TimeUntilAssigning),
-                    CallInListField.LastVolunteerName => query.OrderBy(c => c.LastVolunteerName),
-                    CallInListField.totalTreatmentTime => query.OrderBy(c => c.totalTreatmentTime),
-                    CallInListField.Status => query.OrderBy(c => c.Status),
-                    CallInListField.NumberOfAssignments => query.OrderBy(c => c.NumberOfAssignments),
+                    BO.CallInListField.Id => query.OrderBy(c => c.Id),
+                    BO.CallInListField.CallId => query.OrderBy(c => c.CallId),
+                    BO.CallInListField.CallType => query.OrderBy(c => c.CallType),
+                    BO.CallInListField.OpenTime => query.OrderBy(c => c.OpenTime),
+                    BO.CallInListField.TimeUntilAssigning => query.OrderBy(c => c.TimeUntilAssigning),
+                    BO.CallInListField.LastVolunteerName => query.OrderBy(c => c.LastVolunteerName),
+                    BO.CallInListField.totalTreatmentTime => query.OrderBy(c => c.totalTreatmentTime),
+                    BO.CallInListField.Status => query.OrderBy(c => c.Status),
+                    BO.CallInListField.NumberOfAssignments => query.OrderBy(c => c.NumberOfAssignments),
                     _ => query
                 };
             }
