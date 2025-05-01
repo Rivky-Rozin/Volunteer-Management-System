@@ -7,11 +7,12 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using BO;
 namespace Helpers
 {
     internal static class Tools
     {
-        private const string LocationIqApiKey = "YOUR_API_KEY_HERE"; // שים כאן את ה-API KEY שלך מ-LocationIQ
+        private const string LocationIqApiKey = "pk.f21de2f6381d8c8c4b980b880463e593"; // שים כאן את ה-API KEY שלך מ-LocationIQ
 
         internal static (double Latitude, double Longitude) GetCoordinatesFromAddress(string address)
         {
@@ -157,6 +158,9 @@ namespace Helpers
         {
             return degrees * (Math.PI / 180);
         }
+
+       
+
     }
 
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using BlApi;
 using DalApi;
+using DO;
 using Helpers;
 //ללללל
 internal class CallImplementation : BlApi.ICall
@@ -77,7 +78,7 @@ internal class CallImplementation : BlApi.ICall
         }
     }
 
-    //todo
+    //עובד
     public void CancelCallTreatment(int requesterId, int assignmentId)
     {
         DO.Assignment assignment;
@@ -85,63 +86,85 @@ internal class CallImplementation : BlApi.ICall
         {
             assignment = _dal.Assignment.Read(assignmentId);
         }
-        catch (KeyNotFoundException)
+        catch (Exception ex)
         {
             //todo
-            throw new BO.EntityNotFoundException("ההקצאה לא נמצאה");
+            throw new BO.EntityNotFoundException("ההקצאה לא נמצאה", ex);
         }
+        DO.Volunteer doVolunteer = _dal.Volunteer.Read(requesterId); 
 
         // בדיקת הרשאה: מנהל או המתנדב הרשום
-        bool isAdmin = _dal.User.IsAdmin(requesterId); // נניח שיש שיטה כזו
+        bool isAdmin = doVolunteer.Role == DO.VolunteerRole.Manager; // נניח שיש שיטה כזו
+        //todo
         if (!isAdmin && assignment.VolunteerId != requesterId)
             throw new BO.Exceptions.AuthorizationException("אין הרשאה לבטל טיפול");
 
         // בדיקה שהטיפול עדיין לא הסתיים
-        if (assignment.EndTreatmentTime != null)
+        if (assignment.EndTreatment != null)
+            //todo
             throw new BO.Exceptions.InvalidOperationException("לא ניתן לבטל טיפול שכבר הסתיים");
-
+        DO.TreatmentType TreatmentType;
+        if (isAdmin)
+        {
+            TreatmentType = DO.TreatmentType.ManagerCancelled;
+        }
+        else
+        {
+            TreatmentType = DO.TreatmentType.UserCancelled;
+        }
         // עדכון סטטוס וזמן
-        assignment.EndTreatmentTime = DateTime.Now;
-        assignment.TreatmentStatus = assignment.VolunteerId == requesterId
-            ? DO.Enums.TreatmentStatus.SelfCancelled
-            : DO.Enums.TreatmentStatus.ManagerCancelled;
+        DO.Assignment newAssignment = new DO.Assignment
+        {
+            Id = assignment.Id,
+            CallId = assignment.CallId,
+            VolunteerId = assignment.VolunteerId,
+            StartTreatment = assignment.StartTreatment,
+            EndTreatment = ClockManager.Now,
+            TreatmentType = TreatmentType,
+        };
+        
 
         try
         {
-            _dal.Assignment.Update(assignment);
+            _dal.Assignment.Update(newAssignment);
         }
-        catch (KeyNotFoundException)
+        catch (Exception ex)
         {
-            throw new BO.Exceptions.EntityNotFoundException("ההקצאה לא נמצאה בעדכון");
+            //todo
+            throw new BO.Exceptions.EntityNotFoundException("ההקצאה לא נמצאה בעדכון", ex);
         }
     }
 
     //todo
     public void DeleteCall(int callId)
     {
-        DO.Call call;
         try
         {
-            call = dal.Call.GetById(callId);
-        }
-        catch (KeyNotFoundException)
-        {
-            throw new BO.Exceptions.EntityNotFoundException("הקריאה לא נמצאה");
-        }
+            // שלב 1: שליפת הקריאה משכבת הנתונים
+            var call = dal.Call.Read(callId)
+                       ?? throw new BO.BlEntityNotFoundException("Call", callId);
 
-        // בדיקה אם מותר למחוק: הקריאה בסטטוס פתוח ולא הוקצתה
-        if (call.Status != DO.Enums.CallStatus.Open || dal.Assignment.ExistsForCall(callId))
-            throw new BO.Exceptions.InvalidOperationException("לא ניתן למחוק קריאה שטופלה או הוקצתה בעבר");
+            // שלב 2: בדיקה האם הקריאה בסטטוס פתוח
+            if (call.Status != BO.CallStatus.Open)
+                throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it is not in 'Open' status.");
 
-        try
-        {
+            // שלב 3: בדיקה אם הקריאה הוקצתה למתנדב כלשהו בעבר
+            var assignments = dal.Assignment.ReadAll()
+                                 .Where(a => a.CallId == callId);
+
+            if (assignments.Any())
+                throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it has already been assigned to a volunteer.");
+
+            // שלב 4: אם עברה את כל הבדיקות - ביצוע מחיקה
             dal.Call.Delete(callId);
         }
-        catch (KeyNotFoundException)
+        catch (DO.EntityNotFoundException ex)
         {
-            throw new BO.Exceptions.EntityNotFoundException("הקריאה לא נמצאה בעת ניסיון המחיקה");
+            // שלב 5: אם הקריאה לא קיימת בשכבת הנתונים – זרוק חריגה מתאימה לשכבת התצוגה
+            throw new BO.BlEntityNotFoundException("Call", callId, ex);
         }
     }
+
 
     //עובד
     public BO.Call GetCallDetails(int callId)
@@ -159,7 +182,7 @@ internal class CallImplementation : BlApi.ICall
         catch (DO.EntityNotFoundException ex)
         {
             //todo להוסיף את זה לקובץ של השגיאות
-            throw new BO.EntityNotFoundException("קריאה לא נמצאה", ex);
+            throw new DO.EntityNotFoundException("קריאה לא נמצאה", ex);
         }
     }
 
@@ -193,6 +216,7 @@ internal class CallImplementation : BlApi.ICall
                     _ => query
                 };
             }
+
             return query;
         }
         catch (DO.EntityNotFoundException ex)
@@ -231,32 +255,26 @@ internal class CallImplementation : BlApi.ICall
         {
             var calls = _dal.Call.ReadAll();
 
-            var closedCalls = from call in calls
-                              let boCall = CallManager.ConvertToBO(call)
-                              where boCall.Status == BO.CallStatus.Closed
-                                    && boCall.Assignments != null
-                                    && boCall.Assignments.Any(a => a.VolunteerId == volunteerId)
-                              let closedCall = CallManager.ConvertToClosedCallInList(boCall)
-                              where callTypeFilter == null || closedCall.CallType == callTypeFilter
-                              select closedCall;
+            // Conversion from DO to BO using LINQ  
+            var query = from call in calls
+                        let boCall = CallManager.ConvertToCall(call)
+                        select boCall;
+            var closedCalls = from call in query
+                              where call.Status == BO.CallStatus.Closed // Updated namespace from DO to BO  
+                              //????????
+                              && call.AssAssignments == volunteerId //todo : check if this is correct ואם הID של הקראיה באמת כמו המתנדב  
+                              let boCall = CallManager.ConvertToClosedCallInList(call) // Fix: Convert BO.CallInList to DO.Call before passing to ConvertToClosedCallInList  
+                              where callTypeFilter == null || boCall.CallType == callTypeFilter
+                              select boCall;
 
-            // מיון – אם לא נבחר שדה, ממוינים לפי מספר קריאה  
-            if (sortField == null)
-            {
-                closedCalls = closedCalls.OrderBy(c => c.Id);
-            }
-            else
+            if (sortField != null)
             {
                 closedCalls = sortField switch
                 {
-                    BO.CallField.FullAddress => closedCalls.OrderBy(c => c.FullAddress), // ממיינים לפי כתובת  
-                    BO.CallField.TreatmentEndType => closedCalls.OrderBy(c => c.TreatmentEndType), // ממיינים לפי סוג סיום הטיפול  
-                    BO.CallField.OpenTime => closedCalls.OrderBy(c => c.OpenTime), // ממיינים לפי זמן פתיחה  
-                    BO.CallField.EntryToTreatmentTime => closedCalls.OrderBy(c => c.EntryToTreatmentTime), // ממיינים לפי זמן כניסה לטיפול  
-                    BO.CallField.ActualTreatmentEndTime => closedCalls.OrderBy(c => c.ActualTreatmentEndTime), // ממיינים לפי זמן סיום טיפול בפועל  
-                    BO.CallField.CallType => closedCalls.OrderBy(c => c.CallType), // ממיינים לפי סוג הקריאה  
-                    BO.CallField.Id => closedCalls.OrderBy(c => c.Id), //לפי מספר קריאה 
-                    _ => closedCalls // ברירת מחדל: לא ממיינים  
+                    BO.CallField.RequesterName => closedCalls.OrderBy(c => c.RequesterName),
+                    BO.CallField.Status => closedCalls.OrderBy(c => c.Status),
+                    BO.CallField.StartTime => closedCalls.OrderBy(c => c.StartTime),
+                    _ => closedCalls
                 };
             }
 
@@ -264,57 +282,76 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            //todo
+            //todo: להוסיף את זה לקובץ של השגיאות
             throw new BO.GeneralException("שגיאה בקבלת קריאות סגורות למתנדב", ex);
         }
     }
 
-    //todo
+    //עובד
     public void UpdateCall(BO.Call call)
     {
-        // בדיקות פורמט
+        //todo
         if (call == null)
-            throw new ArgumentNullException(nameof(call), "האובייקט שקיבלת לעדכון הוא null.");
+            throw new BO.ArgumentNullException(nameof(call), "אובייקט הקריאה שהתקבל הוא null.");
 
+        // בדיקת מזהה
+        if ( call.Id<100000000|| call.Id>999999999)
+            throw new ArgumentException("מזהה הקריאה חייב להיות מספר חיובי.");
+
+        // בדיקת סוג הקריאה
+        if (!Enum.IsDefined(typeof(BO.CallType), call.CallType))
+            throw new ArgumentException("סוג הקריאה אינו חוקי.");
+
+        // תיאור - רשות, אך אם קיים, נבדוק אם לא ריק מדי
+        if (call.Description != null && call.Description.Trim().Length < 2)
+            throw new ArgumentException("אם סופק תיאור, עליו להכיל לפחות 2 תווים.");
+
+        // כתובת
         if (string.IsNullOrWhiteSpace(call.Address))
-            throw new ArgumentException("כתובת הקריאה אינה יכולה להיות ריקה.");
+            throw new ArgumentException("כתובת אינה יכולה להיות ריקה.");
 
-        // בדיקות לוגיקה
-        if (call.OpeningTime >= call.MaxEndTime)
-            throw new InvalidOperationException("זמן הסיום חייב להיות אחרי זמן הפתיחה.");
+        // זמן יצירת הקריאה (לא נבדוק אם בעבר, כי זה עדכון)
+        // זמן סיום
+        if (call.MaxFinishTime != null && call.MaxFinishTime <= call.CreationTime)
+            throw new ArgumentException("זמן הסיום המקסימלי חייב להיות אחרי זמן היצירה.");
 
-        // קבלת קואורדינטות מהכתובת
+        // סטטוס
+        if (!Enum.IsDefined(typeof(BO.CallStatus), call.Status))
+            throw new ArgumentException("סטטוס הקריאה אינו חוקי.");
+
+        // קבלת קואורדינטות מהכתובת – מעדכן ישירות ל־call
         try
         {
-            var (lat, lon) = CallManager.GetCoordinatesFromAddress(call.Address);
+            var (lat, lon) = Tools.GetCoordinatesFromAddress(call.Address);
             call.Latitude = lat;
             call.Longitude = lon;
         }
         catch (Exception ex)
         {
-            throw new FormatException("הכתובת שסופקה אינה תקינה או שלא ניתן לאתר אותה.", ex);
+            throw new FormatException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.", ex);
         }
 
-        // יצירת אובייקט מסוג DO.Call
+        // המרה ל-DO.Call
         DO.Call callEntity = new DO.Call
         {
             Id = call.Id,
-            Address = call.Address,
+            CallType = (DO.CallType)call.CallType,
+            Description = call.Description,
+            FullAddress = call.Address,
             Latitude = call.Latitude,
             Longitude = call.Longitude,
-            OpeningTime = call.OpeningTime,
-            MaxEndTime = call.MaxEndTime,
-            // הוסף כאן כל שדה נוסף שקיים במחלקת הנתונים
+            OpenTime = call.CreationTime,
+            MaxCallTime = call.MaxFinishTime
         };
 
-        // ניסיון לעדכן את הקריאה במאגר
+        // ניסיון לעדכן במאגר הנתונים
         try
         {
-            dal.Call.Update(callEntity);
+            _dal.Call.Update(callEntity);
         }
         catch (DO.EntityNotFoundException ex)
         {
-            throw new BO.CallNotFoundException($"לא נמצאה קריאה עם מזהה {call.Id}.", ex);
+            throw new BO.CallNotFoundException($"קריאה עם מזהה {call.Id} לא נמצאה במערכת.", ex);
         }
     }
 
