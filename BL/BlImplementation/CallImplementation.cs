@@ -146,7 +146,7 @@ internal class CallImplementation : BlApi.ICall
 
             // שלב 2: בדיקה האם הקריאה בסטטוס פתוח
             //todo
-            if (CallManager.GetCallStatus(_dal, call.Id) != BO.CallStatus.Open)
+            if (CallManager.GetCallStatus( call.Id) != BO.CallStatus.Open)
                 throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it is not in 'Open' status.");
 
             // שלב 3: בדיקה אם הקריאה הוקצתה למתנדב כלשהו בעבר
@@ -258,13 +258,14 @@ internal class CallImplementation : BlApi.ICall
 
             // Conversion from DO to BO using LINQ  
             var query = from call in calls
-                        let boCall = CallManager.ConvertToCall(call)
+                        let boCall = CallManager.ConvertToBO(call)
                         select boCall;
             var closedCalls = from call in query
                               where call.Status == BO.CallStatus.Closed // Updated namespace from DO to BO  
-                              //????????
-                              && call.AssAssignments == volunteerId //todo : check if this is correct ואם הID של הקראיה באמת כמו המתנדב  
-                              let boCall = CallManager.ConvertToClosedCallInList(call) // Fix: Convert BO.CallInList to DO.Call before passing to ConvertToClosedCallInList  
+                                                                        //????????
+                              && call.Assignments.Any(a => a.VolunteerId == volunteerId)
+
+                              let boCall = CallManager.ConvertToClosedCallInList(CallManager.ConvertToDO(call)) // Fix: Convert BO.CallInList to DO.Call before passing to ConvertToClosedCallInList  
                               where callTypeFilter == null || boCall.CallType == callTypeFilter
                               select boCall;
 
@@ -287,7 +288,6 @@ internal class CallImplementation : BlApi.ICall
             throw new BO.GeneralException("שגיאה בקבלת קריאות סגורות למתנדב", ex);
         }
     }
-
     //עובד
     public void UpdateCall(BO.Call call)
     {
@@ -366,7 +366,7 @@ internal class CallImplementation : BlApi.ICall
 
         // שליפת הקריאות בסטטוס פתוחה או פתוחה בסיכון
         var openStatuses = new[] { BO.CallStatus.Open, BO.CallStatus.OpenAtRisk };
-        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus(_dal, c.Id))).ToList();
+        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus( c.Id))).ToList();
 
         // סינון לפי סוג הקריאה אם צריך
         if (callTypeFilter != null)

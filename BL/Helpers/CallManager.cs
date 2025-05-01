@@ -37,14 +37,57 @@ internal static class CallManager
 
     internal static BO.CallInList ConvertToCallInList(DO.Call call)
     {
+        // שליפת כל ההקצאות של הקריאה הזו
+        List <DO.Assignment> assignments = s_dal.Assignment.ReadAll(a => a.CallId == call.Id).ToList();
+
+        // סטטוס הקריאה מחושב לפי ההגדרות במחלקת CallManager
+        BO.CallStatus status = GetCallStatus(call.Id);
+
+        // המתנדב האחרון (אם יש הקצאות) לפי זמן התחלה
+        DO.Assignment? lastAssignment = assignments
+            .Where(a => a.VolunteerId != 0) // לוודא שזה לא הקצאה ריקה
+            .OrderByDescending(a => a.StartTreatment)
+            .FirstOrDefault();
+
+        string? lastVolunteerName = null;
+        if (lastAssignment != null)
+        {
+            try
+            {
+                DO.Volunteer? volunteer = s_dal.Volunteer.Read(lastAssignment.VolunteerId);
+                lastVolunteerName = volunteer?.Name;
+            }
+            catch
+            {
+                lastVolunteerName = null; // אם אין מתנדב כזה
+            }
+        }
+
+        // חישוב זמן כולל של טיפול (לפי כל ההקצאות שכבר הסתיימו)
+        TimeSpan totalTreatmentTime = assignments
+            .Where(a => a.EndTreatment != null && a.StartTreatment != null)
+            .Aggregate(TimeSpan.Zero, (sum, a) => sum + ((DateTime)a.EndTreatment! - a.StartTreatment));
+
+        // זמן עד שהוקצתה הקריאה לראשונה (אם קיימת הקצאה)
+        TimeSpan? timeUntilAssigning = null;
+        DO.Assignment? firstAssign = assignments.OrderBy(a => a.StartTreatment).FirstOrDefault();
+        if (firstAssign != null)
+            timeUntilAssigning = firstAssign.StartTreatment - call.OpenTime;
+
         return new BO.CallInList
         {
             Id = call.Id,
-            RequesterName = call.RequesterName,
-            StartTime = call.StartTime,
-            Status = (BO.CallStatus)call.Status
+            CallId = call.Id,
+            CallType = (BO.CallType)call.CallType,
+            OpenTime = call.OpenTime,
+            TimeUntilAssigning = timeUntilAssigning,
+            LastVolunteerName = lastVolunteerName,
+            totalTreatmentTime = totalTreatmentTime,
+            Status = status,
+            NumberOfAssignments = assignments.Count
         };
     }
+
     // מתודת עזר לבדיקת התאמה לסינון
     internal static bool MatchesFilter(BO.CallInList call, BO.CallField field, object value)
     {
@@ -71,31 +114,16 @@ internal static class CallManager
         };
     }
 
-    public static BO.OpenCallInList ConvertToOpenCallInList(DO.Call call)
-    {
-        // Fix for CS0117: Add the missing method definition  
-        return new OpenCallInList
-        {
-            Id = call.Id,
-            CallId = call.CallId,
-            CallType = call.CallType,
-            OpenTime = call.OpenTime,
-            TimeUntilAssigning = call.TimeUntilAssigning,
-            LastVolunteerName = call.LastVolunteerName,
-            totalTreatmentTime = call.totalTreatmentTime,
-            Status = call.Status,
-            NumberOfAssignments = call.NumberOfAssignments
-        };
-    }
+ 
 
-    internal static BO.CallStatus GetCallStatus(DalApi.IDal dal, int callId)
+    internal static BO.CallStatus GetCallStatus(int callId)
     {
-        TimeSpan riskThreshold = dal.Config.RiskTimeSpan;
+        TimeSpan riskThreshold = s_dal.Config.RiskTimeSpan;
         //todo
-        var call = dal.Call.Read(callId)
+        var call = s_dal.Call.Read(callId)
                    ?? throw new BO.BlEntityNotFoundException("Call", callId);
 
-        var assignments = dal.Assignment.ReadAll(a => a.CallId == callId).ToList();
+        var assignments =   s_dal.Assignment.ReadAll(a => a.CallId == callId).ToList();
 
         DateTime now = ClockManager.Now;
 
