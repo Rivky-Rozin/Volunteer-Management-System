@@ -11,7 +11,7 @@ public interface ICall
     void DeleteCall(int callId);
     void AddCall(BO.Call call);
     IEnumerable<BO.ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.CallField? sortField);
-    IEnumerable<BO.OpenCallInList> GetOpenCallsForVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.OpenCallInList? sortField);
+    IEnumerable<BO.OpenCallInList> GetOpenCallsForVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.OpenCallInListEnum? sortField);
     void CompleteCallTreatment(int volunteerId, int assignmentId);
     void CancelCallTreatment(int requesterId, int assignmentId);
     void SelectCallForTreatment(int volunteerId, int callId);

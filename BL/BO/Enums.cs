@@ -96,4 +96,15 @@ public enum CallInListField
     NumberOfAssignments
 }
 
+public enum OpenCallInListEnum
+{
+    Id,
+    CallType,
+    Description,
+    FullAddress,
+    OpenTime,
+    MaxEndTime,
+    DistanceFromVolunteer
+}
+
 

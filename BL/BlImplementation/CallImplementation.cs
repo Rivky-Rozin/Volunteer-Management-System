@@ -91,7 +91,7 @@ internal class CallImplementation : BlApi.ICall
             //todo
             throw new BO.EntityNotFoundException("ההקצאה לא נמצאה", ex);
         }
-        DO.Volunteer doVolunteer = _dal.Volunteer.Read(requesterId);
+        DO.Volunteer doVolunteer = _dal.Volunteer.Read(requesterId); 
 
         // בדיקת הרשאה: מנהל או המתנדב הרשום
         bool isAdmin = doVolunteer.Role == DO.VolunteerRole.Manager; // נניח שיש שיטה כזו
@@ -122,7 +122,7 @@ internal class CallImplementation : BlApi.ICall
             EndTreatment = ClockManager.Now,
             TreatmentType = TreatmentType,
         };
-
+        
 
         try
         {
@@ -295,7 +295,7 @@ internal class CallImplementation : BlApi.ICall
             throw new BO.ArgumentNullException(nameof(call), "אובייקט הקריאה שהתקבל הוא null.");
 
         // בדיקת מזהה
-        if (call.Id < 100000000 || call.Id > 999999999)
+        if ( call.Id<100000000|| call.Id>999999999)
             throw new ArgumentException("מזהה הקריאה חייב להיות מספר חיובי.");
 
         // בדיקת סוג הקריאה

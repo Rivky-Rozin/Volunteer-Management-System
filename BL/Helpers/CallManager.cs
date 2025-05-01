@@ -1,6 +1,7 @@
 ﻿namespace Helpers;
 
-using BO;
+
+
 using DalApi;
 
 
@@ -45,7 +46,7 @@ internal static class CallManager
         };
     }
     // מתודת עזר לבדיקת התאמה לסינון
-    internal static bool MatchesFilter(BO.CallInList call, CallField field, object value) { 
+    internal static bool MatchesFilter(BO.CallInList call, BO.CallField field, object value) { 
         return field switch {
             CallFilterField.RequesterName => call.RequesterName == value.ToString(),
             CallFilterField.Status => Enum.TryParse(typeof(BO.CallStatus),
@@ -53,9 +54,6 @@ internal static class CallManager
             CallFilterField.StartTime => DateTime.TryParse(value.ToString(), out var time) && call.StartTime.Date == time.Date, _ => true 
         }; 
     }
-
-
-
 
     public static BO.ClosedCallInList ConvertToClosedCallInList(DO.Call call)
     {
@@ -70,7 +68,7 @@ internal static class CallManager
         };
     }
 
-    public static OpenCallInList ConvertToOpenCallInList(Call call)
+    public static BO.OpenCallInList ConvertToOpenCallInList(DO.Call call)
     {
         // Fix for CS0117: Add the missing method definition  
         return new OpenCallInList
@@ -87,6 +85,46 @@ internal static class CallManager
         };
     }
 
+    internal static BO.CallStatus GetCallStatus(DalApi.IDal dal, int callId)
+    {
+        TimeSpan riskThreshold = dal.Config.RiskTimeSpan;
+        //todo
+        var call = dal.Call.Read(callId)
+                   ?? throw new BO.BlEntityNotFoundException("Call", callId);
+
+        var assignments = dal.Assignment.ReadAll(a => a.CallId == callId).ToList();
+
+        DateTime now = ClockManager.Now;
+
+        bool hasActiveAssignment = assignments.Any(a => a.EndTreatment == null);
+        bool hasCompletedAssignment = assignments.Any(a => a.EndTreatment != null);
+
+        bool isExpired = call.MaxCallTime != null && now > call.MaxCallTime;
+        bool isRisk = call.MaxCallTime != null &&
+                      (call.MaxCallTime.Value - now) <= riskThreshold &&
+                      (call.MaxCallTime.Value - now) > TimeSpan.Zero;
+
+        // סגורה – אם לפחות מתנדב אחד סיים טיפול
+        if (hasCompletedAssignment)
+            return BO.CallStatus.Closed;
+
+        // בטיפול – יש מתנדב שמטפל כרגע
+        if (hasActiveAssignment)
+        {
+            if (isExpired)
+                return BO.CallStatus.Expired;
+            if (isRisk)
+                return BO.CallStatus.InProgressAtRisk;
+            return BO.CallStatus.InProgress;
+        }
+
+        // פתוחה – לא קיימת הקצאה פעילה
+        if (isExpired)
+            return BO.CallStatus.Expired;
+        if (isRisk)
+            return BO.CallStatus.OpenAtRisk;
+        return BO.CallStatus.Open;
+    }
 }
 
 
