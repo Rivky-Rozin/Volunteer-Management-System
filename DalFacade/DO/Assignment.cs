@@ -19,6 +19,8 @@ public record Assignment
    TreatmentType? TreatmentType=null
 )
 {
+    public DateTime EndTreatmentTime;
+
     public Assignment()
     : this(0, 0, 0,DateTime.Now, DateTime.Now, default) { }
 
