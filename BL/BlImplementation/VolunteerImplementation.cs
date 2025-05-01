@@ -4,7 +4,7 @@ namespace BlImplementation;
 
 using System.Collections.Generic;
 using BlApi;
-
+using BO;
 
 internal class VolunteerImplementation : IVolunteer
 {
@@ -14,6 +14,7 @@ internal class VolunteerImplementation : IVolunteer
     {
         throw new NotImplementedException();
     }
+
 
     public void DeleteVolunteer(string id)
     {
@@ -30,12 +31,25 @@ internal class VolunteerImplementation : IVolunteer
         throw new NotImplementedException();
     }
 
+
     public VolunteerRole Login(string username, string password)
     {
         throw new NotImplementedException();
     }
 
     public void UpdateVolunteer(string id, Volunteer volunteer)
+    {
+        throw new NotImplementedException();
+    }
+
+
+
+    Volunteer IVolunteer.GetVolunteerDetails(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    VolunteerRole IVolunteer.Login(string username, string password)
     {
         throw new NotImplementedException();
     }

@@ -1,10 +1,7 @@
 ﻿namespace BlImplementation;
 using System;
 using System.Collections.Generic;
-using BlApi;
-using DalApi;
 using Helpers;
-//ללללל
 internal class CallImplementation : BlApi.ICall
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
@@ -149,7 +146,7 @@ internal class CallImplementation : BlApi.ICall
 
             // שלב 2: בדיקה האם הקריאה בסטטוס פתוח
             //todo
-            if (CallManager.GetCallStatus(_dal, call.Id) != BO.CallStatus.Open)
+            if (CallManager.GetCallStatus( call.Id) != BO.CallStatus.Open)
                 throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it is not in 'Open' status.");
 
             // שלב 3: בדיקה אם הקריאה הוקצתה למתנדב כלשהו בעבר
@@ -253,7 +250,7 @@ internal class CallImplementation : BlApi.ICall
     }
 
     //עובד
-    public IEnumerable<BO.ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.CallField? sortField)
+    public IEnumerable<BO.ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.ClosedCallInListEnum? sortField)
     {
         try
         {
@@ -265,7 +262,7 @@ internal class CallImplementation : BlApi.ICall
                         select boCall;
             var closedCalls = from call in query
                               where call.Status == BO.CallStatus.Closed // Updated namespace from DO to BO  
-                              //????????
+                                                                        //????????
                               && call.Assignments.Any(a => a.VolunteerId == volunteerId)
 
                               let boCall = CallManager.ConvertToClosedCallInList(CallManager.ConvertToDO(call)) // Fix: Convert BO.CallInList to DO.Call before passing to ConvertToClosedCallInList  
@@ -276,9 +273,13 @@ internal class CallImplementation : BlApi.ICall
             {
                 closedCalls = sortField switch
                 {
-                    BO.CallField.RequesterName => closedCalls.OrderBy(c => c.RequesterName),
-                    BO.CallField.Status => closedCalls.OrderBy(c => c.Status),
-                    BO.CallField.StartTime => closedCalls.OrderBy(c => c.StartTime),
+                    BO.ClosedCallInListEnum.Id => closedCalls.OrderBy(c => c.Id),
+                    BO.ClosedCallInListEnum.CallType => closedCalls.OrderBy(c => c.CallType),
+                    BO.ClosedCallInListEnum.FullAddress => closedCalls.OrderBy(c => c.FullAddress),
+                    BO.ClosedCallInListEnum.OpenTime => closedCalls.OrderBy(c => c.OpenTime),
+                    BO.ClosedCallInListEnum.EntryToTreatmentTime => closedCalls.OrderBy(c => c.EntryToTreatmentTime),
+                    BO.ClosedCallInListEnum.ActualTreatmentEndTime => closedCalls.OrderBy(c => c.ActualTreatmentEndTime),
+                    BO.ClosedCallInListEnum.TreatmentEndType => closedCalls.OrderBy(c => c.TreatmentEndType),
                     _ => closedCalls
                 };
             }
@@ -291,7 +292,6 @@ internal class CallImplementation : BlApi.ICall
             throw new BO.GeneralException("שגיאה בקבלת קריאות סגורות למתנדב", ex);
         }
     }
-
     //עובד
     public void UpdateCall(BO.Call call)
     {
@@ -370,7 +370,7 @@ internal class CallImplementation : BlApi.ICall
 
         // שליפת הקריאות בסטטוס פתוחה או פתוחה בסיכון
         var openStatuses = new[] { BO.CallStatus.Open, BO.CallStatus.OpenAtRisk };
-        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus(_dal,c.Id))).ToList();
+        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus( c.Id))).ToList();
 
         // סינון לפי סוג הקריאה אם צריך
         if (callTypeFilter != null)
@@ -422,11 +422,11 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            //todo 
+            //todo
             throw new BO.CallDoesNotExist("The call does not exist", ex);
         }
         // בדיקה אם הקריאה כבר טופלה
-        if (CallManager.GetCallStatus(_dal, call.Id) == BO.CallStatus.Closed)
+        if (CallManager.GetCallStatus( call.Id) == BO.CallStatus.Closed)
             //todo
             throw new BO.InvalidOperationException("הקריאה כבר טופלה.");
 
@@ -436,7 +436,7 @@ internal class CallImplementation : BlApi.ICall
             throw new BO.ExpiredCall("Call expired");
 
         // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
-        var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId &&CallManager.GetCallStatus(_dal, a.Id) == BO.CallStatus.Open);
+        var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus( a.Id) == BO.CallStatus.Open);
         if (existingAssignments.Any())
             //todo
             throw new BO.CallAlreadyInTreatment("The call is already under treatment");

@@ -106,5 +106,13 @@ public enum OpenCallInListEnum
     MaxEndTime,
     DistanceFromVolunteer
 }
-
-
+public enum ClosedCallInListEnum
+{
+    Id,
+    CallType,
+    FullAddress,
+    OpenTime,
+    EntryToTreatmentTime,
+    ActualTreatmentEndTime,
+    TreatmentEndType
+}
