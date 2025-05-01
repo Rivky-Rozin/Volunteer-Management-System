@@ -159,9 +159,8 @@ namespace Helpers
             return degrees * (Math.PI / 180);
         }
 
-       
+
 
     }
 
 }
-

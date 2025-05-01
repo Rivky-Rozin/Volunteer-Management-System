@@ -1,11 +1,7 @@
 ﻿namespace BlImplementation;
 using System;
 using System.Collections.Generic;
-using BlApi;
-using DalApi;
-using DO;
 using Helpers;
-//ללללל
 internal class CallImplementation : BlApi.ICall
 {
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
@@ -37,7 +33,7 @@ internal class CallImplementation : BlApi.ICall
         }
     }
 
-    //שאלה למורה
+    //עובד
     public void CompleteCallTreatment(int volunteerId, int assignmentId)
     {
         DO.Assignment assignment;
@@ -61,12 +57,15 @@ internal class CallImplementation : BlApi.ICall
             //todo
             throw new BO.Exceptions.InvalidOperationException("לא ניתן לסיים טיפול - ההקצאה כבר טופלה או בוטלה");
 
-        // עדכון פרטי סיום
-        DO.Call call = _dal.Call.Read(assignment.VolunteerId);
-        call.TreatmentType = DO.Enums.TreatmentType.Treated;
-        _dal.Call.Update(call);
-        //todo איך מסדרים את זה??
-        assignment.EndTreatment = DateTime.Now;
+        DO.Assignment assignment1 = new()
+        {
+            Id = assignment.Id,
+            CallId = assignment.CallId,
+            VolunteerId = assignment.VolunteerId,
+            StartTreatment = assignment.StartTreatment,
+            TreatmentType = DO.TreatmentType.Treated,
+            EndTreatment = DateTime.Now
+        };
 
         try
         {
@@ -91,7 +90,7 @@ internal class CallImplementation : BlApi.ICall
             //todo
             throw new BO.EntityNotFoundException("ההקצאה לא נמצאה", ex);
         }
-        DO.Volunteer doVolunteer = _dal.Volunteer.Read(requesterId); 
+        DO.Volunteer doVolunteer = _dal.Volunteer.Read(requesterId);
 
         // בדיקת הרשאה: מנהל או המתנדב הרשום
         bool isAdmin = doVolunteer.Role == DO.VolunteerRole.Manager; // נניח שיש שיטה כזו
@@ -122,7 +121,7 @@ internal class CallImplementation : BlApi.ICall
             EndTreatment = ClockManager.Now,
             TreatmentType = TreatmentType,
         };
-        
+
 
         try
         {
@@ -135,36 +134,38 @@ internal class CallImplementation : BlApi.ICall
         }
     }
 
-    //todo
+    //עובד
     public void DeleteCall(int callId)
     {
         try
         {
+            //todo
             // שלב 1: שליפת הקריאה משכבת הנתונים
-            var call = dal.Call.Read(callId)
+            DO.Call call = _dal.Call.Read(callId)
                        ?? throw new BO.BlEntityNotFoundException("Call", callId);
 
             // שלב 2: בדיקה האם הקריאה בסטטוס פתוח
-            if (call.Status != BO.CallStatus.Open)
+            //todo
+            if (CallManager.GetCallStatus(_dal, call.Id) != BO.CallStatus.Open)
                 throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it is not in 'Open' status.");
 
             // שלב 3: בדיקה אם הקריאה הוקצתה למתנדב כלשהו בעבר
-            var assignments = dal.Assignment.ReadAll()
-                                 .Where(a => a.CallId == callId);
+            var assignments = _dal.Assignment.ReadAll(a => a.CallId == callId);
 
+            //todo
             if (assignments.Any())
                 throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it has already been assigned to a volunteer.");
 
             // שלב 4: אם עברה את כל הבדיקות - ביצוע מחיקה
-            dal.Call.Delete(callId);
+            _dal.Call.Delete(callId);
         }
-        catch (DO.EntityNotFoundException ex)
+        catch (Exception ex)
         {
+            //todo
             // שלב 5: אם הקריאה לא קיימת בשכבת הנתונים – זרוק חריגה מתאימה לשכבת התצוגה
-            throw new BO.BlEntityNotFoundException("Call", callId, ex);
+            throw new BO.BlEntityNotFoundException("Call", ex);
         }
     }
-
 
     //עובד
     public BO.Call GetCallDetails(int callId)
@@ -295,7 +296,7 @@ internal class CallImplementation : BlApi.ICall
             throw new BO.ArgumentNullException(nameof(call), "אובייקט הקריאה שהתקבל הוא null.");
 
         // בדיקת מזהה
-        if ( call.Id<100000000|| call.Id>999999999)
+        if (call.Id < 100000000 || call.Id > 999999999)
             throw new ArgumentException("מזהה הקריאה חייב להיות מספר חיובי.");
 
         // בדיקת סוג הקריאה
@@ -355,7 +356,7 @@ internal class CallImplementation : BlApi.ICall
         }
     }
 
-    //הבעיה שאין סטטוס בCall של DO
+    //עובד
     public IEnumerable<BO.OpenCallInList> GetOpenCallsForVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.OpenCallInListEnum? sortField)
     {
         //todo
@@ -364,8 +365,8 @@ internal class CallImplementation : BlApi.ICall
             ?? throw new BO.ArgumentException("Volunteer not found");
 
         // שליפת הקריאות בסטטוס פתוחה או פתוחה בסיכון
-        var openStatuses = new[] { DO.CallStatus.Open, DO.CallStatus.OpenAtRisk };
-        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(c.Status)).ToList();
+        var openStatuses = new[] { BO.CallStatus.Open, BO.CallStatus.OpenAtRisk };
+        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus(_dal, c.Id))).ToList();
 
         // סינון לפי סוג הקריאה אם צריך
         if (callTypeFilter != null)
@@ -407,7 +408,7 @@ internal class CallImplementation : BlApi.ICall
         return result;
     }
 
-    //הבעיה שאין סטטוס בקריאה של DO
+    //עובד
     public void SelectCallForTreatment(int volunteerId, int callId)
     {
         DO.Call call;
@@ -417,11 +418,11 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
+            //todo
             throw new BO.CallDoesNotExist("The call does not exist", ex);
         }
-        //todo כאן שוב צריך לבדוק את הסטטוס של הקריאה
         // בדיקה אם הקריאה כבר טופלה
-        if (call.Status == DO.CallStatus.Closed)
+        if (CallManager.GetCallStatus(_dal, call.Id) == BO.CallStatus.Closed)
             //todo
             throw new BO.InvalidOperationException("הקריאה כבר טופלה.");
 
@@ -431,7 +432,7 @@ internal class CallImplementation : BlApi.ICall
             throw new BO.ExpiredCall("Call expired");
 
         // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
-        var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && a.Status == DO.CallStatus == Open);
+        var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(_dal, a.Id) == BO.CallStatus.Open);
         if (existingAssignments.Any())
             //todo
             throw new BO.CallAlreadyInTreatment("The call is already under treatment");

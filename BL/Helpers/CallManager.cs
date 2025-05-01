@@ -46,13 +46,16 @@ internal static class CallManager
         };
     }
     // מתודת עזר לבדיקת התאמה לסינון
-    internal static bool MatchesFilter(BO.CallInList call, BO.CallField field, object value) { 
-        return field switch {
+    internal static bool MatchesFilter(BO.CallInList call, BO.CallField field, object value)
+    {
+        return field switch
+        {
             CallFilterField.RequesterName => call.RequesterName == value.ToString(),
             CallFilterField.Status => Enum.TryParse(typeof(BO.CallStatus),
             value.ToString(), out var statusObj) && call.Status == (BO.CallStatus)statusObj,
-            CallFilterField.StartTime => DateTime.TryParse(value.ToString(), out var time) && call.StartTime.Date == time.Date, _ => true 
-        }; 
+            CallFilterField.StartTime => DateTime.TryParse(value.ToString(), out var time) && call.StartTime.Date == time.Date,
+            _ => true
+        };
     }
 
     public static BO.ClosedCallInList ConvertToClosedCallInList(DO.Call call)
@@ -126,5 +129,3 @@ internal static class CallManager
         return BO.CallStatus.Open;
     }
 }
-
-

@@ -106,5 +106,3 @@ public enum OpenCallInListEnum
     MaxEndTime,
     DistanceFromVolunteer
 }
-
-
