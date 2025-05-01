@@ -45,6 +45,7 @@ internal static class CallManager
             Status = (BO.CallStatus)call.Status
         };
     }
+    //todo לתקן את הפונקציה
     // מתודת עזר לבדיקת התאמה לסינון
     internal static bool MatchesFilter(BO.CallInList call, BO.CallField field, object value) { 
         return field switch {

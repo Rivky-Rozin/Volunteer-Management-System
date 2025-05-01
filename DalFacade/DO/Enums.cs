@@ -36,7 +36,7 @@ public enum VolunteerRole
     Regular
 }
 
-public enum TreatmentType { Simple, Complex, Emergency, ManagerCancelled, UserCancelled }
+public enum TreatmentType { Treated, ManagerCancelled, UserCancelled, ExpiredCancel }
 public enum CallType
 {
     Technical,
