@@ -169,7 +169,7 @@ internal static class CallManager
         TimeSpan riskThreshold = s_dal.Config.RiskTimeSpan;
         //todo
         var call = s_dal.Call.Read(callId)
-                   ?? throw new BO.BlEntityNotFoundException("Call", callId);
+                   ?? throw new BO.BlDoesNotExistException("Call");
 
         var assignments = s_dal.Assignment.ReadAll(a => a.CallId == callId).ToList();
 

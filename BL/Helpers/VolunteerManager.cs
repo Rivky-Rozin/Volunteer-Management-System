@@ -196,7 +196,7 @@ internal static class VolunteerManager
     public static DO.Volunteer ToDoVolunteer(BO.Volunteer boVolunteer)
     {
         if (boVolunteer == null)
-            throw new BO.ArgumentNullException(nameof(boVolunteer));
+            throw new BO.BlNullPropertyException(nameof(boVolunteer));
 
         return new DO.Volunteer(
             Id: boVolunteer.Id,
