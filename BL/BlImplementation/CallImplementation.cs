@@ -331,7 +331,7 @@ internal class CallImplementation : BlApi.ICall
             call.Latitude = lat;
             call.Longitude = lon;
         }
-        catch ()
+        catch (Exception ex)
         {
             throw new BO.FormatException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.");
         }
