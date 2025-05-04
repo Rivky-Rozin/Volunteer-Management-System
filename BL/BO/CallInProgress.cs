@@ -7,7 +7,7 @@ public class CallInProgress
 {
     public int Id { get; init; }
     public int CallId { get; set; }
-    CallType CallType { get; set; }
+    public CallType CallType { get; set; }
     public string? Description { get; set; }
     public string FullAddress { get; set; }
     //זמן פתיחה

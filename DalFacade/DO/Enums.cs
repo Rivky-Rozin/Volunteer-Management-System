@@ -41,7 +41,8 @@ public enum CallType
     Food,
     Medical,
     Emergency,
-    Other
+    Other,
+    None
 }
 
 public enum ConfigurationOption

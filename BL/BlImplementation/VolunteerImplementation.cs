@@ -1,6 +1,8 @@
-﻿
+﻿namespace BlImplementation;
 
-namespace BlImplementation;
+using Helpers;
+
+
 
 using System.Collections.Generic;
 using BlApi;
@@ -12,53 +14,51 @@ internal class VolunteerImplementation : IVolunteer
 
     public BO.VolunteerRole Login(string username, string password)
     {
-        var volunteer = _dal.Volunteer.Read(v => v.Email == username)
+        DO.Volunteer volunteer = _dal.Volunteer.Read(v => v.Name == username)
+            //todo
             ?? throw new BO.BlDoesNotExistException($"Volunteer with email '{username}' not found");
 
         if (volunteer.Password != password)
+            //todo
             throw new BO.BlValidationException("Incorrect password");
 
-        return (VolunteerRole)volunteer.Role;
+        return (BO.VolunteerRole)volunteer.Role;
     }
 
-    public IEnumerable<BO.VolunteerInList> GetVolunteersList(bool? isActive = null, BO.VolunteerInList? sortBy = null)
+    public IEnumerable<BO.VolunteerInList> GetVolunteersList(bool? isActive=null, BO.VolunteerInListEnum? sortBy = null)
     {
-        var volunteers = _dal.Volunteer.ReadAll();
+        IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
 
         // סינון לפי פעיל / לא פעיל
         if (isActive is not null)
             volunteers = volunteers.Where(v => v.IsActive == isActive.Value);
 
         // המרה ל־BO
-        var result = volunteers.Select(v => ToVolunteerInList(v));
+        IEnumerable<BO.VolunteerInList> result = volunteers.Select(v => VolunteerManager.ToVolunteerInList(v));
 
         // מיון לפי שדה מבוקש
         result = sortBy switch
         {
-            VolunteerInList.HandledCallsCount => result.OrderByDescending(v => v.HandledCallsCount),
-            VolunteerInList.CancelledCallsCount => result.OrderByDescending(v => v.CancelledCallsCount),
-            VolunteerInList.ExpiredHandledCallsCount => result.OrderByDescending(v => v.ExpiredHandledCallsCount),
+            BO.VolunteerInListEnum.Id => result.OrderBy(v => v.Id),
+            BO.VolunteerInListEnum.Name => result.OrderBy(v => v.Name),
+            BO.VolunteerInListEnum.IsActive => result.OrderByDescending(v => v.IsActive),
+            BO.VolunteerInListEnum.HandledCallsCount => result.OrderByDescending(v => v.HandledCallsCount),
+            BO.VolunteerInListEnum.CancelledCallsCount => result.OrderByDescending(v => v.CancelledCallsCount),
+            BO.VolunteerInListEnum.ExpiredHandledCallsCount => result.OrderByDescending(v => v.ExpiredHandledCallsCount),
+            BO.VolunteerInListEnum.CallInProgressId => result.OrderByDescending(v => v.CallInProgressId ?? -1),
+            BO.VolunteerInListEnum.CallInProgressType => result.OrderBy(v => v.CallInProgressType),
             _ => result.OrderBy(v => v.Id),
         };
-
         return result;
     }
 
     public BO.Volunteer GetVolunteerDetails(string id)
     {
-        var volunteer = _dal.Volunteer.Read(int.Parse(id))
+        DO.Volunteer volunteer = _dal.Volunteer.Read(int.Parse(id))
+            //todo
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
 
-        var volunteerBO = ToVolunteer(volunteer);
-
-        var call = _dal.Assignment.Read(a => a.VolunteerId == volunteer.Id && a.ActualTreatmentEndTime == null);
-        if (call is not null)
-        {
-            var callDetails = _dal.Call.Read(call.CallId);
-            if (callDetails is not null)
-                volunteerBO.CallInProgress = ToCallInProgress(callDetails, call);
-        }
-
+        BO.Volunteer volunteerBO = VolunteerManager.ToBOVolunteer(volunteer);
         return volunteerBO;
     }
 

@@ -116,3 +116,15 @@ public enum ClosedCallInListEnum
     ActualTreatmentEndTime,
     TreatmentEndType
 }
+
+public enum VolunteerInListEnum
+{
+    Id,
+    Name,
+    IsActive,
+    HandledCallsCount,
+    CancelledCallsCount,
+    ExpiredHandledCallsCount,
+    CallInProgressId,
+    CallInProgressType
+}

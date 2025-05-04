@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BO;
 using DalApi;
 
 namespace Helpers
@@ -13,43 +12,133 @@ namespace Helpers
     {
         private static IDal s_dal = Factory.Get; //stage 4
 
-        public static VolunteerInList ToVolunteerInList(DO.Volunteer volunteer)
+        public record AssignmentStats(int Handled, int Cancelled, int Expired);
+
+        public static AssignmentStats GetVolunteerAssignmentStats(IEnumerable<DO.Assignment> assignments)
         {
-            var allAssignments = _dal.Assignment.ReadAll()
-                .Where(a => a.VolunteerId == volunteer.Id);
+            int handled = 0, cancelled = 0, expired = 0;
 
-            int handled = allAssignments.Count(a => a.ActualTreatmentEndTime != null);
-            int cancelled = allAssignments.Count(a => a.Cancelled == true);
-            int expired = allAssignments.Count(a =>
-                a.ActualTreatmentEndTime != null &&
-                _dal.Call.Read(a.CallId)?.EmergencyLevel == EmergencyLevel.Critical &&
-                a.ActualTreatmentEndTime > a.RequiredTreatmentTime);
+            foreach (DO.Assignment a in assignments)
+            {
+                if (a.TreatmentType == DO.TreatmentType.ManagerCancelled || a.TreatmentType == DO.TreatmentType.UserCancelled)
+                {
+                    cancelled++;
+                }
+                else if (a.EndTreatment != null)
+                {
+                    handled++;
 
-            return new VolunteerInList
+                    // בדיקה אם הקריאה נחשבת כפג תוקף לפי CallManager
+                    BO.CallStatus status = CallManager.GetCallStatus(a.CallId);
+                    if (status == BO.CallStatus.Expired)
+                    {
+                        expired++;
+                    }
+                }
+            }
+
+            return new AssignmentStats(handled, cancelled, expired);
+        }
+
+        public static BO.VolunteerInList ToVolunteerInList(DO.Volunteer volunteer)
+        {
+            IEnumerable<DO.Assignment> assignments = s_dal.Assignment.ReadAll()
+                .Where(a => a.VolunteerId == volunteer.Id)
+                .ToList();
+
+            AssignmentStats stats = GetVolunteerAssignmentStats(assignments);
+
+            // חיפוש ההקצאה הפעילה (שאין לה EndTreatment)
+            DO.Assignment? activeAssignment = assignments.FirstOrDefault(a => a.EndTreatment == null);
+
+            int? callInProgressId = activeAssignment?.CallId;
+
+            BO.CallType callInProgressType = BO.CallType.None;
+
+            if (callInProgressId != null)
+            {
+                var call = s_dal.Call.Read(callInProgressId.Value);
+                if (call != null)
+                {
+                    callInProgressType = (BO.CallType)call.CallType;
+                }
+            }
+
+            return new BO.VolunteerInList
             {
                 Id = volunteer.Id,
                 Name = volunteer.Name,
-                Phone = volunteer.Phone,
-                Email = volunteer.Email,
-                Role = (VolunteerRole)volunteer.Role,
                 IsActive = volunteer.IsActive,
-                HandledCallsCount = handled,
-                CancelledCallsCount = cancelled,
-                ExpiredHandledCallsCount = expired
+                HandledCallsCount = stats.Handled,
+                CancelledCallsCount = stats.Cancelled,
+                ExpiredHandledCallsCount = stats.Expired,
+                CallInProgressId = callInProgressId,
+                CallInProgressType = callInProgressType
             };
         }
 
-        public static Volunteer ToVolunteer(DO.Volunteer volunteer)
+        public static BO.Volunteer ToBOVolunteer(DO.Volunteer volunteer)
         {
-            return new Volunteer
+            IEnumerable<DO.Assignment> assignments = s_dal.Assignment.ReadAll()
+                .Where(a => a.VolunteerId == volunteer.Id);
+
+            AssignmentStats stats = GetVolunteerAssignmentStats(assignments);
+
+            DO.Assignment? activeAssignment = assignments.FirstOrDefault(a => a.EndTreatment == null);
+
+            BO.CallInProgress? callInProgress = null;
+            if (activeAssignment != null)
+            {
+                DO.Call? call = s_dal.Call.Read(activeAssignment.CallId);
+                if (call is not null)
+                {
+                    TimeSpan RiskTimeSpan = s_dal.Config.RiskTimeSpan;
+
+                    DateTime now = ClockManager.Now;
+                    DateTime? maxResolutionTime = call.MaxCallTime;
+
+                    var status =
+                        maxResolutionTime is null
+                            ? BO.CallInProgressStatus.InProgress
+                            : (maxResolutionTime.Value - now) <= RiskTimeSpan
+                                ? BO.CallInProgressStatus.InProgressAtRisk
+                                : BO.CallInProgressStatus.InProgress;
+
+                    callInProgress = new BO.CallInProgress
+                    {
+                        Id = activeAssignment.Id,
+                        CallId = call.Id,
+                        CallType = (BO.CallType)call.CallType,
+                        Description = call.Description,
+                        FullAddress = call.FullAddress,
+                        OpenTime = call.OpenTime,
+                        MaxResolutionTime = call.MaxCallTime,
+                        EntryToTreatmentTime = activeAssignment.StartTreatment,
+                        DistanceFromVolunteer = Tools.GetDistance(volunteer, call),
+                        status = status
+                    };
+                }
+
+            }
+
+            return new BO.Volunteer
             {
                 Id = volunteer.Id,
                 Name = volunteer.Name,
                 Phone = volunteer.Phone,
                 Email = volunteer.Email,
                 Password = volunteer.Password,
-                Role = (VolunteerRole)volunteer.Role,
-                IsActive = volunteer.IsActive
+                Address = volunteer.Address,
+                Latitude = volunteer.Latitude,
+                Longitude = volunteer.Longitude,
+                Role = (BO.VolunteerRole)volunteer.Role,
+                IsActive = volunteer.IsActive,
+                MaxDistance = volunteer.MaxDistance,
+                DistanceKind = (BO.DistanceKind?)volunteer.DistanceKind,
+                HandledCallsCount = stats.Handled,
+                CancelledCallsCount = stats.Cancelled,
+                ExpiredHandledCallsCount = stats.Expired,
+                CallInProgress = callInProgress
             };
         }
 
