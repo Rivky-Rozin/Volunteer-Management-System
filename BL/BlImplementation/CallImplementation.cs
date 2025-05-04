@@ -269,7 +269,7 @@ internal class CallImplementation : BlApi.ICall
                               where callTypeFilter == null || boCall.CallType == callTypeFilter
                               select boCall;
 
-            if (sortField != null)
+                if (sortField != null)
             {
                 closedCalls = sortField switch
                 {
