@@ -1,11 +1,9 @@
 ﻿namespace BlImplementation;
 
 using Helpers;
-
-
-
 using System.Collections.Generic;
 using BlApi;
+
 
 
 internal class VolunteerImplementation : IVolunteer
@@ -64,36 +62,49 @@ internal class VolunteerImplementation : IVolunteer
 
     public void AddVolunteer(BO.Volunteer volunteer)
     {
-        ValidateVolunteer(volunteer);
+        try
+        {
+            VolunteerManager.ValidateVolunteer(volunteer);
+        }
+
+        catch (Exception e) {
+            throw new BO.BlAlreadyExistsException($"יש נתונים שגויים");
+        }
 
         if (_dal.Volunteer.Read(volunteer.Id) is not null)
             throw new BO.BlAlreadyExistsException($"Volunteer with ID {volunteer.Id} already exists");
 
-        _dal.Volunteer.Create(ToDalVolunteer(volunteer));
+        _dal.Volunteer.Create(VolunteerManager.ToDoVolunteer(volunteer));
     }
 
     public void UpdateVolunteer(string id, BO.Volunteer volunteer)
     {
+
         if (!int.TryParse(id, out int idInt) || idInt != volunteer.Id)
             throw new BO.BlValidationException("ID mismatch");
 
-        var existing = _dal.Volunteer.Read(idInt)
+        DO.Volunteer existingVolunteer = _dal.Volunteer.Read(int.Parse(id))
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
 
-        if (existing.Role != (DO.VolunteerRole)volunteer.Role)
+        if (existingVolunteer.Id != volunteer.Id && existingVolunteer.Role!=DO.VolunteerRole.Manager)
             throw new BO.BlPermissionException("Only an admin can change the role");
-
-        ValidateVolunteer(volunteer);
-
-        _dal.Volunteer.Update(ToDalVolunteer(volunteer));
+        try
+        {
+            VolunteerManager.ValidateVolunteer(volunteer);
+        }
+        catch (Exception e)
+        {
+            throw new BO.BlValidationException($"יש נתונים שגויים");
+        }
+        _dal.Volunteer.Update(VolunteerManager.ToDoVolunteer(volunteer));
     }
 
     public void DeleteVolunteer(string id)
     {
-        var volunteer = _dal.Volunteer.Read(int.Parse(id))
+        DO.Volunteer volunteer = _dal.Volunteer.Read(int.Parse(id))
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
 
-        var hasAssignments = _dal.Assignment.Read(a => a.VolunteerId == volunteer.Id) is not null;
+        bool hasAssignments = _dal.Assignment.Read(a => a.VolunteerId == volunteer.Id) is not null;
         if (hasAssignments)
             throw new BO.BlOperationNotAllowedException("Volunteer cannot be deleted while having assignments");
 

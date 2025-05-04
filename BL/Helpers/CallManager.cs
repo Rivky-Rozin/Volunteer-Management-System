@@ -204,4 +204,54 @@ internal static class CallManager
             return BO.CallStatus.OpenAtRisk;
         return BO.CallStatus.Open;
     }
+
+    internal static void UpdateExpiredOpenCalls()
+    {
+        // זמן נוכחי לפי שעון המערכת
+        DateTime now = ClockManager.Now; // הנחה: ClockManager.Now מחזיר את הזמן הנוכחי
+
+        // שליפת כל הקריאות הפתוחות
+        var allOpenCalls = s_dal.Call.ReadAll(call => !(GetCallStatus(call.Id) == BO.CallStatus.Closed) && call.MaxCallTime <= now);
+
+        foreach (var call in allOpenCalls)
+        {
+            DO.Assignment? assignment = s_dal.Assignment.Read(a => a.CallId == call.Id);
+
+            if (assignment == null)
+            {
+                // אין הקצאה קיימת – ניצור חדשה עם ביטול פג תוקף
+                s_dal.Assignment.Create(new DO.Assignment
+                {
+                    CallId = call.Id,
+                    VolunteerId = 0,
+                    StartTreatment = call.OpenTime,
+                    EndTreatment = now,
+                    TreatmentType = DO.TreatmentType.ExpiredCancel
+                });
+            }
+
+            else if (assignment.EndTreatment == null)
+
+            {
+                DO.Assignment newAssignment = new
+                (
+                   assignment.Id,
+                   assignment.VolunteerId,
+                   call.Id,
+                   assignment.StartTreatment,
+                   now,
+                   DO.TreatmentType.ExpiredCancel
+                );
+                // יש הקצאה אך היא לא הסתיימה – נעדכן אותה
+
+                s_dal.Assignment.Update(newAssignment);
+            }
+
+            // סימון הקריאה כנסגרת
+            //call.IsClosed = true;
+            //call.CloseReason = DO.CallCloseReason.Expired;
+            //Dal.Call.Update(call);
+        }
+    }
+
 }
