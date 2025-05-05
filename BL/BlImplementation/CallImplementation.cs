@@ -1,6 +1,7 @@
 ﻿namespace BlImplementation;
 using System;
 using System.Collections.Generic;
+using BO;
 using Helpers;
 internal class CallImplementation : BlApi.ICall
 {
@@ -14,7 +15,7 @@ internal class CallImplementation : BlApi.ICall
             // בדיקה: זמן סיום חייב להיות אחרי זמן פתיחה (אם הוגדר)      
             if (call.MaxFinishTime != null && call.MaxFinishTime <= call.CreationTime)
                 // todo : להוסיף שגיאה מתאימה    
-                throw new BO.InvalidActionException("זמן הסיום חייב להיות אחרי זמן הפתיחה");
+                throw new BO.InvalidActionException("Finish time must be after creation time");
 
             // עדכון זמן פתיחה לזמן הנוכחי של המערכת      
             var openTime = ClockManager.Now;
@@ -29,22 +30,22 @@ internal class CallImplementation : BlApi.ICall
         catch (Exception ex)
         {
             // todo: להוסיף שגיאה מתאימה
-            throw new BO.GeneralException("שגיאה בהוספת קריאה", ex);
+            throw new BO.ErrorAddingObject("Error adding call", ex);
         }
     }
 
     //עובד
     public void CompleteCallTreatment(int volunteerId, int assignmentId)
     {
-        DO.Assignment assignment;
+        DO.Assignment? assignment;
         try
         {
             assignment = _dal.Assignment.Read(assignmentId);
         }
-        catch (KeyNotFoundException)
+        catch (DO.DalDoesNotExistException ex)
         {
-           
-            throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה");
+          
+            throw new BO.BlDoesNotExistException("Assignment not found", ex);
         }
 
         // בדיקת הרשאה
