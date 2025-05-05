@@ -2,16 +2,16 @@
 
 //שגיאות חדשות לBO
 [Serializable]
-public class InvalidActionException : Exception
+public class BlInvalidActionException : Exception
 {
-    public InvalidActionException(string? message) : base(message) { }
+    public BlInvalidActionException(string? message) : base(message) { }
 }
 
 [Serializable]
-public class ErrorAddingObject : Exception
+public class BlErrorAddingObject : Exception
 {
-    public ErrorAddingObject(string? message) : base(message) { }
-    public ErrorAddingObject(string message, Exception innerException)
+    public BlErrorAddingObject(string? message) : base(message) { }
+    public BlErrorAddingObject(string message, Exception innerException)
         : base(message, innerException)
     { }
     }
@@ -73,9 +73,45 @@ public class BlXMLFileLoadCreateException : Exception
 
 // שגיאת פורמט כללית (אם אתן משתמשות בזה בנפרד)
 [Serializable]
-public class BlFormatException : Exception
+public class BlGeneralException : Exception
 {
-    public BlFormatException(string? message) : base(message) { }
-    public BlFormatException(string message, Exception innerException)
+    public BlGeneralException(string? message) : base(message) { }
+    public BlGeneralException(string message, Exception innerException)
         : base(message, innerException) { }
 }
+
+//אין הרשאה לבטל טיפול"
+[Serializable]
+public class BlAuthorizationException : Exception
+{
+    public BlAuthorizationException(string? message) : base(message) { }
+    public BlAuthorizationException(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+
+
+//"לא ניתן לבטל טיפול שכבר הסתיים"
+[Serializable]
+public class BlInvalidOperationException : Exception
+{
+    public BlInvalidOperationException(string? message) : base(message) { }
+    public BlInvalidOperationException(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+
+[Serializable]
+public class BlCannotDeleteException : Exception
+{
+    public BlCannotDeleteException(string? message) : base(message) { }
+    public BlCannotDeleteException(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+
+[Serializable]
+public class BlArgumentException : Exception
+{
+    public BlArgumentException(string? message) : base(message) { }
+    public BlArgumentException(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+

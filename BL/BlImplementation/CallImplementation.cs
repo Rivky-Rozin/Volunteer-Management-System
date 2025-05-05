@@ -1,7 +1,6 @@
 ﻿namespace BlImplementation;
 using System;
 using System.Collections.Generic;
-using BO;
 using Helpers;
 internal class CallImplementation : BlApi.ICall
 {
@@ -14,8 +13,7 @@ internal class CallImplementation : BlApi.ICall
         {
             // בדיקה: זמן סיום חייב להיות אחרי זמן פתיחה (אם הוגדר)      
             if (call.MaxFinishTime != null && call.MaxFinishTime <= call.CreationTime)
-                // todo : להוסיף שגיאה מתאימה    
-                throw new BO.InvalidActionException("Finish time must be after creation time");
+                throw new BO.BlInvalidActionException("Finish time must be after creation time");
 
             // עדכון זמן פתיחה לזמן הנוכחי של המערכת      
             var openTime = ClockManager.Now;
@@ -29,8 +27,7 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            // todo: להוסיף שגיאה מתאימה
-            throw new BO.ErrorAddingObject("Error adding call", ex);
+            throw new BO.BlErrorAddingObject("Error adding call", ex);
         }
     }
 
@@ -44,19 +41,17 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (DO.DalDoesNotExistException ex)
         {
-          
+
             throw new BO.BlDoesNotExistException("Assignment not found", ex);
         }
 
         // בדיקת הרשאה
         if (assignment.VolunteerId != volunteerId)
-            //todo
-            throw new BO.AuthorizationException("אין הרשאה לסיים טיפול - המתנדב אינו רשום על ההקצאה");
+            throw new BO.BlAuthorizationException("אין הרשאה לסיים טיפול - המתנדב אינו רשום על ההקצאה");
 
         // בדיקה שההקצאה פתוחה (כלומר לא טופלה, לא בוטלה ולא פג תוקף)
         if (assignment.EndTreatment != null)
-            //todo
-            throw new BO.InvalidOperationException("לא ניתן לסיים טיפול - ההקצאה כבר טופלה או בוטלה");
+            throw new BO.BlInvalidOperationException("לא ניתן לסיים טיפול - ההקצאה כבר טופלה או בוטלה");
 
         DO.Assignment assignment1 = new()
         {
@@ -70,9 +65,9 @@ internal class CallImplementation : BlApi.ICall
 
         try
         {
-            _dal.Assignment.Update(assignment);
+            _dal.Assignment.Update(assignment1);
         }
-        catch 
+        catch
         {
             throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון");
         }
@@ -88,21 +83,19 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            
+
             throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה", ex);
         }
         DO.Volunteer doVolunteer = _dal.Volunteer.Read(requesterId);
 
         // בדיקת הרשאה: מנהל או המתנדב הרשום
         bool isAdmin = doVolunteer.Role == DO.VolunteerRole.Manager; // נניח שיש שיטה כזו
-        //todo
         if (!isAdmin && assignment.VolunteerId != requesterId)
-            throw new BO.AuthorizationException("אין הרשאה לבטל טיפול");
+            throw new BO.BlAuthorizationException("אין הרשאה לבטל טיפול");
 
         // בדיקה שהטיפול עדיין לא הסתיים
         if (assignment.EndTreatment != null)
-            //todo
-            throw new BO.InvalidOperationException("לא ניתן לבטל טיפול שכבר הסתיים");
+            throw new BO.BlInvalidOperationException("לא ניתן לבטל טיפול שכבר הסתיים");
         DO.TreatmentType TreatmentType;
         if (isAdmin)
         {
@@ -130,7 +123,7 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            
+
             throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון", ex);
         }
     }
@@ -140,20 +133,17 @@ internal class CallImplementation : BlApi.ICall
     {
         try
         {
-            //
             // שלב 1: שליפת הקריאה משכבת הנתונים
             DO.Call call = _dal.Call.Read(callId)
                        ?? throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון");
 
             // שלב 2: בדיקה האם הקריאה בסטטוס פתוח
-            //todo
-            if (CallManager.GetCallStatus( call.Id) != BO.CallStatus.Open)
+            if (CallManager.GetCallStatus(call.Id) != BO.CallStatus.Open)
                 throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it is not in 'Open' status.");
 
             // שלב 3: בדיקה אם הקריאה הוקצתה למתנדב כלשהו בעבר
             var assignments = _dal.Assignment.ReadAll(a => a.CallId == callId);
 
-            //todo
             if (assignments.Any())
                 throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it has already been assigned to a volunteer.");
 
@@ -162,8 +152,7 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            //
-            // שלב 5: אם הקריאה לא קיימת בשכבת הנתונים – זרוק חריגה מתאימה לשכבת התצוגה
+           // שלב 5: אם הקריאה לא קיימת בשכבת הנתונים – זרוק חריגה מתאימה לשכבת התצוגה
             throw new BO.BlDoesNotExistException("Call", ex);
         }
     }
@@ -173,7 +162,6 @@ internal class CallImplementation : BlApi.ICall
     {
         try
         {
-            //
             //להוסיף שגיאה מתאימה
             DO.Call? doCall = _dal.Call.Read(callId) ?? throw new BO.BlDoesNotExistException($"Call with ID {callId} not found.");
 
@@ -181,9 +169,8 @@ internal class CallImplementation : BlApi.ICall
 
             return boCall;
         }
-        catch (DO.EntityNotFoundException ex)
+        catch (Exception ex)
         {
-            // להוסיף את זה לקובץ של השגיאות
             throw new BO.BlDoesNotExistException("קריאה לא נמצאה", ex);
         }
     }
@@ -221,7 +208,7 @@ internal class CallImplementation : BlApi.ICall
 
             return query;
         }
-        catch (DO.EntityNotFoundException ex)
+        catch (Exception ex)
         {
             // להוסיף את זה לקובץ של השגיאות  
             throw new BO.BlDoesNotExistException("שגיאה באחזור רשימת הקריאות", ex);
@@ -245,8 +232,7 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            //todo להוסיף את זה לקובץ של השגיאות
-            throw new BO.GeneralException("שגיאה בקבלת סטטיסטיקת קריאות", ex);
+            throw new BO.BlGeneralException("שגיאה בקבלת סטטיסטיקת קריאות", ex);
         }
     }
 
@@ -270,7 +256,7 @@ internal class CallImplementation : BlApi.ICall
                               where callTypeFilter == null || boCall.CallType == callTypeFilter
                               select boCall;
 
-                if (sortField != null)
+            if (sortField != null)
             {
                 closedCalls = sortField switch
                 {
@@ -289,41 +275,39 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            //todo: להוסיף את זה לקובץ של השגיאות
-            throw new BO.GeneralException("שגיאה בקבלת קריאות סגורות למתנדב", ex);
+            throw new BO.BlGeneralException("שגיאה בקבלת קריאות סגורות למתנדב", ex);
         }
     }
     //עובד
     public void UpdateCall(BO.Call call)
     {
-        //todo
         if (call == null)
-            throw new BO.BlNullPropertyException( "אובייקט הקריאה שהתקבל הוא null.");
+            throw new BO.BlObjectCanNotBeNullException("אובייקט הקריאה שהתקבל הוא null.");
 
         // בדיקת מזהה
         if (call.Id < 100000000 || call.Id > 999999999)
-            throw new BO.ArgumentException("מזהה הקריאה חייב להיות מספר חיובי.");
+            throw new BO.BlArgumentException("מזהה הקריאה חייב להיות מספר חיובי.");
 
         // בדיקת סוג הקריאה
         if (!Enum.IsDefined(typeof(BO.CallType), call.CallType))
-            throw new BO.ArgumentException("סוג הקריאה אינו חוקי.");
+            throw new BO.BlArgumentException("סוג הקריאה אינו חוקי.");
 
         // תיאור - רשות, אך אם קיים, נבדוק אם לא ריק מדי
         if (call.Description != null && call.Description.Trim().Length < 2)
-            throw new BO.ArgumentException("אם סופק תיאור, עליו להכיל לפחות 2 תווים.");
+            throw new BO.BlArgumentException("אם סופק תיאור, עליו להכיל לפחות 2 תווים.");
 
         // כתובת
         if (string.IsNullOrWhiteSpace(call.Address))
-            throw new BO.ArgumentException("כתובת אינה יכולה להיות ריקה.");
+            throw new BO.BlArgumentException("כתובת אינה יכולה להיות ריקה.");
 
         // זמן יצירת הקריאה (לא נבדוק אם בעבר, כי זה עדכון)
         // זמן סיום
         if (call.MaxFinishTime != null && call.MaxFinishTime <= call.CreationTime)
-            throw new BO.ArgumentException("זמן הסיום המקסימלי חייב להיות אחרי זמן היצירה.");
+            throw new BO.BlArgumentException("זמן הסיום המקסימלי חייב להיות אחרי זמן היצירה.");
 
         // סטטוס
         if (!Enum.IsDefined(typeof(BO.CallStatus), call.Status))
-            throw new BO.ArgumentException("סטטוס הקריאה אינו חוקי.");
+            throw new BO.BlArgumentException("סטטוס הקריאה אינו חוקי.");
 
         // קבלת קואורדינטות מהכתובת – מעדכן ישירות ל־call
         try
@@ -332,9 +316,9 @@ internal class CallImplementation : BlApi.ICall
             call.Latitude = lat;
             call.Longitude = lon;
         }
-        catch (Exception ex)
+        catch
         {
-            throw new BO.FormatException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.");
+            throw new BO.BlGeneralException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.");
         }
 
         // המרה ל-DO.Call
@@ -355,7 +339,7 @@ internal class CallImplementation : BlApi.ICall
         {
             _dal.Call.Update(callEntity);
         }
-        catch (DO.EntityNotFoundException ex)
+        catch (Exception ex)
         {
             throw new BO.BlDoesNotExistException($"קריאה עם מזהה {call.Id} לא נמצאה במערכת.", ex);
         }
@@ -371,7 +355,7 @@ internal class CallImplementation : BlApi.ICall
 
         // שליפת הקריאות בסטטוס פתוחה או פתוחה בסיכון
         var openStatuses = new[] { BO.CallStatus.Open, BO.CallStatus.OpenAtRisk };
-        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus( c.Id))).ToList();
+        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus(c.Id))).ToList();
 
         // סינון לפי סוג הקריאה אם צריך
         if (callTypeFilter != null)
@@ -423,24 +407,23 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-           
+
             throw new BO.BlDoesNotExistException("The call does not exist", ex);
         }
         // בדיקה אם הקריאה כבר טופלה
-        if (CallManager.GetCallStatus( call.Id) == BO.CallStatus.Closed)
-            //todo
-            throw new BO.InvalidOperationException("הקריאה כבר טופלה.");
+        if (CallManager.GetCallStatus(call.Id) == BO.CallStatus.Closed)
+            throw new BO.BlInvalidOperationException("הקריאה כבר טופלה.");
 
         // בדיקה אם הקריאה פגה תוקף
         if (call.MaxCallTime <= Helpers.ClockManager.Now)
             //todo
-            throw new BO.ExpiredCall("Call expired");
+            throw new BO.BlExpiredCall("Call expired");
 
         // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
-        var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus( a.Id) == BO.CallStatus.Open);
+        var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(a.Id) == BO.CallStatus.Open);
         if (existingAssignments.Any())
             //todo
-            throw new BO.CallAlreadyInTreatment("The call is already under treatment");
+            throw new BO.BlCallAlreadyInTreatment("The call is already under treatment");
 
         // יצירת הקצאה חדשה
         var assignment = new DO.Assignment
@@ -458,7 +441,7 @@ internal class CallImplementation : BlApi.ICall
         catch (Exception ex)
         {
             //todo
-            throw new BO.FailedToCreate("Failed to create assignment", ex);
+            throw new BO.BlFailedToCreate("Failed to create assignment", ex);
         }
     }
 }

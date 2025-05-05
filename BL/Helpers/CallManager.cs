@@ -167,7 +167,6 @@ internal static class CallManager
     internal static BO.CallStatus GetCallStatus(int callId)
     {
         TimeSpan riskThreshold = s_dal.Config.RiskTimeSpan;
-        //todo
         var call = s_dal.Call.Read(callId)
                    ?? throw new BO.BlDoesNotExistException("Call");
 
