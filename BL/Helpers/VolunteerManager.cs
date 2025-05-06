@@ -142,41 +142,41 @@ internal static class VolunteerManager
     {
         // בדיקת מזהה
         if (volunteer.Id <= 0)
-            throw new BO.FormatException("תעודת זהות חייבת להיות מספר חיובי.");
+            throw new BO.BlFormatException("תעודת זהות חייבת להיות מספר חיובי.");
 
         if (!IsValidIsraeliID(volunteer.Id.ToString()))
-            throw new BO.FormatException("תעודת זהות אינה תקינה לפי ספרת ביקורת.");
+            throw new BO.BlFormatException("תעודת זהות אינה תקינה לפי ספרת ביקורת.");
 
         // בדיקת שם
         if (string.IsNullOrWhiteSpace(volunteer.Name))
-            throw new BO.FormatException("שם המתנדב לא יכול להיות ריק.");
+            throw new BO.BlFormatException("שם המתנדב לא יכול להיות ריק.");
 
         // בדיקת טלפון
         if (!Regex.IsMatch(volunteer.Phone, @"^0\d{1,2}-?\d{7}$"))
-            throw new BO.FormatException("מספר הטלפון אינו תקין.");
+            throw new BO.BlFormatException("מספר הטלפון אינו תקין.");
 
         // בדיקת אימייל
         if (!Regex.IsMatch(volunteer.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-            throw new BO.FormatException("כתובת האימייל אינה תקינה.");
+            throw new BO.BlFormatException("כתובת האימייל אינה תקינה.");
 
         // בדיקת כתובת – כאן אפשר להרחיב בעתיד עם חיבור למ
         if (!string.IsNullOrWhiteSpace(volunteer.Address) && (volunteer.Latitude == null || volunteer.Longitude == null))
-            throw new BO.FormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
+            throw new BO.BlFormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
         try
         {
             var (x, y) = Tools.GetCoordinatesFromAddress(volunteer.Address);
         }
         catch (Exception)
         {
-            throw new BO.FormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
+            throw new BO.BlFormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
         }
         // בדיקת סיסמה אם קיימת
         if (!string.IsNullOrEmpty(volunteer.Password))
-            throw new BO.FormatException("הסיסמה חייבת להכיל לפחות 6 תווים.");
+            throw new BO.BlFormatException("הסיסמה חייבת להכיל לפחות 6 תווים.");
 
         // בדיקת מרחק
         if (volunteer.MaxDistance is < 0)
-            throw new BO.FormatException("מרחק מקסימלי לא יכול להיות שלילי.");
+            throw new BO.BlFormatException("מרחק מקסימלי לא יכול להיות שלילי.");
     }
 
     // פונקציית בדיקת ת"ז ישראלית
@@ -196,7 +196,7 @@ internal static class VolunteerManager
     public static DO.Volunteer ToDoVolunteer(BO.Volunteer boVolunteer)
     {
         if (boVolunteer == null)
-            throw new BO.BlNullPropertyException(nameof(boVolunteer));
+            throw new BO.BlObjectCanNotBeNullException(nameof(boVolunteer));
 
         return new DO.Volunteer(
             Id: boVolunteer.Id,
@@ -205,7 +205,7 @@ internal static class VolunteerManager
             Email: boVolunteer.Email,
             Role: (DO.VolunteerRole)boVolunteer.Role,
             IsActive: boVolunteer.IsActive,
-            DistanceKind: boVolunteer.DistanceKind.HasValue ? (DO.DistanceKind)boVolunteer.DistanceKind.Value : throw new BO.FormatException("DistanceKind cannot be null."),
+            DistanceKind: boVolunteer.DistanceKind.HasValue ? (DO.DistanceKind)boVolunteer.DistanceKind.Value : throw new BO.BlFormatException("DistanceKind cannot be null."),
             Address: boVolunteer.Address,
             Latitude: boVolunteer.Latitude,
             Longitude: boVolunteer.Longitude,

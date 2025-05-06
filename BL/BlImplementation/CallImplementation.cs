@@ -417,13 +417,13 @@ internal class CallImplementation : BlApi.ICall
         // בדיקה אם הקריאה פגה תוקף
         if (call.MaxCallTime <= Helpers.ClockManager.Now)
             //todo
-            throw new BO.BlExpiredCall("Call expired");
+            throw new BO.BlExpired("Call expired");
 
         // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
         var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(a.Id) == BO.CallStatus.Open);
         if (existingAssignments.Any())
             //todo
-            throw new BO.BlCallAlreadyInTreatment("The call is already under treatment");
+            throw new BO.BlAlreadyInTreatment("The call is already under treatment");
 
         // יצירת הקצאה חדשה
         var assignment = new DO.Assignment

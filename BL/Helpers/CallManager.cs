@@ -135,7 +135,7 @@ internal static class CallManager
         List<BO.CallAssignInList> assignments = bocall.Assignments;
         //todo
         if (assignments.Count == 0)
-            throw new BO.Exception("Cannot create ClosedCallInList: no assignments found for call.");
+            throw new BO.BlFailedToCreate("Cannot create ClosedCallInList: no assignments found for call.");
 
         // מיון ההקצאות לפי זמן התחלה
         var sortedAssignments = assignments.OrderBy(a => a.StartTreatmentTime).ToList();

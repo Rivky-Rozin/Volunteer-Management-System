@@ -14,7 +14,7 @@ internal class VolunteerImplementation : IVolunteer
     {
         DO.Volunteer volunteer = _dal.Volunteer.Read(v => v.Name == username)
             //todo
-            ?? throw new BO.BlDoesNotExistException($"Volunteer with email '{username}' not found");
+            ?? throw new BO.BlDoesNotExistException($"Volunteer '{username}' was not found");
 
         if (volunteer.Password != password)
             //todo

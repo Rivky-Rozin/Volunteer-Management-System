@@ -2,9 +2,70 @@
 
 //שגיאות חדשות לBO
 [Serializable]
+public class BlFormatException : Exception
+{
+    public BlFormatException(string? message) : base(message) { }
+    public BlFormatException(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+
+[Serializable]
 public class BlInvalidActionException : Exception
 {
     public BlInvalidActionException(string? message) : base(message) { }
+    public BlInvalidActionException(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+
+[Serializable]
+public class BlValidationException : Exception
+{
+    public BlValidationException(string? message) : base(message) { }
+    public BlValidationException(string message, Exception innerException)
+        : base(message, innerException)
+    { }
+}
+
+[Serializable]
+public class BlPermissionException : Exception
+{
+    public BlPermissionException(string? message) : base(message) { }
+    public BlPermissionException(string message, Exception innerException)
+        : base(message, innerException)
+    { }
+}
+
+[Serializable]
+public class BlOperationNotAllowedException : Exception
+{
+    public BlOperationNotAllowedException(string? message) : base(message) { }
+    public BlOperationNotAllowedException(string message, Exception innerException)
+        : base(message, innerException)
+    { }
+}
+
+[Serializable]
+public class BlFailedToCreate : Exception
+{
+    public BlFailedToCreate(string? message) : base(message) { }
+    public BlFailedToCreate(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+
+[Serializable]
+public class BlExpired : Exception
+{
+    public BlExpired(string? message) : base(message) { }
+    public BlExpired(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+
+[Serializable]
+public class BlAlreadyInTreatment : Exception
+{
+    public BlAlreadyInTreatment(string? message) : base(message) { }
+    public BlAlreadyInTreatment(string message, Exception innerException)
+        : base(message, innerException) { }
 }
 
 [Serializable]
@@ -14,7 +75,7 @@ public class BlErrorAddingObject : Exception
     public BlErrorAddingObject(string message, Exception innerException)
         : base(message, innerException)
     { }
-    }
+}
 
 //מDO
 [Serializable]
