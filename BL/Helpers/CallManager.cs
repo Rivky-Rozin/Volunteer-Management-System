@@ -20,11 +20,11 @@ internal static class CallManager
             Assignments = s_dal.Assignment.ReadAll(a => a.CallId == call.Id)
                 .Select(a => new BO.CallAssignInList
                 {
-                    VolunteerId = a.Id,
-                    VolunteerName = s_dal.Volunteer.Read(a.VolunteerId).Name,
+                    VolunteerId = a.VolunteerId,
+                    VolunteerName = s_dal.Volunteer.Read(a.VolunteerId)?.Name ?? "Unknown",
                     StartTreatmentTime = a.StartTreatment,
-                    FinishTreatmentTime = a.EndTreatment,
-                    EndOfTreatmentType = (BO.EndOfTreatmentType)a.TreatmentType
+                    FinishTreatmentTime = a.EndTreatmentTime ?? null,
+                    EndOfTreatmentType = a.TreatmentType.HasValue ? (BO.TreatmentEndTypeEnum)a.TreatmentType.Value : (BO.TreatmentEndTypeEnum?)null  // המרה נכונה של nullable
                 }).ToList()
         };
     }
@@ -150,7 +150,7 @@ internal static class CallManager
             .FirstOrDefault();
 
         DateTime? actualEndTime = lastFinishedAssignment?.FinishTreatmentTime;
-        BO.EndOfTreatmentType? endType = lastFinishedAssignment?.EndOfTreatmentType;
+        BO.TreatmentEndTypeEnum? endType = lastFinishedAssignment?.EndOfTreatmentType;
 
         return new BO.ClosedCallInList
         {

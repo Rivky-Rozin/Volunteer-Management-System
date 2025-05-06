@@ -6,6 +6,6 @@ public class CallAssignInList
     public string? VolunteerName { get; init; }
     public DateTime StartTreatmentTime { get; init; }
     public DateTime? FinishTreatmentTime { get; init; }
-    public EndOfTreatmentType? EndOfTreatmentType { get; init; }
+    public TreatmentEndTypeEnum? EndOfTreatmentType { get; init; }
     public override string ToString() => this.ToStringProperty();
 }

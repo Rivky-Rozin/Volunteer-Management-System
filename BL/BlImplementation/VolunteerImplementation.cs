@@ -47,7 +47,7 @@ internal class VolunteerImplementation : IVolunteer
             BO.VolunteerInListEnum.CallInProgressType => result.OrderBy(v => v.CallInProgressType),
             _ => result.OrderBy(v => v.Id),
         };
-        return result;
+        return result.ToList();
     }
 
     public BO.Volunteer GetVolunteerDetails(string id)

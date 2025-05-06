@@ -16,10 +16,11 @@ public record Assignment
    int CallId,
    DateTime StartTreatment ,
    DateTime? EndTreatment=null ,
-   TreatmentType? TreatmentType=null
+   TreatmentType? TreatmentType=null,
+   DateTime? EndTreatmentTime = null
 )
 {
-    public DateTime EndTreatmentTime;
+    //public DateTime EndTreatmentTime;
 
     public Assignment()
     : this(0, 0, 0,DateTime.Now, DateTime.Now, default) { }
