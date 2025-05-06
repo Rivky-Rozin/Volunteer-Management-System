@@ -285,7 +285,7 @@ internal class CallImplementation : BlApi.ICall
             throw new BO.BlObjectCanNotBeNullException("אובייקט הקריאה שהתקבל הוא null.");
 
         // בדיקת מזהה
-        if (call.Id < 100000000 || call.Id > 999999999)
+        if (call.Id < 0)
             throw new BO.BlArgumentException("מזהה הקריאה חייב להיות מספר חיובי.");
 
         // בדיקת סוג הקריאה

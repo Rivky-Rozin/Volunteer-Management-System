@@ -2,60 +2,61 @@
 <ArrayOfAssignment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Assignment>
     <Id>1000</Id>
-    <VolunteerId>357782617</VolunteerId>
+    <VolunteerId>296877541</VolunteerId>
     <CallId>1003</CallId>
-    <StartTreatment>2023-02-16T00:00:00</StartTreatment>
-    <EndTreatment>2025-05-06T13:29:56.0900038+03:00</EndTreatment>
-    <TreatmentType>ManagerCancelled</TreatmentType>
+    <StartTreatment>2025-01-18T00:00:00</StartTreatment>
+    <EndTreatment>2025-05-06T17:55:15.0540482+03:00</EndTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1001</Id>
-    <VolunteerId>360559341</VolunteerId>
-    <CallId>1000</CallId>
-    <StartTreatment>2025-04-21T00:00:00</StartTreatment>
-    <EndTreatment>2025-04-21T01:46:00</EndTreatment>
+    <VolunteerId>300419076</VolunteerId>
+    <CallId>1004</CallId>
+    <StartTreatment>2023-10-03T00:00:00</StartTreatment>
+    <EndTreatment>2023-10-03T00:16:00</EndTreatment>
+    <TreatmentType>Treated</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1002</Id>
-    <VolunteerId>203443644</VolunteerId>
-    <CallId>1000</CallId>
-    <StartTreatment>2025-01-02T00:00:00</StartTreatment>
-    <EndTreatment>2025-01-02T01:30:00</EndTreatment>
-    <TreatmentType>UserCancelled</TreatmentType>
+    <VolunteerId>338067124</VolunteerId>
+    <CallId>1006</CallId>
+    <StartTreatment>2025-01-04T00:00:00</StartTreatment>
+    <EndTreatment>2025-05-06T17:55:15.1443668+03:00</EndTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1003</Id>
-    <VolunteerId>223009266</VolunteerId>
+    <VolunteerId>256245520</VolunteerId>
     <CallId>1002</CallId>
-    <StartTreatment>2023-01-17T00:00:00</StartTreatment>
-    <EndTreatment>2025-05-06T13:29:56.5214704+03:00</EndTreatment>
+    <StartTreatment>2024-08-31T00:00:00</StartTreatment>
+    <EndTreatment>2025-05-06T17:55:15.1968514+03:00</EndTreatment>
+    <TreatmentType>ManagerCancelled</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1004</Id>
-    <VolunteerId>248438754</VolunteerId>
-    <CallId>1001</CallId>
-    <StartTreatment>2024-10-12T00:00:00</StartTreatment>
-    <EndTreatment>2024-10-12T00:49:00</EndTreatment>
+    <VolunteerId>352518235</VolunteerId>
+    <CallId>1000</CallId>
+    <StartTreatment>2025-03-12T00:00:00</StartTreatment>
+    <EndTreatment>2025-05-06T17:55:15.2449299+03:00</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1005</Id>
-    <VolunteerId>200255279</VolunteerId>
-    <CallId>1000</CallId>
-    <StartTreatment>2023-09-10T00:00:00</StartTreatment>
-    <EndTreatment>2023-09-10T01:39:00</EndTreatment>
+    <VolunteerId>288874122</VolunteerId>
+    <CallId>1006</CallId>
+    <StartTreatment>2025-01-18T00:00:00</StartTreatment>
+    <EndTreatment>2025-05-06T17:55:15.303683+03:00</EndTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1006</Id>
     <VolunteerId>0</VolunteerId>
-    <CallId>1004</CallId>
-    <StartTreatment>2023-08-01T20:08:54</StartTreatment>
-    <EndTreatment>2025-05-06T13:29:54</EndTreatment>
+    <CallId>1001</CallId>
+    <StartTreatment>2024-04-19T20:57:14</StartTreatment>
+    <EndTreatment>2025-05-06T17:55:14</EndTreatment>
     <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
@@ -63,17 +64,8 @@
     <Id>1007</Id>
     <VolunteerId>0</VolunteerId>
     <CallId>1005</CallId>
-    <StartTreatment>2023-08-24T19:44:54</StartTreatment>
-    <EndTreatment>2025-05-06T13:29:54</EndTreatment>
-    <TreatmentType>ExpiredCancel</TreatmentType>
-    <EndTreatmentTime xsi:nil="true" />
-  </Assignment>
-  <Assignment>
-    <Id>1008</Id>
-    <VolunteerId>0</VolunteerId>
-    <CallId>1006</CallId>
-    <StartTreatment>2024-04-19T04:06:54</StartTreatment>
-    <EndTreatment>2025-05-06T13:29:54</EndTreatment>
+    <StartTreatment>2024-03-04T18:10:14</StartTreatment>
+    <EndTreatment>2025-05-06T17:55:14</EndTreatment>
     <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
