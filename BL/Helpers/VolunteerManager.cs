@@ -1,5 +1,6 @@
 ﻿namespace Helpers;
 
+using System.Numerics;
 using System.Text.RegularExpressions;
 using DalApi;
 
@@ -153,16 +154,16 @@ internal static class VolunteerManager
             throw new BO.BlFormatException("שם המתנדב לא יכול להיות ריק.");
 
         // בדיקת טלפון
-        if (!Regex.IsMatch(volunteer.Phone, @"^0\d{1,2}-?\d{7}$"))
+        if (string.IsNullOrWhiteSpace(volunteer.Phone))
             throw new BO.BlFormatException("מספר הטלפון אינו תקין.");
 
         // בדיקת אימייל
-        if (!Regex.IsMatch(volunteer.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        if (!Regex.IsMatch(volunteer.Email.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             throw new BO.BlFormatException("כתובת האימייל אינה תקינה.");
 
         // בדיקת כתובת – כאן אפשר להרחיב בעתיד עם חיבור למ
-        if (!string.IsNullOrWhiteSpace(volunteer.Address) && (volunteer.Latitude == null || volunteer.Longitude == null))
-            throw new BO.BlFormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
+        if (string.IsNullOrWhiteSpace(volunteer.Address))
+            throw new BO.BlFormatException("כתובת לא יכולה null.");
         try
         {
             var (x, y) = Tools.GetCoordinatesFromAddress(volunteer.Address);
@@ -172,7 +173,7 @@ internal static class VolunteerManager
             throw new BO.BlFormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
         }
         // בדיקת סיסמה אם קיימת
-        if (!string.IsNullOrEmpty(volunteer.Password))
+        if (string.IsNullOrEmpty(volunteer.Password))
             throw new BO.BlFormatException("הסיסמה חייבת להכיל לפחות 6 תווים.");
 
         // בדיקת מרחק
