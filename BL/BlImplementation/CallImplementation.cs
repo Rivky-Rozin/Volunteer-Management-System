@@ -4,6 +4,16 @@ using System.Collections.Generic;
 using Helpers;
 internal class CallImplementation : BlApi.ICall
 {
+    #region Stage 5
+    public void AddObserver(Action listObserver) =>
+    CallManager.Observers.AddListObserver(listObserver); //stage 5
+    public void AddObserver(int id, Action observer) =>
+CallManager.Observers.AddObserver(id, observer); //stage 5
+    public void RemoveObserver(Action listObserver) =>
+CallManager.Observers.RemoveListObserver(listObserver); //stage 5
+    public void RemoveObserver(int id, Action observer) =>
+CallManager.Observers.RemoveObserver(id, observer); //stage 5
+    #endregion Stage 5
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
 
     //עובד
@@ -416,13 +426,13 @@ internal class CallImplementation : BlApi.ICall
 
         // בדיקה אם הקריאה פגה תוקף
         if (call.MaxCallTime <= Helpers.ClockManager.Now)
-            //todo
+            
             throw new BO.BlExpired("Call expired");
 
         // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
         var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(a.Id) == BO.CallStatus.Open);
         if (existingAssignments.Any())
-            //todo
+          
             throw new BO.BlAlreadyInTreatment("The call is already under treatment");
 
         // יצירת הקצאה חדשה
@@ -440,7 +450,7 @@ internal class CallImplementation : BlApi.ICall
         }
         catch (Exception ex)
         {
-            //todo
+           
             throw new BO.BlFailedToCreate("Failed to create assignment", ex);
         }
     }

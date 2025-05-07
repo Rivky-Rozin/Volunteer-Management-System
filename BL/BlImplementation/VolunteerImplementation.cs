@@ -8,16 +8,26 @@ using BlApi;
 
 internal class VolunteerImplementation : IVolunteer
 {
+    #region Stage 5
+    public void AddObserver(Action listObserver) =>
+    VolunteerManager.Observers.AddListObserver(listObserver); //stage 5
+    public void AddObserver(int id, Action observer) =>
+VolunteerManager.Observers.AddObserver(id, observer); //stage 5
+    public void RemoveObserver(Action listObserver) =>
+VolunteerManager.Observers.RemoveListObserver(listObserver); //stage 5
+    public void RemoveObserver(int id, Action observer) =>
+VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
+    #endregion Stage 5
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
 
     public BO.VolunteerRole Login(string username, string password)
     {
         DO.Volunteer volunteer = _dal.Volunteer.Read(v => v.Name == username)
-            //todo
+          
             ?? throw new BO.BlDoesNotExistException($"Volunteer '{username}' was not found");
 
         if (volunteer.Password != password)
-            //todo
+         
             throw new BO.BlValidationException("Incorrect password");
 
         return (BO.VolunteerRole)volunteer.Role;
@@ -53,7 +63,7 @@ internal class VolunteerImplementation : IVolunteer
     public BO.Volunteer GetVolunteerDetails(string id)
     {
         DO.Volunteer volunteer = _dal.Volunteer.Read(int.Parse(id))
-            //todo
+           
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
 
         BO.Volunteer volunteerBO = VolunteerManager.ToBOVolunteer(volunteer);

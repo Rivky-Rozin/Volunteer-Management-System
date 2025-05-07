@@ -3,6 +3,7 @@ using DalApi;
 
 internal static class CallManager
 {
+    internal static ObserverManager Observers = new(); //stage 5 
     private static IDal s_dal = Factory.Get; //stage 4
     internal static BO.Call ConvertToBO(DO.Call call)
     {
@@ -133,7 +134,7 @@ internal static class CallManager
 
         // רשימת ההקצאות
         List<BO.CallAssignInList> assignments = bocall.Assignments;
-        //todo
+        
         if (assignments.Count == 0)
             throw new BO.BlFailedToCreate("Cannot create ClosedCallInList: no assignments found for call.");
 

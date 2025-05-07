@@ -4,7 +4,7 @@ using DO;
 
 namespace BlApi;
 
-public interface IVolunteer
+public interface IVolunteer: IObservable
 {
     /// <summary>
     /// Attempts to log in a user with the provided credentials.
