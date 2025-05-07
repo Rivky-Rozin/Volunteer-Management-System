@@ -36,6 +36,8 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
     public IEnumerable<BO.VolunteerInList> GetVolunteersList(bool? isActive = null, BO.VolunteerInListEnum? sortBy = null)
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
+        Console.WriteLine($"מתנדבים קיימים ב-DAL: {volunteers.Count()}");
+        Console.WriteLine($"isActive: {isActive}, sortBy: {sortBy}");
 
         // סינון לפי פעיל / לא פעיל
         if (isActive is not null)

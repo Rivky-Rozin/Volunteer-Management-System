@@ -162,7 +162,7 @@ class Program
                 case 2:
                     try
                     {
-                        foreach (var volunteer in s_bl.Volunteer.GetVolunteersList(true, BO.VolunteerInListEnum.Name))
+                        foreach (var volunteer in s_bl.Volunteer.GetVolunteersList())
                             Console.WriteLine(volunteer);
                     }
                     catch (Exception ex)
@@ -275,7 +275,7 @@ class Program
                             volunteer.DistanceKind = BO.DistanceKind.Aerial;
                         }
                             s_bl.Volunteer.AddVolunteer(volunteer);
-                        Console.WriteLine("✅ Volunteer added successfully");
+                        Console.WriteLine("Volunteer added successfully");
                     }
                     catch (Exception ex)
                     {
@@ -381,15 +381,19 @@ class Program
 
         Console.Write("Email: ");
         string? email = Console.ReadLine();
-        //todoלתקן את הזריקה, פה היא בטוח לא נכונה זה בלי לתפוס אותה והתוכנית נופלת 
         Console.Write("IsActive? (true/false): ");
         if (!bool.TryParse(Console.ReadLine(), out bool active))
-            throw new FormatException("Invalid input for IsActive.");
+        {
+            Console.WriteLine("⚠️ Invalid input. Default value 'false' was set.");
+            active = false;
+        }
 
-        //todoלתקן את הזריקה, פה היא בטוח לא נכונה זה בלי לתפוס אותה והתוכנית נופלת 
-        Console.WriteLine("Please enter Role: 'Manager' or 'Volunteer'."); 
+        Console.Write("Please enter Role: 'Manager' or 'Regular': ");
         if (!Enum.TryParse(Console.ReadLine(), out BO.VolunteerRole role))
-            throw new FormatException("Invalid role.");
+        {
+            Console.WriteLine("⚠️ Invalid role. Default value 'Volunteer' was set.");
+            role = BO.VolunteerRole.Regular;
+        }
 
         Console.Write("Password: ");
         string? password = Console.ReadLine();
@@ -433,19 +437,80 @@ class Program
             DistanceKind = myDistanceType,
         };
     }
+  
     static void UpDateVolunteer()
     {
         try
         {
             Console.Write("Enter requester ID: ");
-            string requesterId = Console.ReadLine();
-            if (!int.TryParse(requesterId, out int requesterIdInt))
+            string requesterIdStr = Console.ReadLine();
+            if (!int.TryParse(requesterIdStr, out int requesterId))
             {
-                throw new FormatException("Invalid input for requester ID.");
+                Console.WriteLine("⚠️ Invalid input. Update aborted.");
+                return;
             }
-            BO.Volunteer boVolunteer = CreateVolunteer(requesterIdInt);
-            s_bl.Volunteer.UpdateVolunteer(requesterId, boVolunteer);
-            Console.WriteLine("Volunteer updated successfully.");
+
+            // Get existing volunteer
+            BO.Volunteer volunteer = s_bl.Volunteer.GetVolunteerDetails(requesterIdStr);
+            Console.WriteLine("Press Enter to keep current value.");
+
+            Console.Write($"Name ({volunteer.Name}): ");
+            string nameInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(nameInput))
+                volunteer.Name = nameInput;
+
+            Console.Write($"Phone Number ({volunteer.Phone}): ");
+            string phoneInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(phoneInput))
+                volunteer.Phone = phoneInput;
+
+            Console.Write($"Email ({volunteer.Email}): ");
+            string emailInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(emailInput))
+                volunteer.Email = emailInput;
+
+            Console.Write($"IsActive? ({volunteer.IsActive}) (true/false): ");
+            string isActiveInput = Console.ReadLine();
+            if (bool.TryParse(isActiveInput, out bool isActiveParsed))
+                volunteer.IsActive = isActiveParsed;
+
+            Console.Write($"Role ({volunteer.Role}): ");
+            string roleInput = Console.ReadLine();
+            if (Enum.TryParse(roleInput, true, out BO.VolunteerRole roleParsed))
+                volunteer.Role = roleParsed;
+
+            Console.Write($"Password ({volunteer.Password}): ");
+            string passwordInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(passwordInput))
+                volunteer.Password = passwordInput;
+
+            Console.Write($"Address ({volunteer.Address}): ");
+            string addressInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(addressInput))
+                volunteer.Address = addressInput;
+
+            Console.Write($"Latitude ({volunteer.Latitude}): ");
+            string latInput = Console.ReadLine();
+            if (double.TryParse(latInput, out double latParsed))
+                volunteer.Latitude = latParsed;
+
+            Console.Write($"Longitude ({volunteer.Longitude}): ");
+            string lonInput = Console.ReadLine();
+            if (double.TryParse(lonInput, out double lonParsed))
+                volunteer.Longitude = lonParsed;
+
+            Console.Write($"Max Distance ({volunteer.MaxDistance}): ");
+            string maxDistInput = Console.ReadLine();
+            if (double.TryParse(maxDistInput, out double distParsed))
+                volunteer.MaxDistance = distParsed;
+
+            Console.Write($"Distance Type ({volunteer.DistanceKind}) (Air/Drive/Walk): ");
+            string distKindInput = Console.ReadLine();
+            if (Enum.TryParse(distKindInput, true, out BO.DistanceKind distKindParsed))
+                volunteer.DistanceKind = distKindParsed;
+
+            s_bl.Volunteer.UpdateVolunteer(requesterIdStr, volunteer);
+            Console.WriteLine("✅ Volunteer updated successfully.");
         }
         catch (Exception ex)
         {

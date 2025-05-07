@@ -146,8 +146,8 @@ internal static class VolunteerManager
         if (volunteer.Id <= 0)
             throw new BO.BlFormatException("תעודת זהות חייבת להיות מספר חיובי.");
 
-        if (!IsValidIsraeliID(volunteer.Id.ToString()))
-            throw new BO.BlFormatException("תעודת זהות אינה תקינה לפי ספרת ביקורת.");
+        if (volunteer.Id<99999999||volunteer.Id>999999999)
+            throw new BO.BlFormatException("תעודת זהות אינה תקינה .");
 
         // בדיקת שם
         if (string.IsNullOrWhiteSpace(volunteer.Name))
@@ -172,9 +172,10 @@ internal static class VolunteerManager
         {
             throw new BO.BlFormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
         }
-        // בדיקת סיסמה אם קיימת
-        if (string.IsNullOrEmpty(volunteer.Password))
-            throw new BO.BlFormatException("הסיסמה חייבת להכיל לפחות 6 תווים.");
+        //// בדיקת סיסמה אם קיימת
+        //if (!(string.IsNullOrEmpty(volunteer.Password)))
+        //    if()
+        //    throw new BO.BlFormatException("הסיסמה חייבת להכיל לפחות 6 תווים.");
 
         // בדיקת מרחק
         if (volunteer.MaxDistance is < 0)
