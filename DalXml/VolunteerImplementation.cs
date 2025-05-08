@@ -93,8 +93,7 @@ internal class VolunteerImplementation : IVolunteer
 
         return new DO.Volunteer()
         {
-
-            Id = v.ToIntNullable("Id") ?? throw new FormatException("can't convert Id"),
+            Id = int.TryParse(v.Element("Id")?.Value.Trim(), out int idVal) ? idVal : throw new FormatException("can't convert Id"),
             Name = (string?)v.Element("Name") ?? "",
             Phone = (string?)v.Element("Phone") ?? "",
             Email = (string?)v.Element("Email") ?? "",

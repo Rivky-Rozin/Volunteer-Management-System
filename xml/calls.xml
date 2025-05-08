@@ -2,72 +2,72 @@
 <ArrayOfCall xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Call>
     <Id>1000</Id>
-    <CallType>Other</CallType>
+    <CallType>Food</CallType>
     <FullAddress>123 Main Street</FullAddress>
-    <Latitude>-77.42271393038358</Latitude>
-    <Longitude>-125.48283670483981</Longitude>
-    <OpenTime>2023-10-27T14:53:46</OpenTime>
-    <Description>Call regarding other support at 123 Main Street.</Description>
-    <MaxCallTime>2023-10-29T00:53:46</MaxCallTime>
+    <Latitude>27.284473133231785</Latitude>
+    <Longitude>-8.756061488479304</Longitude>
+    <OpenTime>2023-12-14T03:15:34</OpenTime>
+    <Description>Call regarding food support at 123 Main Street.</Description>
+    <MaxCallTime>2023-12-15T12:15:34</MaxCallTime>
   </Call>
   <Call>
     <Id>1001</Id>
-    <CallType>Medical</CallType>
+    <CallType>Emergency</CallType>
     <FullAddress>45 Elm Avenue</FullAddress>
-    <Latitude>85.35033149147421</Latitude>
-    <Longitude>-96.28810003569978</Longitude>
-    <OpenTime>2024-02-26T05:12:46</OpenTime>
-    <Description>Call regarding medical support at 45 Elm Avenue.</Description>
-    <MaxCallTime>2024-02-26T18:12:46</MaxCallTime>
+    <Latitude>89.27926538653188</Latitude>
+    <Longitude>61.442924107095166</Longitude>
+    <OpenTime>2024-07-20T19:43:34</OpenTime>
+    <Description>Call regarding emergency support at 45 Elm Avenue.</Description>
+    <MaxCallTime>2024-07-21T01:43:34</MaxCallTime>
   </Call>
   <Call>
     <Id>1002</Id>
-    <CallType>Emergency</CallType>
+    <CallType>None</CallType>
     <FullAddress>78 Oak Lane</FullAddress>
-    <Latitude>-39.0690671153108</Latitude>
-    <Longitude>-17.768631470648785</Longitude>
-    <OpenTime>2023-10-26T00:26:46</OpenTime>
-    <Description>Call regarding emergency support at 78 Oak Lane.</Description>
-    <MaxCallTime>2023-10-27T04:26:46</MaxCallTime>
+    <Latitude>47.13158688111645</Latitude>
+    <Longitude>-87.46529219205613</Longitude>
+    <OpenTime>2024-08-22T16:09:34</OpenTime>
+    <Description>Call regarding none support at 78 Oak Lane.</Description>
+    <MaxCallTime>2024-08-23T00:09:34</MaxCallTime>
   </Call>
   <Call>
     <Id>1003</Id>
     <CallType>Other</CallType>
     <FullAddress>22 Maple Drive</FullAddress>
-    <Latitude>-23.203053620128344</Latitude>
-    <Longitude>-163.49498757598548</Longitude>
-    <OpenTime>2024-06-11T05:25:46</OpenTime>
+    <Latitude>29.23020721483384</Latitude>
+    <Longitude>19.51279001045745</Longitude>
+    <OpenTime>2024-04-22T21:36:34</OpenTime>
     <Description>Call regarding other support at 22 Maple Drive.</Description>
-    <MaxCallTime>2024-06-12T09:25:46</MaxCallTime>
+    <MaxCallTime>2024-04-24T08:36:34</MaxCallTime>
   </Call>
   <Call>
     <Id>1004</Id>
-    <CallType>Emergency</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>56 Pine Boulevard</FullAddress>
-    <Latitude>38.96970600536653</Latitude>
-    <Longitude>-63.45292915781987</Longitude>
-    <OpenTime>2024-12-19T13:16:46</OpenTime>
-    <Description>Call regarding emergency support at 56 Pine Boulevard.</Description>
-    <MaxCallTime>2024-12-20T22:16:46</MaxCallTime>
+    <Latitude>-4.725801259563724</Latitude>
+    <Longitude>-177.97649465354456</Longitude>
+    <OpenTime>2023-07-27T16:34:34</OpenTime>
+    <Description>Call regarding medical support at 56 Pine Boulevard.</Description>
+    <MaxCallTime>2023-07-28T12:34:34</MaxCallTime>
   </Call>
   <Call>
     <Id>1005</Id>
     <CallType>Medical</CallType>
     <FullAddress>89 Cedar Road</FullAddress>
-    <Latitude>86.57441125055868</Latitude>
-    <Longitude>-113.65416971489682</Longitude>
-    <OpenTime>2024-08-05T05:21:46</OpenTime>
+    <Latitude>32.071724850074176</Latitude>
+    <Longitude>23.630027543306966</Longitude>
+    <OpenTime>2023-08-17T02:12:34</OpenTime>
     <Description>Call regarding medical support at 89 Cedar Road.</Description>
-    <MaxCallTime>2024-08-05T10:21:46</MaxCallTime>
+    <MaxCallTime>2023-08-18T18:12:34</MaxCallTime>
   </Call>
   <Call>
     <Id>1006</Id>
-    <CallType>Technical</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>101 Ash Street</FullAddress>
-    <Latitude>-31.049793795621248</Latitude>
-    <Longitude>-112.89241065737515</Longitude>
-    <OpenTime>2024-09-03T21:55:46</OpenTime>
-    <Description>Call regarding technical support at 101 Ash Street.</Description>
-    <MaxCallTime>2024-09-05T14:55:46</MaxCallTime>
+    <Latitude>-74.25961748523947</Latitude>
+    <Longitude>10.52266999359756</Longitude>
+    <OpenTime>2024-01-15T05:03:34</OpenTime>
+    <Description>Call regarding medical support at 101 Ash Street.</Description>
+    <MaxCallTime>2024-01-15T13:03:34</MaxCallTime>
   </Call>
 </ArrayOfCall>
