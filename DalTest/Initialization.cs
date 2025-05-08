@@ -37,8 +37,14 @@ public static class Initialization
         string[] volunteerNames = { "David Rosen", "Yael Cohen", "Moshe Levi", "Shiran Bar", "Noa Amar", "Lior Avraham" };
         string[] volunteerPhones = { "0501234567", "0527654321", "0549876543", "0531237894", "0505678910", "0523456789" };
         string[] volunteerEmails = { "david@example.com", "yael@example.com", "moshe@example.com", "shiran@example.com", "noa@example.com", "lior@example.com" };
-        string[] volunteerAddresses = { "Jerusalem", "Tel Aviv", "Haifa", "Beer Sheva", "Ashdod", "Netanya" };
-
+        string[] volunteerAddresses = {
+          "10 King David St, Jerusalem, Israel",
+          "48 Allenby St, Tel Aviv-Yafo, Israel",
+          "40 HaNassi Blvd, Haifa, Israel",
+          "31 Rager Blvd, Beer Sheva, Israel",
+          "1 Herzl St, Ashdod, Israel",
+          "8 HaRav Kook St, Netanya, Israel"
+        };
         for (int index = 0; index < volunteerNames.Length; index++)
         {
             int id;
