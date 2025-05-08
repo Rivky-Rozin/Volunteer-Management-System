@@ -1,6 +1,4 @@
-﻿
-
-namespace BlImplementation;
+﻿namespace BlImplementation;
 
 using System;
 using BlApi;
@@ -11,7 +9,7 @@ internal class AdminImplementation : IAdmin
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public void AdvanceTime(BO.TimeUnit timeUnit)
     {
-        DateTime newTime = ClockManager.Now;
+        DateTime newTime = AdminManager.Now;
 
         switch (timeUnit)
         {
@@ -32,12 +30,12 @@ internal class AdminImplementation : IAdmin
                 break;
         }
 
-        ClockManager.UpdateClock(newTime);
+        AdminManager.UpdateClock(newTime);
     }
 
     public DateTime GetCurrentTime()
     {
-        return ClockManager.Now;
+        return AdminManager.Now;
     }
 
     public TimeSpan GetRiskTimeSpan()
@@ -48,13 +46,13 @@ internal class AdminImplementation : IAdmin
     public void InitializeDatabase()
     {
         DalTest.Initialization.Do();
-        ClockManager.UpdateClock(ClockManager.Now);
+        AdminManager.UpdateClock(AdminManager.Now);
     }
 
     public void ResetDatabase()
     {
         _dal.ResetDB();
-        ClockManager.UpdateClock(ClockManager.Now);
+        AdminManager.UpdateClock(AdminManager.Now);
     }
 
     public void SetRiskTimeSpan(TimeSpan riskTimeSpan)

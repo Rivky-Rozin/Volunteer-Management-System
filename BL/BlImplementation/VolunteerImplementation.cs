@@ -87,6 +87,7 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlAlreadyExistsException($"Volunteer with ID {volunteer.Id} already exists");
 
         _dal.Volunteer.Create(VolunteerManager.ToDoVolunteer(volunteer));
+        VolunteerManager.Observers.NotifyListUpdated(); //stage 5  
     }
 
     public void UpdateVolunteer(string id, BO.Volunteer volunteer)
@@ -109,6 +110,9 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlValidationException($"יש נתונים שגויים");
         }
         _dal.Volunteer.Update(VolunteerManager.ToDoVolunteer(volunteer));
+        VolunteerManager.Observers.NotifyItemUpdated(volunteer.Id);  //stage 5
+        VolunteerManager.Observers.NotifyListUpdated();  //stage 5
+
     }
 
     public void DeleteVolunteer(string id)
@@ -121,6 +125,7 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlOperationNotAllowedException("Volunteer cannot be deleted while having assignments");
 
         _dal.Volunteer.Delete(volunteer.Id);
+        VolunteerManager.Observers.NotifyListUpdated(); //stage 5
     }
 }
 

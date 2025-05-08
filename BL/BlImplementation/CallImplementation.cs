@@ -26,7 +26,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
                 throw new BO.BlInvalidActionException("Finish time must be after creation time");
 
             // עדכון זמן פתיחה לזמן הנוכחי של המערכת      
-            var openTime = ClockManager.Now;
+            var openTime = AdminManager.Now;
             call.CreationTime = openTime;
 
             // המרה ל-DO      
@@ -34,6 +34,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
             // הוספה ל-DAL      
             _dal.Call.Create(doCall); // FIX: Changed 'Add' to 'Create' to match the ICrud<T> interface  
+            CallManager.Observers.NotifyListUpdated(); //stage 5
         }
         catch (Exception ex)
         {
@@ -76,6 +77,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         try
         {
             _dal.Assignment.Update(assignment1);
+            CallManager.Observers.NotifyListUpdated(); //stage 5
+            CallManager.Observers.NotifyItemUpdated(assignment1.Id); //stage 5
         }
         catch
         {
@@ -122,7 +125,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             CallId = assignment.CallId,
             VolunteerId = assignment.VolunteerId,
             StartTreatment = assignment.StartTreatment,
-            EndTreatment = ClockManager.Now,
+            EndTreatment = AdminManager.Now,
             TreatmentType = TreatmentType,
         };
 
@@ -130,6 +133,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         try
         {
             _dal.Assignment.Update(newAssignment);
+            CallManager.Observers.NotifyListUpdated(); //stage 5
+            CallManager.Observers.NotifyItemUpdated(newAssignment.Id); //stage 5
+
         }
         catch (Exception ex)
         {
@@ -159,6 +165,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
             // שלב 4: אם עברה את כל הבדיקות - ביצוע מחיקה
             _dal.Call.Delete(callId);
+            CallManager.Observers.NotifyListUpdated(); //stage 5
         }
         catch (Exception ex)
         {
@@ -348,6 +355,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         try
         {
             _dal.Call.Update(callEntity);
+            CallManager.Observers.NotifyListUpdated(); //stage 5
+            CallManager.Observers.NotifyItemUpdated(callEntity.Id); //stage 5
         }
         catch (Exception ex)
         {
@@ -425,7 +434,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlInvalidOperationException("הקריאה כבר טופלה.");
 
         // בדיקה אם הקריאה פגה תוקף
-        if (call.MaxCallTime <= Helpers.ClockManager.Now)
+        if (call.MaxCallTime <= AdminManager.Now)
             
             throw new BO.BlExpired("Call expired");
 
@@ -447,6 +456,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         try
         {
             _dal.Assignment.Create(assignment);
+            CallManager.Observers.NotifyListUpdated(); //stage 5
         }
         catch (Exception ex)
         {

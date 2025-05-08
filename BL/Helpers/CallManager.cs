@@ -1,5 +1,6 @@
 ﻿namespace Helpers;
 using DalApi;
+using DO;
 
 internal static class CallManager
 {
@@ -173,7 +174,7 @@ internal static class CallManager
 
         var assignments = s_dal.Assignment.ReadAll(a => a.CallId == callId).ToList();
 
-        DateTime now = ClockManager.Now;
+        DateTime now = AdminManager.Now;
 
         bool hasActiveAssignment = assignments.Any(a => a.EndTreatment == null);
         bool hasCompletedAssignment = assignments.Any(a => a.EndTreatment != null);
@@ -208,7 +209,7 @@ internal static class CallManager
     internal static void UpdateExpiredOpenCalls()
     {
         // זמן נוכחי לפי שעון המערכת
-        DateTime now = ClockManager.Now; // הנחה: ClockManager.Now מחזיר את הזמן הנוכחי
+        DateTime now = AdminManager.Now; // הנחה: ClockManager.Now מחזיר את הזמן הנוכחי
 
         // שליפת כל הקריאות הפתוחות
         var allOpenCalls = s_dal.Call.ReadAll(call => !(GetCallStatus(call.Id) == BO.CallStatus.Closed) && call.MaxCallTime <= now);
@@ -228,6 +229,8 @@ internal static class CallManager
                     EndTreatment = now,
                     TreatmentType = DO.TreatmentType.ExpiredCancel
                 });
+                Observers.NotifyListUpdated(); //stage 5
+
             }
 
             else if (assignment.EndTreatment == null)
@@ -251,6 +254,8 @@ internal static class CallManager
             //call.IsClosed = true;
             //call.CloseReason = DO.CallCloseReason.Expired;
             //Dal.Call.Update(call);
+            //CallManager.Observers.NotifyListUpdated(); //stage 5
+            //CallManager.Observers.NotifyItemUpdated(call.Id); //stage 5
         }
     }
 

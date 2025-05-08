@@ -91,7 +91,7 @@ internal static class VolunteerManager
             {
                 TimeSpan RiskTimeSpan = s_dal.Config.RiskTimeSpan;
 
-                DateTime now = ClockManager.Now;
+                DateTime now = AdminManager.Now;
                 DateTime? maxResolutionTime = call.MaxCallTime;
 
                 var status =
@@ -172,29 +172,10 @@ internal static class VolunteerManager
         {
             throw new BO.BlFormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
         }
-        //// בדיקת סיסמה אם קיימת
-        //if (!(string.IsNullOrEmpty(volunteer.Password)))
-        //    if()
-        //    throw new BO.BlFormatException("הסיסמה חייבת להכיל לפחות 6 תווים.");
 
         // בדיקת מרחק
         if (volunteer.MaxDistance is < 0)
             throw new BO.BlFormatException("מרחק מקסימלי לא יכול להיות שלילי.");
-    }
-
-    // פונקציית בדיקת ת"ז ישראלית
-    private static bool IsValidIsraeliID(string id)
-    {
-        id = id.PadLeft(9, '0');
-        int sum = 0;
-        for (int i = 0; i < 9; i++)
-        {
-            int num = int.Parse(id[i].ToString());
-            int mult = (i % 2 == 0) ? 1 : 2;
-            int temp = num * mult;
-            sum += (temp > 9) ? temp - 9 : temp;
-        }
-        return sum % 10 == 0;
     }
     public static DO.Volunteer ToDoVolunteer(BO.Volunteer boVolunteer)
     {
