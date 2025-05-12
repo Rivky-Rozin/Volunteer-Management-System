@@ -1,4 +1,5 @@
-﻿using BlImplementation;
+﻿using System.Threading;
+using BlImplementation;
 using BO;
 using DalApi;
 namespace Helpers;
@@ -18,18 +19,37 @@ internal static class AdminManager //stage 4
     #endregion Stage 5
 
     #region Stage 4
+    internal static void InitializeDB()
+    {
+        lock (BlMutex) //stage 7
+        {
+            DalTest.Initialization.Do();
+            AdminManager.UpdateClock(AdminManager.Now);  // stage 5 - needed for update the PL
+            AdminManager.RiskTimeSpan = AdminManager.RiskTimeSpan; // stage 5 - needed for update the PL
+        }
+    }
+    internal static void ResetDB()
+    {
+        lock (BlMutex) //stage 7
+        {
+            s_dal.ResetDB();
+            AdminManager.UpdateClock(AdminManager.Now); //stage 5 - needed for update PL
+            AdminManager.RiskTimeSpan = AdminManager.RiskTimeSpan; //stage 5 - needed for update PL
+        }
+    }
+
     /// <summary>
     /// Property for providing/setting current configuration variable value for any BL class that may need it
     /// </summary>
-    //internal static int MaxRange
-    //{
-    //    get => s_dal.Config.MaxRange;
-    //    set
-    //    {
-    //        s_dal.Config.MaxRange = value;
-    //        ConfigUpdatedObservers?.Invoke(); // stage 5
-    //    }
-    //}
+    internal static TimeSpan RiskTimeSpan
+    {
+        get => s_dal.Config.RiskTimeSpan;
+        set
+        {
+            s_dal.Config.RiskTimeSpan = value;
+            ConfigUpdatedObservers?.Invoke(); // stage 5
+        }
+    }
 
     /// <summary>
     /// Property for providing current application's clock value for any BL class that may need it

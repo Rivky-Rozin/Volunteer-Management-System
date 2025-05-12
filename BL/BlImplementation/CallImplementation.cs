@@ -89,7 +89,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     //עובד
     public void CancelCallTreatment(int requesterId, int assignmentId)
     {
-        DO.Assignment assignment;
+        DO.Assignment? assignment;
         try
         {
             assignment = _dal.Assignment.Read(assignmentId);
@@ -99,7 +99,15 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
             throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה", ex);
         }
-        DO.Volunteer doVolunteer = _dal.Volunteer.Read(requesterId);
+        if (assignment == null)
+        {
+            throw new BO.BlDoesNotExistException("Assignment does not exist");
+        }
+        DO.Volunteer? doVolunteer = _dal.Volunteer.Read(requesterId);
+        if (doVolunteer == null)
+        {
+            throw new BO.BlDoesNotExistException("Volunteer does not exist");
+        }
 
         // בדיקת הרשאה: מנהל או המתנדב הרשום
         bool isAdmin = doVolunteer.Role == DO.VolunteerRole.Manager; // נניח שיש שיטה כזו
@@ -239,19 +247,22 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             var calls = GetCallList(null, null, null);
 
-            var counts = calls
-              .GroupBy(c => c.Status)        // קיבוץ לפי הסטטוס של הקריאה
-              .OrderBy(g => g.Key)           // מיון קבוצות הסטטוס לפי הערך שלהן (כלומר: לפי סדר enum)
-              .Select(g => g.Count())        // הפיכת כל קבוצה למספר: כמה קריאות יש בקבוצה הזו
-              .ToArray();                    // המרה למערך רגיל (int[])
+            var grouped = calls
+                .GroupBy(c => c.Status)
+                .ToDictionary(g => g.Key, g => g.Count());
 
-            return counts;
+            var allStatuses = Enum.GetValues(typeof(BO.CallStatus)).Cast<BO.CallStatus>();
+
+            return allStatuses
+                .Select(status => grouped.TryGetValue(status, out int count) ? count : 0)
+                .ToArray();
         }
         catch (Exception ex)
         {
             throw new BO.BlGeneralException("שגיאה בקבלת סטטיסטיקת קריאות", ex);
         }
     }
+
 
     //עובד
     public IEnumerable<BO.ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.ClosedCallInListEnum? sortField)

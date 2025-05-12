@@ -69,4 +69,16 @@
     <Longitude>34.29591797401033</Longitude>
     <MaxDistance>17</MaxDistance>
   </Volunteer>
+  <Volunteer>
+    <Id>327701652</Id>
+    <Name>Rivki</Name>
+    <Phone>0583284970</Phone>
+    <Email>r0583@gmail.com</Email>
+    <Role>Manager</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>sokolov 57, bnei brak, israel</Address>
+    <Password>RRR555</Password>
+    <MaxDistance>20</MaxDistance>
+  </Volunteer>
 </ArrayOfVolunteer>

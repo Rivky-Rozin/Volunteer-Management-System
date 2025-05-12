@@ -6,6 +6,16 @@ using Helpers;
 
 internal class AdminImplementation : IAdmin
 {
+    #region Stage 5
+    public void AddClockObserver(Action clockObserver) =>
+    AdminManager.ClockUpdatedObservers += clockObserver;
+    public void RemoveClockObserver(Action clockObserver) =>
+    AdminManager.ClockUpdatedObservers -= clockObserver;
+    public void AddConfigObserver(Action configObserver) =>
+   AdminManager.ConfigUpdatedObservers += configObserver;
+    public void RemoveConfigObserver(Action configObserver) =>
+    AdminManager.ConfigUpdatedObservers -= configObserver;
+    #endregion Stage 5
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public void AdvanceTime(BO.TimeUnit timeUnit)
     {
@@ -40,23 +50,24 @@ internal class AdminImplementation : IAdmin
 
     public TimeSpan GetRiskTimeSpan()
     {
-        return _dal.Config.RiskTimeSpan;
+        return AdminManager.RiskTimeSpan;
     }
 
     public void InitializeDatabase()
     {
-        DalTest.Initialization.Do();
-        AdminManager.UpdateClock(AdminManager.Now);
+        //DalTest.Initialization.Do();
+        //AdminManager.UpdateClock(AdminManager.Now); //ADMINMANAGER כבר עושה את זה
+        AdminManager.InitializeDB();
     }
 
     public void ResetDatabase()
     {
-        _dal.ResetDB();
-        AdminManager.UpdateClock(AdminManager.Now);
+        AdminManager.ResetDB();
+        //AdminManager.UpdateClock(AdminManager.Now); //ADMINMANAGER כבר עושה את זה
     }
 
     public void SetRiskTimeSpan(TimeSpan riskTimeSpan)
     {
-        _dal.Config.RiskTimeSpan = riskTimeSpan;
+        AdminManager.RiskTimeSpan = riskTimeSpan;
     }
 }
