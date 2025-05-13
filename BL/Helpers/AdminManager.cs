@@ -21,21 +21,21 @@ internal static class AdminManager //stage 4
     #region Stage 4
     internal static void InitializeDB()
     {
-        lock (BlMutex) //stage 7
-        {
+        //lock (BlMutex) //stage 7
+        //{
             DalTest.Initialization.Do();
             AdminManager.UpdateClock(AdminManager.Now);  // stage 5 - needed for update the PL
             AdminManager.RiskTimeSpan = AdminManager.RiskTimeSpan; // stage 5 - needed for update the PL
-        }
+        //}
     }
     internal static void ResetDB()
     {
-        lock (BlMutex) //stage 7
-        {
+        //lock (BlMutex) //stage 7
+        //{
             s_dal.ResetDB();
             AdminManager.UpdateClock(AdminManager.Now); //stage 5 - needed for update PL
             AdminManager.RiskTimeSpan = AdminManager.RiskTimeSpan; //stage 5 - needed for update PL
-        }
+        //}
     }
 
     /// <summary>

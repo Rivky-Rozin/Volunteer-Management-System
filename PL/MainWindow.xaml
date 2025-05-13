@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800"
+         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
 
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- שעון המערכת -->
+            <RowDefinition Height="Auto"/>
+            <!-- משתני תצורה -->
+            <RowDefinition Height="*"/>
+            <!-- כפתורי ניהול כלליים -->
+        </Grid.RowDefinitions>
+
+        <!-- ====== אזור שעון המערכת ====== -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- תווית המציגה את שעון המערכת -->
+            <Label Content="{Binding CurrentTime}" FontWeight="Bold" FontSize="20"/>
+            <Button Content="Add One Minute" Click="btnAddOneMinute_Click" Grid.Column="1"  Margin="5,0,0,0" />
+            <Button Content="Add One Hour" Grid.Column="2" Margin="5,0,0,0"/>
+            <Button Content="Add One Day" Grid.Column="3" Margin="5,0,0,0"/>
+            <Button Content="Add One Year" Grid.Column="4" Margin="5,0,0,0" Height="35"/>
+        </Grid>
+
+        <!-- ====== אזור משתני תצורה ====== -->
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,20">
+
+            <!-- משתנה תצורה: זמן מקסימאלי   -->
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <Label Content="זמן מקסימאלי ל riskTimeSpan:" VerticalAlignment="Center"/>
+                <TextBox Width="100" Margin="10,0"/>
+                <Button Content="עדכן לבסיס נתונים" Margin="5,0"/>
+            </StackPanel>
+
+            <!-- אפשר להוסיף עוד משתנים כאן לפי הצורך -->
+        </StackPanel>
+
+        <!-- ====== אזור כפתורי ניהול כלליים ====== -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+
+            <!-- כפתור לפתיחת תצוגת רשימה -->
+            <Button Content="תצוגת רשימה" Margin="10"/>
+
+            <!-- כפתור לאתחול בסיס הנתונים -->
+            <Button Content="Initialize DB" Margin="10"/>
+
+            <!-- כפתור לאיפוס בסיס הנתונים -->
+            <Button Content="Reset DB" Margin="10"/>
+        </StackPanel>
     </Grid>
 </Window>
