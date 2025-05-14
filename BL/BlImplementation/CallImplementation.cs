@@ -60,7 +60,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             VolunteerId = assignment.VolunteerId,
             StartTreatment = assignment.StartTreatment,
             TreatmentType = DO.TreatmentType.Treated,
-            EndTreatment = DateTime.Now
+            EndTreatment = AdminManager.Now
         };
 
         try
@@ -448,7 +448,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             CallId = callId,
             VolunteerId = volunteerId,
-            StartTreatment = DateTime.Now,
+            StartTreatment = AdminManager.Now,
             EndTreatment = null,
             TreatmentType = null
         };

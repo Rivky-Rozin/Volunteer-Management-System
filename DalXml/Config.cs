@@ -28,11 +28,26 @@ internal static class Config
         set => XMLTools.SetConfigDateVal(s_data_config_xml, "Clock", value);
     }
 
+    internal static TimeSpan TreatmentTime
+    {
+        get => XMLTools.GetConfigTimeSpanVal(s_data_config_xml, "TreatmentTime");
+        set => XMLTools.SetConfigTimeSpanVal(s_data_config_xml, "TreatmentTime", value);
+    }
+
+    internal static TimeSpan RiskTimeSpan
+    {
+        get => XMLTools.GetConfigTimeSpanVal(s_data_config_xml, "RiskTimeSpan");
+        set => XMLTools.SetConfigTimeSpanVal(s_data_config_xml, "RiskTimeSpan", value);
+    }
+
     internal static void Reset()
     {
         NextCallId = 1000;
         NextAssignmentId = 1000;
         Clock = DateTime.Now;
+        //todo
+        TreatmentTime = new TimeSpan(2, 0, 0);
+        RiskTimeSpan = new TimeSpan(2, 0, 0);
     }
 }
 

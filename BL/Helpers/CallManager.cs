@@ -227,7 +227,7 @@ internal static class CallManager
                     CallId = call.Id,
                     VolunteerId = 0,
                     StartTreatment = call.OpenTime,
-                    EndTreatment = now,
+                    EndTreatment = AdminManager.Now,
                     TreatmentType = DO.TreatmentType.ExpiredCancel
                 });
                 Observers.NotifyListUpdated(); //stage 5

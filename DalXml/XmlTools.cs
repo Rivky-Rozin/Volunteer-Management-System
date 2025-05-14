@@ -118,10 +118,33 @@ static class XMLTools
         root.Element(elemName)?.SetValue((elemVal).ToString());
         XMLTools.SaveListToXMLElement(root, xmlFileName);
     }
+
+    public static TimeSpan GetConfigTimeSpanVal(string xmlFileName, string elemName)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
+        TimeSpan ts = root.ToTimeSpanNullable(elemName) ?? throw new FormatException($"can't convert:  {xmlFileName}, {elemName}");
+        return ts;
+    }
+
+    public static void SetConfigTimeSpanVal(string xmlFileName, string elemName, TimeSpan elemVal)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
+        root.Element(elemName)?.SetValue(elemVal.ToString());
+        XMLTools.SaveListToXMLElement(root, xmlFileName);
+    }
+
     #endregion
 
 
     #region ExtensionFuctions
+    public static TimeSpan? ToTimeSpanNullable(this XElement element, string name)
+    {
+        string val = element.Element(name)?.Value;
+        if (TimeSpan.TryParse(val, out TimeSpan result))
+            return result;
+        return null;
+    }
+
     public static T? ToEnumNullable<T>(this XElement element, string name) where T : struct, Enum =>
         Enum.TryParse<T>((string?)element.Element(name), out var result) ? (T?)result : null;
     public static DateTime? ToDateTimeNullable(this XElement element, string name) =>
