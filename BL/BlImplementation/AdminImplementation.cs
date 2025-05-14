@@ -70,4 +70,14 @@ internal class AdminImplementation : IAdmin
     {
         AdminManager.RiskTimeSpan = riskTimeSpan;
     }
+
+    public TimeSpan GetTreatmentTime()
+    {
+        return AdminManager.TreatmentTime;
+    }
+
+    public void SetTreatmentTime(TimeSpan treatmentTime)
+    {
+        AdminManager.TreatmentTime = treatmentTime;
+    }
 }

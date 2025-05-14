@@ -18,10 +18,15 @@ internal static class Config
 
     //שעון המערכת
     internal static DateTime Clock { get; set; } = DateTime.Now;
+    //internal static TimeSpan treatmentTime { get; set; }
+    //internal static TimeSpan riskTimeSpan { get; set; }
+
     internal static void Reset()
     {
         nextCallId = startCallId;
         nextAssignmentId = StartAssignmentId;
         Clock = DateTime.Now;
+        //treatmentTime = new TimeSpan(2, 0, 0);
+        //riskTimeSpan = new TimeSpan(2, 0, 0);
     }
 }

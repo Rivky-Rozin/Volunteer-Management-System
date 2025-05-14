@@ -10,6 +10,7 @@ internal class ConfigImplementation : IConfig
         set => Config.Clock = value;
     }
     public TimeSpan RiskTimeSpan { get; set; }
+    public TimeSpan TreatmentTime { get; set; }
 
     public void Reset()
     {

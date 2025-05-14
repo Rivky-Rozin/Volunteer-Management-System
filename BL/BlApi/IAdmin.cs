@@ -16,6 +16,8 @@ public interface IAdmin
     void AdvanceTime(BO.TimeUnit timeUnit);
     TimeSpan GetRiskTimeSpan();
     void SetRiskTimeSpan(TimeSpan riskTimeSpan);
+    TimeSpan GetTreatmentTime();
+    void SetTreatmentTime(TimeSpan treatmentTime);
     void ResetDatabase();
     void InitializeDatabase();
 }

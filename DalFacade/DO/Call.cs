@@ -30,7 +30,7 @@ public record Call(
     double Longitude,
     DateTime OpenTime,
     string? Description = null,
-    DateTime? MaxCallTime = null
+    DateTime? MaxCallTime =null
     )
 
 {

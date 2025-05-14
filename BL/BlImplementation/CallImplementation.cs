@@ -33,7 +33,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             DO.Call doCall = CallManager.ConvertToDO(call);
 
             // הוספה ל-DAL      
-            _dal.Call.Create(doCall); // FIX: Changed 'Add' to 'Create' to match the ICrud<T> interface  
+            _dal.Call.Create(doCall); 
             CallManager.Observers.NotifyListUpdated(); //stage 5
         }
         catch (Exception ex)
@@ -43,28 +43,17 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     }
 
     //עובד
-    public void CompleteCallTreatment(int volunteerId, int assignmentId)
+    public void CompleteCallTreatment(int volunteerId, int callId)
     {
-        DO.Assignment? assignment;
-        try
-        {
-            assignment = _dal.Assignment.Read(assignmentId);
-        }
-        catch (DO.DalDoesNotExistException ex)
-        {
+        // חיפוש ההקצאה הפתוחה לפי callId
+        DO.Assignment? assignment = _dal.Assignment.ReadAll()
+            .FirstOrDefault(a => a.CallId == callId && a.VolunteerId == volunteerId);
 
-            throw new BO.BlDoesNotExistException("Assignment not found", ex);
-        }
+        if (assignment == null)
+            throw new BO.BlDoesNotExistException("ההקצאה עבור הקריאה לא נמצאה או שכבר טופלה");
 
-        // בדיקת הרשאה
-        if (assignment.VolunteerId != volunteerId)
-            throw new BO.BlAuthorizationException("אין הרשאה לסיים טיפול - המתנדב אינו רשום על ההקצאה");
-
-        // בדיקה שההקצאה פתוחה (כלומר לא טופלה, לא בוטלה ולא פג תוקף)
-        if (assignment.EndTreatment != null)
-            throw new BO.BlInvalidOperationException("לא ניתן לסיים טיפול - ההקצאה כבר טופלה או בוטלה");
-
-        DO.Assignment assignment1 = new()
+        // יצירת אובייקט חדש עם עדכון סטטוס וסיום טיפול
+        DO.Assignment updatedAssignment = new()
         {
             Id = assignment.Id,
             CallId = assignment.CallId,
@@ -76,9 +65,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
         try
         {
-            _dal.Assignment.Update(assignment1);
-            CallManager.Observers.NotifyListUpdated(); //stage 5
-            CallManager.Observers.NotifyItemUpdated(assignment1.Id); //stage 5
+            _dal.Assignment.Update(updatedAssignment);
+            CallManager.Observers.NotifyListUpdated(); // stage 5
+            CallManager.Observers.NotifyItemUpdated(updatedAssignment.Id); // stage 5
         }
         catch
         {
@@ -86,71 +75,69 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
     }
 
+
     //עובד
-    public void CancelCallTreatment(int requesterId, int assignmentId)
+    public void CancelCallTreatment(int requesterId, int callId)
     {
+        // שליפת ההקצאה הפעילה של הקריאה הזו
         DO.Assignment? assignment;
         try
         {
-            assignment = _dal.Assignment.Read(assignmentId);
+            assignment = _dal.Assignment
+                .ReadAll()
+                .FirstOrDefault(a => a.CallId == callId && a.VolunteerId == requesterId);
         }
         catch (Exception ex)
         {
+            throw new BO.BlDoesNotExistException("שגיאה בגישה להקצאות", ex);
+        }
 
-            throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה", ex);
-        }
         if (assignment == null)
-        {
-            throw new BO.BlDoesNotExistException("Assignment does not exist");
-        }
+            throw new BO.BlDoesNotExistException("לא נמצאה הקצאה פעילה לקריאה הזו");
+        
+        // שליפת פרטי המתנדב
         DO.Volunteer? doVolunteer = _dal.Volunteer.Read(requesterId);
         if (doVolunteer == null)
-        {
-            throw new BO.BlDoesNotExistException("Volunteer does not exist");
-        }
+            throw new BO.BlDoesNotExistException("המתנדב לא קיים");
 
-        // בדיקת הרשאה: מנהל או המתנדב הרשום
-        bool isAdmin = doVolunteer.Role == DO.VolunteerRole.Manager; // נניח שיש שיטה כזו
+        // בדיקת הרשאה: מנהל או המתנדב עצמו
+        bool isAdmin = doVolunteer.Role == DO.VolunteerRole.Manager;
         if (!isAdmin && assignment.VolunteerId != requesterId)
-            throw new BO.BlAuthorizationException("אין הרשאה לבטל טיפול");
+            throw new BO.BlAuthorizationException("אין הרשאה לבטל את ההקצאה");
 
-        // בדיקה שהטיפול עדיין לא הסתיים
+        // בדיקה שהטיפול עדיין לא הסתיים (ליתר ביטחון – גם אחרי הסינון למעלה)
         if (assignment.EndTreatment != null)
-            throw new BO.BlInvalidOperationException("לא ניתן לבטל טיפול שכבר הסתיים");
-        DO.TreatmentType TreatmentType;
-        if (isAdmin)
-        {
-            TreatmentType = DO.TreatmentType.ManagerCancelled;
-        }
-        else
-        {
-            TreatmentType = DO.TreatmentType.UserCancelled;
-        }
-        // עדכון סטטוס וזמן
-        DO.Assignment newAssignment = new DO.Assignment
+            throw new BO.BlInvalidOperationException("אי אפשר לבטל טיפול שכבר הסתיים");
+
+        // קביעת סוג ביטול
+        DO.TreatmentType treatmentType = isAdmin
+            ? DO.TreatmentType.ManagerCancelled
+            : DO.TreatmentType.UserCancelled;
+
+        // יצירת אובייקט חדש עם זמן סיום וסוג טיפול מעודכן
+        DO.Assignment updatedAssignment = new DO.Assignment
         {
             Id = assignment.Id,
             CallId = assignment.CallId,
             VolunteerId = assignment.VolunteerId,
             StartTreatment = assignment.StartTreatment,
             EndTreatment = AdminManager.Now,
-            TreatmentType = TreatmentType,
+            TreatmentType = treatmentType
         };
 
-
+        // עדכון ב־DAL
         try
         {
-            _dal.Assignment.Update(newAssignment);
-            CallManager.Observers.NotifyListUpdated(); //stage 5
-            CallManager.Observers.NotifyItemUpdated(newAssignment.Id); //stage 5
-
+            _dal.Assignment.Update(updatedAssignment);
+            CallManager.Observers.NotifyListUpdated();         // stage 5
+            CallManager.Observers.NotifyItemUpdated(updatedAssignment.Id); // stage 5
         }
         catch (Exception ex)
         {
-
-            throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון", ex);
+            throw new BO.BlDoesNotExistException("שגיאה בעדכון ההקצאה", ex);
         }
     }
+
 
     //עובד
     public void DeleteCall(int callId)
@@ -348,7 +335,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             throw new BO.BlGeneralException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.");
         }
-
+        
         // המרה ל-DO.Call
         DO.Call callEntity = new DO.Call
         {
@@ -386,6 +373,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         // שליפת הקריאות בסטטוס פתוחה או פתוחה בסיכון
         var openStatuses = new[] { BO.CallStatus.Open, BO.CallStatus.OpenAtRisk };
         var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus(c.Id))).ToList();
+        var allCalls = _dal.Call.ReadAll( ).ToList().Select(s=>s.MaxCallTime);
 
         // סינון לפי סוג הקריאה אם צריך
         if (callTypeFilter != null)

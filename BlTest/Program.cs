@@ -56,6 +56,8 @@ class Program
             Console.WriteLine("4. Show Clock");
             Console.WriteLine("5. Get Risk Time Range");
             Console.WriteLine("6. Set Risk Time Range");
+            Console.WriteLine("7. Get Treatment Time Range");
+            Console.WriteLine("8. Set Treatment Time Range");
             Console.WriteLine("0. Back");
             Console.Write("Choose an option: ");
 
@@ -101,6 +103,21 @@ class Program
                         {
                             s_bl.Admin.SetRiskTimeSpan(timeRange);
                             Console.WriteLine("Risk time range updated.");
+                        }
+                        else
+                        {
+                            throw new FormatException("Invalid time format. Please use hh:mm:ss.");
+                        }
+                        break;
+                    case 7:
+                        Console.WriteLine($"Current treatment time  Range: {s_bl.Admin.GetTreatmentTime()}");
+                        break;
+                    case 8:
+                        Console.Write("Enter new risk time range (hh:mm:ss): ");
+                        if (TimeSpan.TryParse(Console.ReadLine(), out TimeSpan treatmentTime))
+                        {
+                            s_bl.Admin.SetTreatmentTime(treatmentTime);
+                            Console.WriteLine("Treatment time range updated.");
                         }
                         else
                         {
@@ -743,10 +760,10 @@ class Program
                                 throw new BO.BlFormatException("Invalid input. Volunteer ID must be a number.");
 
                             Console.Write("Enter call ID: ");
-                            if (!int.TryParse(Console.ReadLine(), out int assignmentId))
+                            if (!int.TryParse(Console.ReadLine(), out int callId))
                                 throw new BO.BlFormatException("Invalid input. call ID must be a number.");
 
-                            s_bl.Call.CancelCallTreatment(volunteerId, assignmentId);
+                            s_bl.Call.CancelCallTreatment(volunteerId, callId);
                             Console.WriteLine("The call was successfully canceled.");
                         }
                         catch (Exception ex)

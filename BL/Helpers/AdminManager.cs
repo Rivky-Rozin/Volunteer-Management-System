@@ -35,6 +35,7 @@ internal static class AdminManager //stage 4
             s_dal.ResetDB();
             AdminManager.UpdateClock(AdminManager.Now); //stage 5 - needed for update PL
             AdminManager.RiskTimeSpan = AdminManager.RiskTimeSpan; //stage 5 - needed for update PL
+            AdminManager.TreatmentTime = AdminManager.TreatmentTime; //stage 5 - needed for update PL
         //}
     }
 
@@ -47,6 +48,15 @@ internal static class AdminManager //stage 4
         set
         {
             s_dal.Config.RiskTimeSpan = value;
+            ConfigUpdatedObservers?.Invoke(); // stage 5
+        }
+    }
+    internal static TimeSpan TreatmentTime
+    {
+        get => s_dal.Config.TreatmentTime;
+        set
+        {
+            s_dal.Config.TreatmentTime = value;
             ConfigUpdatedObservers?.Invoke(); // stage 5
         }
     }

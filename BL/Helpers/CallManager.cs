@@ -4,6 +4,7 @@ using DO;
 
 internal static class CallManager
 {
+    
     internal static ObserverManager Observers = new(); //stage 5 
     private static IDal s_dal = Factory.Get; //stage 4
     internal static BO.Call ConvertToBO(DO.Call call)
@@ -39,7 +40,7 @@ internal static class CallManager
         call.Longitude,
         call.CreationTime,
         call.Description,
-        call.MaxFinishTime
+        call.MaxFinishTime??AdminManager.Now.Add(AdminManager.TreatmentTime)
     );
 
     internal static BO.CallInList ConvertToCallInList(DO.Call call)
