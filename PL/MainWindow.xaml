@@ -41,14 +41,20 @@
         <!-- ====== אזור משתני תצורה ====== -->
         <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,20">
 
-            <!-- משתנה תצורה: זמן מקסימאלי   -->
+            <!-- משתנה תצורה: זמן סיכון מקסימאלי   -->
             <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="זמן מקסימאלי ל riskTimeSpan:" VerticalAlignment="Center"/>
+                <Label Content="Max risk time span:" VerticalAlignment="Center"/>
                 <TextBox Width="100" Margin="10,0"
-         Text="{Binding RiskTimeSpan, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Content="עדכן לבסיס נתונים" Margin="5,0" Click="btnUpdateRiskTimeSpan_Click" />
+         Text="45555&#xD;&#xA;" />
+                <Button Content="Update database" Margin="5,0" Click="btnUpdateRiskTimeSpan_Click" />
             </StackPanel>
-
+            <!-- משתנה תצורה: זמן טיפול   -->
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <Label Content="Max treatment time:" VerticalAlignment="Center"/>
+                <TextBox Width="100" Margin="10,0"
+         Text="45555&#xD;&#xA;" />
+                <Button Content="Update database" Margin="5,0" Click="btnUpdateTreatmentTime_Click" />
+            </StackPanel>
             <!-- אפשר להוסיף עוד משתנים כאן לפי הצורך -->
         </StackPanel>
 

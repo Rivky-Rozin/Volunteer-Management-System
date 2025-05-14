@@ -40,6 +40,11 @@ namespace PL
             s_bl.Admin.SetRiskTimeSpan(TimeSpan.FromMinutes(RiskTimeSpan)); // Convert int (in minutes) back to TimeSpan
             MessageBox.Show("הערך עודכן בהצלחה ✅", "עדכון", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        private void btnUpdateTreatmentTime_Click(object sender, RoutedEventArgs e)
+        {
+            s_bl.Admin.SetTreatmentTime(TimeSpan.FromMinutes(RiskTimeSpan)); // Convert int (in minutes) back to TimeSpan
+            MessageBox.Show("הערך עודכן בהצלחה ✅", "עדכון", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
 
         public MainWindow()
         {
