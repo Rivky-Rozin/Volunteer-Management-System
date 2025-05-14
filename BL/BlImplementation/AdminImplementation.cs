@@ -53,6 +53,7 @@ internal class AdminImplementation : IAdmin
         return AdminManager.RiskTimeSpan;
     }
 
+
     public void InitializeDatabase()
     {
         //DalTest.Initialization.Do();
