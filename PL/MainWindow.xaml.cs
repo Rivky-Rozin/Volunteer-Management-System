@@ -1,8 +1,11 @@
 ﻿using BlApi;
+using PL.Volunteer;
+using PL.Call;
 using System;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace PL
 {
@@ -46,6 +49,63 @@ namespace PL
             MessageBox.Show("הערך עודכן בהצלחה ✅", "עדכון", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        private void BtnVolunteers_Click(object sender, RoutedEventArgs e)
+        {
+            new VolunteerListWindow().Show();
+        }
+        private void BtnCalls_Click(object sender, RoutedEventArgs e)
+        {
+            new CallInListWindow().Show();
+        }
+        private void BtnInitializeDb_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to initialize the database?", "Confirm Initialization", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+                return;
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                // Close all windows except MainWindow
+                foreach (Window win in Application.Current.Windows)
+                {
+                    if (win != this)
+                        win.Close();
+                }
+                s_bl.Admin.InitializeDatabase();
+                MessageBox.Show("Database initialized successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        private void BtnResetDb_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to reset the database?", "Confirm Reset", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result != MessageBoxResult.Yes)
+                return;
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                // Close all windows except MainWindow
+                foreach (Window win in Application.Current.Windows)
+                {
+                    if (win != this)
+                        win.Close();
+                }
+                s_bl.Admin.ResetDatabase();
+                MessageBox.Show("Database reset successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -60,6 +120,13 @@ namespace PL
             s_bl.Admin.AddClockObserver(ClockObserver);
             s_bl.Admin.AddConfigObserver(ConfigObserver);
         }
+        // Removes observers when the main window is closed
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            s_bl.Admin.RemoveClockObserver(ClockObserver);
+            s_bl.Admin.RemoveConfigObserver(ConfigObserver);
+        }
+
 
         private void ClockObserver()
         {

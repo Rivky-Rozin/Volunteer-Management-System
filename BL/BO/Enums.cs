@@ -1,9 +1,19 @@
 ﻿namespace BO;
 
+public enum VolunteerSelectMenu
+{
+    FullName,
+    HandledCallsCount,
+    IsActive,
+    CallInProgressId,
+    None
+}
+
 public enum VolunteerRole
 {
     Manager,
-    Regular
+    Regular,
+    None
 }
 
 public enum DistanceKind
@@ -22,20 +32,11 @@ public enum CallType
     None
 }
 
-//איפה משתמשים?
-public enum Status
-{
-    Open,
-    InProgress,
-    Closed
-}
-
 public enum CallInProgressStatus
 {
     InProgress,
     InProgressAtRisk
 }
-
 
 public enum TreatmentEndTypeEnum
 {
@@ -55,12 +56,12 @@ public enum CallStatus
     InProgressAtRisk
 }
 
-public enum EndOfTreatmentType
-{
-    Simple,
-    Complex,
-    Emergency
-}
+//public enum EndOfTreatmentType
+//{
+//    Simple,
+//    Complex,
+//    Emergency
+//}
 
 public enum TimeUnit
 {
@@ -71,17 +72,16 @@ public enum TimeUnit
     Year
 }
 
-public enum CallField
-{
-    Id,
-    CallType,
-    FullAddress,
-    OpenTime,
-    EntryToTreatmentTime,
-    ActualTreatmentEndTime,
-    TreatmentEndType
-}
-
+//public enum CallField
+//{
+//    Id,
+//    CallType,
+//    FullAddress,
+//    OpenTime,
+//    EntryToTreatmentTime,
+//    ActualTreatmentEndTime,
+//    TreatmentEndType
+//}
 
 public enum CallInListField
 {
@@ -106,6 +106,7 @@ public enum OpenCallInListEnum
     MaxEndTime,
     DistanceFromVolunteer
 }
+
 public enum ClosedCallInListEnum
 {
     Id,
