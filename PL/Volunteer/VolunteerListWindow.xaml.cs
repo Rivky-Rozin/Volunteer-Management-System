@@ -21,10 +21,12 @@ using System.Windows.Shapes;
 /// </summary>
 public partial class VolunteerListWindow : Window
 {
+
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     public VolunteerSelectMenu VolunteerSelectMenus { get; set; } = BO.VolunteerSelectMenu.None;
 
     private List<VolunteerInList> allVolunteers = new();
+
 
     public VolunteerListWindow()
     {

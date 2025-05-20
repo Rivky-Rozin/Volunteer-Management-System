@@ -1,39 +1,38 @@
 ﻿<Window x:Class="PL.Volunteer.VolunteerListWindow"
-       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-       xmlns:local="clr-namespace:PL.Volunteer"
-       mc:Ignorable="d"
-       Title="VolunteerListWindow" Height="640" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:PL.Volunteer"
+      mc:Ignorable="d"
+      Title="VolunteerListWindow" Height="640" Width="800"
+       DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <!--External Grid-->
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="500*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+   <Grid>
+       <Grid.RowDefinitions>
+           <RowDefinition Height="40*"/>
+           <RowDefinition Height="500*"/>
+           <RowDefinition Height="Auto"/>
+       </Grid.RowDefinitions>
 
-        <!--Internal, Upper Grid-->
-        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <!-- Label -->
-            <Label Content="Select Volunteer" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+       <!--Internal, Upper Grid-->
+       <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+           <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="*"/>
+               <ColumnDefinition Width="*"/>
+           </Grid.ColumnDefinitions>
+           <!-- Label -->
+           <Label Content="Select Volunteer" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-            <!-- ComboBox -->
-            <ComboBox SelectedValue="{Binding Path=VolunteerSelectMenus, Mode=TwoWay}"
-            ItemsSource="{Binding Source={StaticResource VolunteerSelectMenuCollectionKey}}"
-            Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="VolunteerComboBox_SelectionChanged"/>
-        </Grid>
-        <!--,תצוגת הרשימה, צריך להוסיף כאן דברים כשנגיע ל8ד לפי ההוראות שב 5ה4-->
-        <DataGrid Grid.Row="1"   ItemsSource="{Binding Path=VolunteerList}"
-        />
-        <!--הוספת פריט לרשימה-->
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
-    </Grid>
-
+           <!-- ComboBox -->
+           <ComboBox SelectedValue="{Binding Path=VolunteerSelectMenus, Mode=TwoWay}"
+           ItemsSource="{Binding Source={StaticResource VolunteerSelectMenuCollectionKey}}"
+           Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="VolunteerComboBox_SelectionChanged"/>
+       </Grid>
+       <!--,תצוגת הרשימה, צריך להוסיף כאן דברים כשנגיע ל8ד לפי ההוראות שב 5ה4-->
+       <DataGrid Grid.Row="1"   ItemsSource="{Binding Path=VolunteerList}"
+       />
+       <!--הוספת פריט לרשימה-->
+       <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Style="{StaticResource NiceGrayButton}"/>
+   </Grid>
 </Window>
