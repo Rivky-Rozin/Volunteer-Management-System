@@ -8,9 +8,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <!-- Ensure the VolunteerSelectMenuCollection class exists in the PL namespace -->
             <local:VolunteerSelectMenuCollection x:Key="VolunteerSelectMenuCollectionKey" />
+            <local:CallTypeCollection x:Key="CallTypeCollectionKey" />
+            <local:UpdateToTrueConverter x:Key="ConvertUpdateToTrueKey" />
+            <local:UpdateToVisibleConverter x:Key="ConvertUpdateToVisibleKey" />
 
         </ResourceDictionary>
     </Application.Resources>

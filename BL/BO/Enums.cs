@@ -1,13 +1,5 @@
 ﻿namespace BO;
 
-public enum VolunteerSelectMenu
-{
-    FullName,
-    HandledCallsCount,
-    IsActive,
-    CallInProgressId,
-    None
-}
 
 public enum VolunteerRole
 {
@@ -127,5 +119,6 @@ public enum VolunteerInListEnum
     CancelledCallsCount,
     ExpiredHandledCallsCount,
     CallInProgressId,
-    CallInProgressType
+    CallInProgressType,
+    None
 }

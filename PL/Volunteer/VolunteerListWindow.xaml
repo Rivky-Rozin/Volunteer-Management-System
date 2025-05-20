@@ -8,31 +8,101 @@
       Title="VolunteerListWindow" Height="640" Width="800"
        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <!--External Grid-->
-   <Grid>
-       <Grid.RowDefinitions>
-           <RowDefinition Height="40*"/>
-           <RowDefinition Height="500*"/>
-           <RowDefinition Height="Auto"/>
-       </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="500*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-       <!--Internal, Upper Grid-->
-       <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
-           <Grid.ColumnDefinitions>
-               <ColumnDefinition Width="*"/>
-               <ColumnDefinition Width="*"/>
-           </Grid.ColumnDefinitions>
-           <!-- Label -->
-           <Label Content="Select Volunteer" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <!--Internal, Upper Grid-->
+        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Label -->
+            <Label Content="Select Volunteer" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-           <!-- ComboBox -->
-           <ComboBox SelectedValue="{Binding Path=VolunteerSelectMenus, Mode=TwoWay}"
+            <!-- ComboBox -->
+            <ComboBox SelectedValue="{Binding Path=VolunteerSelectMenus, Mode=TwoWay}"
            ItemsSource="{Binding Source={StaticResource VolunteerSelectMenuCollectionKey}}"
            Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="VolunteerComboBox_SelectionChanged"/>
-       </Grid>
-       <!--,תצוגת הרשימה, צריך להוסיף כאן דברים כשנגיע ל8ד לפי ההוראות שב 5ה4-->
-       <DataGrid Grid.Row="1"   ItemsSource="{Binding Path=VolunteerList}"
-       />
-       <!--הוספת פריט לרשימה-->
-       <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Style="{StaticResource NiceGrayButton}"/>
-   </Grid>
+        </Grid>
+        <!--,תצוגת הרשימה, צריך להוסיף כאן דברים כשנגיע ל8ד לפי ההוראות שב 5ה4-->
+        <DataGrid Grid.Row="1"
+          ItemsSource="{Binding Path=VolunteerList}"
+          IsReadOnly="True"
+          AutoGenerateColumns="False"
+          RowHeaderWidth="0"
+          RowHeight="35"
+          HeadersVisibility="Column"
+          ColumnHeaderHeight="30"
+          AlternatingRowBackground="Lavender"
+          CanUserResizeRows="False"
+          CanUserAddRows="False"
+          SelectionMode="Single"
+          SelectionUnit="FullRow"
+          FontFamily="Segoe UI"
+          FontSize="14"
+          Margin="10"
+          SelectedItem="{Binding SelectedVolunteer}"
+          MouseDoubleClick="lsvVolunteersList_MouseDoubleClick">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="מזהה" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="שם מתנדב" Width="*" />
+
+                <!-- עמודת IsActive עם תיבת סימון -->
+                <DataGridTemplateColumn Header="פעיל?" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsActive}" IsEnabled="False"
+                              HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- עמודות עם ספירת קריאות -->
+                <DataGridTextColumn Binding="{Binding HandledCallsCount}" Header="קריאות שטופלו" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding CancelledCallsCount}" Header="קריאות שבוטלו" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding ExpiredHandledCallsCount}" Header="קריאות שפגו בטיפול" Width="Auto"/>
+
+                <!-- עמודה מיוחדת עם עיצוב לפי מצב קריאה -->
+                <DataGridTemplateColumn Header="קריאה פעילה" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CallInProgressId}" 
+                               HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CallInProgressId}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="אין קריאה"/>
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CallInProgressId}">
+                                                <Setter Property="Text" Value="שגיאה"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CallInProgressId}" Value="{x:Null}">
+                                                <Setter Property="Text" Value=""/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- עמודת סוג קריאה -->
+                <DataGridTextColumn Binding="{Binding CallInProgressType}" Header="סוג קריאה פעילה" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--הוספת פריט לרשימה-->
+        <Button Content="Add" Grid.Row="2"  HorizontalAlignment="Center" Height="50" Width="100" Style="{StaticResource NiceGrayButton}" Click="btnAddVolunteer_Click"/>
+    </Grid>
 </Window>

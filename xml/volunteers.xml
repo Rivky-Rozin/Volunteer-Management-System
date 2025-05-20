@@ -65,8 +65,10 @@
     <Phone>0523456789</Phone>
     <Email>lior@example.com</Email>
     <Role>Manager</Role>
-    <IsActive>false</IsActive>
+    <IsActive>true</IsActive>
     <DistanceKind>Ground</DistanceKind>
     <Address>8 HaRav Kook St, Netanya, Israel</Address>
+    <Password>hgf</Password>
+    <MaxDistance>20</MaxDistance>
   </Volunteer>
 </ArrayOfVolunteer>
