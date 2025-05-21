@@ -12,6 +12,8 @@
             <local:CallTypeCollection x:Key="CallTypeCollectionKey" />
             <local:UpdateToTrueConverter x:Key="ConvertUpdateToTrueKey" />
             <local:UpdateToVisibleConverter x:Key="ConvertUpdateToVisibleKey" />
+            <local:DistanceKindCollection x:Key="DistanceKindCollectionKey" />
+            <local:VolunteerRoleCollection x:Key="VolunteerRoleCollectionKey" />
 
         </ResourceDictionary>
     </Application.Resources>

@@ -34,7 +34,7 @@ namespace PL.Volunteer
                     s_bl.Volunteer.UpdateVolunteer(CurrentVolunteer.Id.ToString(), CurrentVolunteer);
                     MessageBox.Show("Volunteer updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                DialogResult = true;
+                //DialogResult = true;
                 Close();
             }
             catch (Exception ex)

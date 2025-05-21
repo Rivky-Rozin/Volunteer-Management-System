@@ -103,6 +103,6 @@
         </DataGrid>
 
         <!--הוספת פריט לרשימה-->
-        <Button Content="Add" Grid.Row="2"  HorizontalAlignment="Center" Height="50" Width="100" Style="{StaticResource NiceGrayButton}" Click="btnAddVolunteer_Click"/>
+        <Button Content="Add" Grid.Row="2"  HorizontalAlignment="Center" Height="50" Width="100" Click="btnAddVolunteer_Click"/>
     </Grid>
 </Window>

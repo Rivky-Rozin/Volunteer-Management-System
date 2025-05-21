@@ -33,10 +33,10 @@
 
             <!-- תווית המציגה את שעון המערכת -->
             <Label   Content="{Binding CurrentTime}" FontWeight="Bold" FontSize="20"   />
-            <Button Content="Add One Minute" Click="btnAddOneMinute_Click" Grid.Column="1" Style="{StaticResource NiceGrayButton}" Margin="5,0,0,0" />
-            <Button Content="Add One Hour" Click="btnAddOneHour_Click" Grid.Column="2" Style="{StaticResource NiceGrayButton}" Margin="5,0,0,0"/>
-            <Button Content="Add One Day" Click="btnAddOneDay_Click" Grid.Column="3" Style="{StaticResource NiceGrayButton}" Margin="5,0,0,0"/>
-            <Button Content="Add One Year" Click="btnAddOneYear_Click" Grid.Column="4" Style="{StaticResource NiceGrayButton}" Margin="5,0,0,0" Height="35"/>
+            <Button Content="Add One Minute" Click="btnAddOneMinute_Click" Grid.Column="1" Margin="5,0,0,0" />
+            <Button Content="Add One Hour" Click="btnAddOneHour_Click" Grid.Column="2" Margin="5,0,0,0"/>
+            <Button Content="Add One Day" Click="btnAddOneDay_Click" Grid.Column="3" Margin="5,0,0,0"/>
+            <Button Content="Add One Year" Click="btnAddOneYear_Click" Grid.Column="4" Margin="5,0,0,0" Height="35"/>
         </Grid>
 
         <!-- ====== אזור משתני תצורה ====== -->
@@ -47,24 +47,24 @@
                 <Label Content="Max risk time span:" VerticalAlignment="Center"/>
                 <TextBox Width="100" Margin="10,0"
          Text="45555&#xD;&#xA;" />
-                <Button Content="Update database" Margin="5,0" Click="btnUpdateRiskTimeSpan_Click" Style="{StaticResource NiceGrayButton}"/>
+                <Button Content="Update database" Margin="5,0" Click="btnUpdateRiskTimeSpan_Click" />
             </StackPanel>
             <!-- משתנה תצורה: זמן טיפול   -->
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <Label Content="Max treatment time:" VerticalAlignment="Center"/>
                 <TextBox Width="100" Margin="10,0"
          Text="45555&#xD;&#xA;" />
-                <Button Content="Update database" Margin="5,0" Click="btnUpdateTreatmentTime_Click" Style="{StaticResource NiceGrayButton}"/>
+                <Button Content="Update database" Margin="5,0" Click="btnUpdateTreatmentTime_Click" />
             </StackPanel>
             <!-- אפשר להוסיף עוד משתנים כאן לפי הצורך -->
         </StackPanel>
 
         <!-- ====== אזור כפתורי ניהול כלליים ====== -->
         <UniformGrid Grid.Row="2" Columns="4" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Content="Handle Volunteers" Click="BtnVolunteers_Click" Style="{StaticResource NiceGrayButton}"/>
-            <Button Content="Handle Calls" Click="BtnCalls_Click" Style="{StaticResource NiceGrayButton}"/>
-            <Button Content="Initialize DB" Click="BtnInitializeDb_Click" Style="{StaticResource NiceGrayButton}"/>
-            <Button Content="Reset DB" Click="BtnResetDb_Click" Style="{StaticResource NiceGrayButton}"/>
+            <Button Content="Handle Volunteers" Click="BtnVolunteers_Click"/>
+            <Button Content="Handle Calls" Click="BtnCalls_Click" />
+            <Button Content="Initialize DB" Click="BtnInitializeDb_Click"/>
+            <Button Content="Reset DB" Click="BtnResetDb_Click" />
         </UniformGrid>
     </Grid>
 </Window>

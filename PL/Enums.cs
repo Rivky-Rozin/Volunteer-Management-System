@@ -19,3 +19,17 @@ internal class CallTypeCollection : IEnumerable
 
     public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
 }
+internal class VolunteerRoleCollection : IEnumerable
+{
+    static readonly IEnumerable<VolunteerRole> s_enums =
+        (Enum.GetValues(typeof(VolunteerRole)) as IEnumerable<VolunteerRole>)!;
+
+    public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
+}
+internal class DistanceKindCollection : IEnumerable
+{
+    static readonly IEnumerable<DistanceKind> s_enums =
+        (Enum.GetValues(typeof(DistanceKind)) as IEnumerable<DistanceKind>)!;
+
+    public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
+}
