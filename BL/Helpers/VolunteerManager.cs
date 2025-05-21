@@ -176,6 +176,9 @@ internal static class VolunteerManager
         // בדיקת מרחק
         if (volunteer.MaxDistance is < 0)
             throw new BO.BlFormatException("מרחק מקסימלי לא יכול להיות שלילי.");
+        // בדיקת מרחק
+        if (volunteer.DistanceKind==null)
+            throw new BO.BlFormatException("חובה להזין סוג מרחק");
     }
     public static DO.Volunteer ToDoVolunteer(BO.Volunteer boVolunteer)
     {
@@ -189,7 +192,7 @@ internal static class VolunteerManager
             Email: boVolunteer.Email,
             Role: (DO.VolunteerRole)boVolunteer.Role,
             IsActive: boVolunteer.IsActive,
-            DistanceKind: boVolunteer.DistanceKind.HasValue ? (DO.DistanceKind)boVolunteer.DistanceKind.Value : throw new BO.BlFormatException("DistanceKind cannot be null."),
+            DistanceKind: boVolunteer.DistanceKind.HasValue ? (DO.DistanceKind)boVolunteer.DistanceKind.Value : throw new Exception("לא יכול להיות null"),
             Address: boVolunteer.Address,
             Latitude: boVolunteer.Latitude,
             Longitude: boVolunteer.Longitude,

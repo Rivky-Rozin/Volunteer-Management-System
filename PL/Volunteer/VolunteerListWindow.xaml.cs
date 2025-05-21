@@ -3,6 +3,7 @@
 using BO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,7 +70,7 @@ public partial class VolunteerListWindow : Window
     private void LoadVolunteers()
     {
         RefreshVolunteerList();
-    }
+     }
 
     private void VolunteerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -94,6 +95,7 @@ public partial class VolunteerListWindow : Window
         new VolunteerWindow().Show();
     }
 
+    
     private bool FilterVolunteers(VolunteerInList volunteer)
     {
         // Implement filtering logic based on VolunteerSelectMenus
@@ -107,6 +109,7 @@ public partial class VolunteerListWindow : Window
         };
     }
 
+     
     public IEnumerable<BO.VolunteerInList> VolunteerList
     {
         get { return (IEnumerable<BO.VolunteerInList>)GetValue(VolunteerListProperty); }
