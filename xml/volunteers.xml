@@ -49,19 +49,6 @@
     <MaxDistance>20</MaxDistance>
   </Volunteer>
   <Volunteer>
-    <Id>338849316</Id>
-    <Name>Noa Amar!</Name>
-    <Phone>0505678910</Phone>
-    <Email>noa@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>true</IsActive>
-    <DistanceKind>Aerial</DistanceKind>
-    <Address>1 Herzl St, Ashdod, Israel</Address>
-    <Latitude>31.149248731038725</Latitude>
-    <Longitude>34.99350780519836</Longitude>
-    <MaxDistance>26</MaxDistance>
-  </Volunteer>
-  <Volunteer>
     <Id>302157796</Id>
     <Name>Yael Cohen!!</Name>
     <Phone>0527654321</Phone>
@@ -93,5 +80,29 @@
     <Address>1 Herzl St, Ashdod, Israel</Address>
     <Password>12345</Password>
     <MaxDistance>10</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>338849316</Id>
+    <Name>Noa Amar</Name>
+    <Phone>0505678910</Phone>
+    <Email>noa@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>1 Herzl St, Ashdod, Israel</Address>
+    <Latitude>31.149248731038725</Latitude>
+    <Longitude>34.99350780519836</Longitude>
+    <MaxDistance>26</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>327701652</Id>
+    <Name>רבקי רוזין</Name>
+    <Phone>0583284970</Phone>
+    <Email>r0583@gmail.com</Email>
+    <Role>Manager</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>16 King George Street, Jerusalem, Israel</Address>
+    <Password>123456</Password>
   </Volunteer>
 </ArrayOfVolunteer>
