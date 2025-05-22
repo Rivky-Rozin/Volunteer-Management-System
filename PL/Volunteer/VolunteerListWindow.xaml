@@ -33,7 +33,7 @@
         </Grid>
         <!--,תצוגת הרשימה, צריך להוסיף כאן דברים כשנגיע ל8ד לפי ההוראות שב 5ה4-->
         <DataGrid Grid.Row="1"
-            Style="{StaticResource DataGridCell}"
+          
           ItemsSource="{Binding Path=VolunteerList}"
           IsReadOnly="True"
           AutoGenerateColumns="False"

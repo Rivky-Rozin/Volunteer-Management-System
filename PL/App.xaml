@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
             <local:VolunteerSelectMenuCollection x:Key="VolunteerSelectMenuCollectionKey" />
             <local:CallTypeCollection x:Key="CallTypeCollectionKey" />
