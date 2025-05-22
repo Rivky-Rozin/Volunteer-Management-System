@@ -33,6 +33,7 @@
         </Grid>
         <!--,תצוגת הרשימה, צריך להוסיף כאן דברים כשנגיע ל8ד לפי ההוראות שב 5ה4-->
         <DataGrid Grid.Row="1"
+            Style="{StaticResource DataGridCell}"
           ItemsSource="{Binding Path=VolunteerList}"
           IsReadOnly="True"
           AutoGenerateColumns="False"
@@ -50,7 +51,6 @@
           Margin="10"
           SelectedItem="{Binding SelectedVolunteer}"
           MouseDoubleClick="lsvVolunteersList_MouseDoubleClick">
-
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Id}" Header="מזהה" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding Name}" Header="שם מתנדב" Width="*" />
@@ -101,6 +101,15 @@
 
                 <!-- עמודת סוג קריאה -->
                 <DataGridTextColumn Binding="{Binding CallInProgressType}" Header="סוג קריאה פעילה" Width="Auto"/>
+            <!--כפתור מחיקה-->
+                <DataGridTemplateColumn Header="מחיקה">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="מחק" Click="btnDeleteVolunteer_click" Tag="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 

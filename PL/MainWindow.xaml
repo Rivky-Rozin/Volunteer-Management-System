@@ -66,5 +66,36 @@
             <Button Content="Initialize DB" Click="BtnInitializeDb_Click"/>
             <Button Content="Reset DB" Click="BtnResetDb_Click" />
         </UniformGrid>
+        <UniformGrid Grid.Row="4" Columns="5">
+            <WrapPanel>
+            <Button Margin="5" Width="100" Height="50" Style="{StaticResource GelButton}" Foreground="White" FontSize="20">Hello</Button>
+            <Button Margin="5" Width="100" Height="50" Style="{StaticResource GelButton}" Background="{StaticResource MagentaGradientBrush}">Hello</Button>
+            <Button Width="100" Height="100" Style="{StaticResource CircleButton}">Hello World</Button>
+            <Button Width="80" Height="80" Style="{StaticResource CircleButton}" Background="#FF9F1014">Button 2</Button>
+            <Button Width="80" Height="80" Style="{StaticResource CircleButton}" Background="#FFD8C618">Button 3</Button>
+            <Button Width="80" Height="80" Style="{StaticResource CircleButton}" Background="#FF499E1E">Button 4</Button>
+            <Button Width="80" Height="80" Style="{StaticResource CircleButton}" Background="Orange">Button 5</Button>
+            <Button Width="80" Height="80" Style="{StaticResource CircleButton}" Background="#FF7C7C7C">Button 6</Button>
+            <Button Width="80" Height="80" Style="{StaticResource CircleButton}" Background="Purple" Foreground="White">Button 7</Button>
+            <Button Width="100" Height="100" Style="{StaticResource CircleButton}" Background="#FF3120D4" Foreground="White">Button 8</Button>
+
+            <Button Style="{StaticResource OrangeButton}">Hello</Button>
+            <Button Style="{StaticResource OrangeButton}">World</Button>
+            <Button Style="{StaticResource OrangeButton}" FontSize="20">Big Button</Button>
+            <Button Style="{StaticResource OrangeButton}" IsDefault="True">Default</Button>
+            <Button Style="{StaticResource OrangeButton}" IsEnabled="False">Disabled</Button>
+            <Button Style="{StaticResource OrangeButton}" Width="70" Height="30">70 x 30</Button>
+            <TextBox Width="20" />
+            <Button Style="{StaticResource OrangeButton}" Width="30" Height="30">
+                <Path Fill="Black" Data="M 3,3 l 9,9 l -9,9 Z" />
+            </Button>
+
+            <Button Margin="5" Style="{StaticResource NewGameButtonStyle}" >1 Player</Button>
+            <Button Margin="5" Style="{StaticResource NewGameButtonStyle}">2 Players</Button>
+                <CheckBox  Grid.Row="1" Content="Checkbox1" Style="{StaticResource CircleCheckbox}" Margin="1,2,14,-2">
+                </CheckBox>
+               
+            </WrapPanel>
+        </UniformGrid>
     </Grid>
 </Window>
