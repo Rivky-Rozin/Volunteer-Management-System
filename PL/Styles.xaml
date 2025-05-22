@@ -150,68 +150,65 @@
         <Setter Property="Margin" Value="0,0,0,4"/>
     </Style>
 
-    <Style TargetType="DataGrid">
-        <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
-        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="GridLinesVisibility" Value="None"/>
-        <Setter Property="RowHeaderWidth" Value="0"/>
-        <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="RowBackground" Value="{StaticResource BackgroundColor}"/>
-        <Setter Property="AlternatingRowBackground" Value="#F0F8FF"/>
-        <Setter Property="Padding" Value="8"/>
-        <Setter Property="CellStyle">
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#64B5F6"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="10,6"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="BorderBrush" Value="#42A5F5"/>
+        <Setter Property="Template">
             <Setter.Value>
-                <Style TargetType="DataGridCell">
-                    <Setter Property="Padding" Value="6,4"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
-                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="DataGridCell">
-                                <Border x:Name="border"
-                                  Background="{TemplateBinding Background}"
-                                  Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter VerticalAlignment="Center" />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <!-- 🖱️ מעבר עם עכבר -->
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#DCEFFF"/>
-                                    </Trigger>
-                                    <!-- ✅ תא נבחר -->
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="{StaticResource PrimaryColor}"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
-
-        <!-- עיצוב לכותרת העמודות -->
-        <Setter Property="ColumnHeaderStyle">
-            <Setter.Value>
-                <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="Padding" Value="8"/>
-                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                    <Setter Property="BorderBrush" Value="White"/>
-                </Style>
+                <ControlTemplate TargetType="DataGridColumnHeader">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="12">
+                            <Grid Margin="4,0">
+                                <ContentPresenter
+                                Margin="4,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                RecognizesAccessKey="True"/>
+                                <!-- 🔼🔽 חץ מיון -->
+                                <Path x:Name="SortArrow"
+                                  Width="10" Height="10"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Right"
+                                  Margin="0,0,10,0"
+                                  Fill="White"
+                                  Visibility="Collapsed"
+                                  Data="M 0 4 L 5 0 L 10 4 Z"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="SortDirection" Value="Ascending">
+                            <Setter TargetName="SortArrow" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="SortArrow" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="180"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="SortDirection" Value="Descending">
+                            <Setter TargetName="SortArrow" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="SortArrow" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="0"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
 
     <!-- 📦 ToolTip -->
     <Style TargetType="ToolTip" >
