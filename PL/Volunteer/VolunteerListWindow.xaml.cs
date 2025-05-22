@@ -30,7 +30,6 @@ public partial class VolunteerListWindow : Window
 
     public BO.VolunteerInList? SelectedVolunteer { get; set; }
 
-
     public VolunteerListWindow()
     {
         InitializeComponent();
@@ -89,13 +88,38 @@ public partial class VolunteerListWindow : Window
         if (SelectedVolunteer != null)
             new VolunteerWindow(SelectedVolunteer.Id).Show();
     }
+
+    
     private void btnAddVolunteer_Click(object sender, RoutedEventArgs e)
     {
         // פותח את מסך הפריט הבודד במצב הוספה (ללא Id)
         new VolunteerWindow().Show();
     }
+    private void btnDeleteVolunteer_click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is BO.VolunteerInList volunteer)
+        {
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete volunteer '{volunteer.Name}' (Id: {volunteer.Id})?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
 
-    
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    s_bl.Volunteer.DeleteVolunteer(volunteer.Id.ToString());
+                    // אין צורך לרענן ידנית, מנגנון המשקיפים יעדכן את הרשימה אוטומטית
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Cannot delete volunteer: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+    }
+
     private bool FilterVolunteers(VolunteerInList volunteer)
     {
         // Implement filtering logic based on VolunteerSelectMenus
