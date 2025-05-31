@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -34,42 +35,42 @@ namespace MyApp
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            BO.VolunteerRole UserRole = _bl.Volunteer.Login(Id, Password);
-            if (UserRole == BO.VolunteerRole.Manager)
+            try
             {
-                // אם מנהל כבר מחובר, הצג הודעת שגיאה
-                if (_managerLoggedIn)
+                BO.VolunteerRole UserRole = _bl.Volunteer.Login(Id, Password);
+                if (UserRole == BO.VolunteerRole.Manager)
                 {
-                    MessageBox.Show("A manager is already logged in. Please log out first.", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                _managerLoggedIn = true; // עדכון הסטטוס של המנהל המחובר
-                var choice = MessageBox.Show("Enter as Manager? (yes/no)",
-                             "Choose Mode",
-                             MessageBoxButton.YesNo,
-                             MessageBoxImage.Question);
+                    // אם מנהל כבר מחובר, הצג הודעת שגיאה
+                    if (_managerLoggedIn)
+                    {
+                        MessageBox.Show("A manager is already logged in. Please log out first.", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    var choice = MessageBox.Show("Enter as Manager? (yes/no)",
+                                 "Choose Mode",
+                                 MessageBoxButton.YesNo,
+                                 MessageBoxImage.Question);
 
-                if (choice == MessageBoxResult.Yes)
-                {
-                    //var managerWindow = new AdminMainWindow(); // יש להניח שהחלון הזה קיים
-                    //managerWindow.Closed += (_, _) => _managerLoggedIn = false;
-                    //managerWindow.Show();
+                    if (choice == MessageBoxResult.Yes)
+                    {
+                        //var managerWindow = new AdminMainWindow(); 
+                        _managerLoggedIn = true; // עדכון הסטטוס של המנהל המחובר
+                        //כשיקרה אירוע סגירה של חלון המנהל, תירא פונקציה שמעדכנת את המשתנה הסטטי לפולס
+                        //managerWindow.Closed += (_, _) => _managerLoggedIn = false;
+                        //managerWindow.Show();
+                    }
                 }
                 else
                 {
-                    //var volunteerAsManager = new VolunteerMainWindow();
-                    //volunteerAsManager.Closed += (_, _) => _managerLoggedIn = false;
-                    //volunteerAsManager.Show();
+                    //var volunteerWindow = new VolunteerMainWindow();
+                    //volunteerWindow.Show();
                 }
             }
-            else if (UserRole == BO.VolunteerRole.Regular)
+            catch (Exception ex)
             {
-                //var volunteerWindow = new VolunteerMainWindow();
-                //volunteerWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("Login failed. Please check your credentials.", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                MessageBox.Show($"Login failed. Please check your credentials. \n{ex}", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
         }
 
