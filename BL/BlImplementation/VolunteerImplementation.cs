@@ -20,18 +20,26 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
     #endregion Stage 5
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
 
-    public BO.VolunteerRole Login(string username, string password)
+    public BO.VolunteerRole Login(string id, string password)
     {
-        DO.Volunteer volunteer = _dal.Volunteer.Read(v => v.Name == username)
-          
-            ?? throw new BO.BlDoesNotExistException($"Volunteer '{username}' was not found");
+        // המרה מת"ז למספר שלם
+        if (!int.TryParse(id, out int volunteerId))
+            throw new BO.BlValidationException("Invalid ID format");
 
-        if (volunteer.Password != password)
-         
+        // ניסיון למצוא את המתנדב לפי הת"ז
+        DO.Volunteer? volunteer = _dal.Volunteer.Read(volunteerId);
+
+        if (volunteer == null)
+            throw new BO.BlDoesNotExistException($"Volunteer with ID '{id}' was not found");
+
+        // בדיקת סיסמה
+        if (volunteer.Password!=null&&volunteer.Password != password)
             throw new BO.BlValidationException("Incorrect password");
 
+        // החזרת תפקיד המתנדב
         return (BO.VolunteerRole)volunteer.Role;
     }
+
 
     public IEnumerable<BO.VolunteerInList> GetVolunteersList(bool? isActive = null, BO.VolunteerInListEnum? sortBy = null)
     {
