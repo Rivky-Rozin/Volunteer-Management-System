@@ -48,13 +48,6 @@ public enum CallStatus
     InProgressAtRisk
 }
 
-//public enum EndOfTreatmentType
-//{
-//    Simple,
-//    Complex,
-//    Emergency
-//}
-
 public enum TimeUnit
 {
     Minute,
@@ -63,17 +56,6 @@ public enum TimeUnit
     Month,
     Year
 }
-
-//public enum CallField
-//{
-//    Id,
-//    CallType,
-//    FullAddress,
-//    OpenTime,
-//    EntryToTreatmentTime,
-//    ActualTreatmentEndTime,
-//    TreatmentEndType
-//}
 
 public enum CallInListField
 {
@@ -85,7 +67,8 @@ public enum CallInListField
     LastVolunteerName,
     totalTreatmentTime,
     Status,
-    NumberOfAssignments
+    NumberOfAssignments,
+    None
 }
 
 public enum OpenCallInListEnum

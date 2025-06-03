@@ -5,7 +5,7 @@ using BO;
 
 namespace PL.Volunteer
 {
-    public partial class VolunteerWindow : Window
+    public partial class ManageVolunteerWindow : Window
     {
         private readonly bool isAddMode;
         private readonly BlApi.IBl s_bl = BlApi.Factory.Get();
@@ -19,7 +19,7 @@ namespace PL.Volunteer
             set => SetValue(CurrentVolunteerProperty, value);
         }
         public static readonly DependencyProperty CurrentVolunteerProperty =
-            DependencyProperty.Register(nameof(CurrentVolunteer), typeof(BO.Volunteer), typeof(VolunteerWindow), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(CurrentVolunteer), typeof(BO.Volunteer), typeof(ManageVolunteerWindow), new PropertyMetadata(null));
         private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -43,7 +43,7 @@ namespace PL.Volunteer
             }
         }
 
-        public VolunteerWindow(int id = 0)
+        public ManageVolunteerWindow(int id = 0)
         {
             InitializeComponent();
 
@@ -100,7 +100,7 @@ namespace PL.Volunteer
 
         // תכונת תלות עבור טקסט הכפתור
         public static readonly DependencyProperty ButtonTextProperty =
-            DependencyProperty.Register(nameof(ButtonText), typeof(string), typeof(VolunteerWindow), new PropertyMetadata("Add"));
+            DependencyProperty.Register(nameof(ButtonText), typeof(string), typeof(ManageVolunteerWindow), new PropertyMetadata("Add"));
 
         public string ButtonText
         {

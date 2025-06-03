@@ -1,4 +1,6 @@
 ﻿namespace PL;
+
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -51,6 +53,30 @@ public class UpdateToVisibleConverter : IValueConverter
     /// <summary>
     /// פעולה לא נתמכת להמרה חזרה
     /// </summary>
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}
+
+public class StatusToColorConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is CallStatus status)
+        {
+            return status switch
+            {
+                CallStatus.Open => Brushes.Green,
+                CallStatus.InProgress => Brushes.Orange,
+                CallStatus.Closed => Brushes.Gray,
+                CallStatus.Expired => Brushes.Red,
+                CallStatus.OpenAtRisk => Brushes.DarkRed,
+                CallStatus.InProgressAtRisk => Brushes.DarkOrange,
+                _ => Brushes.Black
+            };
+        }
+        return Brushes.Black;
+    }
+
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         => throw new NotImplementedException();
 }

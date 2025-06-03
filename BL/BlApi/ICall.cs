@@ -5,7 +5,7 @@ namespace BlApi;
 public interface ICall: IObservable
 {
     int[] GetCallStatusCounts();
-    IEnumerable<BO.CallInList> GetCallList(CallInListField? filterField, object? filterValue, CallInListField? sortField);
+    IEnumerable<BO.CallInList> GetCallList(CallInListField? filterField=null, object? filterValue=null, CallInListField? sortField=null);
     BO.Call GetCallDetails(int callId);
     void UpdateCall(BO.Call call);
     void DeleteCall(int callId);

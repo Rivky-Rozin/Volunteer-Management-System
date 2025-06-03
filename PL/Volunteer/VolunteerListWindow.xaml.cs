@@ -112,7 +112,7 @@
         private void lsvVolunteersList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (SelectedVolunteer != null)
-                new VolunteerWindow(SelectedVolunteer.Id).Show();
+                new ManageVolunteerWindow(SelectedVolunteer.Id).Show();
         }
 
         /// <summary>
@@ -120,7 +120,7 @@
         /// </summary>
         private void btnAddVolunteer_Click(object sender, RoutedEventArgs e)
         {
-            new VolunteerWindow().Show();
+            new ManageVolunteerWindow().Show();
         }
 
         /// <summary>
@@ -160,10 +160,15 @@
         {
             return VolunteerSelectMenus switch
             {
+                VolunteerInListEnum.Id => volunteer.Id != 0,
                 VolunteerInListEnum.Name => !string.IsNullOrEmpty(volunteer.Name),
-                VolunteerInListEnum.HandledCallsCount => volunteer.HandledCallsCount > 0,
                 VolunteerInListEnum.IsActive => volunteer.IsActive,
+                VolunteerInListEnum.HandledCallsCount => volunteer.HandledCallsCount > 0,
+                VolunteerInListEnum.CancelledCallsCount => volunteer.CancelledCallsCount > 0,
+                VolunteerInListEnum.ExpiredHandledCallsCount => volunteer.ExpiredHandledCallsCount > 0,
                 VolunteerInListEnum.CallInProgressId => volunteer.CallInProgressId.HasValue,
+                VolunteerInListEnum.CallInProgressType => volunteer.CallInProgressType != CallType.None,
+                VolunteerInListEnum.None => true,
                 _ => true,
             };
         }

@@ -65,7 +65,7 @@ namespace MyApp
                 else
                 {
                     //todo לא נפתח החלון הנכון
-                    var volunteerWindow = new VolunteerWindow();
+                    ManageVolunteerWindow volunteerWindow = new ManageVolunteerWindow();
                     volunteerWindow.Show();
                 }
             }

@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Call"
         mc:Ignorable="d"
-        Title="CallWindow" Height="640" Width="800">
+        Title="CallWindow" Height="640" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+
+
     <!--External Grid-->
     <Grid>
         <Grid.RowDefinitions>
@@ -21,14 +24,45 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!-- Label -->
-            <Label Content="Select Semester" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <Label Content="Select Call Field" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
             <!-- ComboBox -->
-            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource CallInListCollectionKey}}"
+                      SelectionChanged="CallComboBox_SelectionChanged"
+                      SelectedValue="{Binding Path=CallSelectMenus, Mode=TwoWay}" />
         </Grid>
-        <DataGrid Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        <!--<DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Path=CallList}"/>-->
+        <DataGrid ItemsSource="{Binding Path=CallList}" 
+                  IsReadOnly="True" 
+                  AutoGenerateColumns="False"
+                  EnableRowVirtualization="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Call.Id}" Header="Id" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Call.CallId}" Header="Call Id" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Call.CallType}" Header="Type" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Call.OpenTime}" Header="Open Time" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Call.TimeUntilAssigning}" Header="Time Until Assigning" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Call.LastVolunteerName}" Header="Last Volunteer" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Call.totalTreatmentTime}" Header="Total Treatment Time" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Call.Status}" Header="Status" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Call.NumberOfAssignments}" Header="Assignments" Width="Auto"/>
 
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
-    </Grid>
 
-</Window>
+                        <!-- דוגמה לעמודה בוליאנית עם CheckBox (אם יש שדה כזה) -->
+
+                        <!--<DataGridTemplateColumn Header="Is Active">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <CheckBox IsEnabled="False" IsChecked="{Binding IsActive}" />
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>-->
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+                <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+            </Grid>
+
+        </Window>
