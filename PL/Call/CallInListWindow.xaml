@@ -31,8 +31,8 @@
                       SelectionChanged="CallComboBox_SelectionChanged"
                       SelectedValue="{Binding Path=CallSelectMenus, Mode=TwoWay}" />
         </Grid>
-        <!--<DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Path=CallList}"/>-->
-        <DataGrid ItemsSource="{Binding Path=CallList}" 
+        <DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Path=CallList}"/>
+        <!--<DataGrid ItemsSource="{Binding Path=CallList}" 
                   IsReadOnly="True" 
                   AutoGenerateColumns="False"
                   EnableRowVirtualization="True">
@@ -48,7 +48,7 @@
                         <DataGridTextColumn Binding="{Binding Call.NumberOfAssignments}" Header="Assignments" Width="Auto"/>
 
 
-                        <!-- דוגמה לעמודה בוליאנית עם CheckBox (אם יש שדה כזה) -->
+                        --><!-- דוגמה לעמודה בוליאנית עם CheckBox (אם יש שדה כזה) -->
 
                         <!--<DataGridTemplateColumn Header="Is Active">
             <DataGridTemplateColumn.CellTemplate>
@@ -56,10 +56,10 @@
                     <CheckBox IsEnabled="False" IsChecked="{Binding IsActive}" />
                 </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>-->
+        </DataGridTemplateColumn>--><!--
 
                     </DataGrid.Columns>
-                </DataGrid>
+                </DataGrid>-->
 
 
                 <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>

@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
-using System.Linq.Expressions;
+﻿using PL;
+using PL.Volunteer;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using PL;
-using PL.Volunteer;
 
 namespace MyApp
 {
@@ -18,6 +17,8 @@ namespace MyApp
         {
             InitializeComponent();
             DataContext = this;
+
+            //למה לא לאתחל מחוץ לפונקציה?
             _bl = BlApi.Factory.Get();
         }
 
@@ -55,7 +56,7 @@ namespace MyApp
 
                     if (choice == MessageBoxResult.Yes)
                     {
-                        var managerWindow = new MainWindow(); 
+                        var managerWindow = new MainWindow();
                         _managerLoggedIn = true; // עדכון הסטטוס של המנהל המחובר
                         //כשיקרה אירוע סגירה של חלון המנהל, תירא פונקציה שמעדכנת את המשתנה הסטטי לפולס
                         managerWindow.Closed += (_, _) => _managerLoggedIn = false;
