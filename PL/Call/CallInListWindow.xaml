@@ -31,38 +31,8 @@
                       SelectionChanged="CallComboBox_SelectionChanged"
                       SelectedValue="{Binding Path=CallSelectMenus, Mode=TwoWay}" />
         </Grid>
-        <!--<DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Path=CallList}"/>-->
-        <DataGrid ItemsSource="{Binding Path=CallList}" 
-                  IsReadOnly="True" 
-                  AutoGenerateColumns="False"
-                  EnableRowVirtualization="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Call.Id}" Header="Id" Width="Auto"/>
-                        <DataGridTextColumn Binding="{Binding Call.CallId}" Header="Call Id" Width="Auto"/>
-                        <DataGridTextColumn Binding="{Binding Call.CallType}" Header="Type" Width="Auto"/>
-                        <DataGridTextColumn Binding="{Binding Call.OpenTime}" Header="Open Time" Width="Auto"/>
-                        <DataGridTextColumn Binding="{Binding Call.TimeUntilAssigning}" Header="Time Until Assigning" Width="Auto"/>
-                        <DataGridTextColumn Binding="{Binding Call.LastVolunteerName}" Header="Last Volunteer" Width="Auto"/>
-                        <DataGridTextColumn Binding="{Binding Call.totalTreatmentTime}" Header="Total Treatment Time" Width="Auto"/>
-                        <DataGridTextColumn Binding="{Binding Call.Status}" Header="Status" Width="Auto"/>
-                        <DataGridTextColumn Binding="{Binding Call.NumberOfAssignments}" Header="Assignments" Width="Auto"/>
+        <DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Path=CallList}"/>
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+    </Grid>
 
-
-                        <!-- דוגמה לעמודה בוליאנית עם CheckBox (אם יש שדה כזה) -->
-
-                        <!--<DataGridTemplateColumn Header="Is Active">
-            <DataGridTemplateColumn.CellTemplate>
-                <DataTemplate>
-                    <CheckBox IsEnabled="False" IsChecked="{Binding IsActive}" />
-                </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>-->
-
-                    </DataGrid.Columns>
-                </DataGrid>
-
-
-                <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
-            </Grid>
-
-        </Window>
+</Window>

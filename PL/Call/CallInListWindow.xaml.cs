@@ -10,7 +10,6 @@ namespace PL.Call
     public partial class CallInListWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-
         public IEnumerable<BO.CallInList> CallList
         {
             get { return (IEnumerable<BO.CallInList>)GetValue(CallListProperty); }
