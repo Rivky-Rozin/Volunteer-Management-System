@@ -77,6 +77,10 @@
             </DataGrid.Columns>
         </DataGrid>
 
+        <ListView x:Name="CallsListView" ItemsSource="{Binding Calls}">
+            <!-- ...existing columns/templates... -->
+        </ListView>
+
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="AddNewCall_Click"/>
 
 

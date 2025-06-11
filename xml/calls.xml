@@ -70,4 +70,24 @@
     <Description>היי מה נשמע</Description>
     <MaxCallTime>2024-05-10T07:25:13</MaxCallTime>
   </Call>
+  <Call>
+    <Id>1007</Id>
+    <CallType>Food</CallType>
+    <FullAddress>1600 Amphitheatre Parkway, Mountain View, USA</FullAddress>
+    <Latitude>0</Latitude>
+    <Longitude>0</Longitude>
+    <OpenTime>2025-05-22T18:15:13</OpenTime>
+    <Description>בדיקה - הוספת קריאה</Description>
+    <MaxCallTime>2025-05-22T20:15:13</MaxCallTime>
+  </Call>
+  <Call>
+    <Id>1008</Id>
+    <CallType>Medical</CallType>
+    <FullAddress>1600 Amphitheatre Parkway, Mountain View, USA</FullAddress>
+    <Latitude>0</Latitude>
+    <Longitude>0</Longitude>
+    <OpenTime>2025-05-22T18:15:13</OpenTime>
+    <Description>בדיקת ריענון</Description>
+    <MaxCallTime>2025-05-22T20:15:13</MaxCallTime>
+  </Call>
 </ArrayOfCall>

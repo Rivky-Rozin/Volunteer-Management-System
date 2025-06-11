@@ -3,6 +3,7 @@ using MyApp;
 using PL.Volunteer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,8 +13,12 @@ namespace PL.Call
 {
     public partial class CallInListWindow : Window
     {
-        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        private readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         private BO.CallStatus? _currentFilterStatus;
+
+        // Use ObservableCollection for automatic UI updates
+        public ObservableCollection<BO.CallInList> Calls { get; set; }
+
         public IEnumerable<BO.CallInList> CallList
         {
             get { return (IEnumerable<BO.CallInList>)GetValue(CallListProperty); }
@@ -31,6 +36,7 @@ namespace PL.Call
             InitializeComponent();
             _currentFilterStatus = initialFilterStatus; // שמירת הסטטוס הראשוני
             LoadCalls(); // טעינת הנתונים עם הסינון הראשוני
+            DataContext = this;
         }
         public void ApplyFilter(BO.CallStatus? newFilterStatus)
         {
@@ -145,9 +151,20 @@ namespace PL.Call
 
         private void LoadCalls()
         {
+            // Load calls from the BL and wrap in ObservableCollection
+            var callList = s_bl.Call.GetCallList();
+            Calls = new ObservableCollection<BO.CallInList>(callList);
+            CallsListView.ItemsSource = Calls;
             RefreshCallList();
             QueryCallList();
         }
+
+        // Method to refresh the list after adding a call
+        public void RefreshCalls()
+        {
+            LoadCalls();
+        }
+
         // אירוע טעינת חלון - הרשמה למשקיף
         private void Window_Loaded(object sender, RoutedEventArgs e)
             => s_bl.Call.AddObserver(CallListObserver);
@@ -163,7 +180,7 @@ namespace PL.Call
             {
                 // Get the full Call object using the CallId from the selected CallInList
                 var call = s_bl.Call.GetCallDetails(selectedCallInList.CallId);
-                var updateWindow = new CallWindow(call);
+                var updateWindow = new UpdateCallWindow(call);
                 updateWindow.ShowDialog();
                 // Refresh the list if needed
                 RefreshCallList();

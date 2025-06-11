@@ -11,6 +11,7 @@
             </ResourceDictionary.MergedDictionaries>
             <local:VolunteerSelectMenuCollection x:Key="VolunteerSelectMenuCollectionKey" />
             <local:CallTypeCollection x:Key="CallTypeCollectionKey" />
+            <local:CallStatusCollection x:Key="CallStatusCollectionkey" />
             <local:UpdateToTrueConverter x:Key="ConvertUpdateToTrueKey" />
             <local:UpdateToVisibleConverter x:Key="ConvertUpdateToVisibleKey" />
             <local:DistanceKindCollection x:Key="DistanceKindCollectionKey" />
