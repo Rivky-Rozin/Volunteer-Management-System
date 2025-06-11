@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Call"
         mc:Ignorable="d"
-        Title="CallWindow" Height="640" Width="800"
+        Title="CallWindow" Height="640" Width="1200"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
 
 
@@ -31,8 +31,56 @@
                       SelectionChanged="CallComboBox_SelectionChanged"
                       SelectedValue="{Binding Path=CallSelectMenus, Mode=TwoWay}" />
         </Grid>
-        <DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Path=CallList}"/>
+
+        <DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Path=CallList}" MouseDoubleClick="DataGrid_MouseDoubleClick" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Id" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding CallId}" Header="Call Id" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding CallType}" Header="Type" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding OpenTime}" Header="Open Time" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding TimeUntilAssigning}" Header="Time Until Assigning" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding LastVolunteerName}" Header="Last Volunteer" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding totalTreatmentTime}" Header="Total Treatment Time" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding Status}" Header="Status" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding NumberOfAssignments}" Header="Number of Assignments" Width="Auto"/>
+                <DataGridTemplateColumn Header="Delete" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Click="DeleteCall_Click" Tag="{Binding Id}">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Status}" Value="Open"/>
+                                                    <Condition Binding="{Binding NumberOfAssignments}" Value="0"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Cancel Assignment" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Cancel Assignment"
+                    Click="CancelAssignment_Click"
+                    Tag="{Binding CallId}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+
+
     </Grid>
+    
 
 </Window>

@@ -33,6 +33,8 @@
 
         private List<VolunteerInListEnum> allVolunteers = new();
 
+        public object? FilterValue { get; set; }
+
         /// <summary>
         /// Currently selected volunteer in the list (if any).
         /// </summary>
@@ -69,12 +71,91 @@
         /// </summary>
         private void RefreshVolunteerList()
         {
+            object? filterValue = null;
+
+            switch (VolunteerSelectMenus)
+            {
+                case VolunteerInListEnum.Id:
+                case VolunteerInListEnum.HandledCallsCount:
+                case VolunteerInListEnum.CancelledCallsCount:
+                case VolunteerInListEnum.ExpiredHandledCallsCount:
+                case VolunteerInListEnum.CallInProgressId:
+                    if (InputBox("הכנס מספר לסינון:", "סינון", out string numStr) && int.TryParse(numStr, out int numVal))
+                        filterValue = numVal;
+                    break;
+
+                case VolunteerInListEnum.Name:
+                    if (InputBox("הכנס שם או חלק ממנו:", "סינון", out string nameStr))
+                        filterValue = nameStr;
+                    break;
+
+                case VolunteerInListEnum.IsActive:
+                    if (InputBox("הכנס זמינות (true / false):", "סינון", out string boolStr) && bool.TryParse(boolStr, out bool boolVal))
+                        filterValue = boolVal;
+                    break;
+
+                case VolunteerInListEnum.CallInProgressType:
+                    if (InputBox("הכנס סוג שיחה (Medical, Fire, Police...):", "סינון", out string enumStr)
+                        && Enum.TryParse(typeof(CallType), enumStr, true, out var enumVal))
+                        filterValue = enumVal;
+                    break;
+
+                case VolunteerInListEnum.None:
+                default:
+                    break;
+            }
+
+            FilterValue = filterValue;
+
             var volunteers = s_bl.Volunteer.GetVolunteersList().ToList();
-            if (VolunteerSelectMenus == BO.VolunteerInListEnum.None)
+
+            if (VolunteerSelectMenus == VolunteerInListEnum.None || FilterValue == null)
                 VolunteerList = volunteers;
             else
                 VolunteerList = volunteers.Where(v => FilterVolunteers(v)).ToList();
         }
+
+
+        private bool FilterVolunteers(VolunteerInList volunteer)
+        {
+            switch (VolunteerSelectMenus)
+            {
+                case VolunteerInListEnum.Id:
+                    return FilterValue is int id && volunteer.Id == id;
+
+                case VolunteerInListEnum.Name:
+                    return FilterValue is string name && volunteer.Name.Contains(name, StringComparison.OrdinalIgnoreCase);
+
+                case VolunteerInListEnum.IsActive:
+                    return FilterValue is bool isActive && volunteer.IsActive == isActive;
+
+                case VolunteerInListEnum.HandledCallsCount:
+                    return FilterValue is int hcc && volunteer.HandledCallsCount == hcc;
+
+                case VolunteerInListEnum.CancelledCallsCount:
+                    return FilterValue is int ccc && volunteer.CancelledCallsCount == ccc;
+
+                case VolunteerInListEnum.ExpiredHandledCallsCount:
+                    return FilterValue is int ehcc && volunteer.ExpiredHandledCallsCount == ehcc;
+
+                case VolunteerInListEnum.CallInProgressId:
+                    return FilterValue is int callId && volunteer.CallInProgressId == callId;
+
+                case VolunteerInListEnum.CallInProgressType:
+                    return FilterValue is CallType callType && volunteer.CallInProgressType == callType;
+
+                case VolunteerInListEnum.None:
+                default:
+                    return true;
+            }
+        }
+
+
+        private void VolunteerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshVolunteerList();
+        }
+
 
         /// <summary>
         /// Loads the initial list of volunteers (calls RefreshVolunteerList).
@@ -84,13 +165,7 @@
             RefreshVolunteerList();
         }
 
-        /// <summary>
-        /// Event handler for ComboBox selection change. Refreshes the list.
-        /// </summary>
-        private void VolunteerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RefreshVolunteerList();
-        }
+
 
         /// <summary>
         /// Event handler called when the window is loaded.
@@ -156,22 +231,22 @@
         /// </summary>
         /// <param name="volunteer">The volunteer to test against the filter.</param>
         /// <returns>True if the volunteer matches the filter; otherwise false.</returns>
-        private bool FilterVolunteers(VolunteerInList volunteer)
-        {
-            return VolunteerSelectMenus switch
-            {
-                VolunteerInListEnum.Id => volunteer.Id != 0,
-                VolunteerInListEnum.Name => !string.IsNullOrEmpty(volunteer.Name),
-                VolunteerInListEnum.IsActive => volunteer.IsActive,
-                VolunteerInListEnum.HandledCallsCount => volunteer.HandledCallsCount > 0,
-                VolunteerInListEnum.CancelledCallsCount => volunteer.CancelledCallsCount > 0,
-                VolunteerInListEnum.ExpiredHandledCallsCount => volunteer.ExpiredHandledCallsCount > 0,
-                VolunteerInListEnum.CallInProgressId => volunteer.CallInProgressId.HasValue,
-                VolunteerInListEnum.CallInProgressType => volunteer.CallInProgressType != CallType.None,
-                VolunteerInListEnum.None => true,
-                _ => true,
-            };
-        }
+        //private bool FilterVolunteers(VolunteerInList volunteer)
+        //{
+        //    return VolunteerSelectMenus switch
+        //    {
+        //        VolunteerInListEnum.Id => volunteer.Id != 0,
+        //        VolunteerInListEnum.Name => !string.IsNullOrEmpty(volunteer.Name),
+        //        VolunteerInListEnum.IsActive => volunteer.IsActive,
+        //        VolunteerInListEnum.HandledCallsCount => volunteer.HandledCallsCount > 0,
+        //        VolunteerInListEnum.CancelledCallsCount => volunteer.CancelledCallsCount > 0,
+        //        VolunteerInListEnum.ExpiredHandledCallsCount => volunteer.ExpiredHandledCallsCount > 0,
+        //        VolunteerInListEnum.CallInProgressId => volunteer.CallInProgressId.HasValue,
+        //        VolunteerInListEnum.CallInProgressType => volunteer.CallInProgressType != CallType.None,
+        //        VolunteerInListEnum.None => true,
+        //        _ => true,
+        //    };
+        //}
 
         /// <summary>
         /// Gets or sets the list of volunteers displayed in the UI.
@@ -189,5 +264,12 @@
         /// </summary>
         public static readonly DependencyProperty VolunteerListProperty =
             DependencyProperty.Register("VolunteerList", typeof(IEnumerable<BO.VolunteerInList>), typeof(VolunteerListWindow), new PropertyMetadata(null));
+    
+
+    private static bool InputBox(string prompt, string title, out string value)
+        {
+            value = Microsoft.VisualBasic.Interaction.InputBox(prompt, title, "");
+            return !string.IsNullOrWhiteSpace(value);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Input;
+using BO; // יש לוודא שה-namespace BO זמין ושה-enum CallStatus מעודכן בו
 
 namespace PL
 {
@@ -14,6 +15,9 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+        private VolunteerListWindow? _volunteerListWindow;
+        private CallInListWindow? _callListWindow;
+
         /// <summary>
         /// מופע BL (Business Logic) עבור גישה לפונקציונליות הליבה של האפליקציה.
         /// </summary>
@@ -74,7 +78,7 @@ namespace PL
         /// </summary>
         private void btnUpdateTreatmentTime_Click(object sender, RoutedEventArgs e)
         {
-            s_bl.Admin.SetTreatmentTime(TimeSpan.FromMinutes(RiskTimeSpan));
+            s_bl.Admin.SetTreatmentTime(TimeSpan.FromMinutes(RiskTimeSpan)); // כאן יש לשים לב שאולי צריך שדה קלט נפרד לזמן טיפול
             MessageBox.Show("הערך עודכן בהצלחה ✅", "עדכון", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -83,15 +87,22 @@ namespace PL
         /// </summary>
         private void BtnVolunteers_Click(object sender, RoutedEventArgs e)
         {
-            new VolunteerListWindow().Show();
+            if (_volunteerListWindow == null || !_volunteerListWindow.IsLoaded)
+            {
+                _volunteerListWindow = new VolunteerListWindow();
+                _volunteerListWindow.Closed += (s, _) => _volunteerListWindow = null;
+                _volunteerListWindow.Show();
+            }
+            else
+            {
+                _volunteerListWindow.Activate();
+            }
         }
 
-        /// <summary>
-        /// פותח את חלון רשימת הקריאות.
-        /// </summary>
         private void BtnCalls_Click(object sender, RoutedEventArgs e)
         {
-            new CallInListWindow().Show();
+            // פותח את חלון רשימת הקריאות ללא סינון
+            OpenCallListWindow(null);
         }
 
         /// <summary>
@@ -114,6 +125,7 @@ namespace PL
                 }
                 s_bl.Admin.InitializeDatabase();
                 MessageBox.Show("Database initialized successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                UpdateCallStatusCounts(); // עדכון הספירות לאחר אתחול
             }
             finally
             {
@@ -141,6 +153,7 @@ namespace PL
                 }
                 s_bl.Admin.ResetDatabase();
                 MessageBox.Show("Database reset successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                UpdateCallStatusCounts(); // עדכון הספירות לאחר איפוס
             }
             finally
             {
@@ -156,6 +169,7 @@ namespace PL
         {
             InitializeComponent();
             RiskTimeSpan = (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes;
+            UpdateCallStatusCounts(); // אתחול ספירת הקריאות עם עליית החלון
         }
 
         /// <summary>
@@ -168,6 +182,7 @@ namespace PL
             RiskTimeSpan = (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes;
             s_bl.Admin.AddClockObserver(ClockObserver);
             s_bl.Admin.AddConfigObserver(ConfigObserver);
+            s_bl.Call.AddObserver(CallListObserver); // הוספת צופה לשינויים ברשימת הקריאות
         }
 
         /// <summary>
@@ -178,6 +193,7 @@ namespace PL
         {
             s_bl.Admin.RemoveClockObserver(ClockObserver);
             s_bl.Admin.RemoveConfigObserver(ConfigObserver);
+            s_bl.Call.RemoveObserver(CallListObserver); // הסרת הצופה
         }
 
         /// <summary>
@@ -198,11 +214,90 @@ namespace PL
             Dispatcher.Invoke(() =>
             {
                 RiskTimeSpan = (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes;
-
                 // כאן ניתן להוסיף עדכוני משתנים נוספים במידת הצורך
-                // לדוגמה:
-                // MinVolunteerAge = s_bl.Admin.GetMinVolunteerAge();
             });
+        }
+
+        /// <summary>
+        /// צופה לשינויים ברשימת הקריאות (לדוגמה, הוספה/מחיקה/עדכון קריאה).
+        /// מעדכן את ספירות הסטטוסים.
+        /// </summary>
+        private void CallListObserver()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                UpdateCallStatusCounts();
+            });
+        }
+
+        /// <summary>
+        /// מעדכן את ספירות הקריאות לפי סטטוסים.
+        /// </summary>
+        private void UpdateCallStatusCounts()
+        {
+            int[] statusCounts = s_bl.Call.GetCallStatusCounts(); // קבלת מערך הספירות
+
+            // יש למפות את המערך statusCounts לסטטוסים המתאימים לפי סדר ההגדרה ב-Enum BO.CallStatus.
+            // public enum CallStatus { Open, InProgress, Closed, Expired, OpenAtRisk, InProgressAtRisk }
+            OpenCallsCount = statusCounts[(int)BO.CallStatus.Open];
+            InProgressCallsCount = statusCounts[(int)BO.CallStatus.InProgress];
+            ClosedCallsCount = statusCounts[(int)BO.CallStatus.Closed];
+            ExpiredCallsCount = statusCounts[(int)BO.CallStatus.Expired];
+            OpenAtRiskCallsCount = statusCounts[(int)BO.CallStatus.OpenAtRisk];
+            InProgressAtRiskCallsCount = statusCounts[(int)BO.CallStatus.InProgressAtRisk];
+        }
+
+        /// <summary>
+        /// פותח את חלון רשימת הקריאות עם סינון לפי סטטוס.
+        /// </summary>
+        /// <param name="status">סטטוס הקריאות לסינון, null אם אין סינון.</param>
+        private void OpenCallListWindow(BO.CallStatus? status)
+        {
+            if (_callListWindow == null || !_callListWindow.IsLoaded)
+            {
+                // נניח ש-CallInListWindow יכול לקבל פרמטר לסינון.
+                _callListWindow = new CallInListWindow(status);
+                _callListWindow.Closed += (s, _) => _callListWindow = null;
+                _callListWindow.Show();
+            }
+            else
+            {
+                // אם החלון כבר פתוח, נפעיל אותו ונעדכן את הסינון שלו.
+                _callListWindow.Activate();
+                _callListWindow.ApplyFilter(status); // יש להוסיף מתודה כזו ל-CallInListWindow
+            }
+        }
+
+        // --- מטפלי אירועים עבור כפתורי הסטטוסים (צריך להוסיף אותם ב-XAML) ---
+
+        private void BtnOpenCalls_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCallListWindow(BO.CallStatus.Open);
+        }
+
+        private void BtnInProgressCalls_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCallListWindow(BO.CallStatus.InProgress);
+        }
+
+        private void BtnClosedCalls_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCallListWindow(BO.CallStatus.Closed);
+        }
+
+        private void BtnExpiredCalls_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCallListWindow(BO.CallStatus.Expired);
+        }
+
+        private void BtnOpenAtRiskCalls_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCallListWindow(BO.CallStatus.OpenAtRisk);
+        }
+
+        private void BtnInProgressAtRiskCalls_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCallListWindow(BO.CallStatus.InProgressAtRisk);
         }
 
         /// <summary>
@@ -234,5 +329,63 @@ namespace PL
         /// </summary>
         public static readonly DependencyProperty CurrentTimeProperty =
             DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(s_bl.Admin.GetCurrentTime()));
+
+        // --- Dependency Properties חדשים עבור ספירות הסטטוסים, מותאמים ל-enum החדש ---
+
+        public int OpenCallsCount
+        {
+            get { return (int)GetValue(OpenCallsCountProperty); }
+            set { SetValue(OpenCallsCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty OpenCallsCountProperty =
+            DependencyProperty.Register("OpenCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
+
+        public int InProgressCallsCount
+        {
+            get { return (int)GetValue(InProgressCallsCountProperty); }
+            set { SetValue(InProgressCallsCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty InProgressCallsCountProperty =
+            DependencyProperty.Register("InProgressCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
+
+        public int ClosedCallsCount
+        {
+            get { return (int)GetValue(ClosedCallsCountProperty); }
+            set { SetValue(ClosedCallsCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty ClosedCallsCountProperty =
+            DependencyProperty.Register("ClosedCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
+
+        public int ExpiredCallsCount
+        {
+            get { return (int)GetValue(ExpiredCallsCountProperty); }
+            set { SetValue(ExpiredCallsCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty ExpiredCallsCountProperty =
+            DependencyProperty.Register("ExpiredCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
+
+        public int OpenAtRiskCallsCount
+        {
+            get { return (int)GetValue(OpenAtRiskCallsCountProperty); }
+            set { SetValue(OpenAtRiskCallsCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty OpenAtRiskCallsCountProperty =
+            DependencyProperty.Register("OpenAtRiskCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
+
+        public int InProgressAtRiskCallsCount
+        {
+            get { return (int)GetValue(InProgressAtRiskCallsCountProperty); }
+            set { SetValue(InProgressAtRiskCallsCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty InProgressAtRiskCallsCountProperty =
+            DependencyProperty.Register("InProgressAtRiskCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
     }
+
+
 }

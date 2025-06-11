@@ -1,36 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfCall xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Call>
-    <Id>1000</Id>
-    <CallType>None</CallType>
-    <FullAddress>123 Main Street</FullAddress>
-    <Latitude>52.32559976849646</Latitude>
-    <Longitude>-125.2492414271373</Longitude>
-    <OpenTime>2024-08-05T13:27:13</OpenTime>
-    <Description>Call regarding none support at 123 Main Street.</Description>
-    <MaxCallTime>2024-08-06T21:27:13</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1001</Id>
-    <CallType>Other</CallType>
-    <FullAddress>45 Elm Avenue</FullAddress>
-    <Latitude>38.54083547758273</Latitude>
-    <Longitude>53.5712829428125</Longitude>
-    <OpenTime>2023-08-27T19:56:13</OpenTime>
-    <Description>Call regarding other support at 45 Elm Avenue.</Description>
-    <MaxCallTime>2023-08-29T17:56:13</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1002</Id>
-    <CallType>Other</CallType>
-    <FullAddress>78 Oak Lane</FullAddress>
-    <Latitude>47.21319428732318</Latitude>
-    <Longitude>166.70372090867102</Longitude>
-    <OpenTime>2024-09-11T08:59:13</OpenTime>
-    <Description>Call regarding other support at 78 Oak Lane.</Description>
-    <MaxCallTime>2024-09-12T22:59:13</MaxCallTime>
-  </Call>
-  <Call>
     <Id>1003</Id>
     <CallType>Other</CallType>
     <FullAddress>22 Maple Drive</FullAddress>
@@ -41,26 +11,6 @@
     <MaxCallTime>2023-09-11T23:07:13</MaxCallTime>
   </Call>
   <Call>
-    <Id>1004</Id>
-    <CallType>Other</CallType>
-    <FullAddress>56 Pine Boulevard</FullAddress>
-    <Latitude>41.329719866207114</Latitude>
-    <Longitude>34.177165513125715</Longitude>
-    <OpenTime>2023-06-22T12:50:13</OpenTime>
-    <Description>Call regarding other support at 56 Pine Boulevard.</Description>
-    <MaxCallTime>2023-06-22T18:50:13</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1005</Id>
-    <CallType>Food</CallType>
-    <FullAddress>89 Cedar Road</FullAddress>
-    <Latitude>-29.260695975781587</Latitude>
-    <Longitude>-98.17871564736535</Longitude>
-    <OpenTime>2024-05-08T12:25:13</OpenTime>
-    <Description>Call regarding food support at 89 Cedar Road.</Description>
-    <MaxCallTime>2024-05-10T07:25:13</MaxCallTime>
-  </Call>
-  <Call>
     <Id>1006</Id>
     <CallType>Other</CallType>
     <FullAddress>101 Ash Street</FullAddress>
@@ -69,5 +19,55 @@
     <OpenTime>2024-12-12T20:51:13</OpenTime>
     <Description>Call regarding other support at 101 Ash Street.</Description>
     <MaxCallTime>2024-12-14T05:51:13</MaxCallTime>
+  </Call>
+  <Call>
+    <Id>1004</Id>
+    <CallType>Other</CallType>
+    <FullAddress>56 Pine Boulevard</FullAddress>
+    <Latitude>40.800501749999995</Latitude>
+    <Longitude>-73.17372020194004</Longitude>
+    <OpenTime>2023-06-22T12:50:13</OpenTime>
+    <Description>Call הייother support at 56 Pine Boulevard.</Description>
+    <MaxCallTime>2023-06-22T18:50:13</MaxCallTime>
+  </Call>
+  <Call>
+    <Id>1000</Id>
+    <CallType>None</CallType>
+    <FullAddress>123 Main Street</FullAddress>
+    <Latitude>39.800141</Latitude>
+    <Longitude>-105.512779</Longitude>
+    <OpenTime>2024-08-05T13:27:13</OpenTime>
+    <Description>Call regarding none support at 123 Main Street.</Description>
+    <MaxCallTime>2024-08-06T21:27:13</MaxCallTime>
+  </Call>
+  <Call>
+    <Id>1001</Id>
+    <CallType>Other</CallType>
+    <FullAddress>45 Elm Avenue</FullAddress>
+    <Latitude>44.3255651</Latitude>
+    <Longitude>-69.7586432</Longitude>
+    <OpenTime>2023-08-27T19:56:13</OpenTime>
+    <Description>Call regarding other support at 45 Elm Avenue.</Description>
+    <MaxCallTime>2023-08-29T17:56:13</MaxCallTime>
+  </Call>
+  <Call>
+    <Id>1002</Id>
+    <CallType>Emergency</CallType>
+    <FullAddress>78 Oak Lane</FullAddress>
+    <Latitude>40.8899302</Latitude>
+    <Longitude>-73.8062785</Longitude>
+    <OpenTime>2024-09-11T08:59:13</OpenTime>
+    <Description>Call regarding other support at 78 Oak Lane.</Description>
+    <MaxCallTime>2024-09-12T22:59:13</MaxCallTime>
+  </Call>
+  <Call>
+    <Id>1005</Id>
+    <CallType>Food</CallType>
+    <FullAddress>89 Cedar Road</FullAddress>
+    <Latitude>-38.019251</Latitude>
+    <Longitude>144.3826458</Longitude>
+    <OpenTime>2024-05-08T12:25:13</OpenTime>
+    <Description>היי מה נשמע</Description>
+    <MaxCallTime>2024-05-10T07:25:13</MaxCallTime>
   </Call>
 </ArrayOfCall>

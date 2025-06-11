@@ -75,7 +75,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
     }
 
-
     //עובד
     public void CancelCallTreatment(int requesterId, int callId)
     {
@@ -137,7 +136,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlDoesNotExistException("שגיאה בעדכון ההקצאה", ex);
         }
     }
-
 
     //עובד
     public void DeleteCall(int callId)

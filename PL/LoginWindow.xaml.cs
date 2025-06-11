@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
-using System.Linq.Expressions;
+﻿using PL;
+using PL.Volunteer;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using PL;
-using PL.Volunteer;
 
 namespace MyApp
 {
@@ -13,11 +12,15 @@ namespace MyApp
         // Static variable to track if the manager is logged in
         // רק מנהל אחד יכול להיות מחובר בכל רגע נתון
         private static bool _managerLoggedIn = false;
+        public static string? LoggedInManagerId { get; private set; }
+
 
         public LoginWindow()
         {
             InitializeComponent();
             DataContext = this;
+
+            //למה לא לאתחל מחוץ לפונקציה?
             _bl = BlApi.Factory.Get();
         }
 
@@ -55,12 +58,16 @@ namespace MyApp
 
                     if (choice == MessageBoxResult.Yes)
                     {
-                        var managerWindow = new MainWindow(); 
-                        _managerLoggedIn = true; // עדכון הסטטוס של המנהל המחובר
-                        //כשיקרה אירוע סגירה של חלון המנהל, תירא פונקציה שמעדכנת את המשתנה הסטטי לפולס
-                        managerWindow.Closed += (_, _) => _managerLoggedIn = false;
+                        var managerWindow = new MainWindow();
+                        _managerLoggedIn = true;
+                        LoggedInManagerId = Id; // שמור את ת"ז המנהל
+                        managerWindow.Closed += (_, _) => {
+                            _managerLoggedIn = false;
+                            LoggedInManagerId = null;
+                        };
                         managerWindow.Show();
                     }
+
                 }
                 else
                 {

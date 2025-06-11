@@ -1,15 +1,18 @@
 ﻿using BO;
+using MyApp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace PL.Call
 {
     public partial class CallInListWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        private BO.CallStatus? _currentFilterStatus;
         public IEnumerable<BO.CallInList> CallList
         {
             get { return (IEnumerable<BO.CallInList>)GetValue(CallListProperty); }
@@ -22,10 +25,16 @@ namespace PL.Call
         public CallInListField CallSelectMenus { get; set; } = BO.CallInListField.None;
         public object? FilterValue { get; set; }
 
-        public CallInListWindow()
+        public CallInListWindow(BO.CallStatus? initialFilterStatus = null)
         {
             InitializeComponent();
-            LoadCalls();
+            _currentFilterStatus = initialFilterStatus; // שמירת הסטטוס הראשוני
+            LoadCalls(); // טעינת הנתונים עם הסינון הראשוני
+        }
+        public void ApplyFilter(BO.CallStatus? newFilterStatus)
+        {
+            _currentFilterStatus = newFilterStatus;
+            RefreshCallList(); // טוען מחדש את הנתונים עם הסינון החדש
         }
 
 
@@ -47,7 +56,7 @@ namespace PL.Call
                         filterValue = typeVal;
                     break;
                 case CallInListField.OpenTime:
-                    if (InputBox("הכנס תאריך פתיחה (yyyy-MM-dd או yyyy-MM-dd HH:mm):", "סינון", out string dateStr)
+                    if (InputBox("הכנס תאריך פתיחה (yyyy-MM-dd או HH:mm:ss yyyy-MM-dd):", "סינון", out string dateStr)
                         && DateTime.TryParse(dateStr, out DateTime dateVal))
                         filterValue = dateVal;
                     break;
@@ -77,12 +86,22 @@ namespace PL.Call
 
             FilterValue = filterValue;
 
-            if (CallSelectMenus == BO.CallInListField.None)
+            // אם קיים סינון חיצוני דרך ה-Constructor/ApplyFilter (כלומר _currentFilterStatus),
+            // הוא יקבל עדיפות. אחרת, נשתמש בסינון מה-UI.
+            if (_currentFilterStatus.HasValue)
+            {
+                // סינון לפי הסטטוס שהועבר מבחוץ
+                CallList = s_bl.Call.GetCallList(BO.CallInListField.Status, _currentFilterStatus.Value, null).ToList();
+            }
+            else if (CallSelectMenus == BO.CallInListField.None) // סינון מה-UI לא נבחר
+            {
                 CallList = s_bl.Call.GetCallList(null, null, null).ToList();
-            else
+            }
+            else // סינון מה-UI נבחר
+            {
                 CallList = s_bl.Call.GetCallList(CallSelectMenus, FilterValue, null).ToList();
+            }
         }
-
         // Event handler for ComboBox selection change
         private void CallComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -135,6 +154,87 @@ namespace PL.Call
         // אירוע סגירת חלון - הסרת המשקיף
         private void Window_Closed(object sender, EventArgs e)
             => s_bl.Call.RemoveObserver(CallListObserver);
+
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DataGrid dataGrid && dataGrid.SelectedItem is BO.CallInList selectedCallInList)
+            {
+                // Get the full Call object using the CallId from the selected CallInList
+                var call = s_bl.Call.GetCallDetails(selectedCallInList.CallId);
+                var updateWindow = new UpdateCallWindow(call);
+                updateWindow.ShowDialog();
+                // Refresh the list if needed
+                RefreshCallList();
+            }
+        }
+
+        private void DeleteCall_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is int callId)
+            {
+                var result = MessageBox.Show("Are you sure you want to delete this call?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result != MessageBoxResult.Yes)
+                    return;
+
+                try
+                {
+                    s_bl.Call.DeleteCall(callId);
+                    MessageBox.Show("The call was deleted successfully.");
+                    RefreshCallList();
+                }
+                catch (BO.BlCannotDeleteException ex)
+                {
+                    MessageBox.Show(
+                        $"Unable to delete the call (Reason: The call is not open or has assignments).\n\nError: {ex.Message}\nInner error: {ex.InnerException?.Message}",
+                        "Delete Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (BO.BlDoesNotExistException ex)
+                {
+                    MessageBox.Show(
+                        $"The call does not exist or was already deleted.\n\nError: {ex.Message}\nInner error: {ex.InnerException?.Message}",
+                        "Delete Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        $"General error while deleting the call.\n\nError: {ex.Message}\nInner error: {ex.InnerException?.Message}",
+                        "Delete Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        private void CancelAssignment_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is int callId)
+            {
+                int managerId = int.Parse(LoginWindow.LoggedInManagerId);
+
+                var result = MessageBox.Show(
+                    "Are you sure you want to cancel the current assignment for this call?",
+                    "Cancel Assignment",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result != MessageBoxResult.Yes)
+                    return;
+
+                try
+                {
+                    s_bl.Call.CancelCallTreatment(managerId, callId);
+                    MessageBox.Show("Assignment was cancelled successfully.");
+                    RefreshCallList();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        $"Unable to cancel the assignment.\n\nError: {ex.Message}\nInner error: {ex.InnerException?.Message}",
+                        "Cancel Assignment Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
+
 
     }
 }
