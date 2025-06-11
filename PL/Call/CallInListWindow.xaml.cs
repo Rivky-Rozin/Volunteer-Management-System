@@ -162,7 +162,7 @@ namespace PL.Call
             {
                 // Get the full Call object using the CallId from the selected CallInList
                 var call = s_bl.Call.GetCallDetails(selectedCallInList.CallId);
-                var updateWindow = new UpdateCallWindow(call);
+                var updateWindow = new CallWindow(call);
                 updateWindow.ShowDialog();
                 // Refresh the list if needed
                 RefreshCallList();

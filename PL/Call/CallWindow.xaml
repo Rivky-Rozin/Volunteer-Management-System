@@ -1,9 +1,120 @@
-﻿<Window x:Class="PL.Call.CallWindow"
+﻿<Window x:Class="PL.CallWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL.Call"
+        xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="CallWindow" Height="640" Width="800">
+        Title="ניהול קריאה" Height="600" Width="500"
+        FlowDirection="RightToLeft"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <Window.Resources>
+        <!-- ... Resources remain the same ... -->
+        <!--<converters:CallStateToGeneralEditabilityConverter x:Key="GeneralEditConverter"/>
+        <converters:CallStateToMaxTimeEditabilityConverter x:Key="MaxTimeEditConverter"/>
+        <converters:CollectionToVisibilityConverter x:Key="CollectionVisibilityConverter"/>-->
+        <Style TargetType="TextBlock" x:Key="LabelStyle">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- ### START OF CORRECTED CODE ### -->
+    <Grid Margin="15">
+        <!-- STEP 1: Define the rows for the Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Row 0 -->
+            <RowDefinition Height="*"/>
+            <!-- Row 1 -->
+            <RowDefinition Height="Auto"/>
+            <!-- Row 2 -->
+        </Grid.RowDefinitions>
+        <!-- The definitions block is now closed and complete. -->
+
+
+        <!-- STEP 2: Place content into the defined rows -->
+
+        <!-- Content for Row 0 -->
+        <StackPanel Grid.Row="0">
+            <!-- The inner Grid for alignment. This is fine. -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- ID (Read-only) -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="מזהה קריאה:" Style="{StaticResource LabelStyle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CurrentCall.Id}" Margin="5"/>
+
+                <!-- Creation Time (Read-only) -->
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="זמן פתיחה:" Style="{StaticResource LabelStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CurrentCall.CreationTime, StringFormat='dd/MM/yyyy HH:mm'}" Margin="5"/>
+
+                <!-- Status (Read-only) -->
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="סטטוס:" Style="{StaticResource LabelStyle}"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CurrentCall.Status}" Margin="5" FontWeight="Bold"/>
+
+                <!-- Description -->
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="תיאור:" Style="{StaticResource LabelStyle}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="5"
+                         Text="{Binding CurrentCall.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         IsEnabled="{Binding CurrentCall.Status, Converter={StaticResource GeneralEditConverter}}"/>
+
+                <!-- Call Type -->
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="סוג קריאה:" Style="{StaticResource LabelStyle}"/>
+                <ComboBox Grid.Row="4" Grid.Column="1" Margin="5"
+                          ItemsSource="{Binding CallTypes}"
+                          SelectedItem="{Binding CurrentCall.CallType, Mode=TwoWay}"
+                          IsEnabled="{Binding CurrentCall.Status, Converter={StaticResource GeneralEditConverter}}"/>
+
+                <!-- Address -->
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="כתובת:" Style="{StaticResource LabelStyle}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Margin="5"
+                         Text="{Binding CurrentCall.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         IsEnabled="{Binding CurrentCall.Status, Converter={StaticResource GeneralEditConverter}}"/>
+
+                <!-- Max Finish Time -->
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="זמן סיום מקסימלי:" Style="{StaticResource LabelStyle}"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Margin="5"
+                         Text="{Binding CurrentCall.MaxFinishTime, Mode=TwoWay, StringFormat='dd/MM/yyyy HH:mm', UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
+                         IsEnabled="{Binding CurrentCall.Status, Converter={StaticResource MaxTimeEditConverter}}"/>
+            </Grid>
+        </StackPanel>
+
+        <!-- Content for Row 1 -->
+        <GroupBox Grid.Row="1" Header="הקצאות לקריאה" Margin="0,20,0,0"
+                  Visibility="{Binding CurrentCall.Assignments, Converter={StaticResource CollectionVisibilityConverter}}">
+            <ListView ItemsSource="{Binding CurrentCall.Assignments}" IsEnabled="False">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="שם מתנדב" DisplayMemberBinding="{Binding VolunteerName}" Width="120"/>
+                        <GridViewColumn Header="זמן תחילת טיפול" DisplayMemberBinding="{Binding StartTreatmentTime, StringFormat='dd/MM/yyyy HH:mm'}" Width="150"/>
+                        <GridViewColumn Header="זמן סיום טיפול" DisplayMemberBinding="{Binding FinishTreatmentTime, StringFormat='dd/MM/yyyy HH:mm'}" Width="150"/>
+                        <GridViewColumn Header="סיבת סיום" DisplayMemberBinding="{Binding EndOfTreatmentType}" Width="100"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+
+        <!-- Content for Row 2 -->
+        <Button Grid.Row="2" Content="עדכון" Margin="0,15,0,0" Padding="10,5" HorizontalAlignment="Center"
+                Click="UpdateButton_Click"
+                IsEnabled="{Binding IsUpdateButtonEnabled}">
+        </Button>
+    </Grid>
+    <!-- ### END OF CORRECTED CODE ### -->
+
 </Window>
