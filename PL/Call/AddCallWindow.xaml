@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL"  mc:Ignorable="d"
+        xmlns:local="clr-namespace:PL"
+
+         mc:Ignorable="d"
         Title="Add Call" Height="400" Width="400" WindowStartupLocation="CenterScreen">
 
     <Grid Margin="10" >
@@ -26,11 +28,11 @@
         <TextBlock Text="Call Type:" Grid.Row="2" VerticalAlignment="Center" Margin="0,10,0,0"/>
         <ComboBox SelectedItem="{Binding CurrentCall.CallType, UpdateSourceTrigger=PropertyChanged}"
                   Grid.Row="2" Margin="100,10,0,0" Width="150"
-                  ItemsSource="{Binding Source={x:Static local:CallTypeCollection}}"/>
+                  ItemsSource="{Binding Source={x:Static local:CallTypeCollectionKey}}"/>
         <TextBlock Text="Status:" Grid.Row="3" VerticalAlignment="Center" Margin="0,10,0,0"/>
         <ComboBox SelectedItem="{Binding CurrentCall.Status, UpdateSourceTrigger=PropertyChanged}"
                   Grid.Row="3" Margin="100,10,0,0" Width="150"
-                  ItemsSource="{Binding Source={x:Static local:CallStatusCollection}}"/>
+                  ItemsSource="{Binding Source={x:Static local:CallStatusCollectionKey}}"/>
         <TextBlock Text="Latitude:" Grid.Row="4" VerticalAlignment="Center" Margin="0,10,0,0"/>
         <TextBox Text="{Binding CurrentCall.Latitude, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Margin="100,10,0,0" Width="150"/>
 
