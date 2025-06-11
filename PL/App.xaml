@@ -16,6 +16,9 @@
             <local:DistanceKindCollection x:Key="DistanceKindCollectionKey" />
             <local:VolunteerRoleCollection x:Key="VolunteerRoleCollectionKey" />
             <local:CallInListFieldCollection x:Key="CallInListCollectionKey" />
+            <local:CallStateToGeneralEditabilityConverter x:Key="GeneralEditConverter"/>
+            <local:CallStateToMaxTimeEditabilityConverter x:Key="MaxTimeEditConverter"/>
+            <local:CollectionToVisibilityConverter x:Key="CollectionVisibilityConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>
