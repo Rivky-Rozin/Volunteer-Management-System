@@ -1,6 +1,6 @@
-﻿// PL/Enums.cs
-using System.Collections;
+﻿using System.Collections;
 using BO;
+using System; // הוסף את זה אם זה לא קיים
 
 namespace PL;
 
@@ -31,6 +31,23 @@ internal class CallTypeCollection : IEnumerable
     /// </summary>
     static readonly IEnumerable<CallType> s_enums =
         (Enum.GetValues(typeof(CallType)) as IEnumerable<CallType>)!;
+
+    /// <summary>
+    /// מחזיר Enumerator עבור הרשימה.
+    /// </summary>
+    public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
+}
+
+/// <summary>
+/// **חדש: אוסף סטטוסי שיחות (CallStatus) עבור ComboBox.**
+/// </summary>
+internal class CallStatusCollection : IEnumerable
+{
+    /// <summary>
+    /// רשימת הערכים האפשריים של CallStatus.
+    /// </summary>
+    static readonly IEnumerable<CallStatus> s_enums =
+        (Enum.GetValues(typeof(CallStatus)) as IEnumerable<CallStatus>)!;
 
     /// <summary>
     /// מחזיר Enumerator עבור הרשימה.
@@ -75,8 +92,7 @@ internal class DistanceKindCollection : IEnumerable
 internal class CallInListFieldCollection : IEnumerable
 {
     static readonly IEnumerable<BO.CallInListField> s_enums =
-(Enum.GetValues(typeof(BO.CallInListField)) as IEnumerable<BO.CallInListField>)!;
+        (Enum.GetValues(typeof(BO.CallInListField)) as IEnumerable<BO.CallInListField>)!;
 
     public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
 }
-

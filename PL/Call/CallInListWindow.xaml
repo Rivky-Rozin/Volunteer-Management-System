@@ -77,7 +77,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="AddNewCall_Click"/>
 
 
     </Grid>
