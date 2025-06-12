@@ -1,0 +1,89 @@
+﻿<Window x:Class="PL.ChooseCallWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        xmlns:bo="clr-namespace:BO;assembly=BL"
+        mc:Ignorable="d"
+        Title="בחירת קריאה לטיפול" Height="600" Width="900"
+        FlowDirection="RightToLeft"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Pane: Selected Call Details, Map, and Address Update -->
+        <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" Padding="10">
+            <StackPanel IsEnabled="{Binding SelectedCall, Converter={StaticResource NullToBooleanConverter}}">
+
+                <!-- Section for updating volunteer's address -->
+                <GroupBox Header="עדכון כתובת נוכחית" Padding="5" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="הזן כתובת חדשה:" Margin="0,0,0,5"/>
+                        <!-- The TextBox is bound to the CurrentVolunteer's Address property -->
+                        <TextBox Text="{Binding CurrentVolunteer.Address, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"/>
+                        <Button Content="עדכן כתובת ורענן רשימה" Click="UpdateAddress_Click" />
+                    </StackPanel>
+                </GroupBox>
+
+                <TextBlock Text="פרטי הקריאה שנבחרה:" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
+
+                <TextBlock Text="תיאור מילולי:" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding SelectedCall.Description}" TextWrapping="Wrap" MinHeight="60" 
+                           Background="AliceBlue" Padding="5" Margin="0,0,0,10"/>
+
+                <!-- Placeholder for the Map View enhancement -->
+                <TextBlock Text="מפה:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                <Border BorderBrush="Gray" BorderThickness="1" MinHeight="200" Background="Gainsboro">
+                    <TextBlock Text=""
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray"/>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <!-- Right Pane: List of Open Calls -->
+        <DockPanel Grid.Column="1" Margin="10,0,0,0">
+            <TextBlock DockPanel.Dock="Top" Text="רשימת קריאות פתוחות זמינות" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+
+            <!-- TODO: Add controls for filtering and sorting the list if desired -->
+
+            <ListView x:Name="OpenCallsListView"
+                      ItemsSource="{Binding OpenCallsList}"
+                      SelectedItem="{Binding SelectedCall, Mode=TwoWay}"
+                      SelectionMode="Single">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="מספר מזהה" Width="80" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="סוג קריאה" Width="100" DisplayMemberBinding="{Binding CallType}" />
+                        <GridViewColumn Header="כתובת מלאה" Width="200" DisplayMemberBinding="{Binding FullAddress}" />
+                        <GridViewColumn Header="מרחק (ק''מ)" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <!-- Formatting the distance to two decimal places -->
+                                    <TextBlock Text="{Binding DistanceFromVolunteer, StringFormat={}{0:F2}}" HorizontalAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="פעולה" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <!-- 
+                                        The button's DataContext is automatically the OpenCallInList object for this row.
+                                        We use this in the Click event handler to identify which call was chosen.
+                                    -->
+                                    <Button Content="בחר קריאה" Click="ChooseCall_Click"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+    </Grid>
+</Window>
+<!-- END OF FILE ChooseCallWindow.xaml -->

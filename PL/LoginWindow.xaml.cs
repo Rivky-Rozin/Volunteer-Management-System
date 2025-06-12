@@ -61,20 +61,32 @@ namespace MyApp
                         var managerWindow = new MainWindow();
                         _managerLoggedIn = true;
                         LoggedInManagerId = Id; // שמור את ת"ז המנהל
-                        managerWindow.Closed += (_, _) => {
+                        managerWindow.Closed += (_, _) =>
+                        {
                             _managerLoggedIn = false;
                             LoggedInManagerId = null;
                         };
                         managerWindow.Show();
                     }
+                    else if (choice == MessageBoxResult.No)// אם המנהל רוצה להיות מתנדב רגיל
+                    {
+                        // יוצרים את חלון המתנדב ומעבירים לו את אובייקט הלוגיקה ואת ת"ז המתנדב
+                        VolunteerView volunteerWindow = new VolunteerView(int.Parse(Id)); volunteerWindow.Show();
+                        //this.Close(); // סוגרים את חלון ההתחברות לאחר כניסה מוצלחת
+                    }
 
                 }
-                else
+
+                else // אם המשתמש הוא מתנדב רגיל
                 {
-                    //todo לא נפתח החלון הנכון
-                    ManageVolunteerWindow volunteerWindow = new ManageVolunteerWindow();
+                    // יוצרים את חלון המתנדב ומעבירים לו את אובייקט הלוגיקה ואת ת"ז המתנדב
+                    VolunteerView volunteerWindow = new VolunteerView(int.Parse(Id));
+                    // פה הפונקציה נופלת ומפילה את התוכנה
                     volunteerWindow.Show();
+
+                    //this.Close(); // סוגרים את חלון ההתחברות לאחר כניסה מוצלחת
                 }
+
             }
             catch (Exception ex)
             {
