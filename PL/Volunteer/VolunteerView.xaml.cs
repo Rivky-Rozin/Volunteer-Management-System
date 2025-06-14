@@ -89,6 +89,7 @@ namespace PL
         // *** תיקון: הבנאי מקבל int, כפי שנשלח מחלון הלוגין ***
         public VolunteerView(int volunteerId)
         {
+            this.DataContext = this;
             InitializeComponent();
 
             // שלב 1: אתחול שכבת הלוגיקה
@@ -105,7 +106,7 @@ namespace PL
             LoadVolunteerAndCallData(volunteerId);
 
             // *** תיקון קריטי: הגדרת ה-DataContext בסוף, אחרי שכל המידע מוכן ***
-            this.DataContext = this;
+
         }
 
         #region Data Loading Methods

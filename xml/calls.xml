@@ -110,4 +110,14 @@
     <Description>Call regarding other support at 101 Ash Street.</Description>
     <MaxCallTime>2026-12-14T00:00:00</MaxCallTime>
   </Call>
+  <Call>
+    <Id>1011</Id>
+    <CallType>Other</CallType>
+    <FullAddress>5 Herzl Street, Haifa, Israel</FullAddress>
+    <Latitude>0</Latitude>
+    <Longitude>0</Longitude>
+    <OpenTime>2025-05-22T18:15:13</OpenTime>
+    <Description>היי</Description>
+    <MaxCallTime>2030-02-01T00:00:00</MaxCallTime>
+  </Call>
 </ArrayOfCall>
