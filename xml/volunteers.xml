@@ -14,16 +14,6 @@
     <MaxDistance>16</MaxDistance>
   </Volunteer>
   <Volunteer>
-    <Id>243366824</Id>
-    <Name>Yael Cohen</Name>
-    <Phone>0527654321</Phone>
-    <Email>yael@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>false</IsActive>
-    <DistanceKind>Ground</DistanceKind>
-    <Address>48 Allenby St, Tel Aviv-Yafo, Israel</Address>
-  </Volunteer>
-  <Volunteer>
     <Id>302122721</Id>
     <Name>Shiran Bar</Name>
     <Phone>0531237894</Phone>
@@ -81,19 +71,6 @@
     <Password>123456</Password>
   </Volunteer>
   <Volunteer>
-    <Id>273641319</Id>
-    <Name>Noa Amar</Name>
-    <Phone>0505678910</Phone>
-    <Email>noa@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>false</IsActive>
-    <DistanceKind>Aerial</DistanceKind>
-    <Address>1 Herzl St, Ashdod, Israel</Address>
-    <Latitude>31.464028753676175</Latitude>
-    <Longitude>35.445723051109105</Longitude>
-    <MaxDistance>18</MaxDistance>
-  </Volunteer>
-  <Volunteer>
     <Id>327701653</Id>
     <Name>רבקי רוזין 2</Name>
     <Phone>0583284977</Phone>
@@ -104,5 +81,28 @@
     <Address>1600 Amphitheatre Parkway, Mountain View, USA</Address>
     <Password>123456</Password>
     <MaxDistance>2223</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>243366824</Id>
+    <Name>Yael Cohen!!</Name>
+    <Phone>0527654321</Phone>
+    <Email>yael@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>false</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>48 Allenby St, Tel Aviv-Yafo, Israel</Address>
+  </Volunteer>
+  <Volunteer>
+    <Id>273641319</Id>
+    <Name>Noa Amar</Name>
+    <Phone>0505678910</Phone>
+    <Email>noa@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>48 Allenby St, Tel Aviv-Yafo, Israel</Address>
+    <Latitude>32.073084</Latitude>
+    <Longitude>34.766135</Longitude>
+    <MaxDistance>18</MaxDistance>
   </Volunteer>
 </ArrayOfVolunteer>

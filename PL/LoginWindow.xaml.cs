@@ -71,7 +71,7 @@ namespace MyApp
                     else if (choice == MessageBoxResult.No)// אם המנהל רוצה להיות מתנדב רגיל
                     {
                         // יוצרים את חלון המתנדב ומעבירים לו את אובייקט הלוגיקה ואת ת"ז המתנדב
-                        VolunteerView volunteerWindow = new VolunteerView(int.Parse(Id)); volunteerWindow.Show();
+                        VolunteerWindow volunteerWindow = new VolunteerWindow(Id); volunteerWindow.Show();
                         //this.Close(); // סוגרים את חלון ההתחברות לאחר כניסה מוצלחת
                     }
 
@@ -80,7 +80,7 @@ namespace MyApp
                 else // אם המשתמש הוא מתנדב רגיל
                 {
                     // יוצרים את חלון המתנדב ומעבירים לו את אובייקט הלוגיקה ואת ת"ז המתנדב
-                    VolunteerView volunteerWindow = new VolunteerView(int.Parse(Id));
+                    VolunteerWindow volunteerWindow = new VolunteerWindow( Id);
                     // פה הפונקציה נופלת ומפילה את התוכנה
                     volunteerWindow.Show();
 

@@ -26,17 +26,11 @@ public enum CallType
 
 public enum CallInProgressStatus
 {
+
     InProgress,
     InProgressAtRisk
 }
 
-public enum TreatmentEndTypeEnum
-{
-    Completed,
-    Canceled,
-    Timeout,
-    Escalated
-}
 
 public enum CallStatus
 {
@@ -46,6 +40,13 @@ public enum CallStatus
     Expired,
     OpenAtRisk,
     InProgressAtRisk
+}
+public enum TreatmentEndTypeEnum
+{
+    Completed,
+    Canceled,
+    Timeout,
+    Escalated
 }
 
 public enum TimeUnit

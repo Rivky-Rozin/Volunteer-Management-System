@@ -3,8 +3,7 @@
 using Helpers;
 using System.Collections.Generic;
 using BlApi;
-
-
+using BO;
 
 internal class VolunteerImplementation : IVolunteer
 {
@@ -116,6 +115,12 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         catch (Exception e)
         {
             throw new BO.BlValidationException($"יש נתונים שגויים");
+        }
+        if (existingVolunteer.Address != volunteer.Address)
+        {
+           (double X, double Y)=Tools.GetCoordinatesFromAddress(volunteer.Address);
+            volunteer.Latitude = X;
+            volunteer.Longitude = Y;
         }
         _dal.Volunteer.Update(VolunteerManager.ToDoVolunteer(volunteer));
         VolunteerManager.Observers.NotifyItemUpdated(volunteer.Id);  //stage 5

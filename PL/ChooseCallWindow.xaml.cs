@@ -16,7 +16,7 @@ namespace PL
     /// </summary>
     public partial class ChooseCallWindow : Window
     {
-        private readonly BlApi.IBl _bl;
+        private readonly BlApi.IBl _bl=BlApi.Factory.Get();
         private readonly int _volunteerId;
 
         #region Dependency Properties
@@ -61,9 +61,9 @@ namespace PL
         /// </summary>
         /// <param name="bl">The business logic layer interface.</param>
         /// <param name="volunteerId">The ID of the currently logged-in volunteer.</param>
-        public ChooseCallWindow(BlApi.IBl bl, int volunteerId)
+        public ChooseCallWindow( int volunteerId)
         {
-            _bl = bl;
+            
             _volunteerId = volunteerId;
             InitializeComponent();
 
@@ -113,7 +113,7 @@ namespace PL
             {
                 try
                 {
-                    //_bl.Volunteer.AssignCallToVolunteer(callToTake.Id, _volunteerId);
+                    _bl.Call.SelectCallForTreatment( _volunteerId, callToTake.Id);
 
                     MessageBox.Show($"הקריאה מספר {callToTake.Id} נבחרה בהצלחה!\nכעת ניתן לחזור למסך הראשי ולדווח על התקדמות.",
                                     "בחירה הושלמה", MessageBoxButton.OK, MessageBoxImage.Information);

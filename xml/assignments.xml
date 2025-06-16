@@ -48,6 +48,30 @@
     <VolunteerId>307110234</VolunteerId>
     <CallId>1001</CallId>
     <StartTreatment>2023-04-03T00:00:00</StartTreatment>
+    <EndTreatment>2025-06-15T18:52:02.9279872+03:00</EndTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1006</Id>
+    <VolunteerId>297276062</VolunteerId>
+    <CallId>1010</CallId>
+    <StartTreatment>2025-05-22T18:15:13</StartTreatment>
+    <EndTreatment>2025-06-15T18:57:06.4103803+03:00</EndTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1007</Id>
+    <VolunteerId>297276062</VolunteerId>
+    <CallId>1007</CallId>
+    <StartTreatment>2025-05-22T18:15:13</StartTreatment>
+    <EndTreatment>2025-06-15T19:09:41.2856898+03:00</EndTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1008</Id>
+    <VolunteerId>297276062</VolunteerId>
+    <CallId>1008</CallId>
+    <StartTreatment>2025-05-22T18:15:13</StartTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
 </ArrayOfAssignment>

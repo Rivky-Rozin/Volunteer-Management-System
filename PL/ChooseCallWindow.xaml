@@ -19,7 +19,7 @@
 
         <!-- Left Pane: Selected Call Details, Map, and Address Update -->
         <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" Padding="10">
-            <StackPanel IsEnabled="{Binding SelectedCall, Converter={StaticResource NullToBooleanConverter}}">
+            <StackPanel IsEnabled="{Binding SelectedCall}">
 
                 <!-- Section for updating volunteer's address -->
                 <GroupBox Header="עדכון כתובת נוכחית" Padding="5" Margin="0,0,0,15">
