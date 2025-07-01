@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Volunteer Details" Height="600" Width="800"
         Loaded="Window_Loaded"
+        GotFocus="Window_GotFocus"
         Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -58,7 +59,6 @@
 
         <CheckBox Grid.Row="6" Grid.Column="1" Content="Active" IsChecked="{Binding Volunteer.IsActive, Mode=TwoWay}" Margin="5"/>
 
-        <Button Grid.Row="7" Grid.Column="1" Content="Set Inactive" Margin="5" Click="SetInactive_Click"/>
         <Button Grid.Row="8" Grid.Column="1" Content="Update" Margin="5" Click="UpdateButton_Click"/>
 
         <!-- Call Information-->

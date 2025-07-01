@@ -115,6 +115,8 @@ namespace PL
                 {
                     _bl.Call.SelectCallForTreatment( _volunteerId, callToTake.Id);
 
+                    var vol = _bl.Volunteer.GetVolunteerDetails(_volunteerId.ToString());
+ 
                     MessageBox.Show($"הקריאה מספר {callToTake.Id} נבחרה בהצלחה!\nכעת ניתן לחזור למסך הראשי ולדווח על התקדמות.",
                                     "בחירה הושלמה", MessageBoxButton.OK, MessageBoxImage.Information);
 

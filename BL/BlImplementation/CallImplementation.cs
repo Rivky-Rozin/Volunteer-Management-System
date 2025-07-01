@@ -29,11 +29,16 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             var openTime = AdminManager.Now;
             call.CreationTime = openTime;
 
+            var (lat, lon) = Tools.GetCoordinatesFromAddress(call.Address);
+            call.Latitude = lat;
+            call.Longitude = lon;
+
+
             // המרה ל-DO      
             DO.Call doCall = CallManager.ConvertToDO(call);
 
             // הוספה ל-DAL      
-            _dal.Call.Create(doCall); 
+            _dal.Call.Create(doCall);
             CallManager.Observers.NotifyListUpdated(); //stage 5
         }
         catch (Exception ex)
@@ -93,7 +98,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
         if (assignment == null)
             throw new BO.BlDoesNotExistException("לא נמצאה הקצאה פעילה לקריאה הזו");
-        
+
         // שליפת פרטי המתנדב
         DO.Volunteer? doVolunteer = _dal.Volunteer.Read(requesterId);
         if (doVolunteer == null)
@@ -162,7 +167,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
         catch (Exception ex)
         {
-           // שלב 5: אם הקריאה לא קיימת בשכבת הנתונים – זרוק חריגה מתאימה לשכבת התצוגה
+            // שלב 5: אם הקריאה לא קיימת בשכבת הנתונים – זרוק חריגה מתאימה לשכבת התצוגה
             throw new BO.BlDoesNotExistException("Call", ex);
         }
     }
@@ -333,7 +338,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             throw new BO.BlGeneralException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.");
         }
-        
+
         // המרה ל-DO.Call
         DO.Call callEntity = new DO.Call
         {
@@ -371,7 +376,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         // שליפת הקריאות בסטטוס פתוחה או פתוחה בסיכון
         var openStatuses = new[] { BO.CallStatus.Open, BO.CallStatus.OpenAtRisk };
         var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus(c.Id))).ToList();
-        var allCalls = _dal.Call.ReadAll( ).ToList().Select(s=>s.MaxCallTime);
+        var allCalls = _dal.Call.ReadAll().ToList().Select(s => s.MaxCallTime);
 
         // סינון לפי סוג הקריאה אם צריך
         if (callTypeFilter != null)
@@ -432,13 +437,13 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
         // בדיקה אם הקריאה פגה תוקף
         if (call.MaxCallTime <= AdminManager.Now)
-            
+
             throw new BO.BlExpired("Call expired");
 
         // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
         var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(a.Id) == BO.CallStatus.Open);
         if (existingAssignments.Any())
-          
+
             throw new BO.BlAlreadyInTreatment("The call is already under treatment");
 
         // יצירת הקצאה חדשה
@@ -457,7 +462,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
         catch (Exception ex)
         {
-           
+
             throw new BO.BlFailedToCreate("Failed to create assignment", ex);
         }
     }

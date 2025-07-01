@@ -22,6 +22,11 @@ namespace MyApp
 
             //למה לא לאתחל מחוץ לפונקציה?
             _bl = BlApi.Factory.Get();
+
+#if DEBUG
+Id= "377631332"; // ת"ז של המנהל    
+password = "1234"; // סיסמה של המנהל    
+#endif
         }
 
         private string id;
@@ -80,7 +85,7 @@ namespace MyApp
                 else // אם המשתמש הוא מתנדב רגיל
                 {
                     // יוצרים את חלון המתנדב ומעבירים לו את אובייקט הלוגיקה ואת ת"ז המתנדב
-                    VolunteerWindow volunteerWindow = new VolunteerWindow( Id);
+                    VolunteerWindow volunteerWindow = new VolunteerWindow(Id);
                     // פה הפונקציה נופלת ומפילה את התוכנה
                     volunteerWindow.Show();
 

@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -37,9 +37,12 @@
         <TextBox Text="{Binding CurrentCall.Longitude, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Margin="100,10,0,0" Width="150"/>-->
         <TextBlock Text="Max Finish Time:" Grid.Row="5" VerticalAlignment="Center" Margin="0,10,0,0"/>
         <TextBox Text="{Binding CurrentCall.MaxFinishTime, UpdateSourceTrigger=PropertyChanged}" 
-         Grid.Row="5" Margin="100,10,0,0" Width="150"/>
-        <TextBlock Text="Format: yyyy-MM-dd HH:mm" 
-           Grid.Row="6" Margin="100,0,0,0" Foreground="Gray" FontSize="11"/>
+         Grid.Row="5"  Width="150"/>
+        <DatePicker SelectedDate="{Binding CurrentCall.MaxFinishTime, UpdateSourceTrigger=PropertyChanged}"
+                  Grid.Row="5"   />
+        
+        <!--<TextBlock Text="Format: yyyy-MM-dd HH:mm"--> 
+           <!--Grid.Row="6" Margin="100,0,0,0" Foreground="Gray" FontSize="11"/>-->
 
 
         <Button Content="Add" Grid.Row="6" Width="80" Height="30" HorizontalAlignment="Right" Margin="0,20,0,0"

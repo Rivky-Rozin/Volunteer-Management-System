@@ -23,8 +23,14 @@ internal static class AdminManager //stage 4
     {
         //lock (BlMutex) //stage 7
         //{
-            DalTest.Initialization.Do();
-            AdminManager.UpdateClock(AdminManager.Now);  // stage 5 - needed for update the PL
+        //מאותחל לפי מחלקת הפקטורי ששולחת את המחלקה המתאימה לפי קובץ הקונפיגורציה
+ 
+         
+        DalTest.Initialization.Do();
+
+        //set lat and len for all volunteers
+
+        AdminManager.UpdateClock(AdminManager.Now);  // stage 5 - needed for update the PL
             AdminManager.RiskTimeSpan = AdminManager.RiskTimeSpan; // stage 5 - needed for update the PL
         //}
     }
@@ -148,6 +154,8 @@ internal static class AdminManager //stage 4
             }
             catch (ThreadInterruptedException) { }
         }
+
+
     }
     #endregion Stage 7 base
 }

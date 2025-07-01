@@ -55,8 +55,8 @@ public static class Initialization
             string phone = volunteerPhones[index];
             string email = volunteerEmails[index];
             string? address = volunteerAddresses[index];
-            double? latitude = index % 2 == 0 ? s_rand.NextDouble() * 2 + 31 : null; // בין 31 ל-33
-            double? longitude = index % 2 == 0 ? s_rand.NextDouble() * 2 + 34 : null; // בין 34 ל-36
+            double? latitude = s_rand.NextDouble() * 2 + 31;
+            double? longitude = s_rand.NextDouble() * 2 + 34;
 
             VolunteerRole role = index % 5 == 0 ? VolunteerRole.Manager : VolunteerRole.Regular;
             bool isActive = index % 2 == 0;
