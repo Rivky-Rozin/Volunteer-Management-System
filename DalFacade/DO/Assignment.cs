@@ -23,7 +23,7 @@ public record Assignment
     //public DateTime EndTreatmentTime;
 
     public Assignment()
-    : this(0, 0, 0,DateTime.Now, DateTime.Now, default) { }
+    : this(0, 0, 0,DateTime.Now, null, default) { }
 
     public bool ShouldSerializeTreatmentType() => TreatmentType.HasValue;
     public bool ShouldSerializeEndTreatment() => EndTreatment.HasValue;

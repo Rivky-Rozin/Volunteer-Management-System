@@ -140,4 +140,34 @@
     <Description>ייח</Description>
     <MaxCallTime>2025-06-28T00:00:00</MaxCallTime>
   </Call>
+  <Call>
+    <Id>1014</Id>
+    <CallType>Technical</CallType>
+    <FullAddress>סוקולוב 57 בני ברק ישראל</FullAddress>
+    <Latitude>32.0919015</Latitude>
+    <Longitude>34.8332865</Longitude>
+    <OpenTime>2025-06-25T11:28:56</OpenTime>
+    <Description>יייי</Description>
+    <MaxCallTime>2025-07-02T00:00:00</MaxCallTime>
+  </Call>
+  <Call>
+    <Id>1015</Id>
+    <CallType>Food</CallType>
+    <FullAddress>סוקולוב 57 בני ברק ישראל</FullAddress>
+    <Latitude>32.0919015</Latitude>
+    <Longitude>34.8332865</Longitude>
+    <OpenTime>2025-06-25T11:28:56</OpenTime>
+    <Description>jklkmjnbh</Description>
+    <MaxCallTime>2025-07-22T00:00:00</MaxCallTime>
+  </Call>
+  <Call>
+    <Id>1016</Id>
+    <CallType>Emergency</CallType>
+    <FullAddress>סוקולוב 57 בני ברק ישראל</FullAddress>
+    <Latitude>32.0919015</Latitude>
+    <Longitude>34.8332865</Longitude>
+    <OpenTime>2025-06-25T11:28:56</OpenTime>
+    <Description>uygfghjk</Description>
+    <MaxCallTime>2025-07-31T00:00:00</MaxCallTime>
+  </Call>
 </ArrayOfCall>

@@ -1,19 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfVolunteer>
   <Volunteer>
-    <Id>265958826</Id>
-    <Name>David Rosen</Name>
-    <Phone>0501234567</Phone>
-    <Email>david@example.com</Email>
-    <Role>Manager</Role>
-    <IsActive>true</IsActive>
-    <DistanceKind>Aerial</DistanceKind>
-    <Address>10 King David St, Jerusalem, Israel</Address>
-    <Latitude>32.143606965517684</Latitude>
-    <Longitude>34.31749757949148</Longitude>
-    <MaxDistance>36</MaxDistance>
-  </Volunteer>
-  <Volunteer>
     <Id>291338444</Id>
     <Name>Moshe Levi</Name>
     <Phone>0549876543</Phone>
@@ -74,5 +61,18 @@
     <Address>48 Allenby St, Tel Aviv-Yafo, Israel</Address>
     <Latitude>32.545930011265845</Latitude>
     <Longitude>35.150729595838236</Longitude>
+  </Volunteer>
+  <Volunteer>
+    <Id>265958826</Id>
+    <Name>David Rosen</Name>
+    <Phone>0501234567</Phone>
+    <Email>david@example.com</Email>
+    <Role>Manager</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>10 King David St, Jerusalem, Israel</Address>
+    <Latitude>32.143606965517684</Latitude>
+    <Longitude>34.31749757949148</Longitude>
+    <MaxDistance>36</MaxDistance>
   </Volunteer>
 </ArrayOfVolunteer>

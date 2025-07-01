@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  <NextAssignmentId>1013</NextAssignmentId>
-  <NextCallId>1014</NextCallId>
+  <NextAssignmentId>1015</NextAssignmentId>
+  <NextCallId>1017</NextCallId>
   <Clock>25/06/2025 11:28:56</Clock>
   <RiskTimeSpan>02:00:00</RiskTimeSpan>
   <TreatmentTime>02:00:00</TreatmentTime>

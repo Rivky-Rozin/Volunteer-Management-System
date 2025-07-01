@@ -105,6 +105,21 @@
     <VolunteerId>349046351</VolunteerId>
     <CallId>1013</CallId>
     <StartTreatment>2025-06-25T11:28:56</StartTreatment>
+    <EndTreatment>2025-07-01T16:54:58.8451013+03:00</EndTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1013</Id>
+    <VolunteerId>265958826</VolunteerId>
+    <CallId>1015</CallId>
+    <StartTreatment>2025-06-25T11:28:56</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1014</Id>
+    <VolunteerId>265958826</VolunteerId>
+    <CallId>1016</CallId>
+    <StartTreatment>2025-06-25T11:28:56</StartTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
 </ArrayOfAssignment>

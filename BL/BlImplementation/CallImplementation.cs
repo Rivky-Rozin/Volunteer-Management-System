@@ -455,6 +455,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             EndTreatment = null,
             TreatmentType = null
         };
+
         try
         {
             _dal.Assignment.Create(assignment);
