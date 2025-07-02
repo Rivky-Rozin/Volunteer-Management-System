@@ -6,7 +6,8 @@ using System.Configuration;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Input;
-using BO; // יש לוודא שה-namespace BO זמין ושה-enum CallStatus מעודכן בו
+using BO;
+using MyApp; // יש לוודא שה-namespace BO זמין ושה-enum CallStatus מעודכן בו
 
 namespace PL
 {
@@ -120,7 +121,7 @@ namespace PL
             {
                 foreach (Window win in Application.Current.Windows)
                 {
-                    if (win != this)
+                    if (win != this )
                         win.Close();
                 }
                 s_bl.Admin.InitializeDatabase();

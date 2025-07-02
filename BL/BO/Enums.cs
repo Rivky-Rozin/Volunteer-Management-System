@@ -28,7 +28,8 @@ public enum CallInProgressStatus
 {
 
     InProgress,
-    InProgressAtRisk
+    InProgressAtRisk,
+    None
 }
 
 

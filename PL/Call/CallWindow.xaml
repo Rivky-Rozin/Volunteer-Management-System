@@ -32,10 +32,8 @@
             <RowDefinition Height="Auto"/>
             <!-- Row 2 -->
         </Grid.RowDefinitions>
-        <!-- The definitions block is now closed and complete. -->
-
-
-        <!-- STEP 2: Place content into the defined rows -->
+       
+      
 
         <!-- Content for Row 0 -->
         <StackPanel Grid.Row="0">

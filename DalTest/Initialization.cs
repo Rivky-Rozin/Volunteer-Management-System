@@ -59,7 +59,7 @@ public static class Initialization
             double? longitude = s_rand.NextDouble() * 2 + 34;
 
             VolunteerRole role = index % 5 == 0 ? VolunteerRole.Manager : VolunteerRole.Regular;
-            bool isActive = index % 2 == 0;
+            bool isActive = true;
 
             DistanceKind distanceKind = index % 2 == 0 ? DistanceKind.Aerial : DistanceKind.Ground;
             double? maxDistance = index % 2 == 0 ? s_rand.Next(1, 50) : null; // טווח בין 1 ל-50 ק"מ

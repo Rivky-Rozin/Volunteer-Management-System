@@ -50,12 +50,7 @@ password = "1234"; // סיסמה של המנהל
                 BO.VolunteerRole UserRole = _bl.Volunteer.Login(Id, Password);
                 if (UserRole == BO.VolunteerRole.Manager)
                 {
-                    // אם מנהל כבר מחובר, הצג הודעת שגיאה
-                    if (_managerLoggedIn)
-                    {
-                        MessageBox.Show("A manager is already logged in. Please log out first.", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
+                  
                     var choice = MessageBox.Show("Enter as Manager? (yes/no)",
                                  "Choose Mode",
                                  MessageBoxButton.YesNo,
@@ -63,6 +58,14 @@ password = "1234"; // סיסמה של המנהל
 
                     if (choice == MessageBoxResult.Yes)
                     {
+
+                        // אם מנהל כבר מחובר, הצג הודעת שגיאה
+                        if (_managerLoggedIn)
+                        {
+                            MessageBox.Show("A manager is already logged in. Please log out first.", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
                         var managerWindow = new MainWindow();
                         _managerLoggedIn = true;
                         LoggedInManagerId = Id; // שמור את ת"ז המנהל
@@ -77,19 +80,18 @@ password = "1234"; // סיסמה של המנהל
                     {
                         // יוצרים את חלון המתנדב ומעבירים לו את אובייקט הלוגיקה ואת ת"ז המתנדב
                         VolunteerWindow volunteerWindow = new VolunteerWindow(Id); volunteerWindow.Show();
-                        //this.Close(); // סוגרים את חלון ההתחברות לאחר כניסה מוצלחת
+                        
                     }
 
                 }
 
-                else // אם המשתמש הוא מתנדב רגיל
+                else 
                 {
-                    // יוצרים את חלון המתנדב ומעבירים לו את אובייקט הלוגיקה ואת ת"ז המתנדב
+               
                     VolunteerWindow volunteerWindow = new VolunteerWindow(Id);
-                    // פה הפונקציה נופלת ומפילה את התוכנה
+                  
                     volunteerWindow.Show();
 
-                    //this.Close(); // סוגרים את חלון ההתחברות לאחר כניסה מוצלחת
                 }
 
             }

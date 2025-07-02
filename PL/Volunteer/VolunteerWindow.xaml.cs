@@ -71,24 +71,26 @@ namespace PL
         public static readonly DependencyProperty IsSelectCallButtonEnabledProperty =
             DependencyProperty.Register("IsSelectCallButtonEnabled", typeof(bool), typeof(VolunteerWindow), new PropertyMetadata(true));
 
+
         private void SetCallDetailsVisibility()
         {
-            CallDetailsVisibility = (Volunteer?.CallInProgress != null) ? Visibility.Visible : Visibility.Collapsed;
+            CallDetailsVisibility = ShouldShowCallDetails() ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        //private void EnableSelectCallButton()
-        //{
-        //    IsSelectCallButtonEnabled = Volunteer?.CallInProgress == null;
-        //}
         public bool IsActiveCheckBoxEnabled
         {
             get => Volunteer?.CallInProgress == null;
         }
         private void EnableSelectCallButton()
         {
-            IsSelectCallButtonEnabled = Volunteer?.CallInProgress == null && Volunteer?.IsActive == true;
+            IsSelectCallButtonEnabled = (Volunteer?.CallInProgress == null && Volunteer.CallInProgress.status != CallInProgressStatus.None )&& Volunteer?.IsActive == true;
         }
 
+        private bool ShouldShowCallDetails()
+        {
+            return Volunteer?.CallInProgress != null
+                && Volunteer.CallInProgress.status != BO.CallInProgressStatus.None;
+        }
         private void RefreshVolunteerData()
         {
             try
@@ -255,8 +257,8 @@ namespace PL
 
         private void Window_GotFocus(object sender, RoutedEventArgs e)
         {
-           var v= Volunteer.CallInProgress;
+            var v = Volunteer.CallInProgress;
         }
-        
+
     }
 }

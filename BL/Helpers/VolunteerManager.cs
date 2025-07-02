@@ -76,6 +76,19 @@ internal static class VolunteerManager
         };
     }
 
+
+    private static BO.CallInProgressStatus MapCallStatusToInProgressStatus(BO.CallStatus status)
+    {
+        return status switch
+        {
+            BO.CallStatus.Open => BO.CallInProgressStatus.InProgress,
+            BO.CallStatus.OpenAtRisk => BO.CallInProgressStatus.InProgressAtRisk,
+            BO.CallStatus.InProgress => BO.CallInProgressStatus.InProgress,
+            BO.CallStatus.InProgressAtRisk => BO.CallInProgressStatus.InProgressAtRisk,
+            // כל סטטוס אחר (למשל Expired, Closed) – לא יוצג כקריאה בטיפול
+            _ => BO.CallInProgressStatus.None
+        };
+    }
     public static BO.Volunteer ToBOVolunteer(DO.Volunteer volunteer)
     {
         IEnumerable<DO.Assignment> assignments = s_dal.Assignment.ReadAll()
@@ -96,12 +109,12 @@ internal static class VolunteerManager
                 DateTime now = AdminManager.Now;
                 DateTime? maxResolutionTime = call.MaxCallTime;
 
-                var status =
-                    maxResolutionTime is null
-                        ? BO.CallInProgressStatus.InProgress
-                        : (maxResolutionTime.Value - now) <= RiskTimeSpan
-                            ? BO.CallInProgressStatus.InProgressAtRisk
-                            : BO.CallInProgressStatus.InProgress;
+                var status = CallManager.GetCallStatus(call.Id);
+                //maxResolutionTime is null
+                //        ? BO.CallInProgressStatus.InProgress
+                //        : (maxResolutionTime.Value - now) <= RiskTimeSpan
+                //            ? BO.CallInProgressStatus.InProgressAtRisk
+                //            : BO.CallInProgressStatus.InProgress;
 
                 callInProgress = new BO.CallInProgress
                 {
@@ -114,7 +127,7 @@ internal static class VolunteerManager
                     MaxResolutionTime = call.MaxCallTime,
                     EntryToTreatmentTime = activeAssignment.StartTreatment,
                     DistanceFromVolunteer = Tools.GetDistance(volunteer, call),
-                    status = status
+                    status = MapCallStatusToInProgressStatus(CallManager.GetCallStatus(call.Id))
                 };
             }
 

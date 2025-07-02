@@ -81,13 +81,15 @@
         <TextBox Grid.Row="12" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Description}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
 
         <Label Grid.Row="13" Grid.Column="0" Content="Address:" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
-        <TextBox Grid.Row="13" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Address}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <TextBox Grid.Row="13" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.FullAddress}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
 
-        <Label Grid.Row="14" Grid.Column="0" Content="Status:" Margin="5" Visibility="{Binding Volunteer.CallInProgress.Status}"/>
-        <TextBox Grid.Row="14" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Status}" Margin="5" Visibility="{Binding Volunteer.CallInProgress.Status}"/>
+        <Label Grid.Row="14" Grid.Column="0" Content="Status:" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <TextBox Grid.Row="14" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.status}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
 
+        <Label Grid.Row="15" Grid.Column="0"  Content="Distance:" Margin="5" Visibility="{Binding CallDetailsVisibility}" />
+        <TextBox Grid.Row="15" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.DistanceFromVolunteer}" Visibility="{Binding CallDetailsVisibility}"/>
         <!-- Call Actions -->
-        <StackPanel Grid.Row="15" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
             <Button Content="Complete Call" Margin="5" Click="CompleteCallButton_Click" Visibility="{Binding CallDetailsVisibility}"/>
             <Button Content="Cancel Call" Margin="5" Click="CancelCallButton_Click" Visibility="{Binding CallDetailsVisibility}"/>
             <Button Content="Call History" Margin="5" Click="HistoryCallButton_Click"/>
