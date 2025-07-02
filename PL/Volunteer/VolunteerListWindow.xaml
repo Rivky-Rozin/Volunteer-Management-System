@@ -10,29 +10,29 @@
       Title="VolunteerListWindow" Height="640" Width="800"
        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <!--External Grid-->
-    <Grid>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!--Internal, Upper Grid-->
+        --><!--Internal, Upper Grid--><!--
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <!-- Label -->
+            --><!-- Label --><!--
             <Label Content="Select Volunteer" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-            <!-- ComboBox -->
+            --><!-- ComboBox --><!--
             <ComboBox SelectedValue="{Binding Path=VolunteerSelectMenus, Mode=TwoWay}"
            ItemsSource="{Binding Source={StaticResource VolunteerSelectMenuCollectionKey}}"
            Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="VolunteerComboBox_SelectionChanged"/>
         </Grid>
-        <!--,תצוגת הרשימה, צריך להוסיף כאן דברים כשנגיע ל8ד לפי ההוראות שב 5ה4-->
-        <DataGrid Grid.Row="1"
+        --><!--,תצוגת הרשימה, צריך להוסיף כאן דברים כשנגיע ל8ד לפי ההוראות שב 5ה4-->
+        <!--<DataGrid Grid.Row="1"
           
           ItemsSource="{Binding Path=VolunteerList}"
           IsReadOnly="True"
@@ -55,7 +55,7 @@
                 <DataGridTextColumn Binding="{Binding Id}" Header="מזהה" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding Name}" Header="שם מתנדב" Width="*" />
 
-                <!-- עמודת IsActive עם תיבת סימון -->
+                --><!-- עמודת IsActive עם תיבת סימון --><!--
                 <DataGridTemplateColumn Header="פעיל?" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -65,12 +65,12 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <!-- עמודות עם ספירת קריאות -->
+                --><!-- עמודות עם ספירת קריאות --><!--
                 <DataGridTextColumn Binding="{Binding HandledCallsCount}" Header="קריאות שטופלו" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding CancelledCallsCount}" Header="קריאות שבוטלו" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding ExpiredHandledCallsCount}" Header="קריאות שפגו בטיפול" Width="Auto"/>
 
-                <!-- עמודה מיוחדת עם עיצוב לפי מצב קריאה -->
+                --><!-- עמודה מיוחדת עם עיצוב לפי מצב קריאה --><!--
                 <DataGridTemplateColumn Header="קריאה פעילה" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -99,9 +99,9 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <!-- עמודת סוג קריאה -->
+                --><!-- עמודת סוג קריאה --><!--
                 <DataGridTextColumn Binding="{Binding CallInProgressType}" Header="סוג קריאה פעילה" Width="Auto"/>
-            <!--כפתור מחיקה-->
+            --><!--כפתור מחיקה--><!--
                 <DataGridTemplateColumn Header="מחיקה">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -111,9 +111,180 @@
                 </DataGridTemplateColumn>
 
             </DataGrid.Columns>
+        </DataGrid>--><!--
+
+
+        <DataGrid Grid.Row="1"
+  ItemsSource="{Binding Path=VolunteerList}"
+  IsReadOnly="True"
+  AutoGenerateColumns="False"
+  RowHeaderWidth="0"
+  RowHeight="40"
+  HeadersVisibility="Column"
+  ColumnHeaderHeight="44"
+  AlternatingRowBackground="{DynamicResource RowAltBrush}"
+  CanUserResizeRows="False"
+  CanUserAddRows="False"
+  SelectionMode="Single"
+  SelectionUnit="FullRow"
+  FontFamily="Calibri, Segoe UI, Arial"
+  FontSize="16"
+  Margin="10"
+  SelectedItem="{Binding SelectedVolunteer}"
+  MouseDoubleClick="lsvVolunteersList_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="מזהה" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="שם מתנדב" Width="*" />
+                <DataGridTemplateColumn Header="פעיל?" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsActive}" IsEnabled="False" HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding HandledCallsCount}" Header="קריאות שטופלו" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding CancelledCallsCount}" Header="קריאות שבוטלו" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding ExpiredHandledCallsCount}" Header="קריאות שפגו בטיפול" Width="Auto"/>
+                <DataGridTemplateColumn Header="קריאה פעילה" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CallInProgressId}" HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CallInProgressId}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="אין קריאה"/>
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CallInProgressId}">
+                                                <Setter Property="Text" Value="שגיאה"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CallInProgressId}" Value="{x:Null}">
+                                                <Setter Property="Text" Value=""/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding CallInProgressType}" Header="סוג קריאה פעילה" Width="Auto"/>
+                <DataGridTemplateColumn Header="מחיקה">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="מחק" Click="btnDeleteVolunteer_click" Tag="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
 
-        <!--הוספת פריט לרשימה-->
+        --><!--הוספת פריט לרשימה--><!--
         <Button Content="Add" Grid.Row="2"  HorizontalAlignment="Center" Height="50" Width="100" Click="btnAddVolunteer_Click"/>
+    </Grid>-->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- אזור סינון/כותרת -->
+        <Border Grid.Row="0" Padding="14" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Margin="0,0,0,18">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="220"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="רשימת מתנדבים" FontSize="22" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Label Content="סנן לפי:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox Width="140"
+                          ItemsSource="{Binding Source={StaticResource VolunteerSelectMenuCollectionKey}}"
+                          SelectedValue="{Binding Path=VolunteerSelectMenus, Mode=TwoWay}"
+                          SelectionChanged="VolunteerComboBox_SelectionChanged"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- אזור טבלה -->
+        <Border Grid.Row="1" Padding="10" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4">
+            <DataGrid
+            ItemsSource="{Binding Path=VolunteerList}"
+            IsReadOnly="True"
+            AutoGenerateColumns="False"
+            RowHeaderWidth="0"
+            RowHeight="40"
+            HeadersVisibility="Column"
+            ColumnHeaderHeight="44"
+            AlternatingRowBackground="{DynamicResource RowAltBrush}"
+            CanUserResizeRows="False"
+            CanUserAddRows="False"
+            SelectionMode="Single"
+            SelectionUnit="FullRow"
+            FontFamily="Calibri, Segoe UI, Arial"
+            FontSize="16"
+            Margin="0"
+            SelectedItem="{Binding SelectedVolunteer}"
+            MouseDoubleClick="lsvVolunteersList_MouseDoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="מזהה" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="שם מתנדב" Width="*" />
+                    <DataGridTemplateColumn Header="פעיל?" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsActive}" IsEnabled="False" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding HandledCallsCount}" Header="קריאות שטופלו" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding CancelledCallsCount}" Header="קריאות שבוטלו" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding ExpiredHandledCallsCount}" Header="קריאות שפגו בטיפול" Width="Auto"/>
+                    <DataGridTemplateColumn Header="קריאה פעילה" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CallInProgressId}" HorizontalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CallInProgressId}" Value="{x:Null}">
+                                                    <Setter Property="Text" Value="אין קריאה"/>
+                                                    <Setter Property="Foreground" Value="Gray"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CallInProgressId}">
+                                                    <Setter Property="Text" Value="שגיאה"/>
+                                                    <Setter Property="Foreground" Value="Red"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CallInProgressId}" Value="{x:Null}">
+                                                    <Setter Property="Text" Value=""/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding CallInProgressType}" Header="סוג קריאה פעילה" Width="Auto"/>
+                    <DataGridTemplateColumn Header="מחיקה">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="מחק" Click="btnDeleteVolunteer_click" Tag="{Binding}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- אזור כפתור הוספה -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,0">
+            <Button Content="הוסף מתנדב חדש" Height="44" Width="180" Click="btnAddVolunteer_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

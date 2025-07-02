@@ -5,86 +5,85 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Call"
         mc:Ignorable="d"
-        Title="CallWindow" Height="640" Width="1200"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+        Title="ניהול קריאות" Height="700" Width="1200"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Background="{StaticResource WindowBackgroundBrush}">
 
-
-    <!--External Grid-->
-    <Grid>
+    <Grid Margin="24">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="500*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!--Internal, Upper Grid-->
-        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <!-- Label -->
-            <Label Content="Select Call Field" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <!-- כותרת ראשית ואזור סינון -->
+        <Border Grid.Row="0" Padding="18" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0" Margin="0,0,0,24">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="רשימת קריאות" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Label Content="סנן לפי שדה:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox Width="140" ItemsSource="{Binding Source={StaticResource CallInListCollectionKey}}"
+                              SelectionChanged="CallComboBox_SelectionChanged"
+                              SelectedValue="{Binding Path=CallSelectMenus, Mode=TwoWay}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-            <!-- ComboBox -->
-            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource CallInListCollectionKey}}"
-                      SelectionChanged="CallComboBox_SelectionChanged"
-                      SelectedValue="{Binding Path=CallSelectMenus, Mode=TwoWay}" />
-        </Grid>
+        <!-- טבלת קריאות -->
+        <Border Grid.Row="1" Padding="10" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0">
+            <DataGrid Margin="0" ItemsSource="{Binding Path=CallList}" MouseDoubleClick="DataGrid_MouseDoubleClick" AutoGenerateColumns="False" CanUserAddRows="False"
+                      RowHeight="38" HeadersVisibility="Column" GridLinesVisibility="All"
+                      HorizontalGridLinesBrush="{StaticResource BorderBrush}" VerticalGridLinesBrush="{StaticResource BorderBrush}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="Id" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding CallId}" Header="Call Id" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding CallType}" Header="Type" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding OpenTime}" Header="Open Time" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding TimeUntilAssigning}" Header="Time Until Assigning" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding LastVolunteerName}" Header="Last Volunteer" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding totalTreatmentTime}" Header="Total Treatment Time" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding Status}" Header="Status" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding NumberOfAssignments}" Header="Number of Assignments" Width="Auto"/>
+                    <DataGridTemplateColumn Header="Delete" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Delete" Click="DeleteCall_Click" Tag="{Binding Id}" Height="28" Width="60">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Status}" Value="Open"/>
+                                                        <Condition Binding="{Binding NumberOfAssignments}" Value="0"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Cancel Assignment" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Cancel Assignment" Click="CancelAssignment_Click" Tag="{Binding CallId}" Height="28" Width="100"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
 
-        <DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Path=CallList}" MouseDoubleClick="DataGrid_MouseDoubleClick" AutoGenerateColumns="False" CanUserAddRows="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Id" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding CallId}" Header="Call Id" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding CallType}" Header="Type" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding OpenTime}" Header="Open Time" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding TimeUntilAssigning}" Header="Time Until Assigning" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding LastVolunteerName}" Header="Last Volunteer" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding totalTreatmentTime}" Header="Total Treatment Time" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Status}" Header="Status" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding NumberOfAssignments}" Header="Number of Assignments" Width="Auto"/>
-                <DataGridTemplateColumn Header="Delete" Width="80">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Delete" Click="DeleteCall_Click" Tag="{Binding Id}">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding Status}" Value="Open"/>
-                                                    <Condition Binding="{Binding NumberOfAssignments}" Value="0"/>
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </MultiDataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Cancel Assignment" Width="120">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Cancel Assignment"
-                    Click="CancelAssignment_Click"
-                    Tag="{Binding CallId}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <ListView x:Name="CallsListView" ItemsSource="{Binding Calls}">
-            <!-- ...existing columns/templates... -->
-        </ListView>
-
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="AddNewCall_Click"/>
-
-
+        <!-- כפתור הוספה -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,0">
+            <Button Content="הוסף קריאה חדשה" Height="44" Width="180" Click="AddNewCall_Click"/>
+        </StackPanel>
     </Grid>
-    
-
 </Window>

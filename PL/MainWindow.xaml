@@ -7,105 +7,116 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Closed="Window_Closed"
-        Title="MainWindow" Height="450" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+        Title="ניהול קריאות ומתנדבים" Height="700" Width="950"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Background="{StaticResource WindowBackgroundBrush}">
 
-    <Grid Margin="10">
+    <Grid Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <!-- כותרת ראשית -->
+        <TextBlock Grid.Row="0" Text="ניהול קריאות ומתנדבים" FontSize="28" FontWeight="SemiBold" Margin="0,0,0,24"/>
 
-            <Label Content="{Binding CurrentTime}" FontWeight="Bold" FontSize="20" />
-            <Button Content="Add One Minute" Click="btnAddOneMinute_Click" Grid.Column="1" Margin="5,0,0,0" />
-            <Button Content="Add One Hour" Click="btnAddOneHour_Click" Grid.Column="2" Margin="5,0,0,0"/>
-            <Button Content="Add One Day" Click="btnAddOneDay_Click" Grid.Column="3" Margin="5,0,0,0"/>
-            <Button Content="Add One Year" Click="btnAddOneYear_Click" Grid.Column="4" Margin="5,0,0,0" Height="35"/>
-        </Grid>
+        <!-- אזור זמן וכפתורי זמן -->
+        <Border Grid.Row="1" Padding="18" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0" Margin="0,0,0,24">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label Content="{Binding CurrentTime}" FontWeight="Bold" FontSize="22" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Content="+ דקה" Click="btnAddOneMinute_Click" Width="90" Height="36" Margin="0,0,8,0"/>
+                    <Button Content="+ שעה" Click="btnAddOneHour_Click" Width="90" Height="36" Margin="0,0,8,0"/>
+                    <Button Content="+ יום" Click="btnAddOneDay_Click" Width="90" Height="36" Margin="0,0,8,0"/>
+                    <Button Content="+ חודש" Click="btnAddOneMonth_Click" Width="90" Height="36" Margin="0,0,8,0"/>
+                    <Button Content="+ שנה" Click="btnAddOneYear_Click" Width="90" Height="36"/>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,20">
+        <!-- אזור הגדרות וסטטיסטיקות -->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="Max risk time span:" VerticalAlignment="Center"/>
-                <TextBox Width="100" Margin="10,0"
-                         Text="{Binding RiskTimeSpan}" />
-                <Button Content="Update database" Margin="5,0" Click="btnUpdateRiskTimeSpan_Click" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="Max treatment time:" VerticalAlignment="Center"/>
-                <TextBox Width="100" Margin="10,0"
-                         Text="45555" />
-                <Button Content="Update database" Margin="5,0" Click="btnUpdateTreatmentTime_Click" />
-            </StackPanel>
+            <!-- הגדרות מערכת -->
+            <Border Grid.Row="0" Padding="18" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0" Margin="0,0,0,18">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="הגדרות מערכת" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                        <Label Content="Max risk time span:" VerticalAlignment="Center"/>
+                        <TextBox Width="100" Margin="10,0" Text="{Binding RiskTimeSpan}"/>
+                        <Button Content="עדכן מסד נתונים" Margin="10,0,0,0" Click="btnUpdateRiskTimeSpan_Click"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                        <Label Content="Max treatment time:" VerticalAlignment="Center"/>
+                        <TextBox Width="100" Margin="10,0" Text="45555"/>
+                        <Button Content="עדכן מסד נתונים" Margin="10,0,0,0" Click="btnUpdateTreatmentTime_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                <Button Margin="5" Click="BtnOpenCalls_Click" Width="150" Height="40">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Open Calls: "/>
+            <!-- סטטיסטיקות קריאות -->
+            <Border Grid.Row="1" Padding="18" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0" Margin="0,0,0,18">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Click="BtnOpenCalls_Click" MinWidth="120" MaxWidth="150" Height="44" Margin="5">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="קריאות פתוחות: " FontWeight="SemiBold"/>
                             <TextBlock Text="{Binding OpenCallsCount}"/>
                         </StackPanel>
-                    </Button.Content>
-                </Button>
-                <Button Margin="5" Click="BtnInProgressCalls_Click" Width="150" Height="40">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="In Progress Calls: "/>
+                    </Button>
+                    <Button Click="BtnInProgressCalls_Click" MinWidth="120" MaxWidth="150" Height="44" Margin="5">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="בתהליך: " FontWeight="SemiBold"/>
                             <TextBlock Text="{Binding InProgressCallsCount}"/>
                         </StackPanel>
-                    </Button.Content>
-                </Button>
-                <Button Margin="5" Click="BtnClosedCalls_Click" Width="150" Height="40">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Closed Calls: "/>
+                    </Button>
+                    <Button Click="BtnClosedCalls_Click" MinWidth="120" MaxWidth="150" Height="44" Margin="5">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="סגורות: " FontWeight="SemiBold"/>
                             <TextBlock Text="{Binding ClosedCallsCount}"/>
                         </StackPanel>
-                    </Button.Content>
-                </Button>
-                <Button Margin="5" Click="BtnExpiredCalls_Click" Width="150" Height="40">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Expired Calls: "/>
+                    </Button>
+                    <Button Click="BtnExpiredCalls_Click" MinWidth="120" MaxWidth="150" Height="44" Margin="5">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="פג תוקף: " FontWeight="SemiBold"/>
                             <TextBlock Text="{Binding ExpiredCallsCount}"/>
                         </StackPanel>
-                    </Button.Content>
-                </Button>
-                <Button Margin="5" Click="BtnOpenAtRiskCalls_Click" Width="150" Height="40">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Open At Risk Calls: "/>
+                    </Button>
+                    <Button Click="BtnOpenAtRiskCalls_Click" MinWidth="120" MaxWidth="150" Height="44" Margin="5">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="פתוחות בסיכון: " FontWeight="SemiBold"/>
                             <TextBlock Text="{Binding OpenAtRiskCallsCount}"/>
                         </StackPanel>
-                    </Button.Content>
-                </Button>
-                <Button Margin="5" Click="BtnInProgressAtRiskCalls_Click" Width="150" Height="40">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="In Progress At Risk Calls: "/>
+                    </Button>
+                    <Button Click="BtnInProgressAtRiskCalls_Click" MinWidth="120" MaxWidth="150" Height="44" Margin="5">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="בתהליך בסיכון: " FontWeight="SemiBold"/>
                             <TextBlock Text="{Binding InProgressAtRiskCallsCount}"/>
                         </StackPanel>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
 
-        <UniformGrid Grid.Row="2" Columns="4" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Content="Handle Volunteers" Click="BtnVolunteers_Click"/>
-            <Button Content="Handle Calls" Click="BtnCalls_Click" />
-            <Button Content="Initialize DB" Click="BtnInitializeDb_Click"/>
-            <Button Content="Reset DB" Click="BtnResetDb_Click" />
-        </UniformGrid>
+            <!-- פעולות עיקריות -->
+            <Border Grid.Row="2" Padding="18" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0">
+                <UniformGrid Columns="4" HorizontalAlignment="Center" Margin="0,0,0,0">
+                    <Button Content="ניהול מתנדבים" Click="BtnVolunteers_Click" Height="44" Margin="10"/>
+                    <Button Content="ניהול קריאות" Click="BtnCalls_Click" Height="44" Margin="10"/>
+                    <Button Content="אתחול מסד נתונים" Click="BtnInitializeDb_Click" Height="44" Margin="10"/>
+                    <Button Content="איפוס מסד נתונים" Click="BtnResetDb_Click" Height="44" Margin="10"/>
+                </UniformGrid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

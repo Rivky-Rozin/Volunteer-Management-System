@@ -148,13 +148,12 @@ namespace PL.Call
         }
 
         // טוען את הרשימה הראשונית
-
         private void LoadCalls()
         {
             // Load calls from the BL and wrap in ObservableCollection
             var callList = s_bl.Call.GetCallList();
             Calls = new ObservableCollection<BO.CallInList>(callList);
-            CallsListView.ItemsSource = Calls;
+            // Remove the direct reference to CallsListView
             RefreshCallList();
             QueryCallList();
         }

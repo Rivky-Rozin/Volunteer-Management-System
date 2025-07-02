@@ -39,18 +39,6 @@
     <MaxDistance>28</MaxDistance>
   </Volunteer>
   <Volunteer>
-    <Id>261333273</Id>
-    <Name>Shiran Bar</Name>
-    <Phone>0531237894</Phone>
-    <Email>shiran@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>true</IsActive>
-    <DistanceKind>Ground</DistanceKind>
-    <Address>31 Rager Blvd, Beer Sheva, Israel</Address>
-    <Latitude>31.32444485287302</Latitude>
-    <Longitude>35.18716744031396</Longitude>
-  </Volunteer>
-  <Volunteer>
     <Id>396151988</Id>
     <Name>Noa Amar</Name>
     <Phone>0505678910</Phone>
@@ -74,5 +62,18 @@
     <Address>8 HaRav Kook St, Netanya, Israel</Address>
     <Latitude>32.67311352465792</Latitude>
     <Longitude>35.37895034181242</Longitude>
+  </Volunteer>
+  <Volunteer>
+    <Id>261333273</Id>
+    <Name>Shiran Bar</Name>
+    <Phone>0531237894</Phone>
+    <Email>shiran@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>31 Rager Blvd, Beer Sheva, Israel</Address>
+    <Latitude>31.32444485287302</Latitude>
+    <Longitude>35.18716744031396</Longitude>
+    <MaxDistance>500</MaxDistance>
   </Volunteer>
 </ArrayOfVolunteer>

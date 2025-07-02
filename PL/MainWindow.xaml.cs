@@ -58,6 +58,14 @@ namespace PL
             s_bl.Admin.AdvanceTime(BO.TimeUnit.Year);
         }
 
+        /// <summary>
+        /// מוסיף חודש אחד לשעון המערכת.
+        /// </summary>
+        private void btnAddOneMonth_Click(object sender, RoutedEventArgs e)
+        {
+            s_bl.Admin.AdvanceTime(BO.TimeUnit.Month);
+        }
+
         #endregion
 
         /// <summary>
