@@ -38,8 +38,6 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         // החזרת תפקיד המתנדב
         return (BO.VolunteerRole)volunteer.Role;
     }
-
-
     public IEnumerable<BO.VolunteerInList> GetVolunteersList(bool? isActive = null, BO.VolunteerInListEnum? sortBy = null)
     {
         IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();

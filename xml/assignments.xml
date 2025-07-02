@@ -51,4 +51,11 @@
     <TreatmentType>ManagerCancelled</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
+  <Assignment>
+    <Id>1006</Id>
+    <VolunteerId>235607097</VolunteerId>
+    <CallId>1007</CallId>
+    <StartTreatment>2025-07-02T17:39:47</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
 </ArrayOfAssignment>

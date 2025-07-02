@@ -42,13 +42,15 @@ internal static class VolunteerManager
     public static BO.VolunteerInList ToVolunteerInList(DO.Volunteer volunteer)
     {
         IEnumerable<DO.Assignment> assignments = s_dal.Assignment.ReadAll()
-            .Where(a => a.VolunteerId == volunteer.Id)
+            .Where(a => a.VolunteerId == volunteer.Id && a.EndTreatment == null)
             .ToList();
 
         AssignmentStats stats = GetVolunteerAssignmentStats(assignments);
 
-        // חיפוש ההקצאה הפעילה (שאין לה EndTreatment)
-        DO.Assignment? activeAssignment = assignments.FirstOrDefault(a => a.EndTreatment == null);
+        // במקום לחפש רק את הפעילה — נחפש את האחרונה לפי תאריך
+        DO.Assignment? activeAssignment = assignments
+            .OrderByDescending(a => a.StartTreatment) // או לפיa.Id אם אין AssignedTime
+            .FirstOrDefault();
 
         int? callInProgressId = activeAssignment?.CallId;
 
@@ -94,9 +96,13 @@ internal static class VolunteerManager
         IEnumerable<DO.Assignment> assignments = s_dal.Assignment.ReadAll()
             .Where(a => a.VolunteerId == volunteer.Id);
 
+
         AssignmentStats stats = GetVolunteerAssignmentStats(assignments);
 
-        DO.Assignment? activeAssignment = assignments.FirstOrDefault(a => a.EndTreatment == null);
+        DO.Assignment? activeAssignment = assignments
+            .Where(a => a.EndTreatment == null)
+            .OrderByDescending(a => a.StartTreatment) 
+            .FirstOrDefault();
 
         BO.CallInProgress? callInProgress = null;
         if (activeAssignment != null)
