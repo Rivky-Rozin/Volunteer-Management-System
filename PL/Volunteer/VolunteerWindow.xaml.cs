@@ -84,8 +84,11 @@ namespace PL
         }
         private void EnableSelectCallButton()
         {
-            IsSelectCallButtonEnabled = (Volunteer?.CallInProgress == null && Volunteer.CallInProgress.status != CallInProgressStatus.None )&& Volunteer?.IsActive == true;
+            IsSelectCallButtonEnabled =
+                (Volunteer.CallInProgress == null || Volunteer.CallInProgress.status == CallInProgressStatus.None)
+                && Volunteer.IsActive == true;
         }
+
 
         private bool ShouldShowCallDetails()
         {
