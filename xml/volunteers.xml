@@ -65,14 +65,14 @@
   <Volunteer>
     <Id>361587797</Id>
     <Name>David Rosen</Name>
-    <Phone>0501234567</Phone>
-    <Email>david@example.com</Email>
+    <Phone>0501234578</Phone>
+    <Email>david.R@example.com</Email>
     <Role>Manager</Role>
-    <IsActive>true</IsActive>
+    <IsActive>false</IsActive>
     <DistanceKind>Aerial</DistanceKind>
     <Address>10 King David St, Jerusalem, Israel</Address>
-    <Latitude>32.25188020704625</Latitude>
-    <Longitude>34.59954485255061</Longitude>
+    <Latitude>31.70954</Latitude>
+    <Longitude>35.205725</Longitude>
     <MaxDistance>43</MaxDistance>
   </Volunteer>
 </ArrayOfVolunteer>

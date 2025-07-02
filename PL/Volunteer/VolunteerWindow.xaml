@@ -38,7 +38,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!--Volunteer Information-->
+        <!-- Volunteer Information -->
         <Label Grid.Row="0" Grid.Column="0" Content="Name:" Margin="5"/>
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Volunteer.Name, Mode=TwoWay}" Margin="5"/>
 
@@ -57,31 +57,42 @@
         <Label Grid.Row="5" Grid.Column="0" Content="Distance Kind:" Margin="5"/>
         <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Source={StaticResource DistanceKindCollectionKey}}" SelectedValue="{Binding Volunteer.DistanceKind, Mode=TwoWay}" Margin="5"/>
 
-        <CheckBox Grid.Row="6" Grid.Column="1" Content="Active" IsChecked="{Binding Volunteer.IsActive, Mode=TwoWay}" Margin="5"/>
+        <CheckBox Grid.Row="6" Grid.Column="1" Content="Active"
+          IsChecked="{Binding Volunteer.IsActive, Mode=TwoWay}"
+          IsEnabled="{Binding IsActiveCheckBoxEnabled}"
+          Margin="5"/>
+        <!-- Volunteer ID (ReadOnly) -->
+        <Label Grid.Row="7" Grid.Column="0" Content="ID:" Margin="5"/>
+        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Volunteer.Id}" Margin="5" IsReadOnly="True"/>
 
-        <Button Grid.Row="8" Grid.Column="1" Content="Update" Margin="5" Click="UpdateButton_Click"/>
+        <!-- Volunteer Role (ReadOnly) -->
+        <Label Grid.Row="8" Grid.Column="0" Content="Role:" Margin="5"/>
+        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Volunteer.Role}" Margin="5" IsReadOnly="True"/>
 
-        <!-- Call Information-->
-        <Label Grid.Row="9" Grid.Column="0" Content="Call Details:" FontWeight="Bold" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <Button Grid.Row="9" Grid.Column="1" Content="Update" Margin="5" Click="UpdateButton_Click"/>
 
-        <Label Grid.Row="10" Grid.Column="0" Content="Call Type:" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
-        <TextBox Grid.Row="10" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.CallType}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <!-- Call Information -->
+        <Label Grid.Row="10" Grid.Column="0" Content="Call Details:" FontWeight="Bold" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
 
-        <Label Grid.Row="11" Grid.Column="0" Content="Description:" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
-        <TextBox Grid.Row="11" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Description}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <Label Grid.Row="11" Grid.Column="0" Content="Call Type:" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <TextBox Grid.Row="11" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.CallType}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
 
-        <Label Grid.Row="12" Grid.Column="0" Content="Address:" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
-        <TextBox Grid.Row="12" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Address}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <Label Grid.Row="12" Grid.Column="0" Content="Description:" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <TextBox Grid.Row="12" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Description}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
 
-        <Label Grid.Row="13" Grid.Column="0" Content="Status:" Margin="5" Visibility="{Binding Volunteer.CallInProgress.Status}"/>
-        <TextBox Grid.Row="13" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Status}" Margin="5" Visibility="{Binding Volunteer.CallInProgress.Status}"/>
+        <Label Grid.Row="13" Grid.Column="0" Content="Address:" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
+        <TextBox Grid.Row="13" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Address}" Margin="5" Visibility="{Binding CallDetailsVisibility}"/>
 
-        <!-- Call Actions-->
-        <Button Grid.Row="14" Grid.Column="1" Content="Complete Call" Margin="5" Click="CompleteCallButton_Click" Visibility="{Binding CallDetailsVisibility}"/>
-        <Button Grid.Row="15" Grid.Column="1" Content="Cancel Call" Margin="5" Click="CancelCallButton_Click" Visibility="{Binding CallDetailsVisibility}"/>
-        <Button Grid.Row="16" Grid.Column="1" Content="Call History" Margin="5" Click="HistoryCallButton_Click"/>
+        <Label Grid.Row="14" Grid.Column="0" Content="Status:" Margin="5" Visibility="{Binding Volunteer.CallInProgress.Status}"/>
+        <TextBox Grid.Row="14" Grid.Column="1" IsEnabled="False" Text="{Binding Volunteer.CallInProgress.Status}" Margin="5" Visibility="{Binding Volunteer.CallInProgress.Status}"/>
 
-        <Button Grid.Row="17" Grid.Column="1" Content="Select Call" Margin="5" Click="SelectCall_Click"/>
-
+        <!-- Call Actions -->
+        <StackPanel Grid.Row="15" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Content="Complete Call" Margin="5" Click="CompleteCallButton_Click" Visibility="{Binding CallDetailsVisibility}"/>
+            <Button Content="Cancel Call" Margin="5" Click="CancelCallButton_Click" Visibility="{Binding CallDetailsVisibility}"/>
+            <Button Content="Call History" Margin="5" Click="HistoryCallButton_Click"/>
+            <Button Content="Select Call" Margin="5" Click="SelectCall_Click"
+            IsEnabled="{Binding IsSelectCallButtonEnabled}"/>
+        </StackPanel>
     </Grid>
 </Window>

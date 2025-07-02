@@ -76,9 +76,17 @@ namespace PL
             CallDetailsVisibility = (Volunteer?.CallInProgress != null) ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        //private void EnableSelectCallButton()
+        //{
+        //    IsSelectCallButtonEnabled = Volunteer?.CallInProgress == null;
+        //}
+        public bool IsActiveCheckBoxEnabled
+        {
+            get => Volunteer?.CallInProgress == null;
+        }
         private void EnableSelectCallButton()
         {
-            IsSelectCallButtonEnabled = Volunteer?.CallInProgress == null;
+            IsSelectCallButtonEnabled = Volunteer?.CallInProgress == null && Volunteer?.IsActive == true;
         }
 
         private void RefreshVolunteerData()
@@ -88,6 +96,11 @@ namespace PL
                 Volunteer = _bl.Volunteer.GetVolunteerDetails(volunteerId);
                 SetCallDetailsVisibility();
                 EnableSelectCallButton();
+
+                // Corrected the OnPropertyChanged call to use DependencyPropertyChangedEventArgs
+                DependencyPropertyChangedEventArgs args = new DependencyPropertyChangedEventArgs(
+                    VolunteerProperty, null, Volunteer);
+                OnPropertyChanged(args);
             }
             catch (Exception ex)
             {
@@ -99,10 +112,53 @@ namespace PL
 
         #region Event Handlers
 
+        private bool ValidateVolunteerUI()
+        {
+            // שם
+            if (string.IsNullOrWhiteSpace(Volunteer.Name))
+            {
+                MessageBox.Show("יש להזין שם.", "שגיאת ולידציה", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            // טלפון (מספרים בלבד, 7-10 ספרות)
+            if (string.IsNullOrWhiteSpace(Volunteer.Phone) || !System.Text.RegularExpressions.Regex.IsMatch(Volunteer.Phone, @"^\d{7,10}$"))
+            {
+                MessageBox.Show("מספר טלפון לא תקין.", "שגיאת ולידציה", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            // אימייל
+            if (string.IsNullOrWhiteSpace(Volunteer.Email) || !System.Text.RegularExpressions.Regex.IsMatch(Volunteer.Email.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                MessageBox.Show("כתובת אימייל לא תקינה.", "שגיאת ולידציה", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            // כתובת
+            if (string.IsNullOrWhiteSpace(Volunteer.Address))
+            {
+                MessageBox.Show("יש להזין כתובת.", "שגיאת ולידציה", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            // מרחק מקסימלי
+            if (Volunteer.MaxDistance == null || Volunteer.MaxDistance < 0)
+            {
+                MessageBox.Show("מרחק מקסימלי לא תקין.", "שגיאת ולידציה", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            // סוג מרחק
+            if (Volunteer.DistanceKind == null)
+            {
+                MessageBox.Show("יש לבחור סוג מרחק.", "שגיאת ולידציה", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            return true;
+        }
+
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                if (!ValidateVolunteerUI())
+                    return;
                 _bl.Volunteer.UpdateVolunteer(volunteerId, Volunteer);
                 MessageBox.Show("Volunteer updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -201,5 +257,6 @@ namespace PL
         {
            var v= Volunteer.CallInProgress;
         }
+        
     }
 }
