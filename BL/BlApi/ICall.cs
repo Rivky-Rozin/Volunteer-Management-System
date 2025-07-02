@@ -12,7 +12,7 @@ public interface ICall: IObservable
     void AddCall(BO.Call call);
     IEnumerable<BO.ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.ClosedCallInListEnum? sortField);
     IEnumerable<BO.OpenCallInList> GetOpenCallsForVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.OpenCallInListEnum? sortField);
-    void CompleteCallTreatment(int volunteerId, int assignmentId);
-    void CancelCallTreatment(int requesterId, int assignmentId);
+    void CompleteCallTreatment(int volunteerId, int callId);
+    void CancelCallTreatment(int requesterId, int callId);
     void SelectCallForTreatment(int volunteerId, int callId);
 }

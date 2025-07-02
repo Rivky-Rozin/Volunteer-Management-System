@@ -96,3 +96,26 @@ internal class CallInListFieldCollection : IEnumerable
 
     public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
 }
+
+/// <summary>
+/// שדות לסינון ומיון של קריאות פתוחות (OpenCallInList)
+/// </summary>
+public enum OpenCallField
+{
+    None,
+    Id,
+    CallType,
+    FullAddress,
+    DistanceFromVolunteer
+}
+
+/// <summary>
+/// אוסף שדות של OpenCallField עבור ComboBox.
+/// </summary>
+internal class OpenCallFieldCollection : IEnumerable
+{
+    static readonly IEnumerable<OpenCallField> s_enums =
+        (Enum.GetValues(typeof(OpenCallField)) as IEnumerable<OpenCallField>)!;
+
+    public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
+}
