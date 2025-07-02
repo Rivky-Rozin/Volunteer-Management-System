@@ -1,8 +1,9 @@
-﻿using System;
-using System.Windows;
-using BlApi;
+﻿using BlApi;
 using BO;
+using PL.Volunteer;
+using System;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace PL
@@ -226,6 +227,8 @@ namespace PL
 
         private void HistoryCallButton_Click(object sender, RoutedEventArgs e)
         {
+            var historyWindow = new VolunteerCallHistoryWindow(int.Parse(volunteerId));
+            historyWindow.Show();
             MessageBox.Show("Open Call History", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
