@@ -114,19 +114,19 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlInvalidOperationException("אי אפשר לבטל טיפול שכבר הסתיים");
 
         // קביעת סוג ביטול
-        DO.TreatmentType treatmentType = isAdmin
-            ? DO.TreatmentType.ManagerCancelled
-            : DO.TreatmentType.UserCancelled;
-
+        //DO.TreatmentType treatmentType = isAdmin
+        //    ? DO.TreatmentType.ManagerCancelled
+        //    : DO.TreatmentType.UserCancelled;
+        //DO.TreatmentType treatmentType = DO.TreatmentType.op
         // יצירת אובייקט חדש עם זמן סיום וסוג טיפול מעודכן
         DO.Assignment updatedAssignment = new DO.Assignment
         {
             Id = assignment.Id,
             CallId = assignment.CallId,
-            VolunteerId = assignment.VolunteerId,
+            VolunteerId = 0,
             StartTreatment = assignment.StartTreatment,
-            EndTreatment = AdminManager.Now,
-            TreatmentType = treatmentType
+            EndTreatment = null,
+            TreatmentType = null
         };
 
         // עדכון ב־DAL

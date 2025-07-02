@@ -41,16 +41,23 @@ internal static class VolunteerManager
 
     public static BO.VolunteerInList ToVolunteerInList(DO.Volunteer volunteer)
     {
-        IEnumerable<DO.Assignment> assignments = s_dal.Assignment.ReadAll()
-            .Where(a => a.VolunteerId == volunteer.Id && a.EndTreatment == null)
+        IEnumerable<DO.Assignment> validAssignments = s_dal.Assignment.ReadAll()
+            .Where(a => a.VolunteerId == volunteer.Id)//&& a.EndTreatment == null)
+.Where(a =>
+{
+    var call = s_dal.Call.Read(a.CallId);
+    if (call == null) return false;
+    var status = CallManager.GetCallStatus(call.Id);
+    return a.StartTreatment != null && status != BO.CallStatus.Expired;
+})
+            .OrderByDescending(a => a.StartTreatment)
             .ToList();
 
-        AssignmentStats stats = GetVolunteerAssignmentStats(assignments);
+        DO.Assignment? activeAssignment = validAssignments.FirstOrDefault();
 
-        // במקום לחפש רק את הפעילה — נחפש את האחרונה לפי תאריך
-        DO.Assignment? activeAssignment = assignments
-            .OrderByDescending(a => a.StartTreatment) // או לפיa.Id אם אין AssignedTime
-            .FirstOrDefault();
+
+        AssignmentStats stats = GetVolunteerAssignmentStats(validAssignments);
+
 
         int? callInProgressId = activeAssignment?.CallId;
 
@@ -100,8 +107,21 @@ internal static class VolunteerManager
         AssignmentStats stats = GetVolunteerAssignmentStats(assignments);
 
         DO.Assignment? activeAssignment = assignments
-            .Where(a => a.EndTreatment == null)
-            .OrderByDescending(a => a.StartTreatment) 
+//לפי ההוראות גם אם הקריאה שבטיפול נסגרה אז צריך להציג אותה
+//ורק קריאה פגת תוקף אין צורך להציג
+//.Where(a => a.EndTreatment == null)
+.Where(a =>
+{
+    var call = s_dal.Call.Read(a.CallId);
+    if (call == null) return false;
+
+    var status = CallManager.GetCallStatus(call.Id);
+
+    // להציג קריאה גם אם הסתיימה, **כל עוד לא Expired**
+    return status != BO.CallStatus.Expired;
+})
+
+            .OrderByDescending(a => a.StartTreatment)
             .FirstOrDefault();
 
         BO.CallInProgress? callInProgress = null;
@@ -167,7 +187,7 @@ internal static class VolunteerManager
         if (volunteer.Id <= 0)
             throw new BO.BlFormatException("תעודת זהות חייבת להיות מספר חיובי.");
 
-        if (volunteer.Id<99999999||volunteer.Id>999999999)
+        if (volunteer.Id < 99999999 || volunteer.Id > 999999999)
             throw new BO.BlFormatException("תעודת זהות אינה תקינה .");
 
         // בדיקת שם
@@ -198,7 +218,7 @@ internal static class VolunteerManager
         if (volunteer.MaxDistance is < 0)
             throw new BO.BlFormatException("מרחק מקסימלי לא יכול להיות שלילי.");
         // בדיקת מרחק
-        if (volunteer.DistanceKind==null)
+        if (volunteer.DistanceKind == null)
             throw new BO.BlFormatException("חובה להזין סוג מרחק");
     }
     public static DO.Volunteer ToDoVolunteer(BO.Volunteer boVolunteer)
@@ -222,5 +242,5 @@ internal static class VolunteerManager
         );
     }
 
-    
+
 }

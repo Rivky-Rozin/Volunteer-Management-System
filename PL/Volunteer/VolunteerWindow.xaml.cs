@@ -92,9 +92,9 @@ namespace PL
 
         private bool ShouldShowCallDetails()
         {
-            return Volunteer?.CallInProgress != null
-                && Volunteer.CallInProgress.status != BO.CallInProgressStatus.None;
+            return Volunteer?.CallInProgress != null;
         }
+
         private void RefreshVolunteerData()
         {
             try
@@ -180,7 +180,7 @@ namespace PL
             {
                 if (Volunteer.CallInProgress != null)
                 {
-                    _bl.Call.CompleteCallTreatment(Volunteer.Id, Volunteer.CallInProgress.Id);
+                    _bl.Call.CompleteCallTreatment(Volunteer.Id, Volunteer.CallInProgress.CallId);
                     MessageBox.Show("Call treatment completed successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     RefreshVolunteerData(); // Refresh to reflect the change
                 }
@@ -197,7 +197,7 @@ namespace PL
             {
                 if (Volunteer.CallInProgress != null)
                 {
-                    _bl.Call.CancelCallTreatment(Volunteer.Id, Volunteer.CallInProgress.Id);
+                    _bl.Call.CancelCallTreatment(Volunteer.Id, Volunteer.CallInProgress.CallId);
                     MessageBox.Show("Call treatment cancelled successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     RefreshVolunteerData(); // Refresh to reflect the change
                 }
