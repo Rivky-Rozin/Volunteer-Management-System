@@ -16,7 +16,8 @@ namespace PL
     /// </summary>
     public partial class CallWindow : Window, INotifyPropertyChanged
     {
-        private readonly BlApi.IBl _bl;
+        private readonly BlApi.IBl _bl = Factory.Get();
+
 
         private BO.Call _currentCall = new();
         public BO.Call CurrentCall

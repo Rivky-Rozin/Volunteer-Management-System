@@ -1,57 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfVolunteer>
   <Volunteer>
-    <Id>291338444</Id>
-    <Name>Moshe Levi</Name>
-    <Phone>0549876543</Phone>
-    <Email>moshe@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>true</IsActive>
-    <DistanceKind>Aerial</DistanceKind>
-    <Address>40 HaNassi Blvd, Haifa, Israel</Address>
-    <Latitude>32.095037511576436</Latitude>
-    <Longitude>34.248700625302746</Longitude>
-    <MaxDistance>15</MaxDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>266778852</Id>
-    <Name>Shiran Bar</Name>
-    <Phone>0531237894</Phone>
-    <Email>shiran@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>false</IsActive>
-    <DistanceKind>Ground</DistanceKind>
-    <Address>31 Rager Blvd, Beer Sheva, Israel</Address>
-    <Latitude>31.823278642151813</Latitude>
-    <Longitude>34.13270698674006</Longitude>
-  </Volunteer>
-  <Volunteer>
-    <Id>373112268</Id>
-    <Name>Noa Amar</Name>
-    <Phone>0505678910</Phone>
-    <Email>noa@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>true</IsActive>
-    <DistanceKind>Aerial</DistanceKind>
-    <Address>1 Herzl St, Ashdod, Israel</Address>
-    <Latitude>31.960243239312586</Latitude>
-    <Longitude>34.446660596898596</Longitude>
-    <MaxDistance>3</MaxDistance>
-  </Volunteer>
-  <Volunteer>
-    <Id>360851714</Id>
-    <Name>Lior Avraham</Name>
-    <Phone>0523456789</Phone>
-    <Email>lior@example.com</Email>
-    <Role>Manager</Role>
-    <IsActive>false</IsActive>
-    <DistanceKind>Ground</DistanceKind>
-    <Address>8 HaRav Kook St, Netanya, Israel</Address>
-    <Latitude>31.311320062373603</Latitude>
-    <Longitude>34.00688186144677</Longitude>
-  </Volunteer>
-  <Volunteer>
-    <Id>349046351</Id>
+    <Id>373128410</Id>
     <Name>Yael Cohen</Name>
     <Phone>0527654321</Phone>
     <Email>yael@example.com</Email>
@@ -59,11 +9,61 @@
     <IsActive>false</IsActive>
     <DistanceKind>Ground</DistanceKind>
     <Address>48 Allenby St, Tel Aviv-Yafo, Israel</Address>
-    <Latitude>32.545930011265845</Latitude>
-    <Longitude>35.150729595838236</Longitude>
+    <Latitude>31.785783478527183</Latitude>
+    <Longitude>35.405340489107274</Longitude>
   </Volunteer>
   <Volunteer>
-    <Id>265958826</Id>
+    <Id>380257599</Id>
+    <Name>Moshe Levi</Name>
+    <Phone>0549876543</Phone>
+    <Email>moshe@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>40 HaNassi Blvd, Haifa, Israel</Address>
+    <Latitude>32.32657663476638</Latitude>
+    <Longitude>34.55598769355919</Longitude>
+    <MaxDistance>49</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>338771153</Id>
+    <Name>Shiran Bar</Name>
+    <Phone>0531237894</Phone>
+    <Email>shiran@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>false</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>31 Rager Blvd, Beer Sheva, Israel</Address>
+    <Latitude>32.4802986264528</Latitude>
+    <Longitude>34.86378376166819</Longitude>
+  </Volunteer>
+  <Volunteer>
+    <Id>236562192</Id>
+    <Name>Noa Amar</Name>
+    <Phone>0505678910</Phone>
+    <Email>noa@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>1 Herzl St, Ashdod, Israel</Address>
+    <Latitude>31.617368647097717</Latitude>
+    <Longitude>34.49623581643846</Longitude>
+    <MaxDistance>35</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>376538255</Id>
+    <Name>Lior Avraham</Name>
+    <Phone>0523456789</Phone>
+    <Email>lior@example.com</Email>
+    <Role>Manager</Role>
+    <IsActive>false</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>8 HaRav Kook St, Netanya, Israel</Address>
+    <Latitude>32.93501876073018</Latitude>
+    <Longitude>35.56690637252683</Longitude>
+  </Volunteer>
+  <Volunteer>
+    <Id>361587797</Id>
     <Name>David Rosen</Name>
     <Phone>0501234567</Phone>
     <Email>david@example.com</Email>
@@ -71,8 +71,8 @@
     <IsActive>true</IsActive>
     <DistanceKind>Aerial</DistanceKind>
     <Address>10 King David St, Jerusalem, Israel</Address>
-    <Latitude>32.143606965517684</Latitude>
-    <Longitude>34.31749757949148</Longitude>
-    <MaxDistance>36</MaxDistance>
+    <Latitude>32.25188020704625</Latitude>
+    <Longitude>34.59954485255061</Longitude>
+    <MaxDistance>43</MaxDistance>
   </Volunteer>
 </ArrayOfVolunteer>
