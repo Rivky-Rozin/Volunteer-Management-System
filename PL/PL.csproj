@@ -25,4 +25,14 @@
 	  <Folder Include="Assignment\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3351.48" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Update="C:\Users\bashy\.nuget\packages\microsoft.web.webview2\1.0.3351.48\buildTransitive\..\\lib_manual\net5.0-windows10.0.17763.0\Microsoft.Web.WebView2.Wpf.dll">
+	    <Private>True</Private>
+	  </Reference>
+	</ItemGroup>
+
 </Project>

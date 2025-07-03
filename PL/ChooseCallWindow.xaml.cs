@@ -1,14 +1,10 @@
-﻿
-
-// Updated ChooseCallWindow.xaml.cs
-using BO;
+﻿using BO;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.IO;
 
 namespace PL
 {
@@ -16,12 +12,6 @@ namespace PL
     {
         private readonly BlApi.IBl _bl = BlApi.Factory.Get();
         private readonly int _volunteerId;
-        public class Location
-        {
-            public double Latitude { get; set; }
-            public double Longitude { get; set; }
-        }
-
         public List<OpenCallField> FilterFields { get; } = Enum.GetValues(typeof(OpenCallField)).Cast<OpenCallField>().ToList();
         public OpenCallField? SelectedFilterField { get; set; }
         public string? FilterValue { get; set; }
@@ -56,10 +46,8 @@ namespace PL
         {
             _volunteerId = volunteerId;
             InitializeComponent();
-
             OpenCallsList = new ObservableCollection<OpenCallInList>();
             DataContext = this;
-            MapBrowser.ObjectForScripting = new ScriptInterop(this);
 
             try
             {
@@ -71,79 +59,9 @@ namespace PL
                 MessageBox.Show($"שגיאה בטעינת נתוני המתנדב: {ex.Message}", "שגיאת טעינה", MessageBoxButton.OK, MessageBoxImage.Error);
                 this.Close();
             }
-            string mapPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "map.html");
-            MapBrowser.Navigate(new Uri(mapPath));
+       
 
         }
-        [System.Runtime.InteropServices.ComVisible(true)]
-        public class ScriptInterop
-        {
-            private readonly ChooseCallWindow _window;
-            public ScriptInterop(ChooseCallWindow window) => _window = window;
-
-            public void ready()
-            {
-                _window.Dispatcher.Invoke(() => _window.ShowVolunteerAndCallsOnMap());
-            }
-        }
-        public void ShowVolunteerAndCallsOnMap()
-        {
-            var v = GetVolunteerLocation();
-            MapBrowser.InvokeScript("setVolunteerLocation", v.Latitude, v.Longitude);
-
-            foreach (var call in OpenCallsList)
-            {
-                var loc = GetCallLocation(call);
-                MapBrowser.InvokeScript("addCallMarker", loc.Latitude, loc.Longitude, call.Id.ToString());
-                MapBrowser.InvokeScript("drawLine", v.Latitude, v.Longitude, loc.Latitude, loc.Longitude);
-            }
-        }
-
-        private void ShowRoute_Click(object sender, RoutedEventArgs e)
-        {
-            if (SelectedCall == null) return;
-            var mode = (TravelModeComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "DRIVING";
-            var v = GetVolunteerLocation();
-            var c = GetCallLocation(SelectedCall);
-            MapBrowser.InvokeScript("showRoute", v.Latitude, v.Longitude, c.Latitude, c.Longitude, mode);
-        }
-
-        private Location GetVolunteerLocation()
-        {
-            if (CurrentVolunteer.Latitude.HasValue && CurrentVolunteer.Longitude.HasValue)
-            {
-                return new Location
-                {
-                    Latitude = CurrentVolunteer.Latitude.Value,
-                    Longitude = CurrentVolunteer.Longitude.Value
-                };
-            }
-            return new Location { Latitude = 0, Longitude = 0 }; // ברירת מחדל
-        }
-
-        private Location GetCallLocation(OpenCallInList call)
-        {
-            // נניח של-OpenCallInList יש שדות Latitude ו-Longitude (אם לא יש צורך להוסיף אותם או לאפשר דרך אחרת)
-            // אחרת תחזירי ברירת מחדל
-            var latitudeProp = call.GetType().GetProperty("Latitude");
-            var longitudeProp = call.GetType().GetProperty("Longitude");
-
-            if (latitudeProp != null && longitudeProp != null)
-            {
-                var latVal = latitudeProp.GetValue(call) as double?;
-                var lngVal = longitudeProp.GetValue(call) as double?;
-                if (latVal.HasValue && lngVal.HasValue)
-                {
-                    return new Location
-                    {
-                        Latitude = latVal.Value,
-                        Longitude = lngVal.Value
-                    };
-                }
-            }
-            return new Location { Latitude = 0, Longitude = 0 };
-        }
-
         private void LoadOpenCalls()
         {
             try
@@ -235,5 +153,7 @@ namespace PL
                 MessageBox.Show($"אירעה שגיאה בעת עדכון הכתובת.\nפרטים: {ex.Message}", "שגיאת עדכון", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+   
+
     }
 }
