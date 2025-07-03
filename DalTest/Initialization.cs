@@ -202,59 +202,112 @@ public static class Initialization
     }
     private static void createCalls()
     {
-        var callLocations = new[]
+        var locations = new[]
         {
         new { Address = "48 Allenby St, Tel Aviv", Latitude = 32.0635, Longitude = 34.7717 },
         new { Address = "10 King David St, Jerusalem", Latitude = 31.7767, Longitude = 35.2296 },
         new { Address = "31 Rager Blvd, Beer Sheva", Latitude = 31.2518, Longitude = 34.7913 },
         new { Address = "HaPalmach 2, Tiberias", Latitude = 32.7922, Longitude = 35.5315 },
         new { Address = "1 Herzl St, Ashdod", Latitude = 31.8032, Longitude = 34.6553 },
-        new { Address = "8 HaRav Kook St, Netanya", Latitude = 32.3282, Longitude = 34.8560 },
         new { Address = "Herzl Blvd 1, Holon", Latitude = 32.0144, Longitude = 34.7744 },
-        new { Address = "Dizengoff St 50, Tel Aviv", Latitude = 32.0771, Longitude = 34.7744 }
+        new { Address = "8 HaRav Kook St, Netanya", Latitude = 32.3282, Longitude = 34.8560 },
+        new { Address = "Dizengoff St 50, Tel Aviv", Latitude = 32.0771, Longitude = 34.7744 },
+        new { Address = "Yefet St 190, Jaffa", Latitude = 32.0495, Longitude = 34.7516 },
+        new { Address = "Beit HaRishonim, Rishon Lezion", Latitude = 31.9638, Longitude = 34.8038 },
+        new { Address = "Weizmann 2, Rehovot", Latitude = 31.8936, Longitude = 34.8113 },
+        new { Address = "Keren HaYesod 12, Eilat", Latitude = 29.5581, Longitude = 34.9482 },
+        new { Address = "Golda Meir Blvd, Haifa", Latitude = 32.7993, Longitude = 35.0153 },
+        new { Address = "Palmach 7, Safed", Latitude = 32.9646, Longitude = 35.4962 },
+        new { Address = "Hagana Blvd 8, Petah Tikva", Latitude = 32.0830, Longitude = 34.8878 }
     };
 
-        for (int i = 0; i < 20; i++)
+        var callTypeDescriptions = new Dictionary<DO.CallType, string[]>
+    {
+        { DO.CallType.Technical, new[] {
+            "בעיה טכנית במכשיר רפואי",
+            "קריאה להחלפת סוללה במערכת התראה",
+            "חיבור מחדש לרשת חשמלית",
+            "בדיקת ציוד תקשורת בבית המטופל"
+        }},
+        { DO.CallType.Medical, new[] {
+            "סיוע בקבלת תרופות",
+            "הובלת חולה לקופת חולים",
+            "הגעה לאדם שמתקשה לנשום",
+            "בדיקת מצב פיזי של קשיש"
+        }},
+        { DO.CallType.Food, new[] {
+            "חלוקת מזון לקשישים",
+            "הבאת חבילת מצרכים למשפחה נזקקת",
+            "העברת תרומה של ארוחה חמה",
+            "סיוע בשוק קהילתי לנזקקים"
+        }},
+        { DO.CallType.Emergency, new[] {
+            "אירוע חירום רפואי בבית",
+            "דיווח על שריפה בבניין מגורים",
+            "תאונת דרכים סמוך למרכז קהילתי",
+            "ילד ננעל ברכב"
+        }},
+        { DO.CallType.Other, new[] {
+            "בקשה לעזרה בהעברת חפצים",
+            "סיוע במילוי טפסים ממשלתיים",
+            "בקשה לליווי לקופת חולים",
+            "סיוע לשכנה מבוגרת בהפעלת מזגן"
+        }},
+        { DO.CallType.None, new[] {
+            "אין תאור"
+                    }}
+    };
+
+        DateTime now = s_dal!.Config.Clock;
+
+        for (int i = 0; i < 40; i++)
         {
-            var loc = callLocations[i % callLocations.Length];
-            int id = 0;
+            var location = locations[i % locations.Length];
             DO.CallType callType = (DO.CallType)s_rand.Next(Enum.GetValues(typeof(DO.CallType)).Length);
-            string description = $"קריאה עבור {callType.ToString().ToLower()} בכתובת {loc.Address}";
+            string description = callTypeDescriptions[callType][s_rand.Next(callTypeDescriptions[callType].Length)];
 
-            // יצירת סוג קריאה רנדומלי לפי סוג זמן
-            int mode = s_rand.Next(4); // 0=עתיד, 1=הווה, 2=עבר טרי, 3=עבר ישן
+            // מצב: 0 – סגור, 1 – פתוח רגיל, 2 – פתוח בסיכון, 3 – עתידי, 4 – לא טופל בזמן
+            int mode = i % 5;
 
-            DateTime now = s_dal!.Config.Clock;
             DateTime openTime;
             DateTime? maxCallTime;
 
             switch (mode)
             {
-                case 0: // חדשה לעתיד
-                    openTime = now.AddHours(s_rand.Next(1, 5));
-                    maxCallTime = openTime.AddHours(s_rand.Next(1, 4));
-                    break;
-                case 1: // פתוחה עכשיו
-                    openTime = now.AddMinutes(-s_rand.Next(30, 90));
-                    maxCallTime = now.AddHours(2);
-                    break;
-                case 2: // פתוחה בעבר
-                    openTime = now.AddDays(-s_rand.Next(1, 5));
-                    maxCallTime = openTime.AddHours(48);
-                    break;
-                default: // קריאה ישנה שסיימה תוקף
+                case 0: // ✅ הסתיימה מזמן
                     openTime = now.AddDays(-s_rand.Next(10, 30));
-                    maxCallTime = openTime.AddHours(2);
+                    maxCallTime = openTime.AddHours(1 + s_rand.Next(1, 4));
+                    break;
+                case 1: // ⏳ פתוחה רגילה
+                    openTime = now.AddHours(-s_rand.Next(1, 5));
+                    maxCallTime = now.AddHours(s_rand.Next(2, 6));
+                    break;
+                case 2: // ⚠️ פתוחה בסיכון
+                    openTime = now.AddHours(-s_rand.Next(3, 6));
+                    maxCallTime = now.AddMinutes(s_rand.Next(5, 40)); // עוד מעט נגמר
+                    break;
+                case 3: // 🕒 עתידית
+                    openTime = now.AddHours(s_rand.Next(1, 6));
+                    maxCallTime = openTime.AddHours(2 + s_rand.Next(1, 4));
+                    break;
+                default: // ❌ לא טופלה ופג
+                    openTime = now.AddDays(-s_rand.Next(2, 4));
+                    maxCallTime = openTime.AddHours(1 + s_rand.Next(1, 3));
                     break;
             }
 
-            s_dal!.Call.Create(new(id, callType, loc.Address, loc.Latitude, loc.Longitude, openTime, description, maxCallTime));
+            s_dal.Call.Create(new(0, callType, location.Address, location.Latitude, location.Longitude, openTime, description, maxCallTime));
         }
     }
+
     private static void createAssignments()
     {
         var volunteerIds = s_dal!.Volunteer.ReadAll().Select(v => v.Id).ToList();
+        //var callIds = s_dal!.Call.ReadAll().Select(c => c.Id).ToList();
         var callIds = s_dal!.Call.ReadAll().Select(c => c.Id).ToList();
+        callIds = callIds.OrderBy(x => s_rand.Next()).ToList(); // ערבוב
+        callIds = callIds.Take((int)(callIds.Count * 0.7)).ToList(); // רק 70% מהקריאות יקבלו טיפול
+
         var usedCallIds = new HashSet<int>();
         int assignmentId = 1;
 
