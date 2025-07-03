@@ -30,7 +30,7 @@
             <ComboBox Width="120" Margin="0,0,10,0"
                       ItemsSource="{Binding SortFields}" SelectedItem="{Binding SelectedSortField}"/>
             <Button Content="סנן" Width="60" Click="FilterButton_Click"/>
-            <!--<Button Content="נקה" Width="60" Margin="5,0,0,0" Click="ClearFilterButton_Click"/>-->
+           
         </StackPanel>
 
         <!-- Right: List of Open Calls -->
@@ -52,7 +52,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="פעולה" Width="100">
+                        <GridViewColumn Header="בחר קריאה" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="בחר קריאה" Click="ChooseCall_Click"/>

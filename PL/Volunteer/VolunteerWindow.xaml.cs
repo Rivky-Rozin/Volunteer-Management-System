@@ -241,7 +241,6 @@ namespace PL
             {
                 ChooseCallWindow window = new ChooseCallWindow(int.Parse(volunteerId));
                 window.Show();
-                MessageBox.Show("Open Select Call", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {

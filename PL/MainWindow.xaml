@@ -18,8 +18,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- כותרת ראשית -->
-        <TextBlock Grid.Row="0" Text="ניהול קריאות ומתנדבים" FontSize="28" FontWeight="SemiBold" Margin="0,0,0,24"/>
 
         <!-- אזור זמן וכפתורי זמן -->
         <Border Grid.Row="1" Padding="18" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0" Margin="0,0,0,24">
