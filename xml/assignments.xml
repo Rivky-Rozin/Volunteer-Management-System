@@ -1,34 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfAssignment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Assignment>
-    <Id>1000</Id>
-    <VolunteerId>260212406</VolunteerId>
-    <CallId>1003</CallId>
-    <StartTreatment>2025-04-30T13:29:33</StartTreatment>
-    <EndTreatmentTime xsi:nil="true" />
-  </Assignment>
-  <Assignment>
-    <Id>1001</Id>
-    <VolunteerId>260212406</VolunteerId>
-    <CallId>1027</CallId>
-    <StartTreatment>2025-05-03T13:29:33</StartTreatment>
-    <EndTreatmentTime xsi:nil="true" />
-  </Assignment>
-  <Assignment>
-    <Id>1002</Id>
-    <VolunteerId>260212406</VolunteerId>
-    <CallId>1006</CallId>
-    <StartTreatment>2025-04-21T13:29:33</StartTreatment>
-    <EndTreatmentTime xsi:nil="true" />
-  </Assignment>
-  <Assignment>
-    <Id>1003</Id>
-    <VolunteerId>260212406</VolunteerId>
-    <CallId>1038</CallId>
-    <StartTreatment>2025-07-03T11:29:33</StartTreatment>
-    <EndTreatmentTime xsi:nil="true" />
-  </Assignment>
-  <Assignment>
     <Id>1004</Id>
     <VolunteerId>263421291</VolunteerId>
     <CallId>1028</CallId>
@@ -210,6 +182,34 @@
     <StartTreatment>2025-02-07T13:29:33</StartTreatment>
     <EndTreatment>2025-02-07T14:57:33</EndTreatment>
     <TreatmentType>ManagerCancelled</TreatmentType>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1003</Id>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1038</CallId>
+    <StartTreatment>2025-07-03T11:29:33</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1001</Id>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1027</CallId>
+    <StartTreatment>2025-05-03T13:29:33</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1000</Id>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1003</CallId>
+    <StartTreatment>2025-04-30T13:29:33</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1002</Id>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1006</CallId>
+    <StartTreatment>2025-04-21T13:29:33</StartTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
 </ArrayOfAssignment>
