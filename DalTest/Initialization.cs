@@ -252,10 +252,7 @@ public static class Initialization
             "סיוע במילוי טפסים ממשלתיים",
             "בקשה לליווי לקופת חולים",
             "סיוע לשכנה מבוגרת בהפעלת מזגן"
-        }},
-        { DO.CallType.None, new[] {
-            "אין תאור"
-                    }}
+        }}
     };
 
         DateTime now = s_dal!.Config.Clock;
@@ -263,7 +260,7 @@ public static class Initialization
         for (int i = 0; i < 40; i++)
         {
             var location = locations[i % locations.Length];
-            DO.CallType callType = (DO.CallType)s_rand.Next(Enum.GetValues(typeof(DO.CallType)).Length);
+            DO.CallType callType = (DO.CallType)s_rand.Next(Enum.GetValues(typeof(DO.CallType)).Length-1);
             string description = callTypeDescriptions[callType][s_rand.Next(callTypeDescriptions[callType].Length)];
 
             // מצב: 0 – סגור, 1 – פתוח רגיל, 2 – פתוח בסיכון, 3 – עתידי, 4 – לא טופל בזמן
