@@ -27,11 +27,8 @@ namespace PL
             Resources["DistanceKindEnum"] = Enum.GetValues(typeof(DistanceKind));
 
             // Initialize the observer
-            observer = () =>
-            {
-                // Refresh the volunteer details
-                Volunteer = _bl.Volunteer.GetVolunteerDetails(volunteerId);
-            };
+            observer = RefreshVolunteerData;
+
 
             _bl.Volunteer.AddObserver(int.Parse(volunteerId), observer);
 
@@ -80,8 +77,13 @@ namespace PL
 
         public bool IsActiveCheckBoxEnabled
         {
-            get => Volunteer?.CallInProgress == null;
+            get { return (bool)GetValue(IsActiveCheckBoxEnabledProperty); }
+            set { SetValue(IsActiveCheckBoxEnabledProperty, value); }
         }
+
+        public static readonly DependencyProperty IsActiveCheckBoxEnabledProperty =
+            DependencyProperty.Register("IsActiveCheckBoxEnabled", typeof(bool), typeof(VolunteerWindow), new PropertyMetadata(true));
+
         private void EnableSelectCallButton()
         {
             IsSelectCallButtonEnabled =
@@ -104,9 +106,11 @@ namespace PL
                 EnableSelectCallButton();
 
                 // Corrected the OnPropertyChanged call to use DependencyPropertyChangedEventArgs
-                DependencyPropertyChangedEventArgs args = new DependencyPropertyChangedEventArgs(
-                    VolunteerProperty, null, Volunteer);
-                OnPropertyChanged(args);
+                //DependencyPropertyChangedEventArgs args = new DependencyPropertyChangedEventArgs(
+                //    VolunteerProperty, null, Volunteer);
+                //OnPropertyChanged(args);
+                IsActiveCheckBoxEnabled = Volunteer?.CallInProgress == null;
+
             }
             catch (Exception ex)
             {

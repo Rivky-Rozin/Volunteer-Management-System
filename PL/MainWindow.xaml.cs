@@ -10,6 +10,7 @@ using BO;
 using MyApp; // יש לוודא שה-namespace BO זמין ושה-enum CallStatus מעודכן בו
 
 namespace PL
+
 {
     /// <summary>
     /// חלון ראשי של האפליקציה, המכיל לוגיקה לניהול הזמן, עדכון הגדרות, וניהול מסכים נוספים.
