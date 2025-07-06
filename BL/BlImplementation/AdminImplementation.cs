@@ -63,8 +63,8 @@ internal class AdminImplementation : IAdmin
 
     public void ResetDatabase()
     {
-        AdminManager.ResetDB();
-        //AdminManager.UpdateClock(AdminManager.Now); //ADMINMANAGER כבר עושה את זה
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
+        AdminManager.ResetDB(); //stage 7
     }
 
     public void SetRiskTimeSpan(TimeSpan riskTimeSpan)
