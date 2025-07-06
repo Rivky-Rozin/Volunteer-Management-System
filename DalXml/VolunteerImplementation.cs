@@ -1,23 +1,27 @@
 ﻿
 namespace Dal;
 
+using DalApi;
+using DO;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
-using DalApi;
-using DO;
 
 internal class VolunteerImplementation : IVolunteer
 {
+
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
     public void Create(Volunteer item)
     {
         XElement volunteersRootElem = XMLTools.LoadListFromXMLElement(Config.s_volunteers_xml);
         volunteersRootElem.Add(createVolunteerElement(item));
         XMLTools.SaveListToXMLElement(volunteersRootElem, Config.s_volunteers_xml);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public void Delete(int id)
     {
@@ -29,6 +33,7 @@ internal class VolunteerImplementation : IVolunteer
         volunteerElem.Remove();
         XMLTools.SaveListToXMLElement(volunteersRootElem, Config.s_volunteers_xml);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public void DeleteAll()
     {
@@ -36,17 +41,20 @@ internal class VolunteerImplementation : IVolunteer
         volunteersRootElem.Elements().Remove();
         XMLTools.SaveListToXMLElement(volunteersRootElem, Config.s_volunteers_xml);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public Volunteer? Read(int id)
     {
         XElement? volunteerElem = XMLTools.LoadListFromXMLElement(Config.s_volunteers_xml).Elements().FirstOrDefault(st => (int?)st.Element("Id") == id);
         return volunteerElem is null ? null : getVolunteer(volunteerElem);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public Volunteer? Read(Func<Volunteer, bool> filter)
     {
         return XMLTools.LoadListFromXMLElement(Config.s_volunteers_xml).Elements().Select(v => getVolunteer(v)).FirstOrDefault(filter);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public IEnumerable<Volunteer> ReadAll(Func<Volunteer, bool>? filter = null)
     {
@@ -55,6 +63,8 @@ internal class VolunteerImplementation : IVolunteer
         var volunteers = elements.Select(e => getVolunteer(e));
         return filter == null ? volunteers : volunteers.Where(filter);
     }
+    
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public void Update(Volunteer item)
     {
@@ -68,6 +78,7 @@ internal class VolunteerImplementation : IVolunteer
 
         XMLTools.SaveListToXMLElement(volunteersRootElem, Config.s_volunteers_xml);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     private XElement createVolunteerElement(Volunteer item)
     {
@@ -87,6 +98,7 @@ internal class VolunteerImplementation : IVolunteer
            item.MaxDistance.HasValue ? new XElement("MaxDistance", item.MaxDistance) : null
         );
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     static Volunteer getVolunteer(XElement v)
     {

@@ -3,9 +3,12 @@ using DalApi;
 using DO;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 internal class CallImplementation : ICall
 {
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
+
     public void Create(Call item)
     {
         List<Call> Calls = XMLTools.LoadListFromXMLSerializer<Call>(Config.s_calls_xml);
@@ -14,6 +17,8 @@ internal class CallImplementation : ICall
         Calls.Add(copy);
         XMLTools.SaveListToXMLSerializer(Calls, Config.s_calls_xml);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
+
     public void Delete(int id)
     {
         List<Call> Calls = XMLTools.LoadListFromXMLSerializer<Call>(Config.s_calls_xml);
@@ -22,11 +27,13 @@ internal class CallImplementation : ICall
         XMLTools.SaveListToXMLSerializer(Calls, Config.s_calls_xml);
 
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public void DeleteAll()
     {
         XMLTools.SaveListToXMLSerializer(new List<Call>(), Config.s_calls_xml);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public Call? Read(int id)
     {
@@ -35,12 +42,14 @@ internal class CallImplementation : ICall
         found = calls.FirstOrDefault(item => item.Id == id); 
         return found;
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public Call? Read(Func<Call, bool> filter)
     {
          List < Call > calls=XMLTools.LoadListFromXMLSerializer<Call>(Config.s_calls_xml);
         return calls.FirstOrDefault(filter);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public IEnumerable<Call> ReadAll(Func<Call, bool>? filter = null)
     {
@@ -49,6 +58,7 @@ internal class CallImplementation : ICall
             ? Calls.Select(item => item)
             : Calls.Where(filter);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public void Update(Call item)
     {

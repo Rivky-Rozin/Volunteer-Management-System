@@ -3,9 +3,12 @@ using DalApi;
 using DO;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 internal class AssignmentImplementation : IAssignment
 {
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
+
     public void Create(Assignment item)
     {
         List<Assignment> Assignments = XMLTools.LoadListFromXMLSerializer<Assignment>(Config.s_assignments_xml);
@@ -14,6 +17,8 @@ internal class AssignmentImplementation : IAssignment
         Assignments.Add(copy);
         XMLTools.SaveListToXMLSerializer(Assignments, Config.s_assignments_xml);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
+
     public void Delete(int id)
     {
         List<Assignment> Assignments = XMLTools.LoadListFromXMLSerializer<Assignment>(Config.s_assignments_xml);
@@ -23,11 +28,14 @@ internal class AssignmentImplementation : IAssignment
 
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
     public void DeleteAll()
     {
         XMLTools.SaveListToXMLSerializer(new List<Assignment>(), Config.s_assignments_xml);
 
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public Assignment? Read(int id)
     {
@@ -36,6 +44,7 @@ internal class AssignmentImplementation : IAssignment
         found = Assignments.FirstOrDefault(item => item.Id == id);
         return found;
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public Assignment? Read(Func<Assignment, bool> filter)
     {
@@ -53,6 +62,7 @@ internal class AssignmentImplementation : IAssignment
 
 
     }
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
     public void Update(Assignment item)
     {
