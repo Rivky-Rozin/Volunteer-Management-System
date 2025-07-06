@@ -126,18 +126,6 @@
     <MaxDistance>20</MaxDistance>
   </Volunteer>
   <Volunteer>
-    <Id>212175693</Id>
-    <Name>Avi Malka</Name>
-    <Phone>0552664270</Phone>
-    <Email>user12@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>true</IsActive>
-    <DistanceKind>Ground</DistanceKind>
-    <Address>Yefet St 190, Jaffa</Address>
-    <Latitude>32.0495</Latitude>
-    <Longitude>34.7516</Longitude>
-  </Volunteer>
-  <Volunteer>
     <Id>378868664</Id>
     <Name>Roni Kaplan</Name>
     <Phone>0594046527</Phone>

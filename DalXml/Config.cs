@@ -1,5 +1,6 @@
 ﻿
 using Dal;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 internal static class Config
@@ -12,34 +13,46 @@ internal static class Config
 
     internal static int NextAssignmentId
     {
+
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         get => XMLTools.GetAndIncreaseConfigIntVal(s_data_config_xml, "NextAssignmentId");
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         private set => XMLTools.SetConfigIntVal(s_data_config_xml, "NextAssignmentId", value);
     }
     internal static int NextCallId
     {
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         get => XMLTools.GetAndIncreaseConfigIntVal(s_data_config_xml, "NextCallId");
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         private set => XMLTools.SetConfigIntVal(s_data_config_xml, "NextCallId", value);
     }
    
 
     internal static DateTime Clock
     {
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         get => XMLTools.GetConfigDateVal(s_data_config_xml, "Clock");
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         set => XMLTools.SetConfigDateVal(s_data_config_xml, "Clock", value);
     }
 
     internal static TimeSpan TreatmentTime
     {
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         get => XMLTools.GetConfigTimeSpanVal(s_data_config_xml, "TreatmentTime");
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         set => XMLTools.SetConfigTimeSpanVal(s_data_config_xml, "TreatmentTime", value);
     }
 
     internal static TimeSpan RiskTimeSpan
     {
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         get => XMLTools.GetConfigTimeSpanVal(s_data_config_xml, "RiskTimeSpan");
+        [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
         set => XMLTools.SetConfigTimeSpanVal(s_data_config_xml, "RiskTimeSpan", value);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
     internal static void Reset()
     {
         NextCallId = 1000;
