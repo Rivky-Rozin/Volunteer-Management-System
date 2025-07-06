@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using DalApi;
 using DO;
 
@@ -9,6 +10,7 @@ internal class CallImplementation : ICall
 
 
 {
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Create(Call item)
     {
         int id = Config.NextCallId;
@@ -16,6 +18,7 @@ internal class CallImplementation : ICall
         DataSource.Calls.Add(copy);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         if (Read(id) == null)
@@ -25,11 +28,13 @@ internal class CallImplementation : ICall
         DataSource.Calls.Remove(Read(id));
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void DeleteAll()
     {
         DataSource.Calls.Clear();
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Call? Read(int id)
     {
         Call? found;
@@ -38,11 +43,13 @@ internal class CallImplementation : ICall
         return found;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Call? Read(Func<Call, bool> filter)
     {
         return DataSource.Calls.FirstOrDefault(filter);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<Call> ReadAll(Func<Call, bool>? filter = null) //stage 2
     {
         if (filter != null)
@@ -55,7 +62,7 @@ internal class CallImplementation : ICall
     }
 
 
-
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Call item)
     {
         //Delete(item.Id);

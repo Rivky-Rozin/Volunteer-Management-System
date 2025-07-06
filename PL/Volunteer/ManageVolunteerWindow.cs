@@ -49,6 +49,8 @@ namespace PL.Volunteer
 
             isAddMode = id == 0;
             ButtonText = isAddMode ? "Add" : "Update";
+            Loaded += ManageVolunteerWindow_Loaded;
+            Closed += ManageVolunteerWindow_Closed;
 
             if (isAddMode)
             {
@@ -85,17 +87,22 @@ namespace PL.Volunteer
         }
 
 
-        private void Window_Loaded(EventArgs e)
+        private void ManageVolunteerWindow_Loaded(object sender, RoutedEventArgs e)
         {
-           
+            if (!isAddMode && CurrentVolunteer?.Id > 0)
+            {
                 s_bl.Volunteer.AddObserver(CurrentVolunteer.Id, RefreshVolunteerObserver);
+            }
         }
 
-        private void Window_Closed(EventArgs e)
+        private void ManageVolunteerWindow_Closed(object sender, EventArgs e)
         {
-            
+            if (!isAddMode && CurrentVolunteer?.Id > 0)
+            {
                 s_bl.Volunteer.RemoveObserver(CurrentVolunteer.Id, RefreshVolunteerObserver);
+            }
         }
+
 
 
         // תכונת תלות עבור טקסט הכפתור

@@ -3,6 +3,7 @@ namespace Dal;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 //using System.Collections.Generic;
 using DalApi;
@@ -10,6 +11,7 @@ using DO;
 
 internal class AssignmentImplementation : IAssignment
 {
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Create(Assignment item)
     {
         //ראינו את ההערה על עדכון הID, ולמרות זאת לא שינינו כי רצינו להתייעץ עם המורה על בעיה אחרת שזה יוצר לנו והשיעור רק מחר. נשמח להתחשבות! 😃
@@ -26,6 +28,7 @@ internal class AssignmentImplementation : IAssignment
         DataSource.Assignments.Add(copy);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         if (Read(id) == null)
@@ -35,11 +38,13 @@ internal class AssignmentImplementation : IAssignment
         DataSource.Assignments.Remove(Read(id));
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void DeleteAll()
     {
         DataSource.Volunteers.Clear();
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Assignment? Read(int id)
     {
         Assignment? found;
@@ -48,11 +53,13 @@ internal class AssignmentImplementation : IAssignment
         return found;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Assignment? Read(Func<Assignment, bool> filter)
     {
         return DataSource.Assignments.FirstOrDefault(filter);
     }
- 
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<Assignment> ReadAll(Func<Assignment, bool>? filter = null) //stage 2
     {
         if (filter != null)
@@ -67,11 +74,7 @@ internal class AssignmentImplementation : IAssignment
 
 
 
-    //public List<Assignment> ReadAll()
-    //{
-    //    return new List<Assignment>(DataSource.Assignments);
-    //}
-
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Assignment item)
     {
         Delete(item.Id);

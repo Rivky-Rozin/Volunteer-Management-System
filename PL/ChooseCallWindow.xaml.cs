@@ -129,6 +129,15 @@ namespace PL
                 try
                 {
                     _bl.Call.SelectCallForTreatment(_volunteerId, callToTake.Id);
+                    // Although the call was successfully assigned, other open windows for the same volunteer
+                    // (like VolunteerWindow) won't update automatically because SelectCallForTreatment
+                    // doesn't trigger the NotifyObservers mechanism.
+                    // To refresh all observers without modifying the BL code, we reload the volunteer data
+                    // and pass it to UpdateVolunteer—even if no actual change occurred.
+                    // This is a workaround ("ugly hack") that triggers observers and refreshes the UI properly,
+                    // without changing the interface or BL classes.
+                    var updatedVolunteer = _bl.Volunteer.GetVolunteerDetails(_volunteerId.ToString());
+                    _bl.Volunteer.UpdateVolunteer(_volunteerId.ToString(), updatedVolunteer);
                     MessageBox.Show($"הקריאה מספר {callToTake.Id} נבחרה בהצלחה!", "בחירה הושלמה", MessageBoxButton.OK, MessageBoxImage.Information);
                     this.Close();
                 }

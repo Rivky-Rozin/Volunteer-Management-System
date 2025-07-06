@@ -1,6 +1,8 @@
 ﻿
 
 namespace Dal;
+
+using System.Runtime.CompilerServices;
 //using System.Collections.Generic;
 //using System.Runtime.CompilerServices;
 using DalApi;
@@ -9,6 +11,7 @@ using DO;
 internal class VolunteerImplementation : IVolunteer
 {
     //הוספת מתנדב חדש
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Create(Volunteer item)
     {
         if (!(Read(item.Id) == null))
@@ -18,6 +21,7 @@ internal class VolunteerImplementation : IVolunteer
         DataSource.Volunteers.Add(item);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     //מחיקת משתמש בודד
     public void Delete(int id)
     {
@@ -28,12 +32,14 @@ internal class VolunteerImplementation : IVolunteer
         DataSource.Volunteers.Remove(Read(id));
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     //מחיקת רשימת המתנדבים
     public void DeleteAll()
     {
         DataSource.Volunteers.Clear();
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     //קבלת מתנדב בודד
     public Volunteer? Read(int id)
     {
@@ -43,11 +49,13 @@ internal class VolunteerImplementation : IVolunteer
         return found;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Volunteer? Read(Func<Volunteer, bool> filter)
     {
         return DataSource.Volunteers.FirstOrDefault(filter);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     //קבלת עותק של הרשימה של כל המתנדבים
     public IEnumerable<Volunteer> ReadAll(Func<Volunteer, bool>? filter = null) //stage 2
     {
@@ -61,6 +69,7 @@ internal class VolunteerImplementation : IVolunteer
     }
 
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     //עדכון מתנדב
     public void Update(Volunteer item)
     {

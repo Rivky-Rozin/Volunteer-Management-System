@@ -214,4 +214,32 @@
     <StartTreatment>2025-04-14T17:02:56</StartTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
+  <Assignment>
+    <Id>1028</Id>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1011</CallId>
+    <StartTreatment>2025-07-03T17:02:56</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1029</Id>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1028</CallId>
+    <StartTreatment>2025-07-03T17:02:56</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1030</Id>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1016</CallId>
+    <StartTreatment>2025-07-03T17:02:56</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1031</Id>
+    <VolunteerId>309764281</VolunteerId>
+    <CallId>1021</CallId>
+    <StartTreatment>2025-07-03T17:02:56</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
 </ArrayOfAssignment>

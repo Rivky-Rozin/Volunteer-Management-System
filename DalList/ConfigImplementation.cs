@@ -1,4 +1,6 @@
 ﻿namespace Dal;
+
+using System.Runtime.CompilerServices;
 using DalApi;
 internal class ConfigImplementation : IConfig
 {
