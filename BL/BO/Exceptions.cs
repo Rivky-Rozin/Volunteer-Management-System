@@ -175,4 +175,19 @@ public class BlArgumentException : Exception
     public BlArgumentException(string message, Exception innerException)
         : base(message, innerException) { }
 }
+[Serializable]
+public class BLTemporaryNotAvailableException : Exception
+{
+    public BLTemporaryNotAvailableException()
+    {
+    }
+
+    public BLTemporaryNotAvailableException(string? message) : base(message)
+    {
+    }
+
+    public BLTemporaryNotAvailableException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+}
 
