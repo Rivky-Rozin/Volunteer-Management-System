@@ -176,19 +176,6 @@
     <Longitude>34.7744</Longitude>
   </Volunteer>
   <Volunteer>
-    <Id>263996097</Id>
-    <Name>Dana Regev</Name>
-    <Phone>0529531558</Phone>
-    <Email>user15@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>true</IsActive>
-    <DistanceKind>Aerial</DistanceKind>
-    <Address>Givat Shaul, Jerusalem</Address>
-    <Latitude>31.7934</Latitude>
-    <Longitude>35.1814</Longitude>
-    <MaxDistance>44</MaxDistance>
-  </Volunteer>
-  <Volunteer>
     <Id>248489263</Id>
     <Name>Yossi Gabay</Name>
     <Phone>0554726586</Phone>

@@ -41,18 +41,21 @@ internal static class VolunteerManager
 
     public static BO.VolunteerInList ToVolunteerInList(DO.Volunteer volunteer)
     {
-        IEnumerable<DO.Assignment> validAssignments = s_dal.Assignment.ReadAll()
-            .Where(a => a.VolunteerId == volunteer.Id)//&& a.EndTreatment == null)
-.Where(a =>
+        IEnumerable<DO.Assignment> validAssignments;
+        lock (AdminManager.BlMutex)
+        {
+
+            validAssignments = s_dal.Assignment.ReadAll()
+           .Where(a => a.VolunteerId == volunteer.Id).Where(a =>
 {
     var call = s_dal.Call.Read(a.CallId);
     if (call == null) return false;
     var status = CallManager.GetCallStatus(call.Id);
     return a.StartTreatment != null && status != BO.CallStatus.Expired;
 })
-            .OrderByDescending(a => a.StartTreatment)
-            .ToList();
-
+           .OrderByDescending(a => a.StartTreatment)
+           .ToList();
+        }
         DO.Assignment? activeAssignment = validAssignments.FirstOrDefault();
 
 
@@ -65,7 +68,11 @@ internal static class VolunteerManager
 
         if (callInProgressId != null)
         {
-            var call = s_dal.Call.Read(callInProgressId.Value);
+            DO.Call? call;
+            lock (AdminManager.BlMutex)
+            {
+                call = s_dal.Call.Read(callInProgressId.Value);
+            }
             if (call != null)
             {
                 callInProgressType = (BO.CallType)call.CallType;
@@ -100,19 +107,27 @@ internal static class VolunteerManager
     }
     public static BO.Volunteer ToBOVolunteer(DO.Volunteer volunteer)
     {
-        IEnumerable<DO.Assignment> assignments = s_dal.Assignment.ReadAll()
-            .Where(a => a.VolunteerId == volunteer.Id);
+        IEnumerable<DO.Assignment> assignments;
+        lock (AdminManager.BlMutex)
+        {
 
+            assignments = s_dal.Assignment.ReadAll()
+            .Where(a => a.VolunteerId == volunteer.Id);
+        }
 
         AssignmentStats stats = GetVolunteerAssignmentStats(assignments);
 
         DO.Assignment? activeAssignment = assignments
-//לפי ההוראות גם אם הקריאה שבטיפול נסגרה אז צריך להציג אותה
-//ורק קריאה פגת תוקף אין צורך להציג
-//.Where(a => a.EndTreatment == null)
+
 .Where(a =>
 {
-    var call = s_dal.Call.Read(a.CallId);
+    DO.Call call;
+
+    lock (AdminManager.BlMutex)
+    {
+
+        call = s_dal.Call.Read(a.CallId);
+    }
     if (call == null) return false;
 
     var status = CallManager.GetCallStatus(call.Id);
@@ -127,36 +142,34 @@ internal static class VolunteerManager
         BO.CallInProgress? callInProgress = null;
         if (activeAssignment != null)
         {
-            DO.Call? call = s_dal.Call.Read(activeAssignment.CallId);
-            if (call is not null)
+            lock (AdminManager.BlMutex)
             {
-                TimeSpan RiskTimeSpan = s_dal.Config.RiskTimeSpan;
 
-                DateTime now = AdminManager.Now;
-                DateTime? maxResolutionTime = call.MaxCallTime;
-
-                var status = CallManager.GetCallStatus(call.Id);
-                //maxResolutionTime is null
-                //        ? BO.CallInProgressStatus.InProgress
-                //        : (maxResolutionTime.Value - now) <= RiskTimeSpan
-                //            ? BO.CallInProgressStatus.InProgressAtRisk
-                //            : BO.CallInProgressStatus.InProgress;
-
-                callInProgress = new BO.CallInProgress
+                DO.Call? call = s_dal.Call.Read(activeAssignment.CallId);
+                if (call is not null)
                 {
-                    Id = activeAssignment.Id,
-                    CallId = call.Id,
-                    CallType = (BO.CallType)call.CallType,
-                    Description = call.Description,
-                    FullAddress = call.FullAddress,
-                    OpenTime = call.OpenTime,
-                    MaxResolutionTime = call.MaxCallTime,
-                    EntryToTreatmentTime = activeAssignment.StartTreatment,
-                    DistanceFromVolunteer = Tools.GetDistance(volunteer, call),
-                    status = MapCallStatusToInProgressStatus(CallManager.GetCallStatus(call.Id))
-                };
-            }
+                    TimeSpan RiskTimeSpan = s_dal.Config.RiskTimeSpan;
 
+                    DateTime now = AdminManager.Now;
+                    DateTime? maxResolutionTime = call.MaxCallTime;
+
+                    var status = CallManager.GetCallStatus(call.Id);
+
+                    callInProgress = new BO.CallInProgress
+                    {
+                        Id = activeAssignment.Id,
+                        CallId = call.Id,
+                        CallType = (BO.CallType)call.CallType,
+                        Description = call.Description,
+                        FullAddress = call.FullAddress,
+                        OpenTime = call.OpenTime,
+                        MaxResolutionTime = call.MaxCallTime,
+                        EntryToTreatmentTime = activeAssignment.StartTreatment,
+                        DistanceFromVolunteer = Tools.GetDistance(volunteer, call),
+                        status = MapCallStatusToInProgressStatus(CallManager.GetCallStatus(call.Id))
+                    };
+                }
+            }
         }
 
         return new BO.Volunteer

@@ -25,14 +25,17 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         if (!int.TryParse(id, out int volunteerId))
             throw new BO.BlValidationException("Invalid ID format");
 
+        DO.Volunteer? volunteer;
         // ניסיון למצוא את המתנדב לפי הת"ז
-        DO.Volunteer? volunteer = _dal.Volunteer.Read(volunteerId);
-
+        lock (AdminManager.BlMutex)
+        {
+            volunteer = _dal.Volunteer.Read(volunteerId);
+        }
         if (volunteer == null)
             throw new BO.BlDoesNotExistException($"Volunteer with ID '{id}' was not found");
 
         // בדיקת סיסמה
-        if (volunteer.Password!=null&&volunteer.Password != password)
+        if (volunteer.Password != null && volunteer.Password != password)
             throw new BO.BlValidationException("Incorrect password");
 
         // החזרת תפקיד המתנדב
@@ -40,9 +43,12 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
     }
     public IEnumerable<BO.VolunteerInList> GetVolunteersList(bool? isActive = null, BO.VolunteerInListEnum? sortBy = null)
     {
-        IEnumerable<DO.Volunteer> volunteers = _dal.Volunteer.ReadAll();
-        Console.WriteLine($"מתנדבים קיימים ב-DAL: {volunteers.Count()}");
-        Console.WriteLine($"isActive: {isActive}, sortBy: {sortBy}");
+        IEnumerable<DO.Volunteer> volunteers;
+        lock (AdminManager.BlMutex)
+        {
+
+            volunteers = _dal.Volunteer.ReadAll();
+        }
 
         // סינון לפי פעיל / לא פעיל
         if (isActive is not null)
@@ -69,10 +75,13 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
 
     public BO.Volunteer GetVolunteerDetails(string id)
     {
-        DO.Volunteer volunteer = _dal.Volunteer.Read(int.Parse(id))
-           
-            ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
+        DO.Volunteer volunteer;
+        lock (AdminManager.BlMutex)
+        {
+            volunteer = _dal.Volunteer.Read(int.Parse(id))
 
+            ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
+        }
         BO.Volunteer volunteerBO = VolunteerManager.ToBOVolunteer(volunteer);
         return volunteerBO;
     }
@@ -85,15 +94,20 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
             VolunteerManager.ValidateVolunteer(volunteer);
         }
 
-        catch (Exception e) {
+        catch (Exception e)
+        {
             throw new BO.BlAlreadyExistsException($"יש נתונים שגויים");
         }
 
-        if (_dal.Volunteer.Read(volunteer.Id) is not null)
-            throw new BO.BlAlreadyExistsException($"Volunteer with ID {volunteer.Id} already exists");
+        lock (AdminManager.BlMutex)
+        {
 
-        _dal.Volunteer.Create(VolunteerManager.ToDoVolunteer(volunteer));
-        VolunteerManager.Observers.NotifyListUpdated(); //stage 5  
+            if (_dal.Volunteer.Read(volunteer.Id) is not null)
+                throw new BO.BlAlreadyExistsException($"Volunteer with ID {volunteer.Id} already exists");
+
+            _dal.Volunteer.Create(VolunteerManager.ToDoVolunteer(volunteer));
+            VolunteerManager.Observers.NotifyListUpdated(); //stage 5  
+        }
     }
 
     public void UpdateVolunteer(string id, BO.Volunteer volunteer)
@@ -102,11 +116,14 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
 
         if (!int.TryParse(id, out int idInt) || idInt != volunteer.Id)
             throw new BO.BlValidationException("ID mismatch");
+        DO.Volunteer existingVolunteer;
+        lock (AdminManager.BlMutex)
+        {
 
-        DO.Volunteer existingVolunteer = _dal.Volunteer.Read(int.Parse(id))
+            existingVolunteer = _dal.Volunteer.Read(int.Parse(id))
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
-
-        if (existingVolunteer.Id != volunteer.Id && existingVolunteer.Role!=DO.VolunteerRole.Manager)
+        }
+        if (existingVolunteer.Id != volunteer.Id && existingVolunteer.Role != DO.VolunteerRole.Manager)
             throw new BO.BlPermissionException("Only an admin can change the role");
         try
         {
@@ -118,11 +135,14 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         }
         if (existingVolunteer.Address != volunteer.Address)
         {
-           (double X, double Y)=Tools.GetCoordinatesFromAddress(volunteer.Address);
+            (double X, double Y) = Tools.GetCoordinatesFromAddress(volunteer.Address);
             volunteer.Latitude = X;
             volunteer.Longitude = Y;
         }
-        _dal.Volunteer.Update(VolunteerManager.ToDoVolunteer(volunteer));
+        lock (AdminManager.BlMutex)
+        {
+            _dal.Volunteer.Update(VolunteerManager.ToDoVolunteer(volunteer));
+        }
         VolunteerManager.Observers.NotifyItemUpdated(volunteer.Id);  //stage 5
         VolunteerManager.Observers.NotifyListUpdated();  //stage 5
 
@@ -131,15 +151,18 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
     public void DeleteVolunteer(string id)
     {
         AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
-        DO.Volunteer volunteer = _dal.Volunteer.Read(int.Parse(id))
+        lock (AdminManager.BlMutex)
+        {
+            DO.Volunteer volunteer = _dal.Volunteer.Read(int.Parse(id))
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
 
-        bool hasAssignments = _dal.Assignment.Read(a => a.VolunteerId == volunteer.Id) is not null;
-        if (hasAssignments)
-            throw new BO.BlOperationNotAllowedException("Volunteer cannot be deleted while having assignments");
+            bool hasAssignments = _dal.Assignment.Read(a => a.VolunteerId == volunteer.Id) is not null;
+            if (hasAssignments)
+                throw new BO.BlOperationNotAllowedException("Volunteer cannot be deleted while having assignments");
 
-        _dal.Volunteer.Delete(volunteer.Id);
-        VolunteerManager.Observers.NotifyListUpdated(); //stage 5
+            _dal.Volunteer.Delete(volunteer.Id);
+            VolunteerManager.Observers.NotifyListUpdated(); //stage 5
+        }
     }
 }
 
