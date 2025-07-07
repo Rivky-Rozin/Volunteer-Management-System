@@ -20,4 +20,7 @@ public interface IAdmin
     void SetTreatmentTime(TimeSpan treatmentTime);
     void ResetDatabase();
     void InitializeDatabase();
+
+    void StartSimulator(int interval); //stage 7
+    void StopSimulator(); //stage 7
 }

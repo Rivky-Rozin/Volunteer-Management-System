@@ -79,6 +79,7 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
 
     public void AddVolunteer(BO.Volunteer volunteer)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         try
         {
             VolunteerManager.ValidateVolunteer(volunteer);
@@ -97,6 +98,7 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
 
     public void UpdateVolunteer(string id, BO.Volunteer volunteer)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
 
         if (!int.TryParse(id, out int idInt) || idInt != volunteer.Id)
             throw new BO.BlValidationException("ID mismatch");
@@ -128,6 +130,7 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
 
     public void DeleteVolunteer(string id)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         DO.Volunteer volunteer = _dal.Volunteer.Read(int.Parse(id))
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
 

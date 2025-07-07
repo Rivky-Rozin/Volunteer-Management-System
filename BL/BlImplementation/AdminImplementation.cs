@@ -19,6 +19,7 @@ internal class AdminImplementation : IAdmin
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public void AdvanceTime(BO.TimeUnit timeUnit)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         DateTime newTime = AdminManager.Now;
 
         switch (timeUnit)
@@ -56,9 +57,8 @@ internal class AdminImplementation : IAdmin
 
     public void InitializeDatabase()
     {
-        //DalTest.Initialization.Do();
-        //AdminManager.UpdateClock(AdminManager.Now); //ADMINMANAGER כבר עושה את זה
-        AdminManager.InitializeDB();
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
+        AdminManager.InitializeDB(); //stage 7
     }
 
     public void ResetDatabase()
@@ -69,6 +69,7 @@ internal class AdminImplementation : IAdmin
 
     public void SetRiskTimeSpan(TimeSpan riskTimeSpan)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         AdminManager.RiskTimeSpan = riskTimeSpan;
     }
 
@@ -79,6 +80,16 @@ internal class AdminImplementation : IAdmin
 
     public void SetTreatmentTime(TimeSpan treatmentTime)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         AdminManager.TreatmentTime = treatmentTime;
     }
+
+    // stage 7
+    public void StartSimulator(int interval)  //stage 7
+    {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
+        AdminManager.Start(interval); //stage 7
+    }
+    public void StopSimulator()
+        => AdminManager.Stop(); //stage 7
 }

@@ -21,6 +21,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     {
         try
         {
+            AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
             // בדיקה: זמן סיום חייב להיות אחרי זמן פתיחה (אם הוגדר)      
             if (call.MaxFinishTime != null && call.MaxFinishTime <= call.CreationTime)
                 throw new BO.BlInvalidActionException("Finish time must be after creation time");
@@ -50,6 +51,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     //עובד
     public void CompleteCallTreatment(int volunteerId, int callId)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         // חיפוש ההקצאה הפתוחה לפי callId
         DO.Assignment? assignment = _dal.Assignment.ReadAll()
             .FirstOrDefault(a => a.CallId == callId && a.VolunteerId == volunteerId);
@@ -83,6 +85,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     //עובד
     public void CancelCallTreatment(int requesterId, int callId)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         // שליפת ההקצאה הפעילה של הקריאה הזו
         DO.Assignment? assignment;
         try
@@ -147,6 +150,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     {
         try
         {
+            AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
             // שלב 1: שליפת הקריאה משכבת הנתונים
             DO.Call call = _dal.Call.Read(callId)
                        ?? throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון");
@@ -299,6 +303,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     //עובד
     public void UpdateCall(BO.Call call)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         if (call == null)
             throw new BO.BlObjectCanNotBeNullException("אובייקט הקריאה שהתקבל הוא null.");
 
@@ -421,6 +426,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     //עובד
     public void SelectCallForTreatment(int volunteerId, int callId)
     {
+        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         DO.Call call;
         try
         {
