@@ -22,8 +22,7 @@
             <local:CollectionToVisibilityConverter x:Key="CollectionVisibilityConverter"/>
             <local:NullToVisibilityConverter x:Key="NullToVisibilityConverterKey"/>
             <local:InvertedNullToVisibilityConverter x:Key="InvertedNullToVisibilityConverterKey"/>
-            
-          
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

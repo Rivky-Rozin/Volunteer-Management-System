@@ -296,4 +296,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="Window">
+        <Setter Property="Icon" Value="/Assets/my-icon.ico"/>
+    </Style>
 </ResourceDictionary>

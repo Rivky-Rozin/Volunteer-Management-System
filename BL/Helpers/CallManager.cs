@@ -4,11 +4,25 @@ using DO;
 
 internal static class CallManager
 {
-    
+
     internal static ObserverManager Observers = new(); //stage 5 
     private static IDal s_dal = Factory.Get; //stage 4
     internal static BO.Call ConvertToBO(DO.Call call)
     {
+        // Correcting the type mismatch issue by ensuring the correct type is used for assignments
+
+        List<BO.CallAssignInList> assignments;
+        lock (AdminManager.BlMutex)
+            assignments = s_dal.Assignment.ReadAll(a => a.CallId == call.Id)
+                .Select(a => new BO.CallAssignInList
+                {
+                    VolunteerId = a.VolunteerId,
+                    VolunteerName = s_dal.Volunteer.Read(a.VolunteerId)?.Name ?? "Unknown",
+                    StartTreatmentTime = a.StartTreatment,
+                    FinishTreatmentTime = a.EndTreatmentTime ?? null,
+                    EndOfTreatmentType = a.TreatmentType.HasValue ? (BO.TreatmentEndTypeEnum)a.TreatmentType.Value : (BO.TreatmentEndTypeEnum?)null
+                }).ToList();
+
         return new BO.Call
         {
             Id = call.Id,
@@ -20,15 +34,7 @@ internal static class CallManager
             Description = call.Description,
             MaxFinishTime = call.MaxCallTime,
             Status = GetCallStatus(call.Id),
-            Assignments = s_dal.Assignment.ReadAll(a => a.CallId == call.Id)
-                .Select(a => new BO.CallAssignInList
-                {
-                    VolunteerId = a.VolunteerId,
-                    VolunteerName = s_dal.Volunteer.Read(a.VolunteerId)?.Name ?? "Unknown",
-                    StartTreatmentTime = a.StartTreatment,
-                    FinishTreatmentTime = a.EndTreatmentTime ?? null,
-                    EndOfTreatmentType = a.TreatmentType.HasValue ? (BO.TreatmentEndTypeEnum)a.TreatmentType.Value : (BO.TreatmentEndTypeEnum?)null  // המרה נכונה של nullable
-                }).ToList()
+            Assignments = assignments // Ensure the assignments are correctly set in the BO.Call object
         };
     }
 
@@ -40,13 +46,15 @@ internal static class CallManager
         call.Longitude,
         call.CreationTime,
         call.Description,
-        call.MaxFinishTime??AdminManager.Now.Add(AdminManager.TreatmentTime)
+        call.MaxFinishTime ?? AdminManager.Now.Add(AdminManager.TreatmentTime)
     );
 
     internal static BO.CallInList ConvertToCallInList(DO.Call call)
     {
         // שליפת כל ההקצאות של הקריאה הזו
-        List<DO.Assignment> assignments = s_dal.Assignment.ReadAll(a => a.CallId == call.Id).ToList();
+        List<DO.Assignment> assignments;
+        lock (AdminManager.BlMutex) //stage 7
+            assignments = s_dal.Assignment.ReadAll(a => a.CallId == call.Id).ToList();
 
         // סטטוס הקריאה מחושב לפי ההגדרות במחלקת CallManager
         BO.CallStatus status = GetCallStatus(call.Id);
@@ -62,8 +70,12 @@ internal static class CallManager
         {
             try
             {
-                DO.Volunteer? volunteer = s_dal.Volunteer.Read(lastAssignment.VolunteerId);
-                lastVolunteerName = volunteer?.Name;
+                lock (AdminManager.BlMutex) //stage 7
+                {
+
+                    DO.Volunteer? volunteer = s_dal.Volunteer.Read(lastAssignment.VolunteerId);
+                    lastVolunteerName = volunteer?.Name;
+                }
             }
             catch
             {
@@ -136,7 +148,7 @@ internal static class CallManager
 
         // רשימת ההקצאות
         List<BO.CallAssignInList> assignments = bocall.Assignments;
-        
+
         if (assignments.Count == 0)
             throw new BO.BlFailedToCreate("Cannot create ClosedCallInList: no assignments found for call.");
 
@@ -169,67 +181,77 @@ internal static class CallManager
 
     internal static BO.CallStatus GetCallStatus(int callId)
     {
-        TimeSpan riskThreshold = s_dal.Config.RiskTimeSpan;
-        var call = s_dal.Call.Read(callId)
-                   ?? throw new BO.BlDoesNotExistException("Call");
-
-        var assignments = s_dal.Assignment.ReadAll(a => a.CallId == callId).ToList();
-
-        DateTime now = AdminManager.Now;
-
-        bool hasActiveAssignment = assignments.Any(a => a.EndTreatment == null);
-        bool hasCompletedAssignment = assignments.Any(a => a.EndTreatment != null);
-
-        bool isExpired = call.MaxCallTime != null && now > call.MaxCallTime;
-        bool isRisk = call.MaxCallTime != null &&
-                      (call.MaxCallTime.Value - now) <= riskThreshold &&
-                      (call.MaxCallTime.Value - now) > TimeSpan.Zero;
-
-        // סגורה – אם לפחות מתנדב אחד סיים טיפול
-        if (hasCompletedAssignment)
-            return BO.CallStatus.Closed;
-
-        // בטיפול – יש מתנדב שמטפל כרגע
-        if (hasActiveAssignment)
+        lock (AdminManager.BlMutex) //stage 7
         {
+
+            TimeSpan riskThreshold = s_dal.Config.RiskTimeSpan;
+            var call = s_dal.Call.Read(callId)
+                       ?? throw new BO.BlDoesNotExistException("Call");
+
+            var assignments = s_dal.Assignment.ReadAll(a => a.CallId == callId).ToList();
+
+            DateTime now = AdminManager.Now;
+
+
+            bool hasActiveAssignment = assignments.Any(a => a.EndTreatment == null);
+            bool hasCompletedAssignment = assignments.Any(a => a.EndTreatment != null);
+
+            bool isExpired = call.MaxCallTime != null && now > call.MaxCallTime;
+            bool isRisk = call.MaxCallTime != null &&
+                          (call.MaxCallTime.Value - now) <= riskThreshold &&
+                          (call.MaxCallTime.Value - now) > TimeSpan.Zero;
+
+            // סגורה – אם לפחות מתנדב אחד סיים טיפול
+            if (hasCompletedAssignment)
+                return BO.CallStatus.Closed;
+
+            // בטיפול – יש מתנדב שמטפל כרגע
+            if (hasActiveAssignment)
+            {
+                if (isExpired)
+                    return BO.CallStatus.Expired;
+                if (isRisk)
+                    return BO.CallStatus.InProgressAtRisk;
+                return BO.CallStatus.InProgress;
+            }
+
+            // פתוחה – לא קיימת הקצאה פעילה
             if (isExpired)
                 return BO.CallStatus.Expired;
             if (isRisk)
-                return BO.CallStatus.InProgressAtRisk;
-            return BO.CallStatus.InProgress;
+                return BO.CallStatus.OpenAtRisk;
+            return BO.CallStatus.Open;
         }
-
-        // פתוחה – לא קיימת הקצאה פעילה
-        if (isExpired)
-            return BO.CallStatus.Expired;
-        if (isRisk)
-            return BO.CallStatus.OpenAtRisk;
-        return BO.CallStatus.Open;
     }
-
     internal static void UpdateExpiredOpenCalls()
     {
         // זמן נוכחי לפי שעון המערכת
         DateTime now = AdminManager.Now; // הנחה: ClockManager.Now מחזיר את הזמן הנוכחי
 
+
         // שליפת כל הקריאות הפתוחות
-        var allOpenCalls = s_dal.Call.ReadAll(call => !(GetCallStatus(call.Id) == BO.CallStatus.Closed) && call.MaxCallTime <= now);
+        IEnumerable<Call> allOpenCalls;
+        lock (AdminManager.BlMutex)
+            allOpenCalls = s_dal.Call.ReadAll(call => !(GetCallStatus(call.Id) == BO.CallStatus.Closed) && call.MaxCallTime <= now);
 
         foreach (var call in allOpenCalls)
         {
-            DO.Assignment? assignment = s_dal.Assignment.Read(a => a.CallId == call.Id);
+            DO.Assignment? assignment;
+            lock (AdminManager.BlMutex)
+                assignment = s_dal.Assignment.Read(a => a.CallId == call.Id);
 
             if (assignment == null)
             {
-                // אין הקצאה קיימת – ניצור חדשה עם ביטול פג תוקף
-                s_dal.Assignment.Create(new DO.Assignment
-                {
-                    CallId = call.Id,
-                    VolunteerId = 0,
-                    StartTreatment = call.OpenTime,
-                    EndTreatment = AdminManager.Now,
-                    TreatmentType = DO.TreatmentType.ExpiredCancel
-                });
+                lock (AdminManager.BlMutex)
+                    // אין הקצאה קיימת – ניצור חדשה עם ביטול פג תוקף
+                    s_dal.Assignment.Create(new DO.Assignment
+                    {
+                        CallId = call.Id,
+                        VolunteerId = 0,
+                        StartTreatment = call.OpenTime,
+                        EndTreatment = AdminManager.Now,
+                        TreatmentType = DO.TreatmentType.ExpiredCancel
+                    });
                 Observers.NotifyListUpdated(); //stage 5
 
             }
@@ -247,17 +269,10 @@ internal static class CallManager
                    DO.TreatmentType.ExpiredCancel
                 );
                 // יש הקצאה אך היא לא הסתיימה – נעדכן אותה
-
-                s_dal.Assignment.Update(newAssignment);
+                lock (AdminManager.BlMutex)
+                    s_dal.Assignment.Update(newAssignment);
             }
-
-            // סימון הקריאה כנסגרת
-            //call.IsClosed = true;
-            //call.CloseReason = DO.CallCloseReason.Expired;
-            //Dal.Call.Update(call);
-            //CallManager.Observers.NotifyListUpdated(); //stage 5
-            //CallManager.Observers.NotifyItemUpdated(call.Id); //stage 5
         }
     }
-
 }
+

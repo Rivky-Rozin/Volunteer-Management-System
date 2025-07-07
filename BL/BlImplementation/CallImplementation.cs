@@ -1,7 +1,9 @@
 ﻿namespace BlImplementation;
-using System;
-using System.Collections.Generic;
+using DO;
 using Helpers;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 internal class CallImplementation : BlApi.ICall
 {
     #region Stage 5
@@ -38,8 +40,10 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             // המרה ל-DO      
             DO.Call doCall = CallManager.ConvertToDO(call);
 
-            // הוספה ל-DAL      
-            _dal.Call.Create(doCall);
+            // הוספה ל-DAL
+            lock (AdminManager.BlMutex) //stage 7
+
+                _dal.Call.Create(doCall);
             CallManager.Observers.NotifyListUpdated(); //stage 5
         }
         catch (Exception ex)
@@ -53,7 +57,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     {
         AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         // חיפוש ההקצאה הפתוחה לפי callId
-        DO.Assignment? assignment = _dal.Assignment.ReadAll()
+        DO.Assignment? assignment;
+        lock (AdminManager.BlMutex)
+            assignment = _dal.Assignment.ReadAll()
             .FirstOrDefault(a => a.CallId == callId && a.VolunteerId == volunteerId);
 
         if (assignment == null)
@@ -72,7 +78,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
         try
         {
-            _dal.Assignment.Update(updatedAssignment);
+            lock (AdminManager.BlMutex) //stage 7
+                _dal.Assignment.Update(updatedAssignment);
             CallManager.Observers.NotifyListUpdated(); // stage 5
             CallManager.Observers.NotifyItemUpdated(updatedAssignment.Id); // stage 5
         }
@@ -90,7 +97,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         DO.Assignment? assignment;
         try
         {
-            assignment = _dal.Assignment
+            lock (AdminManager.BlMutex) //stage 7
+                assignment = _dal.Assignment
                 .ReadAll()
                 .FirstOrDefault(a => a.CallId == callId && a.VolunteerId == requesterId);
         }
@@ -103,7 +111,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlDoesNotExistException("לא נמצאה הקצאה פעילה לקריאה הזו");
 
         // שליפת פרטי המתנדב
-        DO.Volunteer? doVolunteer = _dal.Volunteer.Read(requesterId);
+        DO.Volunteer? doVolunteer;
+        lock (AdminManager.BlMutex) //stage 7
+            doVolunteer = _dal.Volunteer.Read(requesterId);
         if (doVolunteer == null)
             throw new BO.BlDoesNotExistException("המתנדב לא קיים");
 
@@ -135,7 +145,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         // עדכון ב־DAL
         try
         {
-            _dal.Assignment.Update(updatedAssignment);
+            lock (AdminManager.BlMutex) //stage 7
+                _dal.Assignment.Update(updatedAssignment);
             CallManager.Observers.NotifyListUpdated();         // stage 5
             CallManager.Observers.NotifyItemUpdated(updatedAssignment.Id); // stage 5
         }
@@ -152,21 +163,26 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
             // שלב 1: שליפת הקריאה משכבת הנתונים
-            DO.Call call = _dal.Call.Read(callId)
-                       ?? throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון");
+            DO.Call call;
+            lock (AdminManager.BlMutex) //stage 7
+                call = _dal.Call.Read(callId)
+?? throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון");
 
             // שלב 2: בדיקה האם הקריאה בסטטוס פתוח
             if (CallManager.GetCallStatus(call.Id) != BO.CallStatus.Open)
                 throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it is not in 'Open' status.");
 
             // שלב 3: בדיקה אם הקריאה הוקצתה למתנדב כלשהו בעבר
-            var assignments = _dal.Assignment.ReadAll(a => a.CallId == callId);
+            IEnumerable<Assignment> assignments;
+            lock (AdminManager.BlMutex)
+                assignments = _dal.Assignment.ReadAll(a => a.CallId == callId);
 
             if (assignments.Any())
                 throw new BO.BlCannotDeleteException($"Cannot delete call #{callId} because it has already been assigned to a volunteer.");
 
             // שלב 4: אם עברה את כל הבדיקות - ביצוע מחיקה
-            _dal.Call.Delete(callId);
+            lock (AdminManager.BlMutex)
+                _dal.Call.Delete(callId);
             CallManager.Observers.NotifyListUpdated(); //stage 5
         }
         catch (Exception ex)
@@ -182,7 +198,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         try
         {
             //להוסיף שגיאה מתאימה
-            DO.Call? doCall = _dal.Call.Read(callId) ?? throw new BO.BlDoesNotExistException($"Call with ID {callId} not found.");
+            DO.Call? doCall;
+            lock (AdminManager.BlMutex)
+                doCall = _dal.Call.Read(callId) ?? throw new BO.BlDoesNotExistException($"Call with ID {callId} not found.");
 
             BO.Call boCall = CallManager.ConvertToBO(doCall);
 
@@ -199,7 +217,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     {
         try
         {
-            var calls = _dal.Call.ReadAll();
+            IEnumerable<Call> calls;
+            lock (AdminManager.BlMutex)
+                calls = _dal.Call.ReadAll();
 
             // Conversion from DO to BO using LINQ  
             var query = from call in calls
@@ -263,7 +283,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     {
         try
         {
-            var calls = _dal.Call.ReadAll();
+            IEnumerable<Call> calls;
+            lock (AdminManager.BlMutex)
+                calls = _dal.Call.ReadAll();
 
             // Conversion from DO to BO using LINQ  
             var query = from call in calls
@@ -360,7 +382,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         // ניסיון לעדכן במאגר הנתונים
         try
         {
-            _dal.Call.Update(callEntity);
+            lock (AdminManager.BlMutex)
+                _dal.Call.Update(callEntity);
             CallManager.Observers.NotifyListUpdated(); //stage 5
             CallManager.Observers.NotifyItemUpdated(callEntity.Id); //stage 5
         }
@@ -375,13 +398,16 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
     {
         //
         // שליפת נתוני המתנדב
-        var volunteer = _dal.Volunteer.Read(volunteerId)
+        Volunteer volunteer;
+        lock (AdminManager.BlMutex)
+            volunteer = _dal.Volunteer.Read(volunteerId)
             ?? throw new BO.BlDoesNotExistException("Volunteer not found");
 
         // שליפת הקריאות בסטטוס פתוחה או פתוחה בסיכון
         var openStatuses = new[] { BO.CallStatus.Open, BO.CallStatus.OpenAtRisk };
-        var openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus(c.Id))).ToList();
-        var allCalls = _dal.Call.ReadAll().ToList().Select(s => s.MaxCallTime);
+        IEnumerable<Call> openCalls;
+        lock (AdminManager.BlMutex)
+            openCalls = _dal.Call.ReadAll(c => openStatuses.Contains(CallManager.GetCallStatus(c.Id))).ToList();
 
         // סינון לפי סוג הקריאה אם צריך
         if (callTypeFilter != null)
@@ -391,9 +417,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         var result = openCalls.Select(call =>
         {
             double distance = Tools.GetDistance(volunteer, call);
-
-            //?
-            //var assignments = _dal.Assignment.ReadAll(a => a.CallId == call.Id).ToList();
 
             return new BO.OpenCallInList
             {
@@ -430,7 +453,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         DO.Call call;
         try
         {
-            call = _dal.Call.Read(callId);
+            lock (AdminManager.BlMutex)
+                call = _dal.Call.Read(callId);
         }
         catch (Exception ex)
         {
@@ -447,7 +471,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlExpired("Call expired");
 
         // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
-        var existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(a.Id) == BO.CallStatus.Open);
+        IEnumerable<Assignment> existingAssignments;
+            lock (AdminManager.BlMutex)
+            existingAssignments= _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(a.Id) == BO.CallStatus.Open);
         if (existingAssignments.Any())
 
             throw new BO.BlAlreadyInTreatment("The call is already under treatment");
@@ -464,7 +490,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
         try
         {
-            _dal.Assignment.Create(assignment);
+            lock (AdminManager.BlMutex)
+                _dal.Assignment.Create(assignment);
             CallManager.Observers.NotifyListUpdated(); //stage 5
         }
         catch (Exception ex)
