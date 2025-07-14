@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="ניהול קריאות" Height="700" Width="1200"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
-        Background="{DynamicResource WindowBackgroundBrush}">
+        Background="{DynamicResource WindowBackgroundBrush}"
+         xmlns:controls="clr-namespace:PL.Controls">
 
     <Window.Resources>
         <SolidColorBrush x:Key="StatusOpenBrush" Color="#f8f9fa"/>
@@ -41,41 +42,18 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    
     <Grid Margin="24">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <!-- כפתור ערכת נושא קטן בפינה הימנית העליונה -->
-        <Button Content="🌓"
-                Width="36" Height="36"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="0,-18,-18,0"
-                Click="ChangeTheme_Click"
-                ToolTip="החלף ערכת נושא"
-                Panel.ZIndex="1000">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Ellipse Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1.5"/>
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Grid>
-                </ControlTemplate>
-            </Button.Template>
-            <Button.Background>
-                <SolidColorBrush Color="#3A7CA5"/>
-            </Button.Background>
-            <Button.BorderBrush>
-                <SolidColorBrush Color="#B5C1D8"/>
-            </Button.BorderBrush>
-            <Button.Foreground>
-                <SolidColorBrush Color="White"/>
-            </Button.Foreground>
-        </Button>
-
+        <!-- =========== הוספת הכפתור כאן! =========== -->
+        <!-- נצמיד אותו לפינה של ה-Grid הראשי, מעל כל השאר -->
+        <controls:ThemeToggleButton HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                    Margin="0,-14,-14,0" Panel.ZIndex="1"/>
         <!-- כותרת ראשית ואזור סינון -->
         <Border Grid.Row="0" Padding="18" Margin="0,0,0,24">
             <Grid>

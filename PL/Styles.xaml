@@ -24,7 +24,8 @@
     <SolidColorBrush x:Key="SelectedRowBrush" Color="{StaticResource SelectedRowColor}"/>
 
 
-  
+    
+
 
     <!-- בסיס לכל הרכיבים (ברירת מחדל) -->
     <Style TargetType="Control">
