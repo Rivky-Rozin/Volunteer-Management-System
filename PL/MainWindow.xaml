@@ -9,7 +9,7 @@
         <!-- הוספת ResourceDictionary נפרד -->
         <ResourceDictionary>
             <local:SimulatorButtonContentConverter x:Key="SimulatorButtonContentConverter"/>
-            <local:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <local:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 
             <!-- סגנונות משותפים לכפתורים -->
             <Style x:Key="CommonButtonStyle" TargetType="Button">

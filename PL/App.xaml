@@ -24,6 +24,8 @@
             <local:NullToVisibilityConverter x:Key="NullToVisibilityConverterKey"/>
             <local:InvertedNullToVisibilityConverter x:Key="InvertedNullToVisibilityConverterKey"/>
             <local:NullToBackgroundConverter x:Key="NullToBackgroundConverterKey"/>
+            <local:InvertedBooleanConverter x:Key="InvertedBooleanConverterKey"/>
+            <local:SimulatorButtonContentConverter x:Key="SimulatorButtonContentConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

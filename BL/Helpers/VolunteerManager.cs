@@ -273,12 +273,125 @@ internal static class VolunteerManager
                 VolunteerManager.Observers.NotifyListUpdated();
                 VolunteerManager.Observers.NotifyItemUpdated(doVolunteer.Id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new BO.BlFormatException("כתובת לא תקינה או לא נמצאה.", ex);
             }
         }
     }
+
+    internal static void SimulateVolunteerActivity()
+    {
+        // First get all active volunteers - wrap the DAL call in a lock and convert to concrete list
+        List<DO.Volunteer> activeVolunteers;
+        lock (AdminManager.BlMutex)
+        {
+            activeVolunteers = s_dal.Volunteer.ReadAll(v => v.IsActive).ToList();
+        }
+
+        // Random for probability decisions
+        Random random = new();
+
+        foreach (var volunteer in activeVolunteers)
+        {
+            // Check if volunteer has an active assignment
+            DO.Assignment? currentAssignment;
+            lock (AdminManager.BlMutex)
+            {
+                currentAssignment = s_dal.Assignment.ReadAll()
+                    .Where(a => a.VolunteerId == volunteer.Id && a.EndTreatment == null)
+                    .FirstOrDefault();
+            }
+
+            if (currentAssignment == null)
+            {
+                // No active assignment - maybe choose a new call (20% chance)
+                if (random.NextDouble() < 0.20)
+                {
+                    // Get available open calls with coordinates
+                    List<DO.Call> availableCalls;
+                    lock (AdminManager.BlMutex)
+                    {
+                        availableCalls = s_dal.Call.ReadAll()
+                            .Where(c => c.Latitude != 0 && c.Longitude != 0
+                                   && CallManager.GetCallStatus(c.Id) == BO.CallStatus.Open)
+                            .ToList();
+                    }
+
+                    // Filter calls by distance and pick random one
+                    var eligibleCalls = availableCalls
+                        .Where(call => Tools.GetDistance(volunteer, call) <= volunteer.MaxDistance)
+                        .ToList();
+
+                    if (eligibleCalls.Any())
+                    {
+                        var selectedCall = eligibleCalls[random.Next(eligibleCalls.Count)];
+
+                        // Create new assignment
+                        var newAssignment = new DO.Assignment
+                        {
+                            CallId = selectedCall.Id,
+                            VolunteerId = volunteer.Id,
+                            StartTreatment = AdminManager.Now,
+                            EndTreatment = null
+                        };
+
+                        lock (AdminManager.BlMutex)
+                        {
+                            s_dal.Assignment.Create(newAssignment);
+                        }
+
+                        // Notify outside lock
+                        Observers.NotifyListUpdated();
+                    }
+                }
+            }
+            else
+            {
+                // Has active assignment - check if enough time passed
+                DO.Call? call;
+                lock (AdminManager.BlMutex)
+                {
+                    call = s_dal.Call.Read(currentAssignment.CallId);
+                }
+
+                if (call != null)
+                {
+                    double distance = Tools.GetDistance(volunteer, call);
+                    // Base time on distance (1 minute per km) plus random 5-15 minutes
+                    TimeSpan requiredTime = TimeSpan.FromMinutes(distance + random.Next(5, 15));
+
+                    if (AdminManager.Now - currentAssignment.StartTreatment >= requiredTime)
+                    {
+                        // Complete the assignment
+                        var updatedAssignment = new DO.Assignment(
+                            currentAssignment.Id,
+                            currentAssignment.VolunteerId,
+                            currentAssignment.CallId,
+                            currentAssignment.StartTreatment,
+                            AdminManager.Now,
+                            DO.TreatmentType.Treated
+                        );
+
+                        lock (AdminManager.BlMutex)
+                        {
+                            s_dal.Assignment.Update(updatedAssignment);
+                        }
+
+                        // Notify outside lock
+                        Observers.NotifyListUpdated();
+                    }
+                    else if (random.NextDouble() < 0.10) // 10% chance to cancel
+                    {
+                        // Cancel the assignment
+                        var updatedAssignment = new DO.Assignment(
+                            currentAssignment.Id,
+                            currentAssignment.VolunteerId,
+                            currentAssignment.CallId,
+                            currentAssignment.StartTreatment,
+                            AdminManager.Now,
+                            DO.TreatmentType.UserCancelled
+                        );
 
                         lock (AdminManager.BlMutex)
                         {

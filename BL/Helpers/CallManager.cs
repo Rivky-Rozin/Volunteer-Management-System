@@ -307,6 +307,7 @@ internal static class CallManager
         }
     }
 
+   
     internal static void CreateSimulatedCall()
     {
         // יצירת נתונים רנדומליים לקריאה
@@ -337,4 +338,5 @@ internal static class CallManager
         Observers.NotifyListUpdated();
     }
 }
+
 
