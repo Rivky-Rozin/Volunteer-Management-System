@@ -1,15 +1,13 @@
 ﻿<Window x:Class="PL.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:PL"
+        xmlns:pl="clr-namespace:PL"
         Title="ניהול קריאות ומתנדבים" Height="700" Width="950"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Background="{StaticResource WindowBackgroundBrush}">
     <Window.Resources>
         <!-- הוספת ResourceDictionary נפרד -->
         <ResourceDictionary>
-            <local:SimulatorButtonContentConverter x:Key="SimulatorButtonContentConverter"/>
-            <local:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 
             <!-- סגנונות משותפים לכפתורים -->
             <Style x:Key="CommonButtonStyle" TargetType="Button">
@@ -47,15 +45,15 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <Button Content="+ דקה" Click="btnAddOneMinute_Click" Width="90" Height="36" Margin="0,0,8,0"
-                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                     <Button Content="+ שעה" Click="btnAddOneHour_Click" Width="90" Height="36" Margin="0,0,8,0"
-                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                     <Button Content="+ יום" Click="btnAddOneDay_Click" Width="90" Height="36" Margin="0,0,8,0"
-                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                     <Button Content="+ חודש" Click="btnAddOneMonth_Click" Width="90" Height="36" Margin="0,0,8,0"
-                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                     <Button Content="+ שנה" Click="btnAddOneYear_Click" Width="90" Height="36"
-                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -75,7 +73,7 @@
                         <TextBlock Text="קצב השעון (דקות):" VerticalAlignment="Center" Margin="0,0,5,0"/>
                         <TextBox Width="50"
                      Text="{Binding Interval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"
+                     IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"
                      Margin="0,0,5,0"/>
                         <Button Content="{Binding IsSimulatorRunning, Converter={StaticResource SimulatorButtonContentConverter}}"
                     Click="SimulatorButton_Click"
@@ -86,17 +84,17 @@
                         <Label Content="Max risk time span:" VerticalAlignment="Center"/>
                         <TextBox Width="100" Margin="10,0"
                      Text="{Binding RiskTimeSpan}"
-                     IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                     IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                         <Button Content="עדכן מסד נתונים" Margin="10,0,0,0" Click="btnUpdateRiskTimeSpan_Click"
-                    IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                    IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,6" VerticalAlignment="Center">
                         <Label Content="Max treatment time:" VerticalAlignment="Center"/>
                         <TextBox Width="100" Margin="10,0"
                      Text="45555"
-                     IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                     IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                         <Button Content="עדכן מסד נתונים" Margin="10,0,0,0" Click="btnUpdateTreatmentTime_Click"
-                    IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                    IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -149,9 +147,9 @@
                     <Button Content="ניהול מתנדבים" Click="BtnVolunteers_Click" Height="44" Margin="10"/>
                     <Button Content="ניהול קריאות" Click="BtnCalls_Click" Height="44" Margin="10"/>
                     <Button Content="אתחול מסד נתונים" Click="BtnInitializeDb_Click" Height="44" Margin="10"
-                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                     <Button Content="איפוס מסד נתונים" Click="BtnResetDb_Click" Height="44" Margin="10"
-                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                 </UniformGrid>
             </Border>
         </Grid>

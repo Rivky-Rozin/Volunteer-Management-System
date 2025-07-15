@@ -94,7 +94,14 @@ namespace PL.Call
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding call: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                string errorMessage = $"Error adding call: {ex.Message}";
+
+                if (ex.InnerException != null)
+                {
+                    errorMessage += $"\nDetails: {ex.InnerException.Message}";
+                }
+
+                MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

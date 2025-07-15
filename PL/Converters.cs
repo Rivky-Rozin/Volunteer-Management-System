@@ -160,7 +160,7 @@ public class InvertedNullToVisibilityConverter : IValueConverter
 /// <summary>
 /// ממיר בוליאני הפוך (לצורך הצגת סימון מתאים).
 /// </summary>
-public class InvertedBooleanConverter : IValueConverter
+public class InvertedBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -175,7 +175,6 @@ public class InvertedBooleanConverter : IValueConverter
     {
         throw new NotImplementedException();
     }
-
 }
 
 public class SimulatorButtonContentConverter : IValueConverter
