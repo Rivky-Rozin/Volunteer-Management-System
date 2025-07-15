@@ -22,7 +22,7 @@
   </Call>
   <Call>
     <Id>1002</Id>
-    <CallType>Emergency</CallType>
+    <CallType>Other</CallType>
     <FullAddress>31 Rager Blvd, Beer Sheva</FullAddress>
     <Latitude>31.2518</Latitude>
     <Longitude>34.7913</Longitude>
@@ -42,7 +42,7 @@
   </Call>
   <Call>
     <Id>1004</Id>
-    <CallType>Other</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>1 Herzl St, Ashdod</FullAddress>
     <Latitude>31.8032</Latitude>
     <Longitude>34.6553</Longitude>
@@ -62,7 +62,7 @@
   </Call>
   <Call>
     <Id>1006</Id>
-    <CallType>Technical</CallType>
+    <CallType>Emergency</CallType>
     <FullAddress>8 HaRav Kook St, Netanya</FullAddress>
     <Latitude>32.3282</Latitude>
     <Longitude>34.856</Longitude>
@@ -72,7 +72,7 @@
   </Call>
   <Call>
     <Id>1007</Id>
-    <CallType>Emergency</CallType>
+    <CallType>Food</CallType>
     <FullAddress>Dizengoff St 50, Tel Aviv</FullAddress>
     <Latitude>32.0771</Latitude>
     <Longitude>34.7744</Longitude>
@@ -92,7 +92,7 @@
   </Call>
   <Call>
     <Id>1009</Id>
-    <CallType>Medical</CallType>
+    <CallType>Emergency</CallType>
     <FullAddress>Beit HaRishonim, Rishon Lezion</FullAddress>
     <Latitude>31.9638</Latitude>
     <Longitude>34.8038</Longitude>
@@ -152,7 +152,7 @@
   </Call>
   <Call>
     <Id>1015</Id>
-    <CallType>Food</CallType>
+    <CallType>Technical</CallType>
     <FullAddress>48 Allenby St, Tel Aviv</FullAddress>
     <Latitude>32.0635</Latitude>
     <Longitude>34.7717</Longitude>
@@ -232,7 +232,7 @@
   </Call>
   <Call>
     <Id>1023</Id>
-    <CallType>Technical</CallType>
+    <CallType>Food</CallType>
     <FullAddress>Yefet St 190, Jaffa</FullAddress>
     <Latitude>32.0495</Latitude>
     <Longitude>34.7516</Longitude>
@@ -252,7 +252,7 @@
   </Call>
   <Call>
     <Id>1025</Id>
-    <CallType>Food</CallType>
+    <CallType>Emergency</CallType>
     <FullAddress>Weizmann 2, Rehovot</FullAddress>
     <Latitude>31.8936</Latitude>
     <Longitude>34.8113</Longitude>
@@ -332,7 +332,7 @@
   </Call>
   <Call>
     <Id>1033</Id>
-    <CallType>Medical</CallType>
+    <CallType>Food</CallType>
     <FullAddress>HaPalmach 2, Tiberias</FullAddress>
     <Latitude>32.7922</Latitude>
     <Longitude>35.5315</Longitude>

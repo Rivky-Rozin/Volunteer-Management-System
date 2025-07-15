@@ -1,0 +1,631 @@
+﻿<!-- Themes/DarkTheme.xaml --><!--
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  
+        --><!-- צבעים כהים לערכה כהה --><!--
+        <Color x:Key="PrimaryColor">#2196F3</Color>
+        <Color x:Key="AccentColor">#64B5F6</Color>
+        <Color x:Key="BackgroundColor">#181A1B</Color>
+        <Color x:Key="SurfaceColor">#23272A</Color>
+        <Color x:Key="PanelColor">#23272A</Color>
+        <Color x:Key="TextPrimaryColor">#F5F5F5</Color>
+        <Color x:Key="TextSecondaryColor">#B0B0B0</Color>
+        <Color x:Key="BorderColor">#33383B</Color>
+        <Color x:Key="RowAltColor">#202325</Color>
+        <Color x:Key="SelectedRowColor">#2A3A4A</Color>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+        <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+        <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource PanelColor}"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+        <SolidColorBrush x:Key="RowAltBrush" Color="{StaticResource RowAltColor}"/>
+        <SolidColorBrush x:Key="SelectedRowBrush" Color="{StaticResource SelectedRowColor}"/>
+
+        --><!-- רקע חלון כהה --><!--
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#181A1B"/>
+
+
+
+    --><!-- בסיס לכל הרכיבים (ברירת מחדל) --><!--
+    <Style TargetType="Control">
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Margin" Value="6"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+    </Style>
+
+    --><!-- כפתור עיקרי (ברירת מחדל) --><!--
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Margin" Value="8,0,8,0"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                         Background="{TemplateBinding Background}"
+                         BorderBrush="{TemplateBinding BorderBrush}"
+                         BorderThickness="{TemplateBinding BorderThickness}"
+                         CornerRadius="0">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource AccentBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#2B5C7C"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    --><!-- תיבת טקסט (ברירת מחדל) --><!--
+    <Style TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="border"
+                         Background="{TemplateBinding Background}"
+                         BorderBrush="{TemplateBinding BorderBrush}"
+                         BorderThickness="{TemplateBinding BorderThickness}"
+                         CornerRadius="0">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                   Margin="0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    --><!-- ComboBox (ברירת מחדל) --><!--
+    <Style TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+
+    --><!-- Label (ברירת מחדל) --><!--
+    <Style TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Margin" Value="6,6,6,0"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+    <Style TargetType="Border">
+
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    --><!-- CheckBox (ברירת מחדל) --><!--
+    <Style TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="Padding" Value="4,0,0,0"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <StackPanel Orientation="Horizontal">
+                        <Border x:Name="box"
+                             Width="16" Height="16"
+                             Background="White"
+                             BorderBrush="{TemplateBinding BorderBrush}"
+                             BorderThickness="1.5"
+                             CornerRadius="0"
+                             Margin="0,0,6,0">
+                            <Path x:Name="check"
+                               Data="M 2,8 L 7,13 L 14,3"
+                               Stroke="{StaticResource PrimaryBrush}"
+                               StrokeThickness="2"
+                               Visibility="Collapsed"/>
+                        </Border>
+                        <ContentPresenter VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="check" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    --><!-- DataGrid (ברירת מחדל) --><!--
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="RowHeight" Value="40"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource RowAltBrush}"/>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="14,0,14,0"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+                    <Setter Property="BorderThickness" Value="1.5"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Background="{TemplateBinding Background}"
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                     CornerRadius="0">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="DataGridRow">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource SelectedRowBrush}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#E3EAF2"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    --><!-- ScrollBar (ברירת מחדל) --><!--
+    <Style TargetType="ScrollBar">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid x:Name="GridRoot" Width="8" Background="{TemplateBinding Background}">
+                        <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true">
+                            <Track.Thumb>
+                                <Thumb>
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="{x:Type Thumb}">
+                                            <Rectangle Fill="#B5C1D8" RadiusX="0" RadiusY="0"/>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    --><!-- DataGridCell: גבול דק וריווח פנימי --><!--
+    <Style TargetType="DataGridCell">
+        <Setter Property="Padding" Value="8,2"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="BorderThickness" Value="0.1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border Background="{TemplateBinding Background}"
+                     BorderBrush="{TemplateBinding BorderBrush}"
+                     BorderThickness="{TemplateBinding BorderThickness}"
+                     CornerRadius="0">
+                        <ContentPresenter VerticalAlignment="Center" Margin="0,2,0,2"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="Padding" Value="8,2"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="0.6"/>
+        <Setter Property="Height" Value="44"/>
+        <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridColumnHeader">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                         BorderBrush="{TemplateBinding BorderBrush}"
+                         BorderThickness="{TemplateBinding BorderThickness}"
+                         CornerRadius="0">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Window">
+        <Setter Property="Icon" Value="/Assets/my-icon.ico"/>
+    </Style>
+    
+</ResourceDictionary>-->
+<!-- Themes/DarkTheme.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- צבעים כהים לערכה כהה -->
+     <Color x:Key="PrimaryColor">#FF7C3AED</Color> <!-- Purple Accent -->
+   <Color x:Key="AccentColor">#FF00BFAE</Color>  <!-- Teal Accent -->
+   <Color x:Key="BackgroundColor">#FF181825</Color> <!-- Very dark blue-gray -->
+   <Color x:Key="SurfaceColor">#FF23233A</Color> <!-- Slightly lighter for surfaces -->
+   <Color x:Key="PanelColor">#FF23233A</Color>
+   <Color x:Key="TextPrimaryColor">#FFF3F3F3</Color>
+   <Color x:Key="TextSecondaryColor">#FFB0B0B0</Color>
+   <Color x:Key="BorderColor">#FF3A3A4D</Color>
+   <Color x:Key="RowAltColor">#FF20203A</Color>
+   <Color x:Key="SelectedRowColor">#FF2D2D4D</Color>
+
+
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource PanelColor}"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="RowAltBrush" Color="{StaticResource RowAltColor}"/>
+    <SolidColorBrush x:Key="SelectedRowBrush" Color="{StaticResource SelectedRowColor}"/>
+
+    <!-- רקע חלון כהה -->
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#181A1B"/>
+
+    <!-- בסיס לכל הרכיבים (ברירת מחדל) -->
+    <Style TargetType="Control">
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Margin" Value="6"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+    </Style>
+
+    <!-- כפתור עיקרי (ברירת מחדל) -->
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Margin" Value="8,0,8,0"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="0">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource AccentBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#1565C0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- תיבת טקסט (ברירת מחדל) -->
+    <Style TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="CaretBrush" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="0">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ComboBox (ברירת מחדל) -->
+    <Style TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+
+    <!-- Label (ברירת מחדל) -->
+    <Style TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Margin" Value="6,6,6,0"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+    <Style TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <!-- CheckBox (ברירת מחדל) -->
+    <Style TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="Padding" Value="4,0,0,0"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <StackPanel Orientation="Horizontal">
+                        <Border x:Name="box"
+                                Width="16" Height="16"
+                                Background="{StaticResource SurfaceBrush}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1.5"
+                                CornerRadius="0"
+                                Margin="0,0,6,0">
+                            <Path x:Name="check"
+                                  Data="M 2,8 L 7,13 L 14,3"
+                                  Stroke="{StaticResource PrimaryBrush}"
+                                  StrokeThickness="2"
+                                  Visibility="Collapsed"/>
+                        </Border>
+                        <ContentPresenter VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="check" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- DataGrid (ברירת מחדל) -->
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="RowHeight" Value="40"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource RowAltBrush}"/>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="14,0,14,0"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+                    <Setter Property="BorderThickness" Value="1.5"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="0">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="DataGridRow">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource SelectedRowBrush}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#263545"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ScrollBar (ברירת מחדל) -->
+    <Style TargetType="ScrollBar">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid x:Name="GridRoot" Width="8" Background="{TemplateBinding Background}">
+                        <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true">
+                            <Track.Thumb>
+                                <Thumb>
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="{x:Type Thumb}">
+                                            <Rectangle Fill="#33383B" RadiusX="0" RadiusY="0"/>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- DataGridCell: גבול דק וריווח פנימי -->
+    <Style TargetType="DataGridCell">
+        <Setter Property="Padding" Value="8,2"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="BorderThickness" Value="0.1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="0">
+                        <ContentPresenter VerticalAlignment="Center" Margin="0,2,0,2"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Calibri, Segoe UI, Arial"/>
+        <Setter Property="Padding" Value="8,2"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="0.6"/>
+        <Setter Property="Height" Value="44"/>
+        <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridColumnHeader">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="0">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Window">
+        <Setter Property="Icon" Value="/Assets/my-icon.ico"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+    </Style>
+
+</ResourceDictionary>

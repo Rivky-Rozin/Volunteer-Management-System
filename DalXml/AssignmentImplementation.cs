@@ -54,13 +54,10 @@ internal class AssignmentImplementation : IAssignment
 
     public IEnumerable<Assignment> ReadAll(Func<Assignment, bool>? filter = null)
     {
-        //todo:  לבדוק למה endtreatment תמיד מלא
         List<Assignment> Assignments = XMLTools.LoadListFromXMLSerializer<Assignment>(Config.s_assignments_xml);
         return filter == null
             ? Assignments.Select(item => item)
             : Assignments.Where(filter);
-
-
     }
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 

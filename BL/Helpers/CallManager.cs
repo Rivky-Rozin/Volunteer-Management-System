@@ -307,5 +307,34 @@ internal static class CallManager
         }
     }
 
+    internal static void CreateSimulatedCall()
+    {
+        // יצירת נתונים רנדומליים לקריאה
+        Random rnd = new();
+        var callTypes = Enum.GetValues(typeof(DO.CallType));
+        var addresses = new[] { "רחוב הרצל 1, תל אביב", "שדרות בן גוריון 10, חיפה", "רחוב יפו 5, ירושלים" };
+        var descriptions = new[] { "אירוע רפואי", "תאונת דרכים", "שריפה", "קריאה לעזרה" };
+
+        var call = new DO.Call
+        {
+            Id = 0, // DAL יקצה מזהה חדש
+            CallType = (DO.CallType)callTypes.GetValue(rnd.Next(callTypes.Length))!,
+            FullAddress = addresses[rnd.Next(addresses.Length)],
+            Latitude = 32.08 + rnd.NextDouble() * 0.1, // טווח רנדומלי באזור ישראל
+            Longitude = 34.78 + rnd.NextDouble() * 0.1,
+            OpenTime = AdminManager.Now,
+            Description = descriptions[rnd.Next(descriptions.Length)],
+            MaxCallTime = AdminManager.Now.AddMinutes(rnd.Next(30, 90))
+        };
+
+        // שמירה ב-DAL עם נעילה
+        lock (AdminManager.BlMutex)
+        {
+            s_dal.Call.Create(call);
+        }
+
+        // עדכון משקיפים מחוץ ל-lock
+        Observers.NotifyListUpdated();
+    }
 }
 

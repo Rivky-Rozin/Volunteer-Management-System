@@ -280,4 +280,24 @@ internal static class VolunteerManager
         }
     }
 
+                        lock (AdminManager.BlMutex)
+                        {
+                            s_dal.Assignment.Update(updatedAssignment);
+                        }
+
+                        // Notify outside lock
+                        Observers.NotifyListUpdated();
+                    }
+                    else if (random.NextDouble() < 0.15) // 15% סיכוי לדוג'
+                    {
+
+                        CallManager.CreateSimulatedCall();
+
+                        // Notify outside lock
+                        Observers.NotifyListUpdated();
+                    }
+                }
+            }
+        }
+    }
 }

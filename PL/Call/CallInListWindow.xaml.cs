@@ -236,5 +236,9 @@ namespace PL.Call
             AddCallWindow _AddCallWindow = new();
             _AddCallWindow.Show();
         }
+        private void ChangeTheme_Click(object sender, RoutedEventArgs e)
+        {
+            App.ChangeTheme();
+        }
     }
 }

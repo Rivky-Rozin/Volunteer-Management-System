@@ -58,7 +58,7 @@ internal static class Config
         NextCallId = 1000;
         NextAssignmentId = 1000;
         Clock = DateTime.Now;
-        //todo
+    
         TreatmentTime = new TimeSpan(2, 0, 0);
         RiskTimeSpan = new TimeSpan(2, 0, 0);
     }

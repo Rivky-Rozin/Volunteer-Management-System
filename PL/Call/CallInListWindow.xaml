@@ -7,74 +7,61 @@
         mc:Ignorable="d"
         Title="ניהול קריאות" Height="700" Width="1200"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
-        Background="{StaticResource WindowBackgroundBrush}">
-    <Window.Resources>
-        <!-- הגדרת הצבעים לכל סטטוס כדי שיהיה קל לשנות אותם בעתיד -->
-        <SolidColorBrush x:Key="StatusOpenBrush" Color="#f8f9fa"/>
-        <!-- אפור בהיר מאוד -->
-        <SolidColorBrush x:Key="StatusInProgressBrush" Color="#e0f7fa"/>
-        <!-- תכלת בהיר -->
-        <SolidColorBrush x:Key="StatusOpenAtRiskBrush" Color="#fff9c4"/>
-        <!-- צהוב בהיר -->
-        <SolidColorBrush x:Key="StatusInProgressAtRiskBrush" Color="#ffe0b2"/>
-        <!-- כתום בהיר -->
-        <SolidColorBrush x:Key="StatusExpiredBrush" Color="#ffcdd2"/>
-        <!-- אדום בהיר -->
-        <SolidColorBrush x:Key="StatusClosedBrush" Color="#c8e6c9"/>
-        <!-- ירוק בהיר -->
+        Background="{DynamicResource WindowBackgroundBrush}"
+         xmlns:controls="clr-namespace:PL.Controls">
 
-        <!-- יצירת הסטייל עבור שורות הטבלה -->
+    <Window.Resources>
+        <SolidColorBrush x:Key="StatusOpenBrush" Color="#f8f9fa"/>
+        <SolidColorBrush x:Key="StatusInProgressBrush" Color="#e0f7fa"/>
+        <SolidColorBrush x:Key="StatusOpenAtRiskBrush" Color="#fff9c4"/>
+        <SolidColorBrush x:Key="StatusInProgressAtRiskBrush" Color="#ffe0b2"/>
+        <SolidColorBrush x:Key="StatusExpiredBrush" Color="#ffcdd2"/>
+        <SolidColorBrush x:Key="StatusClosedBrush" Color="#c8e6c9"/>
+
         <Style x:Key="StatusBasedRowStyle" TargetType="DataGridRow">
             <Style.Triggers>
-                <!-- טריגר עבור סטטוס Open -->
                 <DataTrigger Binding="{Binding Status}" Value="Open">
                     <Setter Property="Background" Value="{StaticResource StatusOpenBrush}"/>
                 </DataTrigger>
-
-                <!-- טריגר עבור סטטוס InProgress -->
                 <DataTrigger Binding="{Binding Status}" Value="InProgress">
                     <Setter Property="Background" Value="{StaticResource StatusInProgressBrush}"/>
                 </DataTrigger>
-
-                <!-- טריגר עבור סטטוס OpenAtRisk -->
                 <DataTrigger Binding="{Binding Status}" Value="OpenAtRisk">
                     <Setter Property="Background" Value="{StaticResource StatusOpenAtRiskBrush}"/>
                 </DataTrigger>
-
-                <!-- טריגר עבור סטטוס InProgressAtRisk -->
                 <DataTrigger Binding="{Binding Status}" Value="InProgressAtRisk">
                     <Setter Property="Background" Value="{StaticResource StatusInProgressAtRiskBrush}"/>
                 </DataTrigger>
-
-                <!-- טריגר עבור סטטוס Expired -->
                 <DataTrigger Binding="{Binding Status}" Value="Expired">
                     <Setter Property="Background" Value="{StaticResource StatusExpiredBrush}"/>
                 </DataTrigger>
-
-                <!-- טריגר עבור סטטוס Closed -->
                 <DataTrigger Binding="{Binding Status}" Value="Closed">
                     <Setter Property="Background" Value="{StaticResource StatusClosedBrush}"/>
-                    <!-- אפשר להוסיף עוד שינויים, למשל לשנות צבע טקסט -->
                     <Setter Property="Foreground" Value="DimGray"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    
     <Grid Margin="24">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
+        <!-- =========== הוספת הכפתור כאן! =========== -->
+        <!-- נצמיד אותו לפינה של ה-Grid הראשי, מעל כל השאר -->
+        <controls:ThemeToggleButton HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                    Margin="0,-14,-14,0" Panel.ZIndex="1"/>
         <!-- כותרת ראשית ואזור סינון -->
-        <Border Grid.Row="0" Padding="18" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0" Margin="0,0,0,24">
+        <Border Grid.Row="0" Padding="18" Margin="0,0,0,24">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="רשימת קריאות" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                <TextBlock Text="רשימת קריאות"  FontSize="22" FontWeight="SemiBold" VerticalAlignment="Center" />
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <Label Content="סנן לפי שדה:" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <ComboBox Width="140" ItemsSource="{Binding Source={StaticResource CallInListCollectionKey}}"
@@ -85,7 +72,7 @@
         </Border>
 
         <!-- טבלת קריאות -->
-        <Border Grid.Row="1" Padding="10" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="0">
+        <Border Grid.Row="1" Padding="10" CornerRadius="0">
             <DataGrid Margin="0" ItemsSource="{Binding Path=CallList}" MouseDoubleClick="DataGrid_MouseDoubleClick" AutoGenerateColumns="False" CanUserAddRows="False"
                       RowHeight="38" HeadersVisibility="Column" GridLinesVisibility="All"
                       HorizontalGridLinesBrush="{StaticResource BorderBrush}" VerticalGridLinesBrush="{StaticResource BorderBrush}"  RowStyle="{StaticResource StatusBasedRowStyle}">
@@ -134,7 +121,7 @@
 
         <!-- כפתור הוספה -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,0">
-            <Button Content="הוסף קריאה חדשה" Height="44" Width="180" Click="AddNewCall_Click"/>
+            <Button Content="הוסף קריאה חדשה" Height="44" Width="180" Click="AddNewCall_Click"      />
         </StackPanel>
     </Grid>
 </Window>

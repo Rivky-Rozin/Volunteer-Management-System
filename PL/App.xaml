@@ -7,7 +7,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml"/>
-                
+                <ResourceDictionary Source="Themes/LightTheme.xaml"/>
+                <!-- Default theme is LightTheme, can be changed to DarkTheme in code-behind or settings -->
             </ResourceDictionary.MergedDictionaries>
             <local:VolunteerSelectMenuCollection x:Key="VolunteerSelectMenuCollectionKey" />
             <local:CallTypeCollection x:Key="CallTypeCollectionKey" />
