@@ -191,3 +191,12 @@ public class BLTemporaryNotAvailableException : Exception
     }
 }
 
+
+[Serializable]
+public class BlFailedToCreateException : Exception
+{
+    public BlFailedToCreateException(string? message) : base(message) { }
+    public BlFailedToCreateException(string message, Exception innerException)
+        : base(message, innerException) { }
+}
+

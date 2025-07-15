@@ -300,11 +300,11 @@ internal class Program
 
             Console.Write("Enter the latitude: ");
             string? latitudeInput = Console.ReadLine();
-            double latitude = string.IsNullOrEmpty(latitudeInput) ? callToUpdate.Latitude : double.TryParse(latitudeInput, out var lat) ? lat : callToUpdate.Latitude;
+            double? latitude = string.IsNullOrEmpty(latitudeInput) ? callToUpdate.Latitude : double.TryParse(latitudeInput, out var lat) ? lat : callToUpdate.Latitude;
 
             Console.Write("Enter the longitude: ");
             string? longitudeInput = Console.ReadLine();
-            double longitude = string.IsNullOrEmpty(longitudeInput) ? callToUpdate.Longitude : double.TryParse(longitudeInput, out var lon) ? lon : callToUpdate.Longitude;
+            double? longitude = string.IsNullOrEmpty(longitudeInput) ? callToUpdate.Longitude : double.TryParse(longitudeInput, out var lon) ? lon : callToUpdate.Longitude;
 
             Console.Write("Enter the open time (format: yyyy-MM-dd HH:mm:ss): ");
             string? openTimeInput = Console.ReadLine();

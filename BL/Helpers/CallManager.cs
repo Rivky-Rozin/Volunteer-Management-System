@@ -225,14 +225,17 @@ internal static class CallManager
     }
     internal static void UpdateExpiredOpenCalls()
     {
-        // זמן נוכחי לפי שעון המערכת
-        DateTime now = AdminManager.Now; // הנחה: ClockManager.Now מחזיר את הזמן הנוכחי
+        DateTime now = AdminManager.Now;
 
-
-        // שליפת כל הקריאות הפתוחות
-        IEnumerable<Call> allOpenCalls;
+        // שליפת כל הקריאות הפתוחות – ToList מיידי!
+        List<Call> allOpenCalls;
         lock (AdminManager.BlMutex)
-            allOpenCalls = s_dal.Call.ReadAll(call => !(GetCallStatus(call.Id) == BO.CallStatus.Closed) && call.MaxCallTime <= now);
+            allOpenCalls = s_dal.Call
+                .ReadAll(call => !(GetCallStatus(call.Id) == BO.CallStatus.Closed) && call.MaxCallTime <= now)
+                .ToList();
+
+        // רשימה של קריאות שצריך לשלוח עליהן Notification
+        List<int> callsToNotify = new();
 
         foreach (var call in allOpenCalls)
         {
@@ -243,21 +246,21 @@ internal static class CallManager
             if (assignment == null)
             {
                 lock (AdminManager.BlMutex)
-                    // אין הקצאה קיימת – ניצור חדשה עם ביטול פג תוקף
+                {
                     s_dal.Assignment.Create(new DO.Assignment
                     {
                         CallId = call.Id,
                         VolunteerId = 0,
                         StartTreatment = call.OpenTime,
-                        EndTreatment = AdminManager.Now,
+                        EndTreatment = now,
                         TreatmentType = DO.TreatmentType.ExpiredCancel
                     });
-                Observers.NotifyListUpdated(); //stage 5
+                }
 
+                // נאסוף את הקריאה להתראה, אבל לא נשלח עדיין
+                callsToNotify.Add(call.Id);
             }
-
             else if (assignment.EndTreatment == null)
-
             {
                 DO.Assignment newAssignment = new
                 (
@@ -268,11 +271,41 @@ internal static class CallManager
                    now,
                    DO.TreatmentType.ExpiredCancel
                 );
-                // יש הקצאה אך היא לא הסתיימה – נעדכן אותה
+
                 lock (AdminManager.BlMutex)
                     s_dal.Assignment.Update(newAssignment);
+
+                callsToNotify.Add(call.Id);
+            }
+        }
+
+        // שליחת התראות אחרי סיום כל ה-lockים
+        if (callsToNotify.Count > 0)
+            Observers.NotifyListUpdated(); // כללי, או לפי מזהים – תלוי במימוש שלך
+    }
+
+    public static async Task UpdateCallCoordinatesAsync(DO.Call doCall)
+    {
+        if (!string.IsNullOrWhiteSpace(doCall.FullAddress))
+        {
+            try
+            {
+                var (lat, lon) = await Tools.GetCoordinatesFromAddress(doCall.FullAddress);
+
+                doCall = doCall with { Latitude = lat, Longitude = lon };
+
+                lock (AdminManager.BlMutex)
+                    s_dal.Call.Update(doCall); // עדכון הקואורדינטות
+
+                CallManager.Observers.NotifyItemUpdated(doCall.Id);
+                CallManager.Observers.NotifyListUpdated();
+            }
+            catch(Exception ex)
+            {
+                throw new BO.BlFailedToCreateException( "Failed to update call coordinates. Please check the address.", ex);
             }
         }
     }
+
 }
 

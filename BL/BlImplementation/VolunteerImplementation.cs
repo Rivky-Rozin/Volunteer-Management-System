@@ -86,7 +86,7 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         return volunteerBO;
     }
 
-    public void AddVolunteer(BO.Volunteer volunteer)
+    public async void AddVolunteer(BO.Volunteer volunteer)
     {
         AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         try
@@ -107,6 +107,14 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
 
             _dal.Volunteer.Create(VolunteerManager.ToDoVolunteer(volunteer));
             VolunteerManager.Observers.NotifyListUpdated(); //stage 5  
+        }
+        try
+        {
+            _ = VolunteerManager.UpdateVolunteerCoordinatesAsync(volunteer);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Warning: Failed to update coordinates for new volunteer {volunteer.Id}: {ex.Message}");
         }
     }
 
@@ -133,19 +141,23 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             throw new BO.BlValidationException($"יש נתונים שגויים");
         }
-        if (existingVolunteer.Address != volunteer.Address)
-        {
-            (double X, double Y) = Tools.GetCoordinatesFromAddress(volunteer.Address);
-            volunteer.Latitude = X;
-            volunteer.Longitude = Y;
-        }
         lock (AdminManager.BlMutex)
         {
             _dal.Volunteer.Update(VolunteerManager.ToDoVolunteer(volunteer));
         }
         VolunteerManager.Observers.NotifyItemUpdated(volunteer.Id);  //stage 5
         VolunteerManager.Observers.NotifyListUpdated();  //stage 5
-
+        if (existingVolunteer.Address != volunteer.Address)
+        {
+            try
+            {
+                _ = VolunteerManager.UpdateVolunteerCoordinatesAsync(volunteer);
+            }
+            catch (Exception ex)
+            {
+                throw new BO.BlValidationException("Failed to update coordinates", ex);
+            }
+        }
     }
 
     public void DeleteVolunteer(string id)

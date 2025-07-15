@@ -26,8 +26,8 @@ public record Call(
     int Id,
     CallType  CallType,
     string FullAddress,
-    double Latitude,
-    double Longitude,
+    double? Latitude,
+    double? Longitude,
     DateTime OpenTime,
     string? Description = null,
     DateTime? MaxCallTime =null

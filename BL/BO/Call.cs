@@ -8,8 +8,8 @@ public class Call
     public CallType CallType { get; set; }   
     public string? Description {  get; set; }
     public string Address { get; set; }
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
+    public double? Latitude { get; set; }
+    public double? Longitude { get; set; }
     public DateTime CreationTime { get; set; }
     public DateTime? MaxFinishTime { get; set; }
     public CallStatus Status { get; set; }

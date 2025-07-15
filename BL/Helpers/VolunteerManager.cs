@@ -218,14 +218,15 @@ internal static class VolunteerManager
         // בדיקת כתובת – כאן אפשר להרחיב בעתיד עם חיבור למ
         if (string.IsNullOrWhiteSpace(volunteer.Address))
             throw new BO.BlFormatException("כתובת לא יכולה null.");
-        try
-        {
-            var (x, y) = Tools.GetCoordinatesFromAddress(volunteer.Address);
-        }
-        catch (Exception)
-        {
-            throw new BO.BlFormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
-        }
+        //מיותר - בהוספה או בעידכון התכנית ממילא תיפול ולא תוסיף או תעדכן אם הכתובת לא תקינה. אין סיבה להוסיף קריאת רשת מיותרת
+        //try
+        //{
+        //    var (x, y) = Tools.GetCoordinatesFromAddress(volunteer.Address);
+        //}
+        //catch (Exception)
+        //{
+        //    throw new BO.BlFormatException("כתובת לא יכולה להיות מוגדרת בלי קואורדינטות.");
+        //}
 
         // בדיקת מרחק
         if (volunteer.MaxDistance is < 0)
@@ -255,5 +256,28 @@ internal static class VolunteerManager
         );
     }
 
+
+    public static async Task UpdateVolunteerCoordinatesAsync(BO.Volunteer volunteer)
+    {
+        if (!string.IsNullOrWhiteSpace(volunteer.Address))
+        {
+            try
+            {
+                DO.Volunteer doVolunteer = ToDoVolunteer(volunteer);
+                var (lat, lon) = await Tools.GetCoordinatesFromAddress(doVolunteer.Address);
+                doVolunteer = doVolunteer with { Latitude = lat, Longitude = lon };
+
+                lock (AdminManager.BlMutex)
+                    s_dal.Volunteer.Update(doVolunteer); // עדכון ה־DAL עם הקואורדינטות
+
+                VolunteerManager.Observers.NotifyListUpdated();
+                VolunteerManager.Observers.NotifyItemUpdated(doVolunteer.Id);
+            }
+            catch(Exception ex)
+            {
+                throw new BO.BlFormatException("כתובת לא תקינה או לא נמצאה.", ex);
+            }
+        }
+    }
 
 }

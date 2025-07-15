@@ -177,3 +177,15 @@ public class InvertedBooleanConverter : IValueConverter
     }
 }
 
+public class NullToBackgroundConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value == null ? Brushes.LightCoral : Brushes.Transparent;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}
+
+

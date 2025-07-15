@@ -32,19 +32,19 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             var openTime = AdminManager.Now;
             call.CreationTime = openTime;
 
-            var (lat, lon) = Tools.GetCoordinatesFromAddress(call.Address);
-            call.Latitude = lat;
-            call.Longitude = lon;
+            call.Latitude = null;
+            call.Longitude = null;
 
-
-            // המרה ל-DO      
             DO.Call doCall = CallManager.ConvertToDO(call);
 
-            // הוספה ל-DAL
-            lock (AdminManager.BlMutex) //stage 7
-
+            // שלב 3: מוסיפים ל-DAL בלי קואורדינטות
+            lock (AdminManager.BlMutex)
                 _dal.Call.Create(doCall);
+
             CallManager.Observers.NotifyListUpdated(); //stage 5
+
+            // שלב 4: מחשבים קואורדינטות ברקע
+            _ = CallManager.UpdateCallCoordinatesAsync(doCall); // בלי await
         }
         catch (Exception ex)
         {
@@ -354,19 +354,9 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         if (!Enum.IsDefined(typeof(BO.CallStatus), call.Status))
             throw new BO.BlArgumentException("סטטוס הקריאה אינו חוקי.");
 
-        // קבלת קואורדינטות מהכתובת – מעדכן ישירות ל־call
-        try
-        {
-            var (lat, lon) = Tools.GetCoordinatesFromAddress(call.Address);
-            call.Latitude = lat;
-            call.Longitude = lon;
-        }
-        catch
-        {
-            throw new BO.BlGeneralException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.");
-        }
+        call.Latitude = null;
+        call.Longitude = null;
 
-        // המרה ל-DO.Call
         DO.Call callEntity = new DO.Call
         {
             Id = call.Id,
@@ -391,6 +381,19 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             throw new BO.BlDoesNotExistException($"קריאה עם מזהה {call.Id} לא נמצאה במערכת.", ex);
         }
+
+        // קבלת קואורדינטות מהכתובת – מעדכן ישירות ל־call
+        try
+        {
+            _ = CallManager.UpdateCallCoordinatesAsync(callEntity); // בלי await
+        }
+        catch(Exception ex)
+        {
+            throw new BO.BlGeneralException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.",ex);
+        }
+
+        // המרה ל-DO.Call
+       
     }
 
     //עובד

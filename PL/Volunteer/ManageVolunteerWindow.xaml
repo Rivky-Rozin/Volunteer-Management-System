@@ -1,6 +1,7 @@
 ﻿<Window x:Class="PL.Volunteer.ManageVolunteerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:pl="clr-namespace:PL"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:pl="clr-namespace:PL"
         Title="VolunteerWindow" Height="700" Width="540"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Window.Resources>
@@ -8,10 +9,8 @@
     </Window.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{StaticResource WindowBackgroundBrush}">
         <StackPanel Margin="0,18,0,18" HorizontalAlignment="Center">
-            <!-- כותרת -->
             <TextBlock Text="ניהול מתנדב" FontSize="26" FontWeight="SemiBold" Margin="0,0,0,18" HorizontalAlignment="Center"/>
 
-            <!-- פרטי מתנדב -->
             <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="18" Margin="0,0,0,18" Width="440">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -55,10 +54,18 @@
                     <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding CurrentVolunteer.Address, Mode=TwoWay}" />
 
                     <Label Grid.Row="6" Grid.Column="0" Content="קו רוחב:"/>
-                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding CurrentVolunteer.Latitude, Mode=TwoWay}" />
+                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding CurrentVolunteer.Latitude, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Background>
+                            <Binding Path="CurrentVolunteer.Latitude" Converter="{StaticResource NullToBackgroundConverterKey}"/>
+                        </TextBox.Background>
+                    </TextBox>
 
                     <Label Grid.Row="7" Grid.Column="0" Content="קו אורך:"/>
-                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding CurrentVolunteer.Longitude, Mode=TwoWay}" />
+                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding CurrentVolunteer.Longitude, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Background>
+                            <Binding Path="CurrentVolunteer.Longitude" Converter="{StaticResource NullToBackgroundConverterKey}"/>
+                        </TextBox.Background>
+                    </TextBox>
 
                     <Label Grid.Row="8" Grid.Column="0" Content="תפקיד:"/>
                     <ComboBox Grid.Row="8" Grid.Column="1"
@@ -87,7 +94,6 @@
                 </Grid>
             </Border>
 
-            <!-- קריאה פעילה -->
             <Border Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,18" Width="440"
                     Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource NullToVisibilityConverter}}">
                 <StackPanel>
@@ -127,7 +133,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- כפתור הוספה/עדכון -->
             <Button Content="{Binding ButtonText}" Click="btnAddUpdate_Click" Width="180" Height="44" HorizontalAlignment="Center"/>
         </StackPanel>
     </ScrollViewer>

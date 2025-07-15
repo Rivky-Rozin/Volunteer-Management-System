@@ -14,7 +14,7 @@ namespace Helpers
     {
         private const string LocationIqApiKey = "pk.f21de2f6381d8c8c4b980b880463e593"; // שים כאן את ה-API KEY שלך מ-LocationIQ
 
-        internal static (double Latitude, double Longitude) GetCoordinatesFromAddress(string address)
+        internal static async Task<(double Latitude, double Longitude)> GetCoordinatesFromAddress(string address)
         {
             if (string.IsNullOrWhiteSpace(address))
                 throw new ArgumentException("כתובת לא יכולה להיות ריקה.");
@@ -26,12 +26,12 @@ namespace Helpers
 
             try
             {
-                var response = client.GetAsync(url).Result;
+                var response = await client.GetAsync(url); // קריאה א־סינכרונית אמיתית
 
                 if (!response.IsSuccessStatusCode)
                     throw new Exception("שגיאה בשליפת נתוני מיקום מהשרת.");
 
-                string content = response.Content.ReadAsStringAsync().Result;
+                string content = await response.Content.ReadAsStringAsync(); // גם כאן await
 
                 var results = JsonSerializer.Deserialize<LocationIqResult[]>(content);
 
@@ -132,11 +132,16 @@ namespace Helpers
             {
                 throw new ArgumentNullException("Volunteer latitude or longitude cannot be null.");
             }
+            // בדיקת תקינות קואורדינטות המתנדב
+            if (call.Latitude == null || call.Longitude == null)
+            {
+                throw new ArgumentNullException("Call latitude or longitude cannot be null.");
+            }
 
             double lat1 = DegreesToRadians(volunteer.Latitude.Value);
             double lon1 = DegreesToRadians(volunteer.Longitude.Value);
-            double lat2 = DegreesToRadians(call.Latitude);
-            double lon2 = DegreesToRadians(call.Longitude);
+            double lat2 = DegreesToRadians(call.Latitude.Value);
+            double lon2 = DegreesToRadians(call.Longitude.Value);
 
             // חישוב ההפרש בקווי רוחב ובאורך
             double dLat = lat2 - lat1;
