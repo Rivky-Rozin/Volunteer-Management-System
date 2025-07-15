@@ -2,226 +2,257 @@
 <ArrayOfAssignment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Assignment>
     <Id>1000</Id>
-    <VolunteerId>258982397</VolunteerId>
-    <CallId>1035</CallId>
-    <StartTreatment>2025-04-14T13:04:09</StartTreatment>
-    <EndTreatment>2025-04-14T13:35:09</EndTreatment>
-    <TreatmentType>ExpiredCancel</TreatmentType>
+    <VolunteerId>376966090</VolunteerId>
+    <CallId>1008</CallId>
+    <StartTreatment>2025-04-04T18:29:25</StartTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1001</Id>
-    <VolunteerId>258982397</VolunteerId>
-    <CallId>1012</CallId>
-    <StartTreatment>2025-07-06T11:04:09</StartTreatment>
+    <VolunteerId>376966090</VolunteerId>
+    <CallId>1019</CallId>
+    <StartTreatment>2025-06-13T18:29:25</StartTreatment>
+    <EndTreatment>2025-06-13T19:07:25</EndTreatment>
+    <TreatmentType>Treated</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1002</Id>
-    <VolunteerId>256801161</VolunteerId>
-    <CallId>1027</CallId>
-    <StartTreatment>2025-01-11T13:04:09</StartTreatment>
-    <EndTreatment>2025-01-11T14:15:09</EndTreatment>
-    <TreatmentType>ExpiredCancel</TreatmentType>
+    <VolunteerId>376966090</VolunteerId>
+    <CallId>1021</CallId>
+    <StartTreatment>2025-07-15T16:29:25</StartTreatment>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1003</Id>
-    <VolunteerId>256801161</VolunteerId>
-    <CallId>1008</CallId>
-    <StartTreatment>2025-02-10T13:04:09</StartTreatment>
-    <EndTreatmentTime xsi:nil="true" />
-  </Assignment>
-  <Assignment>
-    <Id>1004</Id>
-    <VolunteerId>256801161</VolunteerId>
-    <CallId>1016</CallId>
-    <StartTreatment>2025-05-27T13:04:09</StartTreatment>
-    <EndTreatment>2025-05-27T13:54:09</EndTreatment>
-    <TreatmentType>ExpiredCancel</TreatmentType>
-    <EndTreatmentTime xsi:nil="true" />
-  </Assignment>
-  <Assignment>
-    <Id>1005</Id>
-    <VolunteerId>256801161</VolunteerId>
-    <CallId>1017</CallId>
-    <StartTreatment>2025-07-06T12:04:09</StartTreatment>
-    <EndTreatmentTime xsi:nil="true" />
-  </Assignment>
-  <Assignment>
-    <Id>1006</Id>
-    <VolunteerId>297708489</VolunteerId>
-    <CallId>1037</CallId>
-    <StartTreatment>2025-04-27T13:04:09</StartTreatment>
-    <EndTreatment>2025-04-27T14:17:09</EndTreatment>
+    <VolunteerId>305158171</VolunteerId>
+    <CallId>1018</CallId>
+    <StartTreatment>2025-02-19T18:29:25</StartTreatment>
+    <EndTreatment>2025-02-19T19:34:25</EndTreatment>
     <TreatmentType>ManagerCancelled</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
+    <Id>1004</Id>
+    <VolunteerId>305158171</VolunteerId>
+    <CallId>1030</CallId>
+    <StartTreatment>2025-03-07T18:29:25</StartTreatment>
+    <EndTreatment>2025-03-07T19:24:25</EndTreatment>
+    <TreatmentType>Treated</TreatmentType>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1005</Id>
+    <VolunteerId>305158171</VolunteerId>
+    <CallId>1023</CallId>
+    <StartTreatment>2025-07-15T17:29:25</StartTreatment>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
     <Id>1007</Id>
-    <VolunteerId>297708489</VolunteerId>
-    <CallId>1022</CallId>
-    <StartTreatment>2025-05-10T13:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1000</CallId>
+    <StartTreatment>2025-06-21T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1008</Id>
-    <VolunteerId>297708489</VolunteerId>
-    <CallId>1029</CallId>
-    <StartTreatment>2025-07-06T12:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1002</CallId>
+    <StartTreatment>2025-07-15T13:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1009</Id>
-    <VolunteerId>367687825</VolunteerId>
-    <CallId>1026</CallId>
-    <StartTreatment>2025-02-20T13:04:09</StartTreatment>
-    <EndTreatment>2025-02-20T13:27:09</EndTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1004</CallId>
+    <StartTreatment>2025-07-12T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
     <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1010</Id>
-    <VolunteerId>367687825</VolunteerId>
-    <CallId>1018</CallId>
-    <StartTreatment>2025-07-06T11:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1005</CallId>
+    <StartTreatment>2025-07-05T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1011</Id>
-    <VolunteerId>390719469</VolunteerId>
+    <VolunteerId>0</VolunteerId>
     <CallId>1009</CallId>
-    <StartTreatment>2025-02-14T13:04:09</StartTreatment>
-    <EndTreatment>2025-02-14T14:27:09</EndTreatment>
+    <StartTreatment>2025-07-12T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
     <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1012</Id>
-    <VolunteerId>390719469</VolunteerId>
-    <CallId>1015</CallId>
-    <StartTreatment>2025-07-06T11:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1010</CallId>
+    <StartTreatment>2025-06-23T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1013</Id>
-    <VolunteerId>293578438</VolunteerId>
-    <CallId>1019</CallId>
-    <StartTreatment>2025-06-06T13:04:09</StartTreatment>
-    <EndTreatment>2025-06-06T13:56:09</EndTreatment>
-    <TreatmentType>Treated</TreatmentType>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1014</CallId>
+    <StartTreatment>2025-07-12T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1014</Id>
-    <VolunteerId>293578438</VolunteerId>
-    <CallId>1002</CallId>
-    <StartTreatment>2025-03-14T13:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1015</CallId>
+    <StartTreatment>2025-06-26T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1015</Id>
-    <VolunteerId>293578438</VolunteerId>
-    <CallId>1025</CallId>
-    <StartTreatment>2025-05-25T13:04:09</StartTreatment>
-    <EndTreatment>2025-05-25T14:08:09</EndTreatment>
-    <TreatmentType>ManagerCancelled</TreatmentType>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1017</CallId>
+    <StartTreatment>2025-07-15T13:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1016</Id>
-    <VolunteerId>293578438</VolunteerId>
-    <CallId>1003</CallId>
-    <StartTreatment>2025-07-06T12:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1020</CallId>
+    <StartTreatment>2025-06-18T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1017</Id>
-    <VolunteerId>287613856</VolunteerId>
-    <CallId>1013</CallId>
-    <StartTreatment>2025-05-09T13:04:09</StartTreatment>
-    <EndTreatment>2025-05-09T14:04:09</EndTreatment>
-    <TreatmentType>Treated</TreatmentType>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1024</CallId>
+    <StartTreatment>2025-07-12T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1018</Id>
-    <VolunteerId>287613856</VolunteerId>
-    <CallId>1000</CallId>
-    <StartTreatment>2025-07-06T12:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1025</CallId>
+    <StartTreatment>2025-06-17T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1019</Id>
-    <VolunteerId>257893161</VolunteerId>
-    <CallId>1021</CallId>
-    <StartTreatment>2025-03-19T13:04:09</StartTreatment>
-    <EndTreatment>2025-03-19T14:08:09</EndTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1029</CallId>
+    <StartTreatment>2025-07-12T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
     <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1020</Id>
-    <VolunteerId>257893161</VolunteerId>
+    <VolunteerId>0</VolunteerId>
     <CallId>1034</CallId>
-    <StartTreatment>2025-01-13T13:04:09</StartTreatment>
-    <EndTreatment>2025-01-13T13:45:09</EndTreatment>
+    <StartTreatment>2025-07-12T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
     <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1021</Id>
-    <VolunteerId>257893161</VolunteerId>
-    <CallId>1036</CallId>
-    <StartTreatment>2025-03-03T13:04:09</StartTreatment>
-    <EndTreatment>2025-03-03T13:46:09</EndTreatment>
-    <TreatmentType>Treated</TreatmentType>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1035</CallId>
+    <StartTreatment>2025-06-30T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1022</Id>
-    <VolunteerId>257893161</VolunteerId>
-    <CallId>1023</CallId>
-    <StartTreatment>2025-07-06T11:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1037</CallId>
+    <StartTreatment>2025-07-15T15:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1023</Id>
-    <VolunteerId>378952497</VolunteerId>
-    <CallId>1030</CallId>
-    <StartTreatment>2025-04-22T13:04:09</StartTreatment>
-    <EndTreatment>2025-04-22T13:22:09</EndTreatment>
-    <TreatmentType>UserCancelled</TreatmentType>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1039</CallId>
+    <StartTreatment>2025-07-13T18:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:39:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1024</Id>
-    <VolunteerId>378952497</VolunteerId>
-    <CallId>1005</CallId>
-    <StartTreatment>2025-05-08T13:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1007</CallId>
+    <StartTreatment>2025-07-15T14:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:49:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1025</Id>
-    <VolunteerId>378952497</VolunteerId>
-    <CallId>1033</CallId>
-    <StartTreatment>2025-02-12T13:04:09</StartTreatment>
-    <EndTreatment>2025-02-12T13:59:09</EndTreatment>
-    <TreatmentType>UserCancelled</TreatmentType>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1012</CallId>
+    <StartTreatment>2025-07-15T14:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:49:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1026</Id>
-    <VolunteerId>378952497</VolunteerId>
-    <CallId>1014</CallId>
-    <StartTreatment>2025-07-06T11:04:09</StartTreatment>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1022</CallId>
+    <StartTreatment>2025-07-15T13:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T18:59:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
   <Assignment>
     <Id>1027</Id>
-    <VolunteerId>217077883</VolunteerId>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1027</CallId>
+    <StartTreatment>2025-07-15T14:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T19:09:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1028</Id>
+    <VolunteerId>0</VolunteerId>
     <CallId>1032</CallId>
-    <StartTreatment>2025-03-18T13:04:09</StartTreatment>
+    <StartTreatment>2025-07-15T13:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T19:09:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
+    <EndTreatmentTime xsi:nil="true" />
+  </Assignment>
+  <Assignment>
+    <Id>1029</Id>
+    <VolunteerId>0</VolunteerId>
+    <CallId>1036</CallId>
+    <StartTreatment>2025-07-15T15:29:25</StartTreatment>
+    <EndTreatment>2025-07-15T20:29:25</EndTreatment>
+    <TreatmentType>ExpiredCancel</TreatmentType>
     <EndTreatmentTime xsi:nil="true" />
   </Assignment>
 </ArrayOfAssignment>

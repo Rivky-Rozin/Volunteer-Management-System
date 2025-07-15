@@ -1,14 +1,14 @@
 ﻿using BlApi;
-using PL.Volunteer;
+using BO;
+using MyApp; // יש לוודא שה-namespace BO זמין ושה-enum CallStatus מעודכן בו
 using PL.Call;
+using PL.Volunteer;
 using System;
 using System.Configuration;
 using System.Windows;
-using System.Windows.Threading;
 using System.Windows.Input;
-using BO;
-using MyApp; // יש לוודא שה-namespace BO זמין ושה-enum CallStatus מעודכן בו
-
+using System.Windows.Threading;
+using System.ComponentModel;
 namespace PL
 
 {
@@ -180,6 +180,7 @@ namespace PL
             InitializeComponent();
             RiskTimeSpan = (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes;
             UpdateCallStatusCounts(); // אתחול ספירת הקריאות עם עליית החלון
+            DataContext = this;
         }
 
         /// <summary>
@@ -395,7 +396,57 @@ namespace PL
 
         public static readonly DependencyProperty InProgressAtRiskCallsCountProperty =
             DependencyProperty.Register("InProgressAtRiskCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
+        public static readonly DependencyProperty IntervalProperty =
+       DependencyProperty.Register(nameof(Interval), typeof(int), typeof(MainWindow), new PropertyMetadata(1));
+
+   
+        public int Interval
+        {
+            get => (int)GetValue(IntervalProperty);
+            set => SetValue(IntervalProperty, value);
+        }
+
+        public static readonly DependencyProperty IsSimulatorRunningProperty =
+            DependencyProperty.Register(nameof(IsSimulatorRunning), typeof(bool), typeof(MainWindow), new PropertyMetadata(false));
+
+        public bool IsSimulatorRunning
+        {
+            get => (bool)GetValue(IsSimulatorRunningProperty);
+            set => SetValue(IsSimulatorRunningProperty, value);
+        }
+
+        // דוגמה: תכונה לשעון המערכת (אם יש)
+        public DateTime SystemClock
+        {
+            get => s_bl.Admin.GetCurrentTime();
+        }
+
+        private void SimulatorButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSimulatorRunning)
+            {
+                s_bl.Admin.StartSimulator(Interval);
+                IsSimulatorRunning = true;
+            }
+            else
+            {
+                s_bl.Admin.StopSimulator();
+                IsSimulatorRunning = false;
+            }
+        }
+
+        // טיפול בסגירת חלון
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (IsSimulatorRunning)
+            {
+                s_bl.Admin.StopSimulator();
+                IsSimulatorRunning = false;
+            }
+            base.OnClosing(e);
+        }
     }
+
 
 
 }
