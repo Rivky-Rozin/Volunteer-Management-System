@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BlApi;
+using BO;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using BlApi;
-using BO;
+using System.Windows.Threading;
 
 namespace PL.Volunteer
 {
@@ -116,10 +117,16 @@ namespace PL.Volunteer
                     MessageBoxImage.Error);
             }
         }
-
+        private volatile DispatcherOperation? _observerOperation1 = null; //stage 7
         private void CallListObserver()
         {
-            Dispatcher.Invoke(RefreshList);
+
+            if (_observerOperation1 is null || _observerOperation1.Status == DispatcherOperationStatus.Completed)
+                _observerOperation1 = Dispatcher.BeginInvoke(() =>
+                {
+
+                    RefreshList();
+                });
         }
 
         private void Window_Closed(object sender, EventArgs e)

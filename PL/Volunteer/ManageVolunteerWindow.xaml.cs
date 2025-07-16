@@ -1,7 +1,8 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using BO;
+using System.Windows.Threading;
 
 namespace PL.Volunteer
 {
@@ -75,15 +76,21 @@ namespace PL.Volunteer
             DataContext = this;
         }
 
+        private volatile DispatcherOperation? _observerOperation = null; //stage 7
         private void RefreshVolunteerObserver()
         {
-            if (CurrentVolunteer?.Id > 0)
-            {
-                int id = CurrentVolunteer.Id;
-                // רענון האובייקט מה-BL
-                CurrentVolunteer = null;
-                CurrentVolunteer = s_bl.Volunteer.GetVolunteerDetails(id.ToString());
-            }
+
+            if (_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
+                _observerOperation = Dispatcher.BeginInvoke(() =>
+                {
+
+                    if (CurrentVolunteer?.Id > 0)
+                    {
+                        int id = CurrentVolunteer.Id;
+                        CurrentVolunteer = null;
+                        CurrentVolunteer = s_bl.Volunteer.GetVolunteerDetails(id.ToString());
+                    }
+                });
         }
 
 
