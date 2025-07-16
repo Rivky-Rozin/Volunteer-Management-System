@@ -2,7 +2,7 @@
 <ArrayOfCall xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Call>
     <Id>1000</Id>
-    <CallType>Technical</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>48 Allenby St, Tel Aviv</FullAddress>
     <Latitude>32.0635</Latitude>
     <Longitude>34.7717</Longitude>
@@ -62,7 +62,7 @@
   </Call>
   <Call>
     <Id>1006</Id>
-    <CallType>Emergency</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>8 HaRav Kook St, Netanya</FullAddress>
     <Latitude>32.3282</Latitude>
     <Longitude>34.856</Longitude>
@@ -82,7 +82,7 @@
   </Call>
   <Call>
     <Id>1008</Id>
-    <CallType>Food</CallType>
+    <CallType>Other</CallType>
     <FullAddress>Yefet St 190, Jaffa</FullAddress>
     <Latitude>32.0495</Latitude>
     <Longitude>34.7516</Longitude>
@@ -292,7 +292,7 @@
   </Call>
   <Call>
     <Id>1029</Id>
-    <CallType>Food</CallType>
+    <CallType>Other</CallType>
     <FullAddress>Hagana Blvd 8, Petah Tikva</FullAddress>
     <Latitude>32.083</Latitude>
     <Longitude>34.8878</Longitude>
@@ -322,7 +322,7 @@
   </Call>
   <Call>
     <Id>1032</Id>
-    <CallType>Technical</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>31 Rager Blvd, Beer Sheva</FullAddress>
     <Latitude>31.2518</Latitude>
     <Longitude>34.7913</Longitude>
@@ -392,7 +392,7 @@
   </Call>
   <Call>
     <Id>1039</Id>
-    <CallType>Technical</CallType>
+    <CallType>Food</CallType>
     <FullAddress>Beit HaRishonim, Rishon Lezion</FullAddress>
     <Latitude>31.9638</Latitude>
     <Longitude>34.8038</Longitude>
