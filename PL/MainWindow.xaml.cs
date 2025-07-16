@@ -469,99 +469,96 @@ using PL.Call;
 using PL.Volunteer;
 using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PL
 {
-    /// <summary>
-    /// חלון ראשי של האפליקציה. מממש את INotifyPropertyChanged כדי לאפשר עדכונים דינמיים ל-UI.
-    /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
         static readonly IBl s_bl = Factory.Get();
 
-        #region INotifyPropertyChanged Implementation
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
-        #region Properties for Data Binding
-        private DateTime _currentTime;
+        #region Dependency Properties
         public DateTime CurrentTime
         {
-            get => _currentTime;
-            set { if (_currentTime != value) { _currentTime = value; OnPropertyChanged(); } }
+            get { return (DateTime)GetValue(CurrentTimeProperty); }
+            set { SetValue(CurrentTimeProperty, value); }
         }
+        public static readonly DependencyProperty CurrentTimeProperty =
+            DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(default(DateTime)));
 
-        private int _riskTimeSpan;
         public int RiskTimeSpan
         {
-            get => _riskTimeSpan;
-            set { if (_riskTimeSpan != value) { _riskTimeSpan = value; OnPropertyChanged(); } }
+            get { return (int)GetValue(RiskTimeSpanProperty); }
+            set { SetValue(RiskTimeSpanProperty, value); }
         }
+        public static readonly DependencyProperty RiskTimeSpanProperty =
+            DependencyProperty.Register("RiskTimeSpan", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
 
-        private int _interval = 1;
         public int Interval
         {
-            get => _interval;
-            set { if (_interval != value) { _interval = value; OnPropertyChanged(); } }
+            get { return (int)GetValue(IntervalProperty); }
+            set { SetValue(IntervalProperty, value); }
         }
+        public static readonly DependencyProperty IntervalProperty =
+            DependencyProperty.Register("Interval", typeof(int), typeof(MainWindow), new PropertyMetadata(1));
 
-        private bool _isSimulatorRunning = false;
         public bool IsSimulatorRunning
         {
-            get => _isSimulatorRunning;
-            set { if (_isSimulatorRunning != value) { _isSimulatorRunning = value; OnPropertyChanged(); } }
+            get { return (bool)GetValue(IsSimulatorRunningProperty); }
+            set { SetValue(IsSimulatorRunningProperty, value); }
         }
+        public static readonly DependencyProperty IsSimulatorRunningProperty =
+            DependencyProperty.Register("IsSimulatorRunning", typeof(bool), typeof(MainWindow), new PropertyMetadata(false));
 
         // Call Counts
-        private int _openCallsCount;
         public int OpenCallsCount
         {
-            get => _openCallsCount;
-            set { if (_openCallsCount != value) { _openCallsCount = value; OnPropertyChanged(); } }
+            get { return (int)GetValue(OpenCallsCountProperty); }
+            set { SetValue(OpenCallsCountProperty, value); }
         }
+        public static readonly DependencyProperty OpenCallsCountProperty =
+            DependencyProperty.Register("OpenCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
 
-        private int _inProgressCallsCount;
         public int InProgressCallsCount
         {
-            get => _inProgressCallsCount;
-            set { if (_inProgressCallsCount != value) { _inProgressCallsCount = value; OnPropertyChanged(); } }
+            get { return (int)GetValue(InProgressCallsCountProperty); }
+            set { SetValue(InProgressCallsCountProperty, value); }
         }
+        public static readonly DependencyProperty InProgressCallsCountProperty =
+            DependencyProperty.Register("InProgressCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
 
-        private int _closedCallsCount;
         public int ClosedCallsCount
         {
-            get => _closedCallsCount;
-            set { if (_closedCallsCount != value) { _closedCallsCount = value; OnPropertyChanged(); } }
+            get { return (int)GetValue(ClosedCallsCountProperty); }
+            set { SetValue(ClosedCallsCountProperty, value); }
         }
+        public static readonly DependencyProperty ClosedCallsCountProperty =
+            DependencyProperty.Register("ClosedCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
 
-        private int _expiredCallsCount;
         public int ExpiredCallsCount
         {
-            get => _expiredCallsCount;
-            set { if (_expiredCallsCount != value) { _expiredCallsCount = value; OnPropertyChanged(); } }
+            get { return (int)GetValue(ExpiredCallsCountProperty); }
+            set { SetValue(ExpiredCallsCountProperty, value); }
         }
+        public static readonly DependencyProperty ExpiredCallsCountProperty =
+            DependencyProperty.Register("ExpiredCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
 
-        private int _openAtRiskCallsCount;
         public int OpenAtRiskCallsCount
         {
-            get => _openAtRiskCallsCount;
-            set { if (_openAtRiskCallsCount != value) { _openAtRiskCallsCount = value; OnPropertyChanged(); } }
+            get { return (int)GetValue(OpenAtRiskCallsCountProperty); }
+            set { SetValue(OpenAtRiskCallsCountProperty, value); }
         }
+        public static readonly DependencyProperty OpenAtRiskCallsCountProperty =
+            DependencyProperty.Register("OpenAtRiskCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
 
-        private int _inProgressAtRiskCallsCount;
         public int InProgressAtRiskCallsCount
         {
-            get => _inProgressAtRiskCallsCount;
-            set { if (_inProgressAtRiskCallsCount != value) { _inProgressAtRiskCallsCount = value; OnPropertyChanged(); } }
+            get { return (int)GetValue(InProgressAtRiskCallsCountProperty); }
+            set { SetValue(InProgressAtRiskCallsCountProperty, value); }
         }
+        public static readonly DependencyProperty InProgressAtRiskCallsCountProperty =
+            DependencyProperty.Register("InProgressAtRiskCallsCount", typeof(int), typeof(MainWindow), new PropertyMetadata(0));
         #endregion
 
         private VolunteerListWindow? _volunteerListWindow;
@@ -572,15 +569,14 @@ namespace PL
             InitializeComponent();
             DataContext = this;
 
-            // Initialize state and register observers
             InitializeState();
             RegisterObservers();
         }
 
         private void InitializeState()
         {
-            CurrentTime = s_bl.Admin.GetCurrentTime();
-            RiskTimeSpan = (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes;
+            SetValue(CurrentTimeProperty, s_bl.Admin.GetCurrentTime());
+            SetValue(RiskTimeSpanProperty, (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes);
             UpdateCallStatusCounts();
         }
 
@@ -601,28 +597,38 @@ namespace PL
         }
 
         #region Observers from BL
-        private void ClockObserver() => Dispatcher.Invoke(() => CurrentTime = s_bl.Admin.GetCurrentTime());
-        private void ConfigObserver() => Dispatcher.Invoke(() => RiskTimeSpan = (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes);
-        private void CallListObserver() => Dispatcher.Invoke(UpdateCallStatusCounts);
+        private void ClockObserver()
+        {
+            Dispatcher.Invoke(() => SetValue(CurrentTimeProperty, s_bl.Admin.GetCurrentTime()));
+        }
+
+        private void ConfigObserver()
+        {
+            Dispatcher.Invoke(() => SetValue(RiskTimeSpanProperty, (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes));
+        }
+
+        private void CallListObserver()
+        {
+            Dispatcher.Invoke(UpdateCallStatusCounts);
+        }
+
         private void OnSimulationStoppedHandler(object? sender, EventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
                 IsSimulatorRunning = false;
-                MessageBox.Show("הסימולציה הופסקה.", "הודעת מערכת", MessageBoxButton.OK, MessageBoxImage.Information); ;
+                MessageBox.Show("הסימולציה הופסקה.", "הודעת מערכת", MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
         #endregion
 
         #region UI Event Handlers
-        // Time advancement buttons
         private void btnAddOneMinute_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Minute);
         private void btnAddOneHour_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Hour);
         private void btnAddOneDay_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Day);
         private void btnAddOneMonth_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Month);
         private void btnAddOneYear_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Year);
 
-        // Simulator button
         private void SimulatorButton_Click(object sender, RoutedEventArgs e)
         {
             if (!IsSimulatorRunning)
@@ -633,11 +639,10 @@ namespace PL
             else
             {
                 s_bl.Admin.StopSimulator();
+                IsSimulatorRunning = false;
             }
         }
-       
 
-        // Update buttons
         private void btnUpdateRiskTimeSpan_Click(object sender, RoutedEventArgs e)
         {
             s_bl.Admin.SetRiskTimeSpan(TimeSpan.FromMinutes(RiskTimeSpan));
@@ -646,12 +651,10 @@ namespace PL
 
         private void btnUpdateTreatmentTime_Click(object sender, RoutedEventArgs e)
         {
-            // Note: This seems to be using RiskTimeSpan, might be a bug in original code
             s_bl.Admin.SetTreatmentTime(TimeSpan.FromMinutes(RiskTimeSpan));
             MessageBox.Show("הערך עודכן בהצלחה ✅", "עדכון", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Navigation buttons
         private void BtnVolunteers_Click(object sender, RoutedEventArgs e)
         {
             if (_volunteerListWindow == null || !_volunteerListWindow.IsLoaded)
@@ -668,26 +671,24 @@ namespace PL
 
         private void BtnCalls_Click(object sender, RoutedEventArgs e) => OpenCallListWindow(null);
 
-        // Database action buttons
         private void BtnInitializeDb_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to initialize the database?", "Confirm Initialization", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 s_bl.Admin.InitializeDatabase();
-                MessageBox.Show("Database initialized.");
+                MessageBox.Show("Database initialized successfully.");
             }
         }
 
         private void BtnResetDb_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to reset the database?", "Confirm Reset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 s_bl.Admin.ResetDatabase();
-                MessageBox.Show("Database reset.");
+                MessageBox.Show("Database reset successfully.");
             }
         }
 
-        // Call status buttons
         private void BtnOpenCalls_Click(object sender, RoutedEventArgs e) => OpenCallListWindow(BO.CallStatus.Open);
         private void BtnInProgressCalls_Click(object sender, RoutedEventArgs e) => OpenCallListWindow(BO.CallStatus.InProgress);
         private void BtnClosedCalls_Click(object sender, RoutedEventArgs e) => OpenCallListWindow(BO.CallStatus.Closed);
@@ -700,12 +701,12 @@ namespace PL
         private void UpdateCallStatusCounts()
         {
             int[] statusCounts = s_bl.Call.GetCallStatusCounts();
-            OpenCallsCount = statusCounts[(int)BO.CallStatus.Open];
-            InProgressCallsCount = statusCounts[(int)BO.CallStatus.InProgress];
-            ClosedCallsCount = statusCounts[(int)BO.CallStatus.Closed];
-            ExpiredCallsCount = statusCounts[(int)BO.CallStatus.Expired];
-            OpenAtRiskCallsCount = statusCounts[(int)BO.CallStatus.OpenAtRisk];
-            InProgressAtRiskCallsCount = statusCounts[(int)BO.CallStatus.InProgressAtRisk];
+            SetValue(OpenCallsCountProperty, statusCounts[(int)BO.CallStatus.Open]);
+            SetValue(InProgressCallsCountProperty, statusCounts[(int)BO.CallStatus.InProgress]);
+            SetValue(ClosedCallsCountProperty, statusCounts[(int)BO.CallStatus.Closed]);
+            SetValue(ExpiredCallsCountProperty, statusCounts[(int)BO.CallStatus.Expired]);
+            SetValue(OpenAtRiskCallsCountProperty, statusCounts[(int)BO.CallStatus.OpenAtRisk]);
+            SetValue(InProgressAtRiskCallsCountProperty, statusCounts[(int)BO.CallStatus.InProgressAtRisk]);
         }
 
         private void OpenCallListWindow(BO.CallStatus? status)
@@ -724,7 +725,6 @@ namespace PL
         }
         #endregion
 
-        // Window closing event to clean up
         protected override void OnClosing(CancelEventArgs e)
         {
             if (IsSimulatorRunning)

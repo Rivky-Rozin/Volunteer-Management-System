@@ -343,6 +343,8 @@ internal static class VolunteerManager
 
                         // Notify outside lock
                         Observers.NotifyListUpdated();
+                        CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
+
                     }
                 }
             }
@@ -380,6 +382,8 @@ internal static class VolunteerManager
 
                         // Notify outside lock
                         Observers.NotifyListUpdated();
+                        CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
+
                     }
                     else if (random.NextDouble() < 0.10) // 10% chance to cancel
                     {
@@ -400,14 +404,18 @@ internal static class VolunteerManager
 
                         // Notify outside lock
                         Observers.NotifyListUpdated();
+                        CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
+
                     }
-                    else if (random.NextDouble() < 0.15) // 15% סיכוי לדוג'
+                    if (random.NextDouble() < 0.15) // 15% סיכוי לדוג'
                     {
 
                         CallManager.CreateSimulatedCall();
 
                         // Notify outside lock
                         Observers.NotifyListUpdated();
+                        CallManager.Observers.NotifyListUpdated(); 
+
                     }
                 }
             }
