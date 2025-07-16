@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace PL.Call
 {
@@ -15,7 +16,6 @@ namespace PL.Call
     {
         private readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         private BO.CallStatus? _currentFilterStatus;
-
         public ObservableCollection<BO.CallInList> Calls { get; set; } = new();
 
         public IEnumerable<CallInList> CallList
@@ -144,12 +144,14 @@ namespace PL.Call
                 Calls.Add(call);
         }
 
+        private volatile DispatcherOperation? _observerOperation = null; //stage 7
         private void CallListObserver()
         {
-            if (!Dispatcher.CheckAccess())
-                Dispatcher.Invoke(QueryCallList);
-            else
-                QueryCallList();
+            if (_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
+                _observerOperation = Dispatcher.BeginInvoke(() =>
+                {
+                    QueryCallList();
+                });
         }
 
         private void LoadCalls()
