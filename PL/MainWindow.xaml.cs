@@ -130,7 +130,7 @@ namespace PL
             {
                 foreach (Window win in Application.Current.Windows)
                 {
-                    if (win != this )
+                    if (win != this)
                         win.Close();
                 }
                 s_bl.Admin.InitializeDatabase();
@@ -220,25 +220,33 @@ namespace PL
         /// צופה לשינויי תצורה.
         /// מעדכן את RiskTimeSpan ויכול לעדכן פרמטרים נוספים.
         /// </summary>
+        /// 
+        private volatile DispatcherOperation? _observerOperation = null; //stage 7
         private void ConfigObserver()
         {
-            Dispatcher.Invoke(() =>
-            {
-                RiskTimeSpan = (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes;
-                // כאן ניתן להוסיף עדכוני משתנים נוספים במידת הצורך
-            });
+            if (_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
+                _observerOperation = Dispatcher.BeginInvoke(() =>
+                {
+
+                    RiskTimeSpan = (int)s_bl.Admin.GetRiskTimeSpan().TotalMinutes;
+                    // כאן ניתן להוסיף עדכוני משתנים נוספים במידת הצורך
+                });
         }
 
         /// <summary>
         /// צופה לשינויים ברשימת הקריאות (לדוגמה, הוספה/מחיקה/עדכון קריאה).
         /// מעדכן את ספירות הסטטוסים.
         /// </summary>
+        private volatile DispatcherOperation? _observerOperation1 = null; //stage 7
         private void CallListObserver()
         {
-            Dispatcher.Invoke(() =>
-            {
-                UpdateCallStatusCounts();
-            });
+
+            if (_observerOperation1 is null || _observerOperation1.Status == DispatcherOperationStatus.Completed)
+                _observerOperation1 = Dispatcher.BeginInvoke(() =>
+                {
+
+                    UpdateCallStatusCounts();
+                });
         }
 
         /// <summary>
@@ -399,7 +407,7 @@ namespace PL
         public static readonly DependencyProperty IntervalProperty =
        DependencyProperty.Register(nameof(Interval), typeof(int), typeof(MainWindow), new PropertyMetadata(1));
 
-   
+
         public int Interval
         {
             get => (int)GetValue(IntervalProperty);

@@ -15,6 +15,7 @@
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using System.Windows.Shapes;
+    using System.Windows.Threading;
 
     /// <summary>
     /// Interaction logic for VolunteerListWindow.xaml
@@ -53,16 +54,17 @@
         /// Observer method that refreshes the volunteer list from the BL.
         /// Called automatically when the data changes in the backend.
         /// </summary>
+        private volatile DispatcherOperation? _observerOperation = null; //stage 7
         private void RefreshVolunteerListObserver()
         {
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(RefreshVolunteerList);
-            }
-            else
-            {
-                RefreshVolunteerList();
-            }
+            if (_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
+                _observerOperation = Dispatcher.BeginInvoke(() =>
+                {
+
+                    RefreshVolunteerList();
+                }
+          
+            );
         }
 
         /// <summary>
@@ -264,9 +266,9 @@
         /// </summary>
         public static readonly DependencyProperty VolunteerListProperty =
             DependencyProperty.Register("VolunteerList", typeof(IEnumerable<BO.VolunteerInList>), typeof(VolunteerListWindow), new PropertyMetadata(null));
-    
 
-    private static bool InputBox(string prompt, string title, out string value)
+
+        private static bool InputBox(string prompt, string title, out string value)
         {
             value = Microsoft.VisualBasic.Interaction.InputBox(prompt, title, "");
             return !string.IsNullOrWhiteSpace(value);
