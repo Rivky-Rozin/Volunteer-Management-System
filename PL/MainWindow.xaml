@@ -5,6 +5,7 @@
         Title="ניהול קריאות ומתנדבים" Height="700" Width="950"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Background="{StaticResource WindowBackgroundBrush}">
+   
     <Window.Resources>
         <!-- הוספת ResourceDictionary נפרד -->
         <ResourceDictionary>
@@ -150,6 +151,7 @@
                             IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
                     <Button Content="איפוס מסד נתונים" Click="BtnResetDb_Click" Height="44" Margin="10"
                             IsEnabled="{Binding IsSimulatorRunning, Converter={StaticResource InvertedBoolConverter}}"/>
+                
                 </UniformGrid>
             </Border>
         </Grid>

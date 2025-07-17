@@ -6,11 +6,12 @@
     <Phone>0501234567</Phone>
     <Email>user1@example.com</Email>
     <Role>Manager</Role>
-    <IsActive>true</IsActive>
+    <IsActive>false</IsActive>
     <DistanceKind>Aerial</DistanceKind>
     <Address>10 King David St, Jerusalem</Address>
     <Latitude>31.7767</Latitude>
     <Longitude>35.2296</Longitude>
+    <Password>pw200000000</Password>
     <MaxDistance>25</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -24,6 +25,7 @@
     <Address>48 Allenby St, Tel Aviv</Address>
     <Latitude>32.0635</Latitude>
     <Longitude>34.7717</Longitude>
+    <Password>pw200000001</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000002</Id>
@@ -36,6 +38,7 @@
     <Address>1 Herzl St, Ashdod</Address>
     <Latitude>31.8032</Latitude>
     <Longitude>34.6553</Longitude>
+    <Password>pw200000002</Password>
     <MaxDistance>15</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -49,6 +52,7 @@
     <Address>40 HaNassi Blvd, Haifa</Address>
     <Latitude>32.794</Latitude>
     <Longitude>34.9896</Longitude>
+    <Password>pw200000003</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000004</Id>
@@ -61,6 +65,7 @@
     <Address>31 Rager Blvd, Beer Sheva</Address>
     <Latitude>31.2518</Latitude>
     <Longitude>34.7913</Longitude>
+    <Password>pw200000004</Password>
     <MaxDistance>40</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -68,12 +73,13 @@
     <Name>Lior Avraham</Name>
     <Phone>0506789012</Phone>
     <Email>user6@example.com</Email>
-    <Role>Manager</Role>
+    <Role>Regular</Role>
     <IsActive>true</IsActive>
     <DistanceKind>Ground</DistanceKind>
     <Address>8 HaRav Kook St, Netanya</Address>
     <Latitude>32.3282</Latitude>
     <Longitude>34.856</Longitude>
+    <Password>pw200000005</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000006</Id>
@@ -86,6 +92,7 @@
     <Address>2 Weizmann St, Rehovot</Address>
     <Latitude>31.8936</Latitude>
     <Longitude>34.8113</Longitude>
+    <Password>pw200000006</Password>
     <MaxDistance>10</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -99,6 +106,7 @@
     <Address>HaPalmach 2, Tiberias</Address>
     <Latitude>32.7922</Latitude>
     <Longitude>35.5315</Longitude>
+    <Password>pw200000007</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000008</Id>
@@ -111,6 +119,7 @@
     <Address>Herzl Blvd 1, Holon</Address>
     <Latitude>32.0144</Latitude>
     <Longitude>34.7744</Longitude>
+    <Password>pw200000008</Password>
     <MaxDistance>30</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -124,6 +133,7 @@
     <Address>4 Jabotinsky St, Bnei Brak</Address>
     <Latitude>32.0881</Latitude>
     <Longitude>34.8396</Longitude>
+    <Password>pw200000009</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000010</Id>
@@ -136,6 +146,7 @@
     <Address>Rabin Square, Tel Aviv</Address>
     <Latitude>32.0809</Latitude>
     <Longitude>34.7806</Longitude>
+    <Password>pw200000010</Password>
     <MaxDistance>5</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -149,6 +160,7 @@
     <Address>Yefet St 190, Jaffa</Address>
     <Latitude>32.0495</Latitude>
     <Longitude>34.7516</Longitude>
+    <Password>pw200000011</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000012</Id>
@@ -161,6 +173,7 @@
     <Address>Ben Gurion Blvd 1, Bat Yam</Address>
     <Latitude>32.0226</Latitude>
     <Longitude>34.7458</Longitude>
+    <Password>pw200000012</Password>
     <MaxDistance>45</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -174,6 +187,7 @@
     <Address>Dizengoff St 50, Tel Aviv</Address>
     <Latitude>32.0771</Latitude>
     <Longitude>34.7744</Longitude>
+    <Password>pw200000013</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000014</Id>
@@ -186,6 +200,7 @@
     <Address>Givat Shaul, Jerusalem</Address>
     <Latitude>31.7934</Latitude>
     <Longitude>35.1814</Longitude>
+    <Password>pw200000014</Password>
     <MaxDistance>20</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -193,12 +208,13 @@
     <Name>Yossi Gabay</Name>
     <Phone>0506677889</Phone>
     <Email>user16@example.com</Email>
-    <Role>Manager</Role>
-    <IsActive>true</IsActive>
+    <Role>Regular</Role>
+    <IsActive>false</IsActive>
     <DistanceKind>Ground</DistanceKind>
     <Address>Golda Meir Blvd, Haifa</Address>
     <Latitude>32.7993</Latitude>
     <Longitude>35.0153</Longitude>
+    <Password>pw200000015</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000016</Id>
@@ -211,6 +227,7 @@
     <Address>Beit HaRishonim, Rishon Lezion</Address>
     <Latitude>31.9638</Latitude>
     <Longitude>34.8038</Longitude>
+    <Password>pw200000016</Password>
     <MaxDistance>35</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -224,6 +241,7 @@
     <Address>HaHistadrut 2, Hadera</Address>
     <Latitude>32.437</Latitude>
     <Longitude>34.9196</Longitude>
+    <Password>pw200000017</Password>
   </Volunteer>
   <Volunteer>
     <Id>200000018</Id>
@@ -236,6 +254,7 @@
     <Address>HaPalmach St 5, Safed</Address>
     <Latitude>32.9646</Latitude>
     <Longitude>35.4962</Longitude>
+    <Password>pw200000018</Password>
     <MaxDistance>8</MaxDistance>
   </Volunteer>
   <Volunteer>
@@ -249,5 +268,411 @@
     <Address>Keren HaYesod 12, Eilat</Address>
     <Latitude>29.5581</Latitude>
     <Longitude>34.9482</Longitude>
+    <Password>pw200000019</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000020</Id>
+    <Name>Itay Segal</Name>
+    <Phone>0501111111</Phone>
+    <Email>user21@example.com</Email>
+    <Role>Manager</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>17 Arlozorov St, Ramat Gan</Address>
+    <Latitude>32.0853</Latitude>
+    <Longitude>34.8058</Longitude>
+    <Password>pw200000020</Password>
+    <MaxDistance>22</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000021</Id>
+    <Name>Adi Katz</Name>
+    <Phone>0522222222</Phone>
+    <Email>user22@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>25 Bialik St, Petah Tikva</Address>
+    <Latitude>32.0911</Latitude>
+    <Longitude>34.8856</Longitude>
+    <Password>pw200000021</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000022</Id>
+    <Name>Galit Ohana</Name>
+    <Phone>0533333333</Phone>
+    <Email>user23@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>3 Hahagana St, Ashkelon</Address>
+    <Latitude>31.6661</Latitude>
+    <Longitude>34.5772</Longitude>
+    <Password>pw200000022</Password>
+    <MaxDistance>18</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000023</Id>
+    <Name>Roee Peretz</Name>
+    <Phone>0544444444</Phone>
+    <Email>user24@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>7 Tchernikhovski St, Kfar Saba</Address>
+    <Latitude>32.1798</Latitude>
+    <Longitude>34.9042</Longitude>
+    <Password>pw200000023</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000024</Id>
+    <Name>Shir Dahan</Name>
+    <Phone>0555555555</Phone>
+    <Email>user25@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>11 Ha'atzmaut Square, Afula</Address>
+    <Latitude>32.6109</Latitude>
+    <Longitude>35.2903</Longitude>
+    <Password>pw200000024</Password>
+    <MaxDistance>33</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000025</Id>
+    <Name>Ben Edri</Name>
+    <Phone>0506666666</Phone>
+    <Email>user26@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>5 Rothschild St, Kiryat Ono</Address>
+    <Latitude>32.0594</Latitude>
+    <Longitude>34.8524</Longitude>
+    <Password>pw200000025</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000026</Id>
+    <Name>Karin Biton</Name>
+    <Phone>0527777777</Phone>
+    <Email>user27@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>14 Herzl St, Nahariya</Address>
+    <Latitude>33.0069</Latitude>
+    <Longitude>35.0931</Longitude>
+    <Password>pw200000026</Password>
+    <MaxDistance>12</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000027</Id>
+    <Name>Tal Friedman</Name>
+    <Phone>0538888888</Phone>
+    <Email>user28@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>9 Kook St, Lod</Address>
+    <Latitude>31.9515</Latitude>
+    <Longitude>34.8963</Longitude>
+    <Password>pw200000027</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000028</Id>
+    <Name>Liron Maimon</Name>
+    <Phone>0549999999</Phone>
+    <Email>user29@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>22 HaNevi'im St, Ramla</Address>
+    <Latitude>31.9273</Latitude>
+    <Longitude>34.8697</Longitude>
+    <Password>pw200000028</Password>
+    <MaxDistance>28</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000029</Id>
+    <Name>Matan David</Name>
+    <Phone>0550000000</Phone>
+    <Email>user30@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>6 Sokolov St, Hod HaSharon</Address>
+    <Latitude>32.1528</Latitude>
+    <Longitude>34.8878</Longitude>
+    <Password>pw200000029</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000030</Id>
+    <Name>Shani Goldstein</Name>
+    <Phone>0501212121</Phone>
+    <Email>user31@example.com</Email>
+    <Role>Manager</Role>
+    <IsActive>false</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>18 Ben Yehuda St, Jerusalem</Address>
+    <Latitude>31.782</Latitude>
+    <Longitude>35.2185</Longitude>
+    <Password>pw200000030</Password>
+    <MaxDistance>7</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000031</Id>
+    <Name>Idan Vaknin</Name>
+    <Phone>0523434343</Phone>
+    <Email>user32@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>70 Ibn Gabirol St, Tel Aviv</Address>
+    <Latitude>32.08</Latitude>
+    <Longitude>34.7821</Longitude>
+    <Password>pw200000031</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000032</Id>
+    <Name>Orly Suissa</Name>
+    <Phone>0535656565</Phone>
+    <Email>user33@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>12 Menachem Begin Rd, Ramat HaSharon</Address>
+    <Latitude>32.1444</Latitude>
+    <Longitude>34.8427</Longitude>
+    <Password>pw200000032</Password>
+    <MaxDistance>42</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000033</Id>
+    <Name>Eyal Atias</Name>
+    <Phone>0547878787</Phone>
+    <Email>user34@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>33 Derech HaShalom, Givatayim</Address>
+    <Latitude>32.0683</Latitude>
+    <Longitude>34.8062</Longitude>
+    <Password>pw200000033</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000034</Id>
+    <Name>Hadar Maman</Name>
+    <Phone>0559090909</Phone>
+    <Email>user35@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>8 HaBanim St, Karmiel</Address>
+    <Latitude>32.9123</Latitude>
+    <Longitude>35.2936</Longitude>
+    <Password>pw200000034</Password>
+    <MaxDistance>23</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000035</Id>
+    <Name>Amir Azulay</Name>
+    <Phone>0501010101</Phone>
+    <Email>user36@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>15 Moriah Blvd, Haifa</Address>
+    <Latitude>32.7997</Latitude>
+    <Longitude>34.9897</Longitude>
+    <Password>pw200000035</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000036</Id>
+    <Name>Moran Lankri</Name>
+    <Phone>0522020202</Phone>
+    <Email>user37@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>2 Balfour St, Bat Yam</Address>
+    <Latitude>32.0199</Latitude>
+    <Longitude>34.7505</Longitude>
+    <Password>pw200000036</Password>
+    <MaxDistance>38</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000037</Id>
+    <Name>Guy Dayan</Name>
+    <Phone>0534040404</Phone>
+    <Email>user38@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>1 Derech Yavne, Rehovot</Address>
+    <Latitude>31.8974</Latitude>
+    <Longitude>34.8091</Longitude>
+    <Password>pw200000037</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000038</Id>
+    <Name>Sapir Elimelech</Name>
+    <Phone>0546060606</Phone>
+    <Email>user39@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>50 Eli Cohen St, Ashkelon</Address>
+    <Latitude>31.6745</Latitude>
+    <Longitude>34.5701</Longitude>
+    <Password>pw200000038</Password>
+    <MaxDistance>9</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000039</Id>
+    <Name>Daniel Swisa</Name>
+    <Phone>0558080808</Phone>
+    <Email>user40@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>29 HaMeyasdim St, Zichron Yaakov</Address>
+    <Latitude>32.5721</Latitude>
+    <Longitude>34.9547</Longitude>
+    <Password>pw200000039</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000040</Id>
+    <Name>Inbar Asayag</Name>
+    <Phone>0501357911</Phone>
+    <Email>user41@example.com</Email>
+    <Role>Manager</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>4 HaAliya St, Tiberias</Address>
+    <Latitude>32.7917</Latitude>
+    <Longitude>35.531</Longitude>
+    <Password>pw200000040</Password>
+    <MaxDistance>26</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000041</Id>
+    <Name>Yarin Elbaz</Name>
+    <Phone>0522468012</Phone>
+    <Email>user42@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>76 HaHistadrut, Holon</Address>
+    <Latitude>32.0255</Latitude>
+    <Longitude>34.7865</Longitude>
+    <Password>pw200000041</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000042</Id>
+    <Name>Ofir Ohayon</Name>
+    <Phone>0531123581</Phone>
+    <Email>user43@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>23 Trumpeldor St, Beer Sheva</Address>
+    <Latitude>31.2464</Latitude>
+    <Longitude>34.7934</Longitude>
+    <Password>pw200000042</Password>
+    <MaxDistance>16</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000043</Id>
+    <Name>Stav Lugasi</Name>
+    <Phone>0541234567</Phone>
+    <Email>user44@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>11 Sderot Weizmann, Ness Ziona</Address>
+    <Latitude>31.9304</Latitude>
+    <Longitude>34.7963</Longitude>
+    <Password>pw200000043</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000044</Id>
+    <Name>Dorin Amsalem</Name>
+    <Phone>0557654321</Phone>
+    <Email>user45@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>6 Eliyahu Golomb St, Kiryat Ata</Address>
+    <Latitude>32.8118</Latitude>
+    <Longitude>35.1111</Longitude>
+    <Password>pw200000044</Password>
+    <MaxDistance>41</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000045</Id>
+    <Name>Snir Malka</Name>
+    <Phone>0509876543</Phone>
+    <Email>user46@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>false</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>19 HaShikma St, Sderot</Address>
+    <Latitude>31.5262</Latitude>
+    <Longitude>34.5976</Longitude>
+    <Password>pw200000045</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000046</Id>
+    <Name>Eden Guetta</Name>
+    <Phone>0521239876</Phone>
+    <Email>user47@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>10 David Remez St, Dimona</Address>
+    <Latitude>31.0664</Latitude>
+    <Longitude>35.0336</Longitude>
+    <Password>pw200000046</Password>
+    <MaxDistance>11</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000047</Id>
+    <Name>Elad Sabag</Name>
+    <Phone>0534561237</Phone>
+    <Email>user48@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>3 HaGefen St, Eilat</Address>
+    <Latitude>29.5601</Latitude>
+    <Longitude>34.9531</Longitude>
+    <Password>pw200000047</Password>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000048</Id>
+    <Name>Chen Revivo</Name>
+    <Phone>0547894561</Phone>
+    <Email>user49@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>27 Katznelson St, Givatayim</Address>
+    <Latitude>32.0722</Latitude>
+    <Longitude>34.8105</Longitude>
+    <Password>pw200000048</Password>
+    <MaxDistance>31</MaxDistance>
+  </Volunteer>
+  <Volunteer>
+    <Id>200000049</Id>
+    <Name>Liav Zrihen</Name>
+    <Phone>0551597532</Phone>
+    <Email>user50@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>14 Bialik St, Tel Aviv</Address>
+    <Latitude>32.0708</Latitude>
+    <Longitude>34.7712</Longitude>
+    <Password>pw200000049</Password>
   </Volunteer>
 </ArrayOfVolunteer>
