@@ -177,6 +177,11 @@ namespace MyApp
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Password))
+            {
+                MessageBox.Show("Please enter both ID and password.", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             try
             {
                 BO.VolunteerRole UserRole = _bl.Volunteer.Login(Id, Password);

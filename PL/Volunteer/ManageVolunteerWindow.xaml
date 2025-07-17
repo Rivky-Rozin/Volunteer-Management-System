@@ -4,9 +4,6 @@
         xmlns:pl="clr-namespace:PL"
         Title="VolunteerWindow" Height="700" Width="540"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
-    <Window.Resources>
-        <pl:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
-    </Window.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{StaticResource WindowBackgroundBrush}">
         <StackPanel Margin="0,18,0,18" HorizontalAlignment="Center">
             <TextBlock Text="ניהול מתנדב" FontSize="26" FontWeight="SemiBold" Margin="0,0,0,18" HorizontalAlignment="Center"/>
@@ -47,8 +44,9 @@
                     <Label Grid.Row="3" Grid.Column="0" Content="אימייל:"/>
                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CurrentVolunteer.Email, Mode=TwoWay}" />
 
-                    <Label Grid.Row="4" Grid.Column="0" Content="סיסמה:"/>
-                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding CurrentVolunteer.Password, Mode=TwoWay}" />
+                    <Label Grid.Row="4" Grid.Column="0" Content="סיסמה:" Visibility="{Binding IsAddMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding CurrentVolunteer.Password, Mode=TwoWay}" Visibility="{Binding IsAddMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                     <Label Grid.Row="5" Grid.Column="0" Content="כתובת:"/>
                     <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding CurrentVolunteer.Address, Mode=TwoWay}" />
@@ -95,7 +93,7 @@
             </Border>
 
             <Border Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,18" Width="440"
-                    Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource NullToVisibilityConverter}}">
+                    Visibility="{Binding CurrentVolunteer.CallInProgress, Converter={StaticResource NullToVisibilityConverterKey}}">
                 <StackPanel>
                     <TextBlock Text="קריאה פעילה" FontWeight="Bold" FontSize="18" Margin="0,0,0,8"/>
                     <StackPanel Orientation="Horizontal">
@@ -132,6 +130,9 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
+            <Button Content="עדכון סיסמה"
+Width="180" Height="44" HorizontalAlignment="Center"
+        Click="UpdatePassword_Click" Visibility="{Binding IsAddMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Invert}" />
 
             <Button Content="{Binding ButtonText}" Click="btnAddUpdate_Click" Width="180" Height="44" HorizontalAlignment="Center"/>
         </StackPanel>

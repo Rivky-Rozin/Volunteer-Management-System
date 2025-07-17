@@ -7,7 +7,7 @@ namespace PL.Volunteer
 {
     public partial class ManageVolunteerWindow : Window
     {
-        private readonly bool isAddMode;
+        //private readonly bool isAddMode;
         private readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         //void AddObserver(int id, Action observer);
         //void RemoveObserver(int id, Action observer);
@@ -18,6 +18,19 @@ namespace PL.Volunteer
             get => (BO.Volunteer)GetValue(CurrentVolunteerProperty);
             set => SetValue(CurrentVolunteerProperty, value);
         }
+
+        public static readonly DependencyProperty IsAddModeProperty =
+    DependencyProperty.Register(
+        nameof(IsAddMode),
+        typeof(bool),
+        typeof(ManageVolunteerWindow),
+        new PropertyMetadata(false)); // ערך ברירת מחדל: false
+        public bool IsAddMode
+        {
+            get => (bool)GetValue(IsAddModeProperty);
+            set => SetValue(IsAddModeProperty, value);
+        }
+
         public static readonly DependencyProperty CurrentVolunteerProperty =
             DependencyProperty.Register(nameof(CurrentVolunteer), typeof(BO.Volunteer), typeof(ManageVolunteerWindow), new PropertyMetadata(null));
         private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
@@ -47,19 +60,19 @@ namespace PL.Volunteer
         {
             InitializeComponent();
 
-            isAddMode = id == 0;
-            ButtonText = isAddMode ? "Add" : "Update";
+            // שנה את השורה הזו לשימוש ב-Dependency Property
+            IsAddMode = id == 0; // חשוב! זה יפעיל את עדכון ה-UI
+
+            ButtonText = IsAddMode ? "Add" : "Update"; // השתמש ב-IsAddMode החדש
             Loaded += ManageVolunteerWindow_Loaded;
             Closed += ManageVolunteerWindow_Closed;
 
-            if (isAddMode)
+            if (IsAddMode) // השתמש ב-IsAddMode החדש
             {
-                // יצירת אובייקט חדש עם ערכי ברירת מחדל
                 CurrentVolunteer = new BO.Volunteer();
             }
             else
             {
-                // טעינת אובייקט קיים מה-BL עם טיפול בחריגות
                 try
                 {
                     CurrentVolunteer = s_bl.Volunteer.GetVolunteerDetails(id.ToString());
@@ -89,7 +102,7 @@ namespace PL.Volunteer
 
         private void ManageVolunteerWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!isAddMode && CurrentVolunteer?.Id > 0)
+            if (!IsAddMode && CurrentVolunteer?.Id > 0)
             {
                 s_bl.Volunteer.AddObserver(CurrentVolunteer.Id, RefreshVolunteerObserver);
             }
@@ -97,7 +110,7 @@ namespace PL.Volunteer
 
         private void ManageVolunteerWindow_Closed(object sender, EventArgs e)
         {
-            if (!isAddMode && CurrentVolunteer?.Id > 0)
+            if (!IsAddMode && CurrentVolunteer?.Id > 0)
             {
                 s_bl.Volunteer.RemoveObserver(CurrentVolunteer.Id, RefreshVolunteerObserver);
             }
@@ -113,6 +126,13 @@ namespace PL.Volunteer
         {
             get => (string)GetValue(ButtonTextProperty);
             set => SetValue(ButtonTextProperty, value);
+        }
+
+        private void UpdatePassword_Click(object sender, RoutedEventArgs e)
+        {
+                var passwordWindow = new UpdatePasswordWindow(CurrentVolunteer.Id);
+            passwordWindow.Show();
+
         }
 
     }

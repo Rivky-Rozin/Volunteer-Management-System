@@ -269,5 +269,10 @@ namespace PL
             var v = Volunteer.CallInProgress;
         }
 
+        private void UpdatePassword_Click(object sender, RoutedEventArgs e)
+        {
+            var passwordWindow = new UpdatePasswordWindow(Volunteer.Id);
+            passwordWindow.Show();
+        }
     }
 }
