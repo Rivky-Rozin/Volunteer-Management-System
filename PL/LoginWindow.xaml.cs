@@ -138,8 +138,8 @@ namespace MyApp
             _bl = BlApi.Factory.Get();
 
 #if DEBUG
-            Id = "361587797"; // ת"ז של המנהל    
-            password = "1234"; // סיסמה של המנהל    
+            Id = "200000000"; // ת"ז של המנהל    
+            password = "pw200000000"; // סיסמה של המנהל    
 #endif
         }
 

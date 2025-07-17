@@ -280,54 +280,383 @@ internal static class VolunteerManager
         }
     }
 
+    //internal static void SimulateVolunteerActivity()
+    //{
+    //    // First get all active volunteers - wrap the DAL call in a lock and convert to concrete list
+    //    List<DO.Volunteer> activeVolunteers;
+    //    lock (AdminManager.BlMutex)
+    //    {
+    //        activeVolunteers = s_dal.Volunteer.ReadAll(v => v.IsActive).ToList();
+    //    }
+
+    //    // Random for probability decisions
+    //    Random random = new();
+
+    //    foreach (var volunteer in activeVolunteers)
+    //    {
+    //        // Check if volunteer has an active assignment
+    //        DO.Assignment? currentAssignment;
+    //        lock (AdminManager.BlMutex)
+    //        {
+    //            currentAssignment = s_dal.Assignment.ReadAll()
+    //                .Where(a => a.VolunteerId == volunteer.Id && a.EndTreatment == null)
+    //                .FirstOrDefault();
+    //        }
+
+    //        if (currentAssignment == null)
+    //        {
+    //            // No active assignment - maybe choose a new call (20% chance)
+    //            if (random.NextDouble() < 0.20)
+    //            {
+    //                // Get available open calls with coordinates
+    //                List<DO.Call> availableCalls;
+    //                lock (AdminManager.BlMutex)
+    //                {
+    //                    availableCalls = s_dal.Call.ReadAll()
+    //                        .Where(c => c.Latitude != 0 && c.Longitude != 0
+    //                               && CallManager.GetCallStatus(c.Id) == BO.CallStatus.Open)
+    //                        .ToList();
+    //                }
+
+    //                // Filter calls by distance and pick random one
+    //                var eligibleCalls = availableCalls
+    //                    .Where(call => Tools.GetDistance(volunteer, call) <= volunteer.MaxDistance)
+    //                    .ToList();
+
+    //                if (eligibleCalls.Any())
+    //                {
+    //                    var selectedCall = eligibleCalls[random.Next(eligibleCalls.Count)];
+
+    //                    // Create new assignment
+    //                    var newAssignment = new DO.Assignment
+    //                    {
+    //                        CallId = selectedCall.Id,
+    //                        VolunteerId = volunteer.Id,
+    //                        StartTreatment = AdminManager.Now,
+    //                        EndTreatment = null
+    //                    };
+
+    //                    lock (AdminManager.BlMutex)
+    //                    {
+    //                        s_dal.Assignment.Create(newAssignment);
+    //                    }
+
+    //                    // Notify outside lock
+    //                    Observers.NotifyListUpdated();
+    //                    CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
+
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            // Has active assignment - check if enough time passed
+    //            DO.Call? call;
+    //            lock (AdminManager.BlMutex)
+    //            {
+    //                call = s_dal.Call.Read(currentAssignment.CallId);
+    //            }
+
+    //            if (call != null)
+    //            {
+    //                double distance = Tools.GetDistance(volunteer, call);
+    //                // Base time on distance (1 minute per km) plus random 5-15 minutes
+    //                TimeSpan requiredTime = TimeSpan.FromMinutes(distance + random.Next(5, 15));
+
+    //                if (AdminManager.Now - currentAssignment.StartTreatment >= requiredTime)
+    //                {
+    //                    // Complete the assignment
+    //                    var updatedAssignment = new DO.Assignment(
+    //                        currentAssignment.Id,
+    //                        currentAssignment.VolunteerId,
+    //                        currentAssignment.CallId,
+    //                        currentAssignment.StartTreatment,
+    //                        AdminManager.Now,
+    //                        DO.TreatmentType.Treated
+    //                    );
+
+    //                    lock (AdminManager.BlMutex)
+    //                    {
+    //                        s_dal.Assignment.Update(updatedAssignment);
+    //                    }
+
+    //                    // Notify outside lock
+    //                    Observers.NotifyListUpdated();
+    //                    CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
+
+    //                }
+    //                else if (random.NextDouble() < 0.10) // 10% chance to cancel
+    //                {
+    //                    // Cancel the assignment
+    //                    var updatedAssignment = new DO.Assignment(
+    //                        currentAssignment.Id,
+    //                        currentAssignment.VolunteerId,
+    //                        currentAssignment.CallId,
+    //                        currentAssignment.StartTreatment,
+    //                        AdminManager.Now,
+    //                        DO.TreatmentType.UserCancelled
+    //                    );
+
+    //                    lock (AdminManager.BlMutex)
+    //                    {
+    //                        s_dal.Assignment.Update(updatedAssignment);
+    //                    }
+
+    //                    // Notify outside lock
+    //                    Observers.NotifyListUpdated();
+    //                    CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
+
+    //                }
+    //                if (random.NextDouble() < 0.15) // 15% סיכוי לדוג'
+    //                {
+
+    //                    CallManager.CreateSimulatedCall();
+
+    //                    // Notify outside lock
+    //                    Observers.NotifyListUpdated();
+    //                    CallManager.Observers.NotifyListUpdated(); 
+
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+    //internal static void SimulateVolunteerActivity()
+    //{
+    //    // שלב 1: שליפת מתנדבים פעילים
+    //    List<DO.Volunteer> activeVolunteers;
+    //    lock (AdminManager.BlMutex)
+    //    {
+    //        activeVolunteers = s_dal.Volunteer.ReadAll(v => v.IsActive).ToList();
+    //    }
+
+    //    Random random = new();
+
+    //    foreach (var volunteer in activeVolunteers)
+    //    {
+    //        // שלב 2: בדיקה אם יש למתנדב שיוך פעיל
+    //        DO.Assignment? currentAssignment;
+    //        lock (AdminManager.BlMutex)
+    //        {
+    //            currentAssignment = s_dal.Assignment.ReadAll()
+    //                .FirstOrDefault(a => a.VolunteerId == volunteer.Id && a.EndTreatment == null);
+    //        }
+
+    //        // 🟢 אם אין שיוך - אולי יצטרף לאחת הקריאות הפתוחות
+    //        if (currentAssignment == null)
+    //        {
+    //            if (random.NextDouble() < 0.20) // 20% סיכוי להצטרף
+    //            {
+    //                List<DO.Call> availableCalls;
+    //                lock (AdminManager.BlMutex)
+    //                {
+    //                    availableCalls = s_dal.Call.ReadAll()
+    //                        .Where(c => c.Latitude != 0 && c.Longitude != 0 &&
+    //                                    CallManager.GetCallStatus(c.Id) == BO.CallStatus.Open)
+    //                        .ToList();
+    //                }
+
+    //                // סינון לפי מרחק והתאמה למתנדב
+    //                var eligibleCalls = availableCalls
+    //                    .Where(call => Tools.GetDistance(volunteer, call) <= volunteer.MaxDistance)
+    //                    .ToList();
+
+    //                if (eligibleCalls.Any())
+    //                {
+    //                    var selectedCall = eligibleCalls[random.Next(eligibleCalls.Count)];
+
+    //                    var newAssignment = new DO.Assignment
+    //                    {
+    //                        CallId = selectedCall.Id,
+    //                        VolunteerId = volunteer.Id,
+    //                        StartTreatment = AdminManager.Now,
+    //                        EndTreatment = null
+    //                    };
+
+    //                    lock (AdminManager.BlMutex)
+    //                    {
+    //                        s_dal.Assignment.Create(newAssignment);
+    //                    }
+
+    //                    // עדכון UI
+    //                    Observers.NotifyListUpdated();
+    //                    CallManager.Observers.NotifyListUpdated();
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            // 🟡 יש שיוך פעיל – בדיקה אם ניתן לסיים אותו
+    //            DO.Call? call;
+    //            lock (AdminManager.BlMutex)
+    //            {
+    //                call = s_dal.Call.Read(currentAssignment.CallId);
+    //            }
+
+    //            if (call != null)
+    //            {
+    //                double distance = Tools.GetDistance(volunteer, call);
+    //                TimeSpan requiredTime = TimeSpan.FromMinutes(distance + random.Next(5, 15));
+
+    //                TimeSpan timePassed = AdminManager.Now - currentAssignment.StartTreatment;
+
+    //                if (timePassed >= requiredTime)
+    //                {
+    //                    // סיום טיפול
+    //                    var updatedAssignment = new DO.Assignment(
+    //                        currentAssignment.Id,
+    //                        currentAssignment.VolunteerId,
+    //                        currentAssignment.CallId,
+    //                        currentAssignment.StartTreatment,
+    //                        AdminManager.Now,
+    //                        DO.TreatmentType.Treated
+    //                    );
+
+    //                    lock (AdminManager.BlMutex)
+    //                    {
+    //                        s_dal.Assignment.Update(updatedAssignment);
+    //                    }
+
+    //                    Observers.NotifyListUpdated();
+    //                    CallManager.Observers.NotifyListUpdated();
+    //                }
+    //                else if (random.NextDouble() < 0.10)
+    //                {
+    //                    // ביטול על ידי המשתמש
+    //                    var updatedAssignment = new DO.Assignment(
+    //                        currentAssignment.Id,
+    //                        currentAssignment.VolunteerId,
+    //                        currentAssignment.CallId,
+    //                        currentAssignment.StartTreatment,
+    //                        AdminManager.Now,
+    //                        DO.TreatmentType.UserCancelled
+    //                    );
+
+    //                    lock (AdminManager.BlMutex)
+    //                    {
+    //                        s_dal.Assignment.Update(updatedAssignment);
+    //                    }
+
+    //                    Observers.NotifyListUpdated();
+    //                    CallManager.Observers.NotifyListUpdated();
+    //                }
+
+    //                // 🔵 אולי תיווצר קריאה מדומה חדשה
+    //                if (random.NextDouble() < 0.15)
+    //                {
+    //                    CallManager.CreateSimulatedCall();
+
+    //                    Observers.NotifyListUpdated();
+    //                    CallManager.Observers.NotifyListUpdated();
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+    // מומלץ להגדיר את האובייקט Random פעם אחת ברמת המחלקה כדי למנוע יצירה חוזרת ונשנית
+    // ולהבטיח אקראיות טובה יותר.
+    private static readonly Random s_random = new();
+
     internal static void SimulateVolunteerActivity()
     {
-        // First get all active volunteers - wrap the DAL call in a lock and convert to concrete list
+        // --- שלב 1: איסוף כל המידע הנדרש מראש, בנעילה אחת ---
         List<DO.Volunteer> activeVolunteers;
+        // מילון לגישה מהירה למטלות פעילות לפי מזהה מתנדב
+        Dictionary<int, DO.Assignment> activeAssignmentsByVolunteerId;
+        // מילון לגישה מהירה לקריאות לפי מזהה קריאה
+        Dictionary<int, DO.Call> callsById;
+        // רשימת קריאות פתוחות שזמינות למשלוח מתנדב
+        List<DO.Call> availableOpenCalls;
+
         lock (AdminManager.BlMutex)
         {
             activeVolunteers = s_dal.Volunteer.ReadAll(v => v.IsActive).ToList();
+
+            // קוראים את כל המטלות והקריאות פעם אחת בלבד
+            var allAssignments = s_dal.Assignment.ReadAll().ToList();
+            var allCalls = s_dal.Call.ReadAll().ToList();
+
+            // בונים מילון של מטלות פעילות לחיפוש מהיר (O(1))
+            activeAssignmentsByVolunteerId = allAssignments
+                .Where(a => a.EndTreatment == null)
+                .ToDictionary(a => a.VolunteerId);
+
+            // בונים מילון של כל הקריאות לחיפוש מהיר (O(1))
+            callsById = allCalls.ToDictionary(c => c.Id);
+
+            // מסננים מראש את הקריאות הפתוחות והזמינות
+            availableOpenCalls = allCalls
+                .Where(c => c.Latitude != 0 && c.Longitude != 0
+                       && CallManager.GetCallStatus(c.Id) == BO.CallStatus.Open)
+                .ToList();
         }
 
-        // Random for probability decisions
-        Random random = new();
+        // --- שלב 2: הכנת רשימות לאיסוף שינויים ---
+        // נאסוף את כל השינויים ונבצע אותם במרוכז בסוף
+        var assignmentsToCreate = new List<DO.Assignment>();
+        var assignmentsToUpdate = new List<DO.Assignment>();
+        int newCallsToSimulate = 0;
+        bool anyChangesMade = false;
 
+        // --- שלב 3: לולאה על המתנדבים וביצוע לוגיקה בזיכרון ---
         foreach (var volunteer in activeVolunteers)
         {
-            // Check if volunteer has an active assignment
-            DO.Assignment? currentAssignment;
-            lock (AdminManager.BlMutex)
+            // בדיקה מהירה האם למתנדב יש מטלה פעילה באמצעות המילון
+            if (activeAssignmentsByVolunteerId.TryGetValue(volunteer.Id, out var currentAssignment))
             {
-                currentAssignment = s_dal.Assignment.ReadAll()
-                    .Where(a => a.VolunteerId == volunteer.Id && a.EndTreatment == null)
-                    .FirstOrDefault();
-            }
-
-            if (currentAssignment == null)
-            {
-                // No active assignment - maybe choose a new call (20% chance)
-                if (random.NextDouble() < 0.20)
+                // למתנדב יש מטלה פעילה
+                // משיגים את פרטי הקריאה מהמילון, ללא גישה ל-DAL
+                if (callsById.TryGetValue(currentAssignment.CallId, out var call))
                 {
-                    // Get available open calls with coordinates
-                    List<DO.Call> availableCalls;
-                    lock (AdminManager.BlMutex)
+                    double distance = Tools.GetDistance(volunteer, call);
+                    // זמן בסיס לפי מרחק (דקה לק"מ) + תוספת אקראית של 5-15 דקות
+                    TimeSpan requiredTime = TimeSpan.FromMinutes(distance + s_random.Next(5, 15));
+
+                    if (AdminManager.Now - currentAssignment.StartTreatment >= requiredTime)
                     {
-                        availableCalls = s_dal.Call.ReadAll()
-                            .Where(c => c.Latitude != 0 && c.Longitude != 0
-                                   && CallManager.GetCallStatus(c.Id) == BO.CallStatus.Open)
-                            .ToList();
+                        // הזמן עבר - יש להשלים את המטלה
+                        var updatedAssignment = currentAssignment with
+                        {
+                            EndTreatment = AdminManager.Now,
+                            TreatmentType = DO.TreatmentType.Treated
+                        };
+                        assignmentsToUpdate.Add(updatedAssignment);
+                        anyChangesMade = true;
+                    }
+                    else if (s_random.NextDouble() < 0.10) // 10% סיכוי לביטול
+                    {
+                        // ביטול המטלה
+                        var updatedAssignment = currentAssignment with
+                        {
+                            EndTreatment = AdminManager.Now,
+                            TreatmentType = DO.TreatmentType.UserCancelled
+                        };
+                        assignmentsToUpdate.Add(updatedAssignment);
+                        anyChangesMade = true;
                     }
 
-                    // Filter calls by distance and pick random one
-                    var eligibleCalls = availableCalls
+                    if (s_random.NextDouble() < 0.15) // 15% סיכוי ליצירת קריאה חדשה
+                    {
+                        newCallsToSimulate++;
+                        anyChangesMade = true;
+                    }
+                }
+            }
+            else
+            {
+                // למתנדב אין מטלה פעילה - אולי נשייך אותו לקריאה חדשה (20% סיכוי)
+                if (s_random.NextDouble() < 0.20)
+                {
+                    // סינון הקריאות הזמינות לפי מרחק מהמתנדב
+                    var eligibleCalls = availableOpenCalls
                         .Where(call => Tools.GetDistance(volunteer, call) <= volunteer.MaxDistance)
                         .ToList();
 
                     if (eligibleCalls.Any())
                     {
-                        var selectedCall = eligibleCalls[random.Next(eligibleCalls.Count)];
+                        var selectedCall = eligibleCalls[s_random.Next(eligibleCalls.Count)];
 
-                        // Create new assignment
+                        // יצירת מטלה חדשה
                         var newAssignment = new DO.Assignment
                         {
                             CallId = selectedCall.Id,
@@ -335,90 +664,40 @@ internal static class VolunteerManager
                             StartTreatment = AdminManager.Now,
                             EndTreatment = null
                         };
+                        assignmentsToCreate.Add(newAssignment);
 
-                        lock (AdminManager.BlMutex)
-                        {
-                            s_dal.Assignment.Create(newAssignment);
-                        }
-
-                        // Notify outside lock
-                        Observers.NotifyListUpdated();
-                        CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
-
+                        // חשוב: מסירים את הקריאה מהרשימה כדי שמתנדב אחר לא יקבל אותה באותה ריצה
+                        availableOpenCalls.Remove(selectedCall);
+                        anyChangesMade = true;
                     }
                 }
             }
-            else
+        }
+
+        // --- שלב 4: ביצוע כל העדכונים בבסיס הנתונים במרוכז, תחת נעילה אחת ---
+        if (anyChangesMade)
+        {
+            lock (AdminManager.BlMutex)
             {
-                // Has active assignment - check if enough time passed
-                DO.Call? call;
-                lock (AdminManager.BlMutex)
+                foreach (var assignment in assignmentsToCreate)
                 {
-                    call = s_dal.Call.Read(currentAssignment.CallId);
+                    s_dal.Assignment.Create(assignment);
                 }
 
-                if (call != null)
+                foreach (var assignment in assignmentsToUpdate)
                 {
-                    double distance = Tools.GetDistance(volunteer, call);
-                    // Base time on distance (1 minute per km) plus random 5-15 minutes
-                    TimeSpan requiredTime = TimeSpan.FromMinutes(distance + random.Next(5, 15));
+                    s_dal.Assignment.Update(assignment);
+                }
 
-                    if (AdminManager.Now - currentAssignment.StartTreatment >= requiredTime)
-                    {
-                        // Complete the assignment
-                        var updatedAssignment = new DO.Assignment(
-                            currentAssignment.Id,
-                            currentAssignment.VolunteerId,
-                            currentAssignment.CallId,
-                            currentAssignment.StartTreatment,
-                            AdminManager.Now,
-                            DO.TreatmentType.Treated
-                        );
-
-                        lock (AdminManager.BlMutex)
-                        {
-                            s_dal.Assignment.Update(updatedAssignment);
-                        }
-
-                        // Notify outside lock
-                        Observers.NotifyListUpdated();
-                        CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
-
-                    }
-                    else if (random.NextDouble() < 0.10) // 10% chance to cancel
-                    {
-                        // Cancel the assignment
-                        var updatedAssignment = new DO.Assignment(
-                            currentAssignment.Id,
-                            currentAssignment.VolunteerId,
-                            currentAssignment.CallId,
-                            currentAssignment.StartTreatment,
-                            AdminManager.Now,
-                            DO.TreatmentType.UserCancelled
-                        );
-
-                        lock (AdminManager.BlMutex)
-                        {
-                            s_dal.Assignment.Update(updatedAssignment);
-                        }
-
-                        // Notify outside lock
-                        Observers.NotifyListUpdated();
-                        CallManager.Observers.NotifyListUpdated(); // או כל שם אחר שמתאים
-
-                    }
-                    if (random.NextDouble() < 0.15) // 15% סיכוי לדוג'
-                    {
-
-                        CallManager.CreateSimulatedCall();
-
-                        // Notify outside lock
-                        Observers.NotifyListUpdated();
-                        CallManager.Observers.NotifyListUpdated(); 
-
-                    }
+                for (int i = 0; i < newCallsToSimulate; i++)
+                {
+                    CallManager.CreateSimulatedCall();
                 }
             }
+
+            // --- שלב 5: שליחת התראות פעם אחת בלבד בסוף, מחוץ לנעילה ---
+            Observers.NotifyListUpdated();
+            CallManager.Observers.NotifyListUpdated();
         }
     }
 }

@@ -229,7 +229,10 @@ namespace PL
         {
             if (MessageBox.Show("Are you sure you want to initialize the database?", "Confirm Initialization", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                s_bl.Admin.StopSimulator();
                 s_bl.Admin.InitializeDatabase();
+                UpdateCallStatusCounts(); // הוספה - רענון סטטיסטיקות
+
                 MessageBox.Show("Database initialized successfully.");
             }
         }
@@ -239,6 +242,8 @@ namespace PL
             if (MessageBox.Show("Are you sure you want to reset the database?", "Confirm Reset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 s_bl.Admin.ResetDatabase();
+                UpdateCallStatusCounts(); // הוספה - רענון סטטיסטיקות
+
                 MessageBox.Show("Database reset successfully.");
             }
         }
