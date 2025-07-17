@@ -150,7 +150,8 @@ namespace PL.Call
             if (_observerOperation is null || _observerOperation.Status == DispatcherOperationStatus.Completed)
                 _observerOperation = Dispatcher.BeginInvoke(() =>
                 {
-                    QueryCallList();
+                    //QueryCallList();
+                    RefreshCallList();
                 });
         }
 
@@ -242,5 +243,6 @@ namespace PL.Call
         {
             App.ChangeTheme();
         }
+
     }
 }

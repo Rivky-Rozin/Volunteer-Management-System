@@ -234,6 +234,9 @@ internal static class VolunteerManager
         // בדיקת מרחק
         if (volunteer.DistanceKind == null)
             throw new BO.BlFormatException("חובה להזין סוג מרחק");
+        // בדיקת סיסמה
+        if (string.IsNullOrWhiteSpace(volunteer.Password))
+            throw new BO.BlFormatException("יש להזין סיסמה.");
     }
     public static DO.Volunteer ToDoVolunteer(BO.Volunteer boVolunteer)
     {

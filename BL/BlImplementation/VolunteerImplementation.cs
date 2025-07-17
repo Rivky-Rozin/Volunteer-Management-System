@@ -35,8 +35,12 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlDoesNotExistException($"Volunteer with ID '{id}' was not found");
 
         // בדיקת סיסמה
-        if (volunteer.Password != null && volunteer.Password != password)
+        if (string.IsNullOrEmpty(volunteer.Password))
+            throw new BO.BlValidationException("Volunteer has no password set");
+
+        if (volunteer.Password != password)
             throw new BO.BlValidationException("Incorrect password");
+
 
         // החזרת תפקיד המתנדב
         return (BO.VolunteerRole)volunteer.Role;
