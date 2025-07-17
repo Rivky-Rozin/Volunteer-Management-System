@@ -18,6 +18,12 @@ namespace PL.Volunteer
             get => (BO.Volunteer)GetValue(CurrentVolunteerProperty);
             set => SetValue(CurrentVolunteerProperty, value);
         }
+
+        public bool IsAddMode
+        {
+            get => isAddMode;
+        }
+
         public static readonly DependencyProperty CurrentVolunteerProperty =
             DependencyProperty.Register(nameof(CurrentVolunteer), typeof(BO.Volunteer), typeof(ManageVolunteerWindow), new PropertyMetadata(null));
         private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
@@ -113,6 +119,13 @@ namespace PL.Volunteer
         {
             get => (string)GetValue(ButtonTextProperty);
             set => SetValue(ButtonTextProperty, value);
+        }
+
+        private void UpdatePassword_Click(object sender, RoutedEventArgs e)
+        {
+                var passwordWindow = new UpdatePasswordWindow(CurrentVolunteer.Id);
+            passwordWindow.Show();
+
         }
 
     }

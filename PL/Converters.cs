@@ -198,6 +198,47 @@ public class NullToBackgroundConverter : IValueConverter
         => throw new NotImplementedException();
 }
 
+public class BooleanToVisibilityConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        bool boolValue = false;
+
+        if (value is bool b)
+        {
+            boolValue = b;
+        }
+        else if (value is null) // אם הערך הוא null, נניח false או נסתר
+        {
+            boolValue = false;
+        }
+        // ניתן להוסיף טיפול לטיפוסים אחרים אם יש צורך
+
+        // בדיקה של הפרמטר להיפוך
+        if (parameter != null && parameter.ToString().ToLower() == "invert")
+        {
+            boolValue = !boolValue; // היפוך הערך
+        }
+
+        return boolValue ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        if (value is Visibility v)
+        {
+            bool result = v == Visibility.Visible;
+            if (parameter != null && parameter.ToString().ToLower() == "invert")
+            {
+                result = !result; // היפוך הערך
+            }
+            return result;
+        }
+        return false;
+    }
+}
+
+
 
 
 

@@ -387,13 +387,13 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             _ = CallManager.UpdateCallCoordinatesAsync(callEntity); // בלי await
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            throw new BO.BlGeneralException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.",ex);
+            throw new BO.BlGeneralException("כתובת שגויה או לא קיימת – לא ניתן לאתר קואורדינטות.", ex);
         }
 
         // המרה ל-DO.Call
-       
+
     }
 
     //עובד
@@ -475,8 +475,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
         // בדיקה אם יש כבר הקצאה פתוחה לקריאה זו
         IEnumerable<Assignment> existingAssignments;
-            lock (AdminManager.BlMutex)
-            existingAssignments= _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(a.Id) == BO.CallStatus.Open);
+        lock (AdminManager.BlMutex)
+            existingAssignments = _dal.Assignment.ReadAll(a => a.CallId == callId && CallManager.GetCallStatus(a.Id) == BO.CallStatus.Open);
         if (existingAssignments.Any())
 
             throw new BO.BlAlreadyInTreatment("The call is already under treatment");

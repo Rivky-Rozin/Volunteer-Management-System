@@ -6,19 +6,19 @@
     <FullAddress>48 Allenby St, Tel Aviv</FullAddress>
     <Latitude>32.0635</Latitude>
     <Longitude>34.7717</Longitude>
-    <OpenTime>2025-07-02T12:12:24</OpenTime>
-    <Description>חיבור מחדש לרשת חשמלית</Description>
-    <MaxCallTime>2025-07-02T14:12:24</MaxCallTime>
+    <OpenTime>2025-06-20T11:38:57</OpenTime>
+    <Description>בדיקת מצב פיזי של קשיש</Description>
+    <MaxCallTime>2025-06-20T14:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1001</Id>
-    <CallType>Technical</CallType>
+    <CallType>Food</CallType>
     <FullAddress>10 King David St, Jerusalem</FullAddress>
     <Latitude>31.7767</Latitude>
     <Longitude>35.2296</Longitude>
-    <OpenTime>2025-07-16T08:12:24</OpenTime>
-    <Description>חיבור מחדש לרשת חשמלית</Description>
-    <MaxCallTime>2025-07-16T16:12:24</MaxCallTime>
+    <OpenTime>2025-07-17T10:38:57</OpenTime>
+    <Description>סיוע בשוק קהילתי לנזקקים</Description>
+    <MaxCallTime>2025-07-17T15:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1002</Id>
@@ -26,39 +26,39 @@
     <FullAddress>31 Rager Blvd, Beer Sheva</FullAddress>
     <Latitude>31.2518</Latitude>
     <Longitude>34.7913</Longitude>
-    <OpenTime>2025-07-16T08:12:24</OpenTime>
-    <Description>אירוע חירום רפואי בבית</Description>
-    <MaxCallTime>2025-07-16T12:41:24</MaxCallTime>
+    <OpenTime>2025-07-17T06:38:57</OpenTime>
+    <Description>תאונת דרכים סמוך למרכז קהילתי</Description>
+    <MaxCallTime>2025-07-17T12:00:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1003</Id>
-    <CallType>Medical</CallType>
+    <CallType>Food</CallType>
     <FullAddress>HaPalmach 2, Tiberias</FullAddress>
     <Latitude>32.7922</Latitude>
     <Longitude>35.5315</Longitude>
-    <OpenTime>2025-07-16T17:12:24</OpenTime>
-    <Description>הובלת חולה לקופת חולים</Description>
-    <MaxCallTime>2025-07-16T21:12:24</MaxCallTime>
+    <OpenTime>2025-07-17T15:38:57</OpenTime>
+    <Description>סיוע בשוק קהילתי לנזקקים</Description>
+    <MaxCallTime>2025-07-17T20:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1004</Id>
-    <CallType>Medical</CallType>
+    <CallType>Other</CallType>
     <FullAddress>1 Herzl St, Ashdod</FullAddress>
     <Latitude>31.8032</Latitude>
     <Longitude>34.6553</Longitude>
-    <OpenTime>2025-07-14T12:12:24</OpenTime>
-    <Description>בדיקת מצב פיזי של קשיש</Description>
-    <MaxCallTime>2025-07-14T14:12:24</MaxCallTime>
+    <OpenTime>2025-07-15T11:38:57</OpenTime>
+    <Description>סיוע במילוי טפסים ממשלתיים</Description>
+    <MaxCallTime>2025-07-15T13:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1005</Id>
-    <CallType>Technical</CallType>
+    <CallType>Medical</CallType>
     <FullAddress>Herzl Blvd 1, Holon</FullAddress>
     <Latitude>32.0144</Latitude>
     <Longitude>34.7744</Longitude>
-    <OpenTime>2025-06-26T12:12:24</OpenTime>
-    <Description>קריאה להחלפת סוללה במערכת התראה</Description>
-    <MaxCallTime>2025-06-26T14:12:24</MaxCallTime>
+    <OpenTime>2025-06-23T11:38:57</OpenTime>
+    <Description>סיוע בקבלת תרופות</Description>
+    <MaxCallTime>2025-06-23T13:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1006</Id>
@@ -66,79 +66,79 @@
     <FullAddress>8 HaRav Kook St, Netanya</FullAddress>
     <Latitude>32.3282</Latitude>
     <Longitude>34.856</Longitude>
-    <OpenTime>2025-07-16T09:12:24</OpenTime>
-    <Description>ילד ננעל ברכב</Description>
-    <MaxCallTime>2025-07-16T17:12:24</MaxCallTime>
+    <OpenTime>2025-07-17T09:38:57</OpenTime>
+    <Description>בדיקת מצב פיזי של קשיש</Description>
+    <MaxCallTime>2025-07-17T14:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1007</Id>
-    <CallType>Technical</CallType>
+    <CallType>Other</CallType>
     <FullAddress>Dizengoff St 50, Tel Aviv</FullAddress>
     <Latitude>32.0771</Latitude>
     <Longitude>34.7744</Longitude>
-    <OpenTime>2025-07-16T07:12:24</OpenTime>
-    <Description>חיבור מחדש לרשת חשמלית</Description>
-    <MaxCallTime>2025-07-16T12:43:24</MaxCallTime>
+    <OpenTime>2025-07-17T08:38:57</OpenTime>
+    <Description>סיוע במילוי טפסים ממשלתיים</Description>
+    <MaxCallTime>2025-07-17T12:10:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1008</Id>
-    <CallType>Other</CallType>
+    <CallType>Emergency</CallType>
     <FullAddress>Yefet St 190, Jaffa</FullAddress>
     <Latitude>32.0495</Latitude>
     <Longitude>34.7516</Longitude>
-    <OpenTime>2025-07-16T13:12:24</OpenTime>
-    <Description>הבאת חבילת מצרכים למשפחה נזקקת</Description>
-    <MaxCallTime>2025-07-16T16:12:24</MaxCallTime>
+    <OpenTime>2025-07-17T16:38:57</OpenTime>
+    <Description>דיווח על שריפה בבניין מגורים</Description>
+    <MaxCallTime>2025-07-17T19:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1009</Id>
-    <CallType>Other</CallType>
+    <CallType>Emergency</CallType>
     <FullAddress>Beit HaRishonim, Rishon Lezion</FullAddress>
     <Latitude>31.9638</Latitude>
     <Longitude>34.8038</Longitude>
-    <OpenTime>2025-07-13T12:12:24</OpenTime>
-    <Description>בקשה לליווי לקופת חולים</Description>
-    <MaxCallTime>2025-07-13T14:12:24</MaxCallTime>
+    <OpenTime>2025-07-15T11:38:57</OpenTime>
+    <Description>ילד ננעל ברכב</Description>
+    <MaxCallTime>2025-07-15T14:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1010</Id>
-    <CallType>Emergency</CallType>
+    <CallType>Other</CallType>
     <FullAddress>Weizmann 2, Rehovot</FullAddress>
     <Latitude>31.8936</Latitude>
     <Longitude>34.8113</Longitude>
-    <OpenTime>2025-06-26T12:12:24</OpenTime>
-    <Description>ילד ננעל ברכב</Description>
-    <MaxCallTime>2025-06-26T15:12:24</MaxCallTime>
+    <OpenTime>2025-06-29T11:38:57</OpenTime>
+    <Description>בקשה לעזרה בהעברת חפצים</Description>
+    <MaxCallTime>2025-06-29T13:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1011</Id>
-    <CallType>Other</CallType>
+    <CallType>Food</CallType>
     <FullAddress>Keren HaYesod 12, Eilat</FullAddress>
     <Latitude>29.5581</Latitude>
     <Longitude>34.9482</Longitude>
-    <OpenTime>2025-07-16T09:12:24</OpenTime>
-    <Description>סיוע לשכנה מבוגרת בהפעלת מזגן</Description>
-    <MaxCallTime>2025-07-16T15:12:24</MaxCallTime>
+    <OpenTime>2025-07-17T10:38:57</OpenTime>
+    <Description>חלוקת מזון לקשישים</Description>
+    <MaxCallTime>2025-07-17T15:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1012</Id>
-    <CallType>Technical</CallType>
+    <CallType>Other</CallType>
     <FullAddress>Golda Meir Blvd, Haifa</FullAddress>
     <Latitude>32.7993</Latitude>
     <Longitude>35.0153</Longitude>
-    <OpenTime>2025-07-16T07:12:24</OpenTime>
-    <Description>בדיקת ציוד תקשורת בבית המטופל</Description>
-    <MaxCallTime>2025-07-16T12:32:24</MaxCallTime>
+    <OpenTime>2025-07-17T06:38:57</OpenTime>
+    <Description>סיוע במילוי טפסים ממשלתיים</Description>
+    <MaxCallTime>2025-07-17T11:43:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1013</Id>
-    <CallType>Other</CallType>
+    <CallType>Food</CallType>
     <FullAddress>Palmach 7, Safed</FullAddress>
     <Latitude>32.9646</Latitude>
     <Longitude>35.4962</Longitude>
-    <OpenTime>2025-07-16T14:12:24</OpenTime>
-    <Description>סיוע במילוי טפסים ממשלתיים</Description>
-    <MaxCallTime>2025-07-16T18:12:24</MaxCallTime>
+    <OpenTime>2025-07-17T15:38:57</OpenTime>
+    <Description>סיוע בשוק קהילתי לנזקקים</Description>
+    <MaxCallTime>2025-07-17T19:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1014</Id>
@@ -146,9 +146,9 @@
     <FullAddress>Hagana Blvd 8, Petah Tikva</FullAddress>
     <Latitude>32.083</Latitude>
     <Longitude>34.8878</Longitude>
-    <OpenTime>2025-07-14T12:12:24</OpenTime>
-    <Description>חיבור מחדש לרשת חשמלית</Description>
-    <MaxCallTime>2025-07-14T14:12:24</MaxCallTime>
+    <OpenTime>2025-07-15T11:38:57</OpenTime>
+    <Description>בעיה טכנית במכשיר רפואי</Description>
+    <MaxCallTime>2025-07-15T13:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1015</Id>
@@ -156,258 +156,58 @@
     <FullAddress>48 Allenby St, Tel Aviv</FullAddress>
     <Latitude>32.0635</Latitude>
     <Longitude>34.7717</Longitude>
-    <OpenTime>2025-06-27T12:12:24</OpenTime>
-    <Description>סיוע במילוי טפסים ממשלתיים</Description>
-    <MaxCallTime>2025-06-27T15:12:24</MaxCallTime>
+    <OpenTime>2025-06-24T11:38:57</OpenTime>
+    <Description>סיוע לשכנה מבוגרת בהפעלת מזגן</Description>
+    <MaxCallTime>2025-06-24T14:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1016</Id>
-    <CallType>Other</CallType>
+    <CallType>Technical</CallType>
     <FullAddress>10 King David St, Jerusalem</FullAddress>
     <Latitude>31.7767</Latitude>
     <Longitude>35.2296</Longitude>
-    <OpenTime>2025-07-16T10:12:24</OpenTime>
-    <Description>סיוע במילוי טפסים ממשלתיים</Description>
-    <MaxCallTime>2025-07-16T15:12:24</MaxCallTime>
+    <OpenTime>2025-07-17T10:38:57</OpenTime>
+    <Description>בעיה טכנית במכשיר רפואי</Description>
+    <MaxCallTime>2025-07-17T13:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1017</Id>
-    <CallType>Medical</CallType>
+    <CallType>Other</CallType>
     <FullAddress>31 Rager Blvd, Beer Sheva</FullAddress>
     <Latitude>31.2518</Latitude>
     <Longitude>34.7913</Longitude>
-    <OpenTime>2025-07-16T09:12:24</OpenTime>
-    <Description>הגעה לאדם שמתקשה לנשום</Description>
-    <MaxCallTime>2025-07-16T12:43:24</MaxCallTime>
+    <OpenTime>2025-07-17T06:38:57</OpenTime>
+    <Description>בקשה לליווי לקופת חולים</Description>
+    <MaxCallTime>2025-07-17T11:44:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1018</Id>
-    <CallType>Medical</CallType>
+    <CallType>Technical</CallType>
     <FullAddress>HaPalmach 2, Tiberias</FullAddress>
     <Latitude>32.7922</Latitude>
     <Longitude>35.5315</Longitude>
-    <OpenTime>2025-07-16T13:12:24</OpenTime>
-    <Description>הגעה לאדם שמתקשה לנשום</Description>
-    <MaxCallTime>2025-07-16T18:12:24</MaxCallTime>
+    <OpenTime>2025-07-17T15:38:57</OpenTime>
+    <Description>חיבור מחדש לרשת חשמלית</Description>
+    <MaxCallTime>2025-07-17T20:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1019</Id>
-    <CallType>Other</CallType>
+    <CallType>Technical</CallType>
     <FullAddress>1 Herzl St, Ashdod</FullAddress>
     <Latitude>31.8032</Latitude>
     <Longitude>34.6553</Longitude>
-    <OpenTime>2025-07-13T12:12:24</OpenTime>
-    <Description>בקשה לליווי לקופת חולים</Description>
-    <MaxCallTime>2025-07-13T14:12:24</MaxCallTime>
+    <OpenTime>2025-07-14T11:38:57</OpenTime>
+    <Description>חיבור מחדש לרשת חשמלית</Description>
+    <MaxCallTime>2025-07-14T14:38:57</MaxCallTime>
   </Call>
   <Call>
     <Id>1020</Id>
-    <CallType>Emergency</CallType>
-    <FullAddress>Herzl Blvd 1, Holon</FullAddress>
-    <Latitude>32.0144</Latitude>
-    <Longitude>34.7744</Longitude>
-    <OpenTime>2025-07-01T12:12:24</OpenTime>
-    <Description>תאונת דרכים סמוך למרכז קהילתי</Description>
-    <MaxCallTime>2025-07-01T16:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1021</Id>
-    <CallType>Other</CallType>
-    <FullAddress>8 HaRav Kook St, Netanya</FullAddress>
-    <Latitude>32.3282</Latitude>
-    <Longitude>34.856</Longitude>
-    <OpenTime>2025-07-16T10:12:24</OpenTime>
-    <Description>סיוע לשכנה מבוגרת בהפעלת מזגן</Description>
-    <MaxCallTime>2025-07-16T14:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1022</Id>
-    <CallType>Emergency</CallType>
-    <FullAddress>Dizengoff St 50, Tel Aviv</FullAddress>
-    <Latitude>32.0771</Latitude>
-    <Longitude>34.7744</Longitude>
-    <OpenTime>2025-07-16T07:12:24</OpenTime>
-    <Description>דיווח על שריפה בבניין מגורים</Description>
-    <MaxCallTime>2025-07-16T12:44:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1023</Id>
-    <CallType>Emergency</CallType>
-    <FullAddress>Yefet St 190, Jaffa</FullAddress>
-    <Latitude>32.0495</Latitude>
-    <Longitude>34.7516</Longitude>
-    <OpenTime>2025-07-16T16:12:24</OpenTime>
-    <Description>תאונת דרכים סמוך למרכז קהילתי</Description>
-    <MaxCallTime>2025-07-16T19:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1024</Id>
-    <CallType>Other</CallType>
-    <FullAddress>Beit HaRishonim, Rishon Lezion</FullAddress>
-    <Latitude>31.9638</Latitude>
-    <Longitude>34.8038</Longitude>
-    <OpenTime>2025-07-13T12:12:24</OpenTime>
-    <Description>סיוע לשכנה מבוגרת בהפעלת מזגן</Description>
-    <MaxCallTime>2025-07-13T14:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1025</Id>
-    <CallType>Other</CallType>
-    <FullAddress>Weizmann 2, Rehovot</FullAddress>
-    <Latitude>31.8936</Latitude>
-    <Longitude>34.8113</Longitude>
-    <OpenTime>2025-06-26T12:12:24</OpenTime>
-    <Description>בקשה לליווי לקופת חולים</Description>
-    <MaxCallTime>2025-06-26T15:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1026</Id>
-    <CallType>Emergency</CallType>
-    <FullAddress>Keren HaYesod 12, Eilat</FullAddress>
-    <Latitude>29.5581</Latitude>
-    <Longitude>34.9482</Longitude>
-    <OpenTime>2025-07-16T08:12:24</OpenTime>
-    <Description>אירוע חירום רפואי בבית</Description>
-    <MaxCallTime>2025-07-16T15:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1027</Id>
-    <CallType>Emergency</CallType>
-    <FullAddress>Golda Meir Blvd, Haifa</FullAddress>
-    <Latitude>32.7993</Latitude>
-    <Longitude>35.0153</Longitude>
-    <OpenTime>2025-07-16T08:12:24</OpenTime>
-    <Description>תאונת דרכים סמוך למרכז קהילתי</Description>
-    <MaxCallTime>2025-07-16T12:44:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1028</Id>
-    <CallType>Other</CallType>
-    <FullAddress>Palmach 7, Safed</FullAddress>
-    <Latitude>32.9646</Latitude>
-    <Longitude>35.4962</Longitude>
-    <OpenTime>2025-07-16T14:12:24</OpenTime>
-    <Description>בקשה לליווי לקופת חולים</Description>
-    <MaxCallTime>2025-07-16T19:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1029</Id>
-    <CallType>Other</CallType>
-    <FullAddress>Hagana Blvd 8, Petah Tikva</FullAddress>
-    <Latitude>32.083</Latitude>
-    <Longitude>34.8878</Longitude>
-    <OpenTime>2025-07-13T12:12:24</OpenTime>
-    <Description>חלוקת מזון לקשישים</Description>
-    <MaxCallTime>2025-07-13T14:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1030</Id>
-    <CallType>Emergency</CallType>
-    <FullAddress>48 Allenby St, Tel Aviv</FullAddress>
-    <Latitude>32.0635</Latitude>
-    <Longitude>34.7717</Longitude>
-    <OpenTime>2025-07-01T12:12:24</OpenTime>
-    <Description>ילד ננעל ברכב</Description>
-    <MaxCallTime>2025-07-01T16:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1031</Id>
-    <CallType>Medical</CallType>
-    <FullAddress>10 King David St, Jerusalem</FullAddress>
-    <Latitude>31.7767</Latitude>
-    <Longitude>35.2296</Longitude>
-    <OpenTime>2025-07-16T08:12:24</OpenTime>
-    <Description>הובלת חולה לקופת חולים</Description>
-    <MaxCallTime>2025-07-16T16:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1032</Id>
-    <CallType>Medical</CallType>
-    <FullAddress>31 Rager Blvd, Beer Sheva</FullAddress>
-    <Latitude>31.2518</Latitude>
-    <Longitude>34.7913</Longitude>
-    <OpenTime>2025-07-16T07:12:24</OpenTime>
-    <Description>קריאה להחלפת סוללה במערכת התראה</Description>
-    <MaxCallTime>2025-07-16T12:36:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1033</Id>
-    <CallType>Emergency</CallType>
-    <FullAddress>HaPalmach 2, Tiberias</FullAddress>
-    <Latitude>32.7922</Latitude>
-    <Longitude>35.5315</Longitude>
-    <OpenTime>2025-07-16T13:12:24</OpenTime>
-    <Description>דיווח על שריפה בבניין מגורים</Description>
-    <MaxCallTime>2025-07-16T18:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1034</Id>
-    <CallType>Food</CallType>
-    <FullAddress>1 Herzl St, Ashdod</FullAddress>
-    <Latitude>31.8032</Latitude>
-    <Longitude>34.6553</Longitude>
-    <OpenTime>2025-07-13T12:12:24</OpenTime>
-    <Description>חלוקת מזון לקשישים</Description>
-    <MaxCallTime>2025-07-13T15:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1035</Id>
     <CallType>Food</CallType>
     <FullAddress>Herzl Blvd 1, Holon</FullAddress>
     <Latitude>32.0144</Latitude>
     <Longitude>34.7744</Longitude>
-    <OpenTime>2025-06-29T12:12:24</OpenTime>
-    <Description>חלוקת מזון לקשישים</Description>
-    <MaxCallTime>2025-06-29T15:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1036</Id>
-    <CallType>Medical</CallType>
-    <FullAddress>8 HaRav Kook St, Netanya</FullAddress>
-    <Latitude>32.3282</Latitude>
-    <Longitude>34.856</Longitude>
-    <OpenTime>2025-07-16T08:12:24</OpenTime>
-    <Description>בדיקת מצב פיזי של קשיש</Description>
-    <MaxCallTime>2025-07-16T17:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1037</Id>
-    <CallType>Medical</CallType>
-    <FullAddress>Dizengoff St 50, Tel Aviv</FullAddress>
-    <Latitude>32.0771</Latitude>
-    <Longitude>34.7744</Longitude>
-    <OpenTime>2025-07-16T08:12:24</OpenTime>
-    <Description>סיוע בקבלת תרופות</Description>
-    <MaxCallTime>2025-07-16T12:31:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1038</Id>
-    <CallType>Technical</CallType>
-    <FullAddress>Yefet St 190, Jaffa</FullAddress>
-    <Latitude>32.0495</Latitude>
-    <Longitude>34.7516</Longitude>
-    <OpenTime>2025-07-16T15:12:24</OpenTime>
-    <Description>בעיה טכנית במכשיר רפואי</Description>
-    <MaxCallTime>2025-07-16T20:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1039</Id>
-    <CallType>Food</CallType>
-    <FullAddress>Beit HaRishonim, Rishon Lezion</FullAddress>
-    <Latitude>31.9638</Latitude>
-    <Longitude>34.8038</Longitude>
-    <OpenTime>2025-07-14T12:12:24</OpenTime>
-    <Description>בדיקת ציוד תקשורת בבית המטופל</Description>
-    <MaxCallTime>2025-07-14T14:12:24</MaxCallTime>
-  </Call>
-  <Call>
-    <Id>1040</Id>
-    <CallType>Medical</CallType>
-    <FullAddress>רחוב הרצל 1, תל אביב</FullAddress>
-    <Latitude>32.14621572414499</Latitude>
-    <Longitude>34.87963204404838</Longitude>
-    <OpenTime>2025-07-16T12:42:24</OpenTime>
-    <Description>אירוע רפואי</Description>
-    <MaxCallTime>2025-07-16T13:52:24</MaxCallTime>
+    <OpenTime>2025-06-25T11:38:57</OpenTime>
+    <Description>סיוע בשוק קהילתי לנזקקים</Description>
+    <MaxCallTime>2025-06-25T13:38:57</MaxCallTime>
   </Call>
 </ArrayOfCall>

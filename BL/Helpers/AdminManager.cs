@@ -170,7 +170,8 @@ internal static class AdminManager //stage 4
             {
                 Thread.Sleep(1000); // 1 second
             }
-            catch (ThreadInterruptedException) { }
+            catch (ThreadInterruptedException) {
+            }
         }
     }
     #endregion Stage 7 base
