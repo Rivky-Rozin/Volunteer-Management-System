@@ -386,75 +386,7 @@ class Program
         }
     }
 
-    //todo לבדוק אם זה לא כפילות ולא צריך לקרא לפונקציה כזו שכתובה במקום אחר
-    static BO.Volunteer CreateVolunteer(int requesterId)
-    {
-
-        Console.Write("Name: ");
-        string? name = Console.ReadLine();
-
-        Console.Write("Phone Number: ");
-        string? phoneNumber = Console.ReadLine();
-
-        Console.Write("Email: ");
-        string? email = Console.ReadLine();
-        Console.Write("IsActive? (true/false): ");
-        if (!bool.TryParse(Console.ReadLine(), out bool active))
-        {
-            Console.WriteLine("⚠️ Invalid input. Default value 'false' was set.");
-            active = false;
-        }
-
-        Console.Write("Please enter Role: 'Manager' or 'Regular': ");
-        if (!Enum.TryParse(Console.ReadLine(), out BO.VolunteerRole role))
-        {
-            Console.WriteLine("⚠️ Invalid role. Default value 'Volunteer' was set.");
-            role = BO.VolunteerRole.Regular;
-        }
-
-        Console.Write("Password: ");
-        string? password = Console.ReadLine();
-
-        Console.Write("Address: ");
-        string? address = Console.ReadLine();
-
-        //todoלתקן את הזריקה, פה היא בטוח לא נכונה זה בלי לתפוס אותה והתוכנית נופלת 
-        Console.WriteLine("Enter location details:");
-        Console.Write("Latitude: ");
-        if (!double.TryParse(Console.ReadLine(), out double latitude))
-            throw new FormatException("Invalid latitude format.");
-        //todoלתקן את הזריקה, פה היא בטוח לא נכונה זה בלי לתפוס אותה והתוכנית נופלת 
-        Console.Write("Longitude: ");
-        if (!double.TryParse(Console.ReadLine(), out double longitude))
-            throw new FormatException("Invalid longitude format.");
-
-        //todoלתקן את הזריקה, פה היא בטוח לא נכונה זה בלי לתפוס אותה והתוכנית נופלת 
-        Console.Write("Largest Distance: ");
-        if (!double.TryParse(Console.ReadLine(), out double MaxDistanceForCall))
-            throw new FormatException("Invalid Max Distance For Call format.");
-
-        //todoלתקן את הזריקה, פה היא בטוח לא נכונה זה בלי לתפוס אותה והתוכנית נופלת 
-        Console.Write("Distance Type (Air, Drive or Walk): ");
-        if (!Enum.TryParse(Console.ReadLine(), true, out BO.DistanceKind myDistanceType))
-            throw new FormatException("Invalid distance type.");
-
-        return new BO.Volunteer
-        {
-            Id = requesterId,
-            Name = name,
-            Phone = phoneNumber,
-            Email = email,
-            Password = password,
-            Address = address,
-            Latitude = latitude,
-            Longitude = longitude,
-            Role = role,
-            IsActive = active,
-            MaxDistance = MaxDistanceForCall,
-            DistanceKind = myDistanceType,
-        };
-    }
-  
+   
     static void UpDateVolunteer()
     {
         try

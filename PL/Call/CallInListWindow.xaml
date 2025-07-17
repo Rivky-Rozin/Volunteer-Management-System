@@ -52,8 +52,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <!-- =========== הוספת הכפתור כאן! =========== -->
-        <!-- נצמיד אותו לפינה של ה-Grid הראשי, מעל כל השאר -->
+       
         <controls:ThemeToggleButton HorizontalAlignment="Right" VerticalAlignment="Top" 
                                     Margin="0,-14,-14,0" Panel.ZIndex="1"/>
         <!-- כותרת ראשית ואזור סינון -->
