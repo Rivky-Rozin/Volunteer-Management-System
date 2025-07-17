@@ -44,8 +44,9 @@
                     <Label Grid.Row="3" Grid.Column="0" Content="אימייל:"/>
                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CurrentVolunteer.Email, Mode=TwoWay}" />
 
-                    <Label Grid.Row="4" Grid.Column="0" Content="סיסמה:"/>
-                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding CurrentVolunteer.Password, Mode=TwoWay}" />
+                    <Label Grid.Row="4" Grid.Column="0" Content="סיסמה:" Visibility="{Binding IsAddMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding CurrentVolunteer.Password, Mode=TwoWay}" Visibility="{Binding IsAddMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                     <Label Grid.Row="5" Grid.Column="0" Content="כתובת:"/>
                     <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding CurrentVolunteer.Address, Mode=TwoWay}" />
