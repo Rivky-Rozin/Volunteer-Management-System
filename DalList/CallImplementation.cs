@@ -11,11 +11,12 @@ internal class CallImplementation : ICall
 
 {
     [MethodImpl(MethodImplOptions.Synchronized)]
-    public void Create(Call item)
+    public int Create(Call item)
     {
         int id = Config.NextCallId;
         Call copy = item with { Id = id };
         DataSource.Calls.Add(copy);
+        return copy.Id; //return the ID of the created call
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]

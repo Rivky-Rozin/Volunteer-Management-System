@@ -36,15 +36,15 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             call.Longitude = null;
 
             DO.Call doCall = CallManager.ConvertToDO(call);
-
+            int callId;
             // שלב 3: מוסיפים ל-DAL בלי קואורדינטות
             lock (AdminManager.BlMutex)
-                _dal.Call.Create(doCall);
+                callId = _dal.Call.Create(doCall);
 
             CallManager.Observers.NotifyListUpdated(); //stage 5
-
+            DO.Call call1 = _dal.Call.Read(callId) ?? throw new BO.BlDoesNotExistException("Call not found after creation");
             // שלב 4: מחשבים קואורדינטות ברקע
-            _ = CallManager.UpdateCallCoordinatesAsync(doCall); // בלי await
+            _ = CallManager.UpdateCallCoordinatesAsync(call1); // בלי await
         }
         catch (Exception ex)
         {

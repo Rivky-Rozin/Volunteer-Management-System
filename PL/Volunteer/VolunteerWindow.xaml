@@ -59,7 +59,7 @@
 
         <CheckBox Grid.Row="6" Grid.Column="1" Content="Active"
           IsChecked="{Binding Volunteer.IsActive, Mode=TwoWay}"
-          IsEnabled="{Binding IsActiveCheckBoxEnabled}"
+          IsEnabled="{Binding IsActiveCheckBoxEnabledProperty}"
           Margin="5"/>
         <!-- Volunteer ID (ReadOnly) -->
         <Label Grid.Row="7" Grid.Column="0" Content="ID:" Margin="5"/>

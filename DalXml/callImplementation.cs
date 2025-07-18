@@ -9,13 +9,14 @@ internal class CallImplementation : ICall
 {
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
-    public void Create(Call item)
+    public int Create(Call item)
     {
         List<Call> Calls = XMLTools.LoadListFromXMLSerializer<Call>(Config.s_calls_xml);
         int id = Config.NextCallId;
         Call copy = item with { Id = id };
         Calls.Add(copy);
         XMLTools.SaveListToXMLSerializer(Calls, Config.s_calls_xml);
+        return id;
     }
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 

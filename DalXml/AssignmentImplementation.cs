@@ -9,13 +9,14 @@ internal class AssignmentImplementation : IAssignment
 {
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
-    public void Create(Assignment item)
+    public int Create(Assignment item)
     {
         List<Assignment> Assignments = XMLTools.LoadListFromXMLSerializer<Assignment>(Config.s_assignments_xml);
         int id = Config.NextAssignmentId;
         Assignment copy = item with { Id = id };
         Assignments.Add(copy);
         XMLTools.SaveListToXMLSerializer(Assignments, Config.s_assignments_xml);
+        return id;
     }
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 

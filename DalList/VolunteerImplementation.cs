@@ -12,13 +12,14 @@ internal class VolunteerImplementation : IVolunteer
 {
     //הוספת מתנדב חדש
     [MethodImpl(MethodImplOptions.Synchronized)]
-    public void Create(Volunteer item)
+    public int Create(Volunteer item)
     {
         if (!(Read(item.Id) == null))
         {
             throw new DalAlreadyExistsException($"A volunteer with this ID={item.Id} already exists");
         }
         DataSource.Volunteers.Add(item);
+        return item.Id; //return the ID of the created volunteer
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
