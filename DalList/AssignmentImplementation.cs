@@ -12,7 +12,7 @@ using DO;
 internal class AssignmentImplementation : IAssignment
 {
     [MethodImpl(MethodImplOptions.Synchronized)]
-    public void Create(Assignment item)
+    public int Create(Assignment item)
     {
         //ראינו את ההערה על עדכון הID, ולמרות זאת לא שינינו כי רצינו להתייעץ עם המורה על בעיה אחרת שזה יוצר לנו והשיעור רק מחר. נשמח להתחשבות! 😃
         Assignment copy;
@@ -26,6 +26,7 @@ internal class AssignmentImplementation : IAssignment
             copy = item with { Id = id };
         }
         DataSource.Assignments.Add(copy);
+        return copy.Id; //return the ID of the created assignment
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]

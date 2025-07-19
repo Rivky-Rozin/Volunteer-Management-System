@@ -15,11 +15,12 @@ internal class VolunteerImplementation : IVolunteer
 {
 
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
-    public void Create(Volunteer item)
+    public int Create(Volunteer item)
     {
         XElement volunteersRootElem = XMLTools.LoadListFromXMLElement(Config.s_volunteers_xml);
         volunteersRootElem.Add(createVolunteerElement(item));
         XMLTools.SaveListToXMLElement(volunteersRootElem, Config.s_volunteers_xml);
+        return item.Id; //return the ID of the created volunteer
     }
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7
 
