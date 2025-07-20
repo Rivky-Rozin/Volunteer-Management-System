@@ -412,7 +412,7 @@ internal static class VolunteerManager
                     CallManager.CreateSimulatedCall();
                 }
             }
-
+            Thread.Sleep(100); // השהיה של 50 מילישניות
             // --- שלב 5: שליחת התראות פעם אחת בלבד בסוף, מחוץ לנעילה ---
             Observers.NotifyListUpdated();
             CallManager.Observers.NotifyListUpdated();
