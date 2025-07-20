@@ -28,7 +28,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             if (call.MaxFinishTime != null && call.MaxFinishTime <= call.CreationTime)
                 throw new BO.BlInvalidActionException("Finish time must be after creation time");
 
-            // עדכון זמן פתיחה לזמן הנוכחי של המערכת      
             var openTime = AdminManager.Now;
             call.CreationTime = openTime;
 
@@ -37,12 +36,14 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
             DO.Call doCall = CallManager.ConvertToDO(call);
             int callId;
-            // שלב 3: מוסיפים ל-DAL בלי קואורדינטות
+
             lock (AdminManager.BlMutex)
                 callId = _dal.Call.Create(doCall);
 
             CallManager.Observers.NotifyListUpdated(); //stage 5
             DO.Call call1 = _dal.Call.Read(callId) ?? throw new BO.BlDoesNotExistException("Call not found after creation");
+
+            // todo לבדוק מה החלק הזה בקוד עושה
             // שלב 4: מחשבים קואורדינטות ברקע
             _ = CallManager.UpdateCallCoordinatesAsync(call1); // בלי await
         }
@@ -58,6 +59,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
         // חיפוש ההקצאה הפתוחה לפי callId
         DO.Assignment? assignment;
+
         lock (AdminManager.BlMutex)
             assignment = _dal.Assignment.ReadAll()
             .FirstOrDefault(a => a.CallId == callId && a.VolunteerId == volunteerId);
@@ -65,7 +67,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         if (assignment == null)
             throw new BO.BlDoesNotExistException("ההקצאה עבור הקריאה לא נמצאה או שכבר טופלה");
 
-        // יצירת אובייקט חדש עם עדכון סטטוס וסיום טיפול
         DO.Assignment updatedAssignment = new()
         {
             Id = assignment.Id,
@@ -88,8 +89,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון");
         }
     }
-
-    //עובד
     public void CancelCallTreatment(int requesterId, int callId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
@@ -126,12 +125,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         if (assignment.EndTreatment != null)
             throw new BO.BlInvalidOperationException("אי אפשר לבטל טיפול שכבר הסתיים");
 
-        // קביעת סוג ביטול
-        //DO.TreatmentType treatmentType = isAdmin
-        //    ? DO.TreatmentType.ManagerCancelled
-        //    : DO.TreatmentType.UserCancelled;
-        //DO.TreatmentType treatmentType = DO.TreatmentType.op
-        // יצירת אובייקט חדש עם זמן סיום וסוג טיפול מעודכן
         DO.Assignment updatedAssignment = new DO.Assignment
         {
             Id = assignment.Id,
@@ -156,7 +149,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
     }
 
-    //עובד
     public void DeleteCall(int callId)
     {
         try
@@ -165,8 +157,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             // שלב 1: שליפת הקריאה משכבת הנתונים
             DO.Call call;
             lock (AdminManager.BlMutex) //stage 7
-                call = _dal.Call.Read(callId)
-?? throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון");
+                call = _dal.Call.Read(callId)?? throw new BO.BlDoesNotExistException("ההקצאה לא נמצאה בעדכון");
 
             // שלב 2: בדיקה האם הקריאה בסטטוס פתוח
             if (CallManager.GetCallStatus(call.Id) != BO.CallStatus.Open)
@@ -187,17 +178,14 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
         catch (Exception ex)
         {
-            // שלב 5: אם הקריאה לא קיימת בשכבת הנתונים – זרוק חריגה מתאימה לשכבת התצוגה
             throw new BO.BlDoesNotExistException("Call", ex);
         }
     }
 
-    //עובד
     public BO.Call GetCallDetails(int callId)
     {
         try
         {
-            //להוסיף שגיאה מתאימה
             DO.Call? doCall;
             lock (AdminManager.BlMutex)
                 doCall = _dal.Call.Read(callId) ?? throw new BO.BlDoesNotExistException($"Call with ID {callId} not found.");
@@ -212,7 +200,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
     }
 
-    //עובד
     public IEnumerable<BO.CallInList> GetCallList(BO.CallInListField? filterField, object? filterValue, BO.CallInListField? sortField)
     {
         try
@@ -227,7 +214,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
                         where filterField == null || filterValue == null || CallManager.MatchesFilter(boCall, filterField.Value, filterValue)
                         select boCall;
 
-            // Sorting based on the selected field  
             if (sortField != null)
             {
                 query = sortField switch
@@ -249,12 +235,10 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
         catch (Exception ex)
         {
-            // להוסיף את זה לקובץ של השגיאות  
             throw new BO.BlDoesNotExistException("שגיאה באחזור רשימת הקריאות", ex);
         }
     }
 
-    //עובד
     public int[] GetCallStatusCounts()
     {
         try
@@ -277,8 +261,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         }
     }
 
-
-    //עובד
     public IEnumerable<BO.ClosedCallInList> GetClosedCallsOfVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.ClosedCallInListEnum? sortField)
     {
         try
@@ -292,11 +274,10 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
                         let boCall = CallManager.ConvertToBO(call)
                         select boCall;
             var closedCalls = from call in query
-                              where call.Status == BO.CallStatus.Closed // Updated namespace from DO to BO  
-                                                                        //????????
+                              where call.Status == BO.CallStatus.Closed 
                               && call.Assignments.Any(a => a.VolunteerId == volunteerId)
 
-                              let boCall = CallManager.ConvertToClosedCallInList(CallManager.ConvertToDO(call)) // Fix: Convert BO.CallInList to DO.Call before passing to ConvertToClosedCallInList  
+                              let boCall = CallManager.ConvertToClosedCallInList(CallManager.ConvertToDO(call)) 
                               where callTypeFilter == null || boCall.CallType == callTypeFilter
                               select boCall;
 
@@ -322,7 +303,7 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
             throw new BO.BlGeneralException("שגיאה בקבלת קריאות סגורות למתנדב", ex);
         }
     }
-    //עובד
+
     public void UpdateCall(BO.Call call)
     {
         AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
@@ -337,7 +318,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         if (!Enum.IsDefined(typeof(BO.CallType), call.CallType))
             throw new BO.BlArgumentException("סוג הקריאה אינו חוקי.");
 
-        // תיאור - רשות, אך אם קיים, נבדוק אם לא ריק מדי
         if (call.Description != null && call.Description.Trim().Length < 2)
             throw new BO.BlArgumentException("אם סופק תיאור, עליו להכיל לפחות 2 תווים.");
 
@@ -396,10 +376,8 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
 
     }
 
-    //עובד
     public IEnumerable<BO.OpenCallInList> GetOpenCallsForVolunteer(int volunteerId, BO.CallType? callTypeFilter, BO.OpenCallInListEnum? sortField)
     {
-        //
         // שליפת נתוני המתנדב
         Volunteer volunteer;
         lock (AdminManager.BlMutex)
@@ -449,7 +427,6 @@ CallManager.Observers.RemoveObserver(id, observer); //stage 5
         return result;
     }
 
-    //עובד
     public void SelectCallForTreatment(int volunteerId, int callId)
     {
         AdminManager.ThrowOnSimulatorIsRunning();  //stage 7

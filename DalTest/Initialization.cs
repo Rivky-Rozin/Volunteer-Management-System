@@ -10,10 +10,6 @@ using System.Linq;
 public static class Initialization
 {
     private static IDal? s_dal;
-
-    // הערה: הסרנו את האובייקט Random כדי להבטיח שכל הנתונים יהיו קבועים בכל הרצה
-    // private static readonly Random s_rand = new();
-
     public static void Do()
     {
         s_dal = Factory.Get;
@@ -21,9 +17,9 @@ public static class Initialization
         s_dal.ResetDB();
         Console.WriteLine("Initializing All lists with a large, consistent dataset...");
 
-        createVolunteers(); // יצירת 50 מתנדבים
-        createCalls();      // יצירת 150 קריאות
-        createAssignments();// יצירת שיבוצים מורכבים
+        createVolunteers(); 
+        createCalls();      
+        createAssignments();
 
         Console.WriteLine("Initialization Complete.");
     }
@@ -32,10 +28,8 @@ public static class Initialization
     {
         Console.WriteLine("Creating 50 Volunteers with passwords...");
 
-        // ... (כל המערכים של השמות, הכתובות וכו' נשארים זהים)
         var locations = new[]
         {
-        // (רשימת המיקומים המלאה...)
         new { Address = "10 King David St, Jerusalem", Latitude = 31.7767, Longitude = 35.2296 },
         new { Address = "48 Allenby St, Tel Aviv", Latitude = 32.0635, Longitude = 34.7717 },
         new { Address = "1 Herzl St, Ashdod", Latitude = 31.8032, Longitude = 34.6553 },
@@ -147,7 +141,7 @@ public static class Initialization
         DateTime now = s_dal!.Config.Clock;
         var callTypes = Enum.GetValues(typeof(CallType)).Cast<CallType>().Where(ct => ct != CallType.None).ToArray();
 
-        for (int i = 0; i < 150; i++)
+        for (int i = 0; i < 50; i++)
         {
             var location = callLocations[i % callLocations.Length];
             CallType callType = callTypes[i % callTypes.Length];

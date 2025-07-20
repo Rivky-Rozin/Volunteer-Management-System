@@ -109,6 +109,15 @@ namespace PL
             RegisterObservers();
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (IsSimulatorRunning)
+            {
+                s_bl.Admin.StopSimulator();
+            }
+            UnregisterObservers();
+            base.OnClosing(e);
+        }
         private void InitializeState()
         {
             SetValue(CurrentTimeProperty, s_bl.Admin.GetCurrentTime());
@@ -118,7 +127,6 @@ namespace PL
 
         private void RegisterObservers()
         {
-            //s_bl.Admin.SimulationStopped += OnSimulationStoppedHandler;
             s_bl.Admin.AddClockObserver(ClockObserver);
             s_bl.Admin.AddConfigObserver(ConfigObserver);
             s_bl.Call.AddObserver(CallListObserver);
@@ -126,7 +134,6 @@ namespace PL
 
         private void UnregisterObservers()
         {
-            //s_bl.Admin.SimulationStopped -= OnSimulationStoppedHandler;
             s_bl.Admin.RemoveClockObserver(ClockObserver);
             s_bl.Admin.RemoveConfigObserver(ConfigObserver);
             s_bl.Call.RemoveObserver(CallListObserver);
@@ -177,11 +184,11 @@ namespace PL
         #endregion
 
         #region UI Event Handlers
-        private void btnAddOneMinute_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Minute);
-        private void btnAddOneHour_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Hour);
-        private void btnAddOneDay_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Day);
-        private void btnAddOneMonth_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Month);
-        private void btnAddOneYear_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(BO.TimeUnit.Year);
+        private void btnAddOneMinute_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(TimeUnit.Minute);
+        private void btnAddOneHour_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(TimeUnit.Hour);
+        private void btnAddOneDay_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(TimeUnit.Day);
+        private void btnAddOneMonth_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(TimeUnit.Month);
+        private void btnAddOneYear_Click(object sender, RoutedEventArgs e) => s_bl.Admin.AdvanceTime(TimeUnit.Year);
 
         private void SimulatorButton_Click(object sender, RoutedEventArgs e)
         {
@@ -231,7 +238,7 @@ namespace PL
             {
                 s_bl.Admin.StopSimulator();
                 s_bl.Admin.InitializeDatabase();
-                UpdateCallStatusCounts(); // הוספה - רענון סטטיסטיקות
+                UpdateCallStatusCounts(); 
 
                 MessageBox.Show("Database initialized successfully.");
             }
@@ -242,7 +249,7 @@ namespace PL
             if (MessageBox.Show("Are you sure you want to reset the database?", "Confirm Reset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 s_bl.Admin.ResetDatabase();
-                UpdateCallStatusCounts(); // הוספה - רענון סטטיסטיקות
+                UpdateCallStatusCounts(); 
 
                 MessageBox.Show("Database reset successfully.");
             }
@@ -284,14 +291,6 @@ namespace PL
         }
         #endregion
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            if (IsSimulatorRunning)
-            {
-                s_bl.Admin.StopSimulator();
-            }
-            UnregisterObservers();
-            base.OnClosing(e);
-        }
+        
     }
 }

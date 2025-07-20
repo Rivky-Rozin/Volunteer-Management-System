@@ -10,8 +10,8 @@ namespace MyApp
 {
     public partial class LoginWindow : Window, INotifyPropertyChanged
     {
-        private readonly BlApi.IBl _bl;
-       
+        private readonly BlApi.IBl _bl = BlApi.Factory.Get();
+
         private static bool _managerLoggedIn = false;
         public static string? LoggedInManagerId { get; private set; }
 
@@ -20,12 +20,7 @@ namespace MyApp
         {
             InitializeComponent();
             DataContext = this;
-
-            // הרשמה לאירוע לחיצת מקש בחלון
-            this.KeyDown += Window_KeyDown; // <-- הוספנו את השורה הזאת
-
-            //למה לא לאתחל מחוץ לפונקציה?
-            _bl = BlApi.Factory.Get();
+            this.KeyDown += Window_KeyDown;
 
 #if DEBUG
             Id = "200000000"; // ת"ז של המנהל    
@@ -47,7 +42,7 @@ namespace MyApp
             set { password = value; OnPropertyChanged(); }
         }
 
-        // <-- הוספנו את כל הפונקציה הזאת
+        
         /// <summary>
         /// Handles the KeyDown event for the window to trigger login on Enter key press.
         /// </summary>
@@ -55,16 +50,14 @@ namespace MyApp
         /// <param name="e">An object that contains the event data.</param>
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            // אם המקש שנלחץ הוא Enter
+        
             if (e.Key == Key.Enter)
             {
-                // קורא לאותה הפונקציה שלחיצת כפתור ההתחברות קוראת לה
+              
                 LoginButton_Click(sender, e);
             }
         }
-        // סוף התוספת -->
-
-
+       
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Password))
@@ -78,15 +71,10 @@ namespace MyApp
                 if (UserRole == BO.VolunteerRole.Manager)
                 {
 
-                    var choice = MessageBox.Show("Enter as Manager? (yes/no)",
-                                 "Choose Mode",
-                                 MessageBoxButton.YesNo,
-                                 MessageBoxImage.Question);
+                    var choice = MessageBox.Show("Enter as Manager? (yes/no)", "Choose Mode", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                     if (choice == MessageBoxResult.Yes)
                     {
-
-                        // אם מנהל כבר מחובר, הצג הודעת שגיאה
                         if (_managerLoggedIn)
                         {
                             MessageBox.Show("A manager is already logged in. Please log out first.", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -95,7 +83,7 @@ namespace MyApp
 
                         var managerWindow = new MainWindow();
                         _managerLoggedIn = true;
-                        LoggedInManagerId = Id; // שמור את ת"ז המנהל
+                        LoggedInManagerId = Id; 
                         managerWindow.Closed += (_, _) =>
                         {
                             _managerLoggedIn = false;
@@ -103,30 +91,23 @@ namespace MyApp
                         };
                         managerWindow.Show();
                     }
-                    else if (choice == MessageBoxResult.No)// אם המנהל רוצה להיות מתנדב רגיל
+                    else if (choice == MessageBoxResult.No)
                     {
-                        // יוצרים את חלון המתנדב ומעבירים לו את אובייקט הלוגיקה ואת ת"ז המתנדב
-                        VolunteerWindow volunteerWindow = new VolunteerWindow(Id); volunteerWindow.Show();
-
+                        VolunteerWindow volunteerWindow = new VolunteerWindow(Id);
+                        volunteerWindow.Show();
                     }
 
                 }
-
                 else
                 {
-
                     VolunteerWindow volunteerWindow = new VolunteerWindow(Id);
-
                     volunteerWindow.Show();
-
                 }
 
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show($"Login failed. Please check your credentials. \n{ex}", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
         }
 

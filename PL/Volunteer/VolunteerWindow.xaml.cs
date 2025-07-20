@@ -105,10 +105,6 @@ namespace PL
                 SetCallDetailsVisibility();
                 EnableSelectCallButton();
 
-                // Corrected the OnPropertyChanged call to use DependencyPropertyChangedEventArgs
-                //DependencyPropertyChangedEventArgs args = new DependencyPropertyChangedEventArgs(
-                //    VolunteerProperty, null, Volunteer);
-                //OnPropertyChanged(args);
                 IsActiveCheckBoxEnabled = Volunteer?.CallInProgress == null;
 
             }
@@ -124,7 +120,6 @@ namespace PL
 
         private bool ValidateVolunteerUI()
         {
-            // שם
             if (string.IsNullOrWhiteSpace(Volunteer.Name))
             {
                 MessageBox.Show("יש להזין שם.", "שגיאת ולידציה", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -203,7 +198,7 @@ namespace PL
                 {
                     _bl.Call.CancelCallTreatment(Volunteer.Id, Volunteer.CallInProgress.CallId);
                     MessageBox.Show("Call treatment cancelled successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    RefreshVolunteerData(); // Refresh to reflect the change
+                    RefreshVolunteerData();
                 }
             }
             catch (Exception ex)
@@ -236,7 +231,6 @@ namespace PL
         {
             var historyWindow = new VolunteerCallHistoryWindow(int.Parse(volunteerId));
             historyWindow.Show();
-            MessageBox.Show("Open Call History", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void SelectCall_Click(object sender, RoutedEventArgs e)

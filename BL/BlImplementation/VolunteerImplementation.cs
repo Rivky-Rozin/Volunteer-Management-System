@@ -34,10 +34,6 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         if (volunteer == null)
             throw new BO.BlDoesNotExistException($"Volunteer with ID '{id}' was not found");
 
-        // בדיקת סיסמה
-        if (string.IsNullOrEmpty(volunteer.Password))
-            throw new BO.BlValidationException("Volunteer has no password set");
-
         if (volunteer.Password != password)
             throw new BO.BlValidationException("Incorrect password");
 
@@ -50,18 +46,13 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         IEnumerable<DO.Volunteer> volunteers;
         lock (AdminManager.BlMutex)
         {
-
             volunteers = _dal.Volunteer.ReadAll();
         }
-
-        // סינון לפי פעיל / לא פעיל
         if (isActive is not null)
             volunteers = volunteers.Where(v => v.IsActive == isActive.Value);
 
         // המרה ל־BO
         IEnumerable<BO.VolunteerInList> result = volunteers.Select(v => VolunteerManager.ToVolunteerInList(v));
-
-        // מיון לפי שדה מבוקש
         result = sortBy switch
         {
             BO.VolunteerInListEnum.Id => result.OrderBy(v => v.Id),
@@ -83,7 +74,6 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         lock (AdminManager.BlMutex)
         {
             volunteer = _dal.Volunteer.Read(int.Parse(id))
-
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
         }
         BO.Volunteer volunteerBO = VolunteerManager.ToBOVolunteer(volunteer);
@@ -92,12 +82,11 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
 
     public async void AddVolunteer(BO.Volunteer volunteer)
     {
-        AdminManager.ThrowOnSimulatorIsRunning();  //stage 7
+        AdminManager.ThrowOnSimulatorIsRunning();  
         try
         {
             VolunteerManager.ValidateVolunteer(volunteer);
         }
-
         catch (Exception e)
         {
             throw new BO.BlAlreadyExistsException($"יש נתונים שגויים");
@@ -105,20 +94,21 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
 
         lock (AdminManager.BlMutex)
         {
-
             if (_dal.Volunteer.Read(volunteer.Id) is not null)
                 throw new BO.BlAlreadyExistsException($"Volunteer with ID {volunteer.Id} already exists");
 
             _dal.Volunteer.Create(VolunteerManager.ToDoVolunteer(volunteer));
             VolunteerManager.Observers.NotifyListUpdated(); //stage 5  
         }
+
+        // todo לבדוק מה החלק הזה בקוד עושה
         try
         {
             _ = VolunteerManager.UpdateVolunteerCoordinatesAsync(volunteer);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Warning: Failed to update coordinates for new volunteer {volunteer.Id}: {ex.Message}");
+            throw new BO.BlGeneralException($"Warning: Failed to update coordinates for new volunteer {volunteer.Id}: {ex.Message}");
         }
     }
 
@@ -131,19 +121,20 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         DO.Volunteer existingVolunteer;
         lock (AdminManager.BlMutex)
         {
-
             existingVolunteer = _dal.Volunteer.Read(int.Parse(id))
             ?? throw new BO.BlDoesNotExistException($"Volunteer with ID {id} does not exist");
         }
+
+        // todo לבדוק מה החלק הזה בקוד עושה
         if (existingVolunteer.Id != volunteer.Id && existingVolunteer.Role != DO.VolunteerRole.Manager)
             throw new BO.BlPermissionException("Only an admin can change the role");
         try
         {
             VolunteerManager.ValidateVolunteer(volunteer);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new BO.BlValidationException($"יש נתונים שגויים");
+            throw new BO.BlValidationException($"יש נתונים שגויים", ex);
         }
         lock (AdminManager.BlMutex)
         {
@@ -155,6 +146,8 @@ VolunteerManager.Observers.RemoveObserver(id, observer); //stage 5
         {
             try
             {
+
+                // todo לבדוק מה החלק הזה בקוד עושה
                 _ = VolunteerManager.UpdateVolunteerCoordinatesAsync(volunteer);
             }
             catch (Exception ex)

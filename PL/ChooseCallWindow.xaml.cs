@@ -129,6 +129,9 @@ namespace PL
                 try
                 {
                     _bl.Call.SelectCallForTreatment(_volunteerId, callToTake.Id);
+
+
+                    // todo לבדוק מה החלק הזה בקוד עושה
                     // Although the call was successfully assigned, other open windows for the same volunteer
                     // (like VolunteerWindow) won't update automatically because SelectCallForTreatment
                     // doesn't trigger the NotifyObservers mechanism.

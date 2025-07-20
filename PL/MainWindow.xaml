@@ -5,27 +5,6 @@
         Title="ניהול קריאות ומתנדבים" Height="700" Width="950"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Background="{StaticResource WindowBackgroundBrush}">
-   
-    <Window.Resources>
-        <!-- הוספת ResourceDictionary נפרד -->
-        <ResourceDictionary>
-
-            <!-- סגנונות משותפים לכפתורים -->
-            <Style x:Key="CommonButtonStyle" TargetType="Button">
-                <Setter Property="Height" Value="36"/>
-                <Setter Property="Width" Value="90"/>
-                <Setter Property="Margin" Value="0,0,8,0"/>
-            </Style>
-
-            <!-- סגנון לכפתורי סטטיסטיקה -->
-            <Style x:Key="StatButtonStyle" TargetType="Button">
-                <Setter Property="MinWidth" Value="120"/>
-                <Setter Property="MaxWidth" Value="150"/>
-                <Setter Property="Height" Value="44"/>
-                <Setter Property="Margin" Value="5"/>
-            </Style>
-        </ResourceDictionary>
-    </Window.Resources>
 
     <Grid Margin="24">
         <Grid.RowDefinitions>
@@ -80,7 +59,7 @@
                     Click="SimulatorButton_Click"
                     Margin="10,0,0,0"/>
                     </StackPanel>
-                    <TextBlock Text="הגדרות מערכת" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <!--<TextBlock Text="הגדרות מערכת" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>-->
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,6" VerticalAlignment="Center">
                         <Label Content="Max risk time span:" VerticalAlignment="Center"/>
                         <TextBox Width="100" Margin="10,0"
@@ -110,7 +89,7 @@
                         </StackPanel>
                     </Button>
                     <Button Click="BtnInProgressCalls_Click" MinWidth="120" MaxWidth="150" Height="44" Margin="5">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                             <TextBlock Text="בתהליך: " FontWeight="SemiBold"/>
                             <TextBlock Text="{Binding InProgressCallsCount}"/>
                         </StackPanel>

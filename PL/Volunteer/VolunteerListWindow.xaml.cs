@@ -3,18 +3,10 @@
     using BO;
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
     using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Shapes;
     using System.Windows.Threading;
 
     /// <summary>
@@ -227,28 +219,6 @@
                 }
             }
         }
-
-        /// <summary>
-        /// Filters the volunteer list based on the selected menu filter.
-        /// </summary>
-        /// <param name="volunteer">The volunteer to test against the filter.</param>
-        /// <returns>True if the volunteer matches the filter; otherwise false.</returns>
-        //private bool FilterVolunteers(VolunteerInList volunteer)
-        //{
-        //    return VolunteerSelectMenus switch
-        //    {
-        //        VolunteerInListEnum.Id => volunteer.Id != 0,
-        //        VolunteerInListEnum.Name => !string.IsNullOrEmpty(volunteer.Name),
-        //        VolunteerInListEnum.IsActive => volunteer.IsActive,
-        //        VolunteerInListEnum.HandledCallsCount => volunteer.HandledCallsCount > 0,
-        //        VolunteerInListEnum.CancelledCallsCount => volunteer.CancelledCallsCount > 0,
-        //        VolunteerInListEnum.ExpiredHandledCallsCount => volunteer.ExpiredHandledCallsCount > 0,
-        //        VolunteerInListEnum.CallInProgressId => volunteer.CallInProgressId.HasValue,
-        //        VolunteerInListEnum.CallInProgressType => volunteer.CallInProgressType != CallType.None,
-        //        VolunteerInListEnum.None => true,
-        //        _ => true,
-        //    };
-        //}
 
         /// <summary>
         /// Gets or sets the list of volunteers displayed in the UI.

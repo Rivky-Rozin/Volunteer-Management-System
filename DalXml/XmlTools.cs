@@ -8,9 +8,6 @@ using System.Xml.Serialization;
 
 static class XMLTools
 {
-    private static readonly object s_callsLock = new object();
-    private static readonly object s_volunteersLock = new object();
-    //const string s_xmlDir = @"C:\Users\bashy\source\repos\dotNet5785_1652_9845\xml"; 
     const string s_xmlDir = @"..\xml\";
     static XMLTools()
     {
@@ -78,7 +75,7 @@ static class XMLTools
     }
     public static XElement LoadListFromXMLElement(string xmlFileName)
     {
-        string xmlFilePath = s_xmlDir + xmlFileName;
+        string xmlFilePath = s_xmlDir + xmlFileName; 
         object fileLock = GetLockForFile(xmlFilePath);
 
         lock (fileLock)

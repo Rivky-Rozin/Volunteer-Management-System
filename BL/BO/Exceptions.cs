@@ -77,7 +77,6 @@ public class BlErrorAddingObject : Exception
     { }
 }
 
-//מDO
 [Serializable]
 // האובייקט לא קיים
 public class BlDoesNotExistException : Exception
