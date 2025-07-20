@@ -333,7 +333,7 @@ internal static class CallManager
         {
             s_dal.Call.Create(call);
         }
-
+        Thread.Sleep(100); // השהיה של 50 מילישניות
         // עדכון משקיפים מחוץ ל-lock
         Observers.NotifyListUpdated();
     }
