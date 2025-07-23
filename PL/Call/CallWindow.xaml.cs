@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace PL
 {
@@ -101,5 +102,30 @@ namespace PL
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _bl.Admin.AddClockObserver(ClockChanged);
+            _bl.Admin.AddConfigObserver(ClockChanged);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _bl.Admin.RemoveClockObserver(ClockChanged);
+            _bl.Admin.RemoveConfigObserver(ClockChanged);
+        }
+
+        private volatile DispatcherOperation? _refreshOp = null;
+        private void ClockChanged()
+        {
+            if (_refreshOp is null || _refreshOp.Status == DispatcherOperationStatus.Completed)
+            {
+                _refreshOp = Dispatcher.BeginInvoke(() =>
+                {
+                    CurrentCall = _bl.Call.GetCallDetails(CurrentCall.Id); // ריענון נתוני הקריאה
+                });
+            }
+        }
+
     }
 }

@@ -15,6 +15,19 @@
     <MaxDistance>25</MaxDistance>
   </Volunteer>
   <Volunteer>
+    <Id>200000001</Id>
+    <Name>Yael Cohen</Name>
+    <Phone>0522345678</Phone>
+    <Email>user2@example.com</Email>
+    <Role>Regular</Role>
+    <IsActive>true</IsActive>
+    <DistanceKind>Ground</DistanceKind>
+    <Address>48 Allenby St, Tel Aviv</Address>
+    <Latitude>32.0635</Latitude>
+    <Longitude>34.7717</Longitude>
+    <Password>pw200000001</Password>
+  </Volunteer>
+  <Volunteer>
     <Id>200000002</Id>
     <Name>Moshe Levi</Name>
     <Phone>0533456789</Phone>
@@ -661,18 +674,5 @@
     <Latitude>32.0708</Latitude>
     <Longitude>34.7712</Longitude>
     <Password>pw200000049</Password>
-  </Volunteer>
-  <Volunteer>
-    <Id>200000001</Id>
-    <Name>Yael Cohen</Name>
-    <Phone>0522345678</Phone>
-    <Email>user2@example.com</Email>
-    <Role>Regular</Role>
-    <IsActive>true</IsActive>
-    <DistanceKind>Ground</DistanceKind>
-    <Address>48 Allenby St, Tel Aviv</Address>
-    <Latitude>32.0635</Latitude>
-    <Longitude>34.7717</Longitude>
-    <Password>pw200000001</Password>
   </Volunteer>
 </ArrayOfVolunteer>

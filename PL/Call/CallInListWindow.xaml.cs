@@ -147,10 +147,20 @@ namespace PL.Call
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-            => s_bl.Call.AddObserver(CallListObserver);
+        {
+            s_bl.Admin.AddClockObserver(CallListObserver);
+            s_bl.Admin.AddConfigObserver(CallListObserver);
+            s_bl.Call.AddObserver(CallListObserver);
+
+        }
 
         private void Window_Closed(object sender, EventArgs e)
-            => s_bl.Call.RemoveObserver(CallListObserver);
+        {
+            s_bl.Admin.RemoveClockObserver(CallListObserver);
+            s_bl.Admin.RemoveConfigObserver(CallListObserver);
+            s_bl.Call.RemoveObserver(CallListObserver);
+
+        }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
