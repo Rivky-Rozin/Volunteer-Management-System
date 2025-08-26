@@ -1,20 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfVolunteer>
   <Volunteer>
-    <Id>200000000</Id>
-    <Name>David Rosen</Name>
-    <Phone>0501234567</Phone>
-    <Email>user1@example.com</Email>
-    <Role>Manager</Role>
-    <IsActive>false</IsActive>
-    <DistanceKind>Aerial</DistanceKind>
-    <Address>10 King David St, Jerusalem</Address>
-    <Latitude>31.7767</Latitude>
-    <Longitude>35.2296</Longitude>
-    <Password>pw200000000</Password>
-    <MaxDistance>25</MaxDistance>
-  </Volunteer>
-  <Volunteer>
     <Id>200000001</Id>
     <Name>Yael Cohen</Name>
     <Phone>0522345678</Phone>
@@ -663,16 +649,17 @@
     <MaxDistance>31</MaxDistance>
   </Volunteer>
   <Volunteer>
-    <Id>200000049</Id>
-    <Name>Liav Zrihen</Name>
-    <Phone>0551597532</Phone>
-    <Email>user50@example.com</Email>
+    <Id>200000000</Id>
+    <Name>David R</Name>
+    <Phone>0501234567</Phone>
+    <Email>user1@example.com</Email>
     <Role>Regular</Role>
     <IsActive>true</IsActive>
-    <DistanceKind>Ground</DistanceKind>
-    <Address>14 Bialik St, Tel Aviv</Address>
-    <Latitude>32.0708</Latitude>
-    <Longitude>34.7712</Longitude>
-    <Password>pw200000049</Password>
+    <DistanceKind>Aerial</DistanceKind>
+    <Address>10 King David St, Jerusalem</Address>
+    <Latitude>31.7767</Latitude>
+    <Longitude>35.2296</Longitude>
+    <Password>pw200000000</Password>
+    <MaxDistance>25</MaxDistance>
   </Volunteer>
 </ArrayOfVolunteer>
